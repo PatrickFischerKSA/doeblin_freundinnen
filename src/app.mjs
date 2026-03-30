@@ -26,6 +26,17 @@ const TEACHER_COOKIE = "kehlmann_teacher_access";
 const SEB_CONFIG_KEY_HASH = process.env.SEB_CONFIG_KEY_HASH || process.env.KEHLMANN_SEB_CONFIG_KEY_HASH || "";
 const READER_PDF_SOURCE = "/reader/assets/die-reise-der-verlorenen.pdf";
 
+function teacherRuntimeConfig() {
+  return {
+    openPassword: OPEN_PASSWORD,
+    openUrl: "/open",
+    sebUrl: "/seb",
+    teacherUrl: "/teacher",
+    teacherEntryUrl: "/teacher-entry",
+    hasSebConfigKeyHash: Boolean(SEB_CONFIG_KEY_HASH)
+  };
+}
+
 function renderShellPage({ title, body, bodyClass = "" }) {
   return `
     <!doctype html>
@@ -240,13 +251,13 @@ function renderLandingPage() {
           <h1>Die Reise der Verlorenen</h1>
           <p>
             Vollständige Unterrichtseinheit mit integriertem PDF, offenen und SEB-geschützten Zugängen,
-            Lehrkraft-Dashboard, Klassen-Codes, Peer Review und differenziertem Fachfeedback.
+            Lehrer*innen-Dashboard, Klassen-Codes, Peer Review und differenziertem Fachfeedback.
           </p>
           <div class="row">
             <a class="button" href="/open">Offene Version</a>
             <a class="button secondary" href="/seb">SEB-Version</a>
-            <a class="button secondary" href="/teacher-entry">Lehrereingang</a>
-            <a class="button secondary" href="/teacher">Lehrkraft-Dashboard</a>
+            <a class="button secondary" href="/teacher-entry">Lehrer*inneneingang</a>
+            <a class="button secondary" href="/teacher">Lehrer*innen-Dashboard</a>
           </div>
         </section>
         <section class="panel">
@@ -308,6 +319,7 @@ function resourcesForLesson(lesson) {
 }
 
 function renderTeacherEntryPage({ lessonId, entryId } = {}) {
+  const config = teacherRuntimeConfig();
   const lessons = teacherEntryLessons();
   const currentLesson = lessons.find((lesson) => lesson.id === lessonId) || lessons[0];
   const currentEntry = currentLesson.entries.find((entry) => entry.id === entryId) || currentLesson.entries[0];
@@ -327,21 +339,70 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
     : "";
 
   return renderShellPage({
-    title: "Lehrereingang · Die Reise der Verlorenen",
+    title: "Lehrer*inneneingang · Die Reise der Verlorenen",
     body: `
       <main class="page">
         <section class="panel">
-          <div class="eyebrow">Lehrereingang</div>
+          <div class="eyebrow">Lehrer*inneneingang</div>
           <h1>Alle Aufgaben direkt sehen</h1>
           <p>
-            Diese Übersicht ist mit demselben Passwort wie das Lehrkraft-Dashboard geschützt. Sie zeigt alle Lektionen,
+            Diese Übersicht ist mit demselben Passwort wie das Lehrer*innen-Dashboard geschützt. Sie zeigt alle Lektionen,
             die zugehörigen Passagen, Fokusfragen, Seitenkorridore und Arbeitsaufträge direkt, ohne dass zuerst ein
             Klassen-Code oder ein Schülerzugang freigeschaltet werden muss.
           </p>
           <div class="row">
             <a class="button" href="/">Zur Startseite</a>
-            <a class="button secondary" href="/teacher">Zum geschützten Dashboard</a>
+            <a class="button secondary" href="/teacher">Zum Lehrer*innen-Dashboard</a>
             <a class="button secondary" href="/open/lesson/${currentLesson.id}">Diese Lektion im Reader öffnen</a>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="eyebrow">Betriebsprotokoll</div>
+          <h2>Passwort, Klassen-Code und SEB sauber starten</h2>
+          <div class="meta-grid">
+            <div class="meta-card">
+              <strong>Offene Version</strong>
+              <p>${config.openUrl}</p>
+            </div>
+            <div class="meta-card">
+              <strong>SEB-Version</strong>
+              <p>${config.sebUrl}</p>
+            </div>
+            <div class="meta-card">
+              <strong>Aktuelles Unterrichtspasswort</strong>
+              <p>${config.openPassword}</p>
+            </div>
+            <div class="meta-card">
+              <strong>SEB-Konfiguration</strong>
+              <p>${config.hasSebConfigKeyHash ? "Serverseitig zusätzlich an einen SEB-Konfigurationsschlüssel gebunden." : "Keine zusätzliche SEB-Konfigurationsbindung aktiv."}</p>
+            </div>
+          </div>
+          <div class="teacher-entry-resource-list">
+            <article class="resource-nav-card">
+              <strong>1. Klasse anlegen</strong>
+              <span>Im Lehrer*innen-Dashboard eine neue Klasse anlegen. Dabei wird sofort ein eigener Klassen-Code erzeugt.</span>
+            </article>
+            <article class="resource-nav-card">
+              <strong>2. Klassen-Code kopieren</strong>
+              <span>Den Code im Dashboard mit <em>Code kopieren</em> übernehmen oder mit <em>Code neu erzeugen</em> austauschen.</span>
+            </article>
+            <article class="resource-nav-card">
+              <strong>3. Offene Version</strong>
+              <span>Schüler*innen öffnen <em>${config.openUrl}</em> und melden sich mit Klassen-Code, Namen/Kürzel und dem Passwort <strong>${config.openPassword}</strong> an.</span>
+            </article>
+            <article class="resource-nav-card">
+              <strong>4. SEB-Version</strong>
+              <span>Im Dashboard die aktive SEB-Lektion setzen, speichern und dann auf einem Testgerät <em>${config.sebUrl}</em> im Safe Exam Browser prüfen.</span>
+            </article>
+            <article class="resource-nav-card">
+              <strong>5. SEB-Anmeldung</strong>
+              <span>Schüler*innen öffnen im Safe Exam Browser <em>${config.sebUrl}</em> und melden sich nur mit Klassen-Code und Namen an.</span>
+            </article>
+            <article class="resource-nav-card">
+              <strong>6. Endkontrolle</strong>
+              <span>Immer selbst testen: Klasse angelegt, Code stimmt, Passwort notiert, offene Version funktioniert, SEB zeigt die richtige Lektion.</span>
+            </article>
           </div>
         </section>
 
@@ -496,23 +557,23 @@ function renderTeacherLoginPage(errorText = "", redirectTo = "/teacher") {
   const safeRedirect = normalizeTeacherRedirect(redirectTo);
   const isTeacherEntry = safeRedirect === "/teacher-entry";
   return renderShellPage({
-    title: `${isTeacherEntry ? "Lehrereingang" : "Lehrkraft-Dashboard"} · Die Reise der Verlorenen`,
+    title: `${isTeacherEntry ? "Lehrer*inneneingang" : "Lehrer*innen-Dashboard"} · Die Reise der Verlorenen`,
     body: `
       <main class="page">
         <section class="panel">
-          <div class="eyebrow">${isTeacherEntry ? "Lehrereingang" : "Lehrkraft-Dashboard"}</div>
-          <h1>${isTeacherEntry ? "Lehrereingang entsperren" : "Dashboard entsperren"}</h1>
+          <div class="eyebrow">${isTeacherEntry ? "Lehrer*inneneingang" : "Lehrer*innen-Dashboard"}</div>
+          <h1>${isTeacherEntry ? "Lehrer*inneneingang entsperren" : "Lehrer*innen-Dashboard entsperren"}</h1>
           <p>${isTeacherEntry
-            ? "Der Lehrereingang zeigt alle Lektionen, Passagen und Fragen direkt, ist aber mit demselben Passwort wie das Lehrkraft-Dashboard geschützt."
-            : "Die Lehrkraftansicht verwaltet Klassen-Codes, SEB-Lektionen, Peer Review und Lernfortschritte für diese eine Kehlmann-Einheit."}</p>
+            ? "Der Lehrer*inneneingang zeigt alle Lektionen, Passagen und Fragen direkt, ist aber mit demselben Passwort wie das Lehrer*innen-Dashboard geschützt."
+            : "Die Lehrer*innenansicht verwaltet Klassen-Codes, SEB-Lektionen, Peer Review und Lernfortschritte für diese eine Kehlmann-Einheit."}</p>
           ${errorText ? `<div class="notice"><strong>Hinweis:</strong> ${errorText}</div>` : ""}
           <form method="post" action="/auth/teacher" class="form-grid">
             <input type="hidden" name="redirectTo" value="${safeRedirect}">
-            <label for="teacherPassword">Lehrkraft-Passwort</label>
+            <label for="teacherPassword">Lehrer*innen-Passwort</label>
             <input id="teacherPassword" name="password" type="password" autocomplete="current-password" placeholder="Passwort eingeben">
             <div class="row">
-              <button type="submit">${isTeacherEntry ? "Lehrereingang öffnen" : "Dashboard öffnen"}</button>
-              <a class="button secondary" href="${isTeacherEntry ? "/teacher" : "/teacher-entry"}">${isTeacherEntry ? "Zum Dashboard" : "Zum Lehrereingang"}</a>
+              <button type="submit">${isTeacherEntry ? "Lehrer*inneneingang öffnen" : "Lehrer*innen-Dashboard öffnen"}</button>
+              <a class="button secondary" href="${isTeacherEntry ? "/teacher" : "/teacher-entry"}">${isTeacherEntry ? "Zum Lehrer*innen-Dashboard" : "Zum Lehrer*inneneingang"}</a>
               <a class="button secondary" href="/">Zur Übersicht</a>
             </div>
           </form>
@@ -546,16 +607,20 @@ function renderSebBlockedPage() {
 }
 
 function renderTeacherPage() {
+  const config = teacherRuntimeConfig();
   return `
     <!doctype html>
     <html lang="de">
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Lehrkraft-Dashboard · Die Reise der Verlorenen</title>
+        <title>Lehrer*innen-Dashboard · Die Reise der Verlorenen</title>
         <link rel="stylesheet" href="/kehlmann-teacher/styles.css">
       </head>
       <body>
+        <script>
+          window.KEHLMANN_TEACHER_CONFIG = ${JSON.stringify(config)};
+        </script>
         <script type="module" src="/kehlmann-teacher/app.js"></script>
       </body>
     </html>
@@ -719,7 +784,7 @@ export function createApp() {
   app.post("/auth/teacher", (request, response) => {
     const redirectTo = normalizeTeacherRedirect(request.body.redirectTo);
     if (request.body.password !== TEACHER_PASSWORD) {
-      response.status(401).send(renderTeacherLoginPage("Das Lehrkraft-Passwort stimmt nicht.", redirectTo));
+    response.status(401).send(renderTeacherLoginPage("Das Lehrer*innen-Passwort stimmt nicht.", redirectTo));
       return;
     }
 

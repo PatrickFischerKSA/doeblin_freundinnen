@@ -7,7 +7,7 @@ Diese Anleitung beschreibt den sicheren Ablauf für Lehrkräfte vor und während
 ## Vor dem Unterricht
 
 1. Öffne `/teacher`.
-2. Melde dich mit dem Lehrkraft-Passwort an.
+2. Melde dich mit dem Lehrer*innen-Passwort an.
 3. Trage unter `Neue Klasse anlegen` einen eindeutigen Klassennamen ein.
 4. Klicke auf `Klasse erstellen`.
 5. Prüfe den sofort angezeigten Klassen-Code im Bereich `Aktueller Klassen-Code`.

@@ -14,7 +14,7 @@ Die App bündelt:
 - engmaschige Lektionssets über den Textverlauf
 - Theorie-Linsen und Sekundärmaterial
 - Peer Review in der offenen Version
-- Lehrkraft-Dashboard mit Klassen-Codes, SEB-Steuerung und Fortschrittsübersicht
+- Lehrer*innen-Dashboard mit Klassen-Codes, SEB-Steuerung und Fortschrittsübersicht
 - fachlich differenziertes SEB-Feedback
 
 Wichtig: Dieses Repo ist bewusst **kein Mehrwerk-Backbone** mehr. Es enthält nur noch die Kehlmann-Einheit.
@@ -24,7 +24,7 @@ Wichtig: Dieses Repo ist bewusst **kein Mehrwerk-Backbone** mehr. Es enthält nu
 - `/` Übersicht der Kehlmann-Einheit
 - `/open` offene Version
 - `/seb` SEB-Version
-- `/teacher` Lehrkraft-Dashboard
+- `/teacher` Lehrer*innen-Dashboard
 
 ## Architektur
 
@@ -96,7 +96,7 @@ Empfohlene Variablen in Render:
 
 ## Klassen-Codes und Anmeldung
 
-Die minutöse Lehrkraft-Anleitung für Code-Erstellung, Regeneration und Schüler-Registrierung liegt in [docs/classroom-codes.md](/Users/patrickfischer/Documents/New project/reise_der_verlorenen/docs/classroom-codes.md).
+Die minutiöse Lehrer*innen-Anleitung für Code-Erstellung, Regeneration und Schüler-Registrierung liegt in [docs/classroom-codes.md](/Users/patrickfischer/Documents/New project/reise_der_verlorenen/docs/classroom-codes.md).
 
 ## Inhalte der Einheit
 

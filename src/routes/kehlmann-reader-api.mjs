@@ -107,7 +107,7 @@ kehlmannReaderApiRouter.post("/seb-feedback", async (request, response) => {
 
 kehlmannReaderApiRouter.get("/teacher/bootstrap", async (request, response) => {
   if (!hasTeacherAccess(request)) {
-    return badRequest(response, "Lehrkraft-Zugang erforderlich.", 401);
+    return badRequest(response, "Lehrer*innen-Zugang erforderlich.", 401);
   }
 
   const store = await readReaderStore();
@@ -116,7 +116,7 @@ kehlmannReaderApiRouter.get("/teacher/bootstrap", async (request, response) => {
 
 kehlmannReaderApiRouter.post("/teacher/classes", async (request, response) => {
   if (!hasTeacherAccess(request)) {
-    return badRequest(response, "Lehrkraft-Zugang erforderlich.", 401);
+    return badRequest(response, "Lehrer*innen-Zugang erforderlich.", 401);
   }
 
   try {
@@ -132,7 +132,7 @@ kehlmannReaderApiRouter.post("/teacher/classes", async (request, response) => {
 
 kehlmannReaderApiRouter.patch("/teacher/classes/:classId", async (request, response) => {
   if (!hasTeacherAccess(request)) {
-    return badRequest(response, "Lehrkraft-Zugang erforderlich.", 401);
+    return badRequest(response, "Lehrer*innen-Zugang erforderlich.", 401);
   }
 
   try {
@@ -148,7 +148,7 @@ kehlmannReaderApiRouter.patch("/teacher/classes/:classId", async (request, respo
 
 kehlmannReaderApiRouter.post("/teacher/classes/:classId/regenerate", async (request, response) => {
   if (!hasTeacherAccess(request)) {
-    return badRequest(response, "Lehrkraft-Zugang erforderlich.", 401);
+    return badRequest(response, "Lehrer*innen-Zugang erforderlich.", 401);
   }
 
   try {

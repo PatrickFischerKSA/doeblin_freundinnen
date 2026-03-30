@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Digitale Lerneinheit zu Daniel Kehlmanns Die Reise der Verlorenen mit offenem Reader, SEB-Modus, Lehrkraft-Dashboard und Peer Review.",
+  "description": "Digitale Lerneinheit zu Daniel Kehlmanns Die Reise der Verlorenen mit offenem Reader, SEB-Modus, Lehrer*innen-Dashboard und Peer Review.",
   "scripts": {
     "start": "node server.mjs",
     "dev": "node --watch server.mjs",
