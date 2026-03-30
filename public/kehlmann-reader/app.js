@@ -48,7 +48,7 @@ function escapeHtml(value) {
 }
 
 async function fetchBootstrap() {
-  const response = await fetch("/kehlmann-reader-api/bootstrap", { credentials: "same-origin" });
+  const response = await fetch("/reader-api/bootstrap", { credentials: "same-origin" });
   if (!response.ok) {
     throw new Error("Die Reader-Sitzung konnte nicht geladen werden.");
   }
@@ -56,7 +56,7 @@ async function fetchBootstrap() {
 }
 
 async function fetchSebFeedback(payload) {
-  const response = await fetch("/kehlmann-reader-api/seb-feedback", {
+  const response = await fetch("/reader-api/seb-feedback", {
     method: "POST",
     credentials: "same-origin",
     headers: {
@@ -169,7 +169,7 @@ async function saveProgress() {
   render();
 
   try {
-    const response = await fetch("/kehlmann-reader-api/progress", {
+    const response = await fetch("/reader-api/progress", {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -984,7 +984,7 @@ function render() {
         <div class="hero-actions">
           <span class="status-badge">${escapeHtml(modeLabel)}</span>
           <span class="status-badge">${escapeHtml(lesson.reviewFocus)}</span>
-          ${mode === "open" ? '<a class="button secondary" href="/auth/kehlmann/logout">Abmelden</a>' : ""}
+          ${mode === "open" ? '<a class="button secondary" href="/auth/logout">Abmelden</a>' : ""}
         </div>
       </section>
 
@@ -1109,7 +1109,7 @@ async function submitReview(status) {
   render();
 
   try {
-    const response = await fetch(`/kehlmann-reader-api/reviews/${review.id}`, {
+    const response = await fetch(`/reader-api/reviews/${review.id}`, {
       method: "POST",
       credentials: "same-origin",
       headers: {

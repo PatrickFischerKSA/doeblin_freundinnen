@@ -4,45 +4,36 @@
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/PatrickFischerKSA/reise_der_verlorenen)
 
-Produktionsnahes MVP für schulischen Literaturunterricht mit textnaher Annotation, Versionierung, Peer-Feedback und didaktisch übersetzter GitHub-Logik.
+Eigenständige Webanwendung für die schulische Arbeit mit Daniel Kehlmanns *Die Reise der Verlorenen*.
 
-Wichtig: Die produktive App läuft als Node-Webservice auf Render oder lokal mit `npm start`. GitHub Pages reicht für die Passwort- und SEB-Logik nicht aus.
+Die App bündelt:
 
-Empfohlene GitHub-Kurzbeschreibung:
-Textnahe Lernplattform für den Literaturunterricht mit Arbeitskopien, Annotationen, Review-Workflows, Versionierung und didaktischem Feedback.
+- offenen Reader mit Klassen-Code, Namen und Unterrichtspasswort
+- SEB-Reader für Prüfungs- und Testsituationen
+- integriertes PDF des Werks
+- engmaschige Lektionssets über den Textverlauf
+- Theorie-Linsen und Sekundärmaterial
+- Peer Review in der offenen Version
+- Lehrkraft-Dashboard mit Klassen-Codes, SEB-Steuerung und Fortschrittsübersicht
+- fachlich differenziertes SEB-Feedback
 
-## Kernidee
+Wichtig: Dieses Repo ist bewusst **kein Mehrwerk-Backbone** mehr. Es enthält nur noch die Kehlmann-Einheit.
 
-Lehrpersonen legen ein Lektüreprojekt an. Schüler*innen arbeiten in eigenen Arbeitskopien oder später in Gruppenräumen daran weiter, markieren Textstellen, formulieren Deutungen, erhalten Feedback und überarbeiten ihre Arbeit sichtbar in Versionen. Die Plattform übersetzt GitHub-Logik in schulisch lesbare Begriffe:
+## Startpunkte
 
-- Fork → Arbeitskopie
-- Commit/Version → Arbeitsstand
-- Pull Request → Einreichen
-- Review → Rückmeldung
-
-## Was das MVP schon kann
-
-- segmentierte literarische Texte in einer Zwei-Spalten-Leseansicht
-- direkte Annotationen mit Quote, Typ, Tags und Versionierung
-- Arbeitsstände sichern und Versionen vergleichen
-- Einreichungen und threaded Peer-/Lehrkraft-Reviews
-- regelbasiertes didaktisches Feedback mit Fokus auf Textnähe
-- Lehrpersonen-Setup für neue Lektüreprojekte direkt im UI
-- Projekt-Export als JSON-Bundle
+- `/` Übersicht der Kehlmann-Einheit
+- `/open` offene Version
+- `/seb` SEB-Version
+- `/teacher` Lehrkraft-Dashboard
 
 ## Architektur
 
-- Frontend: modulare Vanilla-JS-Single-Page-App
-- Backend: Node.js + Express JSON-API
-- Persistenz im MVP: dateibasierter JSON-Store
+- Frontend: Vanilla JS
+- Backend: Node.js + Express
+- Persistenz: dateibasierter JSON-Store für Klassen, Arbeitsstände und Peer Reviews
 - Tests: `node:test`
 
-Warum diese Wahl:
-
-- läuft lokal ohne Build-Schritt
-- trennt UI, API und Domänenlogik trotzdem sauber
-- ist GitHub-freundlich und leicht zu deployen
-- lässt sich später auf React, PostgreSQL, OAuth und echte GitHub-Integrationen erweitern
+Die Architektur ist bewusst leichtgewichtig, damit die Einheit lokal und auf Render ohne Build-Pipeline betrieben werden kann.
 
 ## Projektstruktur
 
@@ -50,131 +41,66 @@ Warum diese Wahl:
 reise_der_verlorenen/
 ├── .github/workflows/ci.yml
 ├── data/
-│   └── seed.json
+│   └── kehlmann-reader-store.json
 ├── docs/
 │   ├── architecture.md
 │   └── deployment.md
 ├── public/
-│   ├── index.html
-│   ├── styles.css
-│   └── js/
+│   ├── kehlmann-reader/
+│   │   ├── app.js
+│   │   ├── data.js
+│   │   ├── styles.css
+│   │   └── assets/
+│   └── kehlmann-teacher/
 │       ├── app.js
-│       └── modules/
-│           ├── api.js
-│           └── state.js
+│       └── styles.css
 ├── src/
 │   ├── app.mjs
-│   ├── routes/api.mjs
+│   ├── routes/kehlmann-reader-api.mjs
 │   └── services/
-│       ├── bootstrap.mjs
-│       ├── feedback-engine.mjs
-│       ├── project-builder.mjs
-│       ├── store.mjs
-│       └── versioning.mjs
+│       ├── access.mjs
+│       ├── kehlmann-reader-feedback.mjs
+│       ├── kehlmann-reader-progress.mjs
+│       └── kehlmann-reader-store.mjs
 ├── tests/
-│   ├── feedback-engine.test.mjs
-│   ├── project-builder.test.mjs
-│   └── versioning.test.mjs
+│   ├── access.test.mjs
+│   └── kehlmann-reader-feedback.test.mjs
 ├── package.json
 ├── render.yaml
 └── server.mjs
 ```
 
-## Datenmodell
-
-- `Course`: Kurskontext
-- `Project`: Lektüreprojekt mit Metadaten, Sichtbarkeit und Feedbackschwerpunkten
-- `Segment`: textunabhängige Abschnitte eines Werks
-- `Task`: textbezogene oder projektweite Aufgaben
-- `Workspace`: Basisraum oder persönliche Arbeitskopie
-- `Annotation`: aktuelle Fassung einer Beobachtung
-- `AnnotationVersion`: Versionen einzelner Annotationen
-- `WorkspaceVersion`: Snapshots ganzer Arbeitsstände
-- `Submission`: Pull-Request-ähnliche Einreichung
-- `Thread`: Diskussion oder Review an Annotationen bzw. Einreichungen
-- `Rubric`: Bewertungs- und Feedbackkriterien
-
-## Kern-User-Flows
-
-1. Lehrperson legt im UI ein neues Lektüreprojekt mit Segmenten an.
-2. Das System erzeugt automatisch einen Basisraum und Arbeitskopien für alle Schüler*innen im Kurs.
-3. Schüler*innen markieren Textstellen und verfassen Annotationen.
-4. Das Feedback-Modul prüft Beleg, Begründung, Fokusbezug und Nacherzählungsrisiko.
-5. Arbeitsstände werden versioniert gespeichert.
-6. Schüler*innen reichen ihre Arbeit ein, Peers oder Lehrperson reviewen.
-7. Revisionen werden über Versionsvergleiche sichtbar.
-
-## API
-
-| Methode | Route | Zweck |
-|---|---|---|
-| `GET` | `/api/bootstrap?viewerId=...&projectId=...` | Rollen- und projektabhängiges Viewmodel |
-| `POST` | `/api/projects` | neues Lektüreprojekt anlegen |
-| `POST` | `/api/workspaces/:id/annotations` | Annotation anlegen |
-| `PATCH` | `/api/annotations/:id` | Annotation versioniert überarbeiten |
-| `POST` | `/api/annotations/:id/comments` | Diskussion an Annotation |
-| `POST` | `/api/annotations/:id/feedback` | automatisches Feedback erzeugen |
-| `POST` | `/api/workspaces/:id/versions` | Arbeitsstand sichern |
-| `GET` | `/api/workspaces/:id/versions/:a/compare/:b` | Versionen vergleichen |
-| `POST` | `/api/workspaces/:id/submissions` | Arbeitsstand einreichen |
-| `POST` | `/api/submissions/:id/reviews` | Review zur Einreichung |
-| `GET` | `/api/export/projects/:id` | Projektbundles exportieren |
-
-## Automatisiertes Feedback
-
-Das MVP arbeitet regelbasiert und modular:
-
-- Ebene A: formale Basisprüfung von Beleg, Länge und Begründungssignalen
-- Ebene B: heuristische Prüfung von Textnähe, Fokusbezug und Präzision
-- Ebene C: didaktisch formulierte positive und entwicklungsorientierte Hinweise
-- Ebene D: vorbereitet für spätere KI- oder Moderationsmodule
-
 ## Lokale Entwicklung
 
 ```bash
-cd /Users/patrickfischer/Documents/New\ project/bahnwaerter_lektueretool
+cd "/Users/patrickfischer/Documents/New project/reise_der_verlorenen"
 npm install
+npm test
 npm start
 ```
 
-App unter [http://localhost:3017](http://localhost:3017)
+Danach läuft die App unter [http://127.0.0.1:3017](http://127.0.0.1:3017).
 
-Tests:
+## Render-Deployment
 
-```bash
-npm test
-```
+Die App ist für Render als Node Web Service vorbereitet.
 
-## Deployment und CI
+Empfohlene Variablen in Render:
 
-- CI über GitHub Actions: [.github/workflows/ci.yml](/Users/patrickfischer/Documents/New project/bahnwaerter_lektueretool/.github/workflows/ci.yml)
-- Render-Blueprint: [render.yaml](/Users/patrickfischer/Documents/New project/bahnwaerter_lektueretool/render.yaml)
-- Deploy-Doku: [docs/deployment.md](/Users/patrickfischer/Documents/New project/bahnwaerter_lektueretool/docs/deployment.md)
+- `OPEN_VERSION_PASSWORD`
+- `TEACHER_DASHBOARD_PASSWORD`
+- `SEB_CONFIG_KEY_HASH` optional
 
-## Neue Lektüren anlegen
+`OPEN_VERSION_PASSWORD` ist absichtlich nicht mehr im Repo fest verdrahtet.
 
-Es gibt jetzt zwei Wege:
+## Inhalte der Einheit
 
-1. Direkt im UI als Lehrperson:
-   Im Bereich `Lehrpersonen-Setup` Titel, Metadaten und Segmentblöcke eingeben. Das System erstellt automatisch Projekt, Aufgaben, Rubrik, Basisraum und Schüler-Arbeitskopien.
-2. Datengetrieben:
-   [data/seed.json](/Users/patrickfischer/Documents/New project/bahnwaerter_lektueretool/data/seed.json) erweitern und anschließend `data/store.json` löschen.
+Die Reader-Daten in [public/kehlmann-reader/data.js](/Users/patrickfischer/Documents/New project/reise_der_verlorenen/public/kehlmann-reader/data.js) enthalten:
 
-Segmentformat im UI:
+- Lektionssets über den Textverlauf
+- Passagen mit Seitenhinweisen
+- Fokusfragen
+- Theorie-Linsen
+- Video- und Sekundärtext-Ressourcen
 
-```text
-Abschnittstitel
-Hier steht der eigentliche Abschnittstext.
-
-Nächster Abschnitt
-Hier steht der nächste Textblock.
-```
-
-## Roadmap nach dem MVP
-
-- echte Authentifizierung
-- Gruppenräume und feinere Sichtbarkeiten
-- persistente Datenbank
-- PDF- oder DOCX-Import
-- GitHub-OAuth und echtes Branch-/PR-Mapping
-- austauschbare KI-Feedbackmodule mit Logging und Moderation
+Wenn du die Einheit fachlich erweitern willst, ist das die wichtigste Datei.

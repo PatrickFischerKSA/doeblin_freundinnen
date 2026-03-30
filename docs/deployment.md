@@ -2,42 +2,23 @@
 
 ## GitHub Actions
 
-Die CI-Pipeline in [.github/workflows/ci.yml](/Users/patrickfischer/Documents/New project/bahnwaerter_lektueretool/.github/workflows/ci.yml) führt bei Pushes auf `main` und bei Pull Requests folgende Schritte aus:
-
-1. Checkout
-2. Node.js 24 einrichten
-3. `npm install`
-4. `npm test`
-
-Damit ist sichergestellt, dass Kernlogik und API-nahe Services vor einem Merge geprüft werden.
+Die CI in [.github/workflows/ci.yml](/Users/patrickfischer/Documents/New project/reise_der_verlorenen/.github/workflows/ci.yml) führt bei Pushes und Pull Requests `npm test` aus.
 
 ## Render
 
-Das Projekt enthält bereits ein [render.yaml](/Users/patrickfischer/Documents/New project/bahnwaerter_lektueretool/render.yaml).
+Das Repo enthält eine passende [render.yaml](/Users/patrickfischer/Documents/New project/reise_der_verlorenen/render.yaml) für einen Node Web Service.
 
 Empfohlenes Vorgehen:
 
-1. Repository mit Render verbinden.
-2. `render.yaml` automatisch erkennen lassen.
-3. Branch `main` als Deploy-Quelle verwenden.
-4. Build Command: `npm install`
-5. Start Command: `npm start`
-6. Nach dem ersten Deploy die öffentliche Render-URL aufrufen.
-7. Offene Version: `/open`
-8. SEB-Version: `/seb`
-9. Lehrkraft-Dashboard: `/teacher`
+1. Repo in Render verbinden
+2. Blueprint oder Web Service anlegen
+3. `npm install` als Build Command
+4. `npm start` als Start Command
+5. Variablen setzen:
+   `OPEN_VERSION_PASSWORD`, `TEACHER_DASHBOARD_PASSWORD`, optional `SEB_CONFIG_KEY_HASH`
 
-Hinweise:
+## Wichtige Hinweise
 
-- `OPEN_VERSION_PASSWORD` ist im Blueprint bereits gesetzt und schützt die offene Schüler*innenversion zusätzlich zum Klassen-Code.
-- `TEACHER_DASHBOARD_PASSWORD` sollte in Render als geheime Variable gesetzt werden, damit das Lehrkraft-Dashboard produktiv geschützt ist.
-- `SEB_CONFIG_KEY_HASH` bleibt absichtlich leer und kann in Render als geheime Variable ergänzt werden, wenn die SEB-Version an eine konkrete SEB-Konfiguration gebunden werden soll.
-- Die dateibasierte Server-Persistenz ist auf Render flüchtig. Klassen-Codes, Fortschrittsstände und Reader-Sitzungen sind ohne externes Storage nicht dauerhaft über Container-Neustarts hinweg gesichert.
-
-## Lokaler Smoke-Test vor dem Deploy
-
-```bash
-npm install
-npm test
-npm start
-```
+- GitHub Pages reicht nicht aus, weil Passwort- und SEB-Logik Serverrouten brauchen.
+- `data/kehlmann-reader-store.json` ist Laufzeitdatenbestand und sollte nicht versioniert werden.
+- Auf Render ist dateibasierte Persistenz flüchtig. Für dauerhafte Kursdaten braucht es später externes Storage.

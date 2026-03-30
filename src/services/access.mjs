@@ -10,7 +10,7 @@ export function parseCookies(cookieHeader = "") {
     }, {});
 }
 
-export function hasOpenAccess(request, cookieName = "thiel_open_access") {
+export function hasOpenAccess(request, cookieName = "open_access") {
   const cookies = parseCookies(request.headers.cookie || "");
   return cookies[cookieName] === "1";
 }

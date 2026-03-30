@@ -3,15 +3,15 @@ import assert from "node:assert/strict";
 import { hasOpenAccess, isSafeExamBrowserRequest, parseCookies } from "../src/services/access.mjs";
 
 test("parseCookies extracts cookie values", () => {
-  const cookies = parseCookies("foo=bar; thiel_open_access=1");
+  const cookies = parseCookies("foo=bar; open_access=1");
   assert.equal(cookies.foo, "bar");
-  assert.equal(cookies.thiel_open_access, "1");
+  assert.equal(cookies.open_access, "1");
 });
 
 test("hasOpenAccess checks reader cookie", () => {
   const request = {
     headers: {
-      cookie: "thiel_open_access=1"
+      cookie: "open_access=1"
     }
   };
 

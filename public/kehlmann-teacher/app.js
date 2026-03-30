@@ -98,8 +98,8 @@ function renderLessonLinks() {
       <h3>${escapeHtml(lesson.title)}</h3>
       <p>${escapeHtml(lesson.summary)}</p>
       <div class="lesson-actions">
-        <a class="button secondary" href="/kehlmann/open/lesson/${lesson.id}" target="_blank" rel="noreferrer">Offen</a>
-        <a class="button secondary" href="/kehlmann/seb/lesson/${lesson.id}" target="_blank" rel="noreferrer">SEB</a>
+        <a class="button secondary" href="/open/lesson/${lesson.id}" target="_blank" rel="noreferrer">Offen</a>
+        <a class="button secondary" href="/seb/lesson/${lesson.id}" target="_blank" rel="noreferrer">SEB</a>
       </div>
     </article>
   `).join("");
@@ -136,8 +136,8 @@ function render() {
           <p>Hier steuerst du Klassen-Codes, das aktive SEB-Arbeitsset, Peer-Review-Zuweisungen und den Lernstand der einzelnen Schüler*innen für die Kehlmann-Einheit.</p>
         </div>
         <div class="hero-actions">
-          <a class="button secondary" href="/auth/kehlmann/teacher/logout">Abmelden</a>
-          <a class="button secondary" href="/kehlmann">Startseite</a>
+          <a class="button secondary" href="/auth/teacher/logout">Abmelden</a>
+          <a class="button secondary" href="/">Startseite</a>
         </div>
       </section>
 
@@ -251,7 +251,7 @@ async function loadOverview() {
   render();
 
   try {
-    state.overview = await request("/kehlmann-reader-api/teacher/bootstrap");
+    state.overview = await request("/reader-api/teacher/bootstrap");
     state.selectedClassId = state.selectedClassId || state.overview.classes[0]?.id || null;
     state.loading = false;
     state.error = "";
@@ -278,7 +278,7 @@ document.addEventListener("click", async (event) => {
 
   if (action === "regenerate-code") {
     try {
-      state.overview = await request(`/kehlmann-reader-api/teacher/classes/${target.dataset.classId}/regenerate`, {
+      state.overview = await request(`/reader-api/teacher/classes/${target.dataset.classId}/regenerate`, {
         method: "POST"
       });
       render();
@@ -295,7 +295,7 @@ document.addEventListener("submit", async (event) => {
     const formData = new FormData(event.target);
 
     try {
-      state.overview = await request("/kehlmann-reader-api/teacher/classes", {
+      state.overview = await request("/reader-api/teacher/classes", {
         method: "POST",
         body: JSON.stringify({
           name: formData.get("name")
@@ -316,7 +316,7 @@ document.addEventListener("submit", async (event) => {
     const classId = formData.get("classId");
 
     try {
-      state.overview = await request(`/kehlmann-reader-api/teacher/classes/${classId}`, {
+      state.overview = await request(`/reader-api/teacher/classes/${classId}`, {
         method: "PATCH",
         body: JSON.stringify({
           name: formData.get("name"),

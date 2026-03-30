@@ -1,41 +1,32 @@
-# Architektur-Notiz
+# Architektur
 
-## Zielbild nach dem MVP
+## Ziel
 
-Die App ist so geschnitten, dass sie drei Betriebsarten unterstützen kann:
+Dieses Repo liefert eine einzelne, abgeschlossene Unterrichtseinheit zu *Die Reise der Verlorenen*. Es ist nicht als Mehrwerk-Plattform gedacht.
 
-1. **Lokal / Offline-nah**
-   Lehrperson nutzt das Tool ohne externe Plattform, etwa im Schulnetz.
-2. **Cloud-Backend**
-   Persistenz über relationale Datenbank, Sessions und Rollenverwaltung.
-3. **GitHub-nah**
-   Export, Spiegelung oder echte technische Umsetzung von Arbeitskopien und Reviews über GitHub.
+## Laufzeitmodell
+
+- Express liefert Landing, offene Version, SEB-Version und Lehrkraft-Dashboard.
+- Der Reader selbst ist eine modulare Vanilla-JS-Oberfläche.
+- Klassen, Schüler*innen, Arbeitsstände und Peer Reviews werden in `data/kehlmann-reader-store.json` gespeichert.
+
+## Kernmodule
+
+- [app.mjs](/Users/patrickfischer/Documents/New project/reise_der_verlorenen/src/app.mjs): Routing, Zugangskontrolle, HTML-Shells
+- [kehlmann-reader-api.mjs](/Users/patrickfischer/Documents/New project/reise_der_verlorenen/src/routes/kehlmann-reader-api.mjs): Reader- und Lehrkraft-API
+- [kehlmann-reader-store.mjs](/Users/patrickfischer/Documents/New project/reise_der_verlorenen/src/services/kehlmann-reader-store.mjs): Persistenz und Klassenlogik
+- [kehlmann-reader-progress.mjs](/Users/patrickfischer/Documents/New project/reise_der_verlorenen/src/services/kehlmann-reader-progress.mjs): Lektions- und Fortschrittsauswertung
+- [kehlmann-reader-feedback.mjs](/Users/patrickfischer/Documents/New project/reise_der_verlorenen/src/services/kehlmann-reader-feedback.mjs): differenzierte SEB-Feedbackdiagnostik
+
+## Zugangslogik
+
+- `/open`: Passwort + Klassen-Code + Name
+- `/seb`: nur im Safe Exam Browser, dann Klassen-Code + Name
+- `/teacher`: Lehrkraft-Passwort
 
 ## Erweiterungspfad
 
-### Frontend
-
-- Aktuell: Vanilla-JS mit modularem State
-- Später: React oder Svelte möglich, weil API und Domänenlogik bereits getrennt sind
-
-### Persistenz
-
-- Aktuell: `seed.json` + `store.json`
-- Später: PostgreSQL oder SQLite mit Repository-Layer
-
-### Feedback-Engine
-
-- Aktuell: heuristische Regelmodule
-- Später: Provider-Interface für LLM- oder Moderationsdienste
-
-### Rechte- und Sichtbarkeiten
-
-- Aktuell: rollenbasierte Regeln im Bootstrap-Service
-- Später: objektgenaue Policies für Kurs, Gruppe, Aufgabe, Thread und Feedbacksichtbarkeit
-
-## Datenschutz und Schule
-
-- Keine Notensimulation im Feedback-Modul
-- Klare Trennung zwischen öffentlichem Peer-Feedback und privatem Lehrkraft-/System-Feedback
-- Lokale Betriebsart ohne externe API vorbereitet
-- GitHub im Unterricht nur optional und technisch abstrahiert
+- weitere Lektionssets innerhalb desselben Werks
+- feinere Review-Rubriken
+- Exportfunktionen für Lehrkräfte
+- optional persistentes Storage statt Dateisystem

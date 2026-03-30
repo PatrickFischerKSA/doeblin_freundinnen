@@ -8,7 +8,7 @@ const dokumentartheaterVideo =
   "https://www.dropbox.com/scl/fi/ux8nsigllc9o8knwzxzxb/Dokumentartheater-Deutsch-Dramatik.mp4?rlkey=nhx1ktv76qjk3gpbl042ktmq6&st=k8v0qr38&dl=0";
 const epischesTheaterVideo =
   "https://www.dropbox.com/scl/fi/kcm1eu8mgnalwj5mykxl7/EpischesTheater.mp4?rlkey=vifs3zrdn2qcnf48kv82oq8se&st=f0yzthwx&dl=0";
-const steinbruchPdf = "/kehlmann-reader/assets/im-steinbruch-kehlmann.pdf";
+const steinbruchPdf = "/reader/assets/im-steinbruch-kehlmann.pdf";
 
 function asRaw(url) {
   return url.replace("dl=0", "raw=1");
@@ -731,4 +731,4 @@ export const starterPrompt = {
   ]
 };
 
-export const pdfSource = "/kehlmann-reader/assets/die-reise-der-verlorenen.pdf";
+export const pdfSource = "/reader/assets/die-reise-der-verlorenen.pdf";

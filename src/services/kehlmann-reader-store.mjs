@@ -1,7 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { makeId } from "./store.mjs";
 import { getEntriesForLesson, getLessonSetsWithCounts, summarizeStudentWork } from "./kehlmann-reader-progress.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -50,6 +49,12 @@ function normalizeCode(value = "") {
 
 function normalizeName(value = "") {
   return String(value).trim().replace(/\s+/g, " ");
+}
+
+function makeId(prefix) {
+  const timestamp = Date.now().toString(36);
+  const random = Math.random().toString(36).slice(2, 8);
+  return `${prefix}-${timestamp}-${random}`;
 }
 
 function defaultClassroom(timestamp) {
