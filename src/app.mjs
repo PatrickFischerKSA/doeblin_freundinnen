@@ -150,7 +150,7 @@ function renderLandingPage() {
           <article class="card">
             <div class="eyebrow">Offene Version</div>
             <h2>Passwortgeschützt</h2>
-            <p>Für Unterricht, Hausaufgaben oder offene Lernsettings. Passwort: <strong>thiel</strong>.</p>
+            <p>Für Unterricht, Hausaufgaben oder offene Lernsettings. Das Passwort wird getrennt weitergegeben und nicht auf der Startseite angezeigt.</p>
             <a class="button" href="/open">Zur offenen Version</a>
           </article>
           <article class="card">
@@ -179,7 +179,7 @@ function renderOpenLoginPage() {
         <section class="panel">
           <div class="eyebrow">Offene Version</div>
           <h1>Lesetool entsperren</h1>
-          <p>Diese Version ist für offene Unterrichtssituationen gedacht und wird über ein kurzes Passwort freigeschaltet.</p>
+          <p>Diese Version ist für offene Unterrichtssituationen gedacht und wird über ein separates Unterrichtspasswort freigeschaltet.</p>
           <form method="post" action="/auth/open">
             <label for="password">Passwort</label>
             <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Passwort eingeben">

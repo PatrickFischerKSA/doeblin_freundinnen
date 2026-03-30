@@ -1,4 +1,4 @@
-import { readerModules, starterPrompt } from "./data.js";
+import { pdfSource, readerModules, starterPrompt } from "./data.js";
 
 const mode = window.THIEL_READER_MODE || "open";
 const modeLabel = window.THIEL_READER_MODE_LABEL || "Offene Version";
@@ -76,9 +76,9 @@ function feedbackFor(note, module) {
   const steps = [];
 
   if (evidence.trim().length >= 8) {
-    positives.push("Du arbeitest bereits mit konkreten textnahen Signalen.");
+    positives.push("Du arbeitest bereits mit konkreten Wortsignalen aus dem Text.");
   } else {
-    steps.push("Ergänze mindestens ein Signalwort oder eine kurze Wortgruppe aus der Szene.");
+    steps.push("Ergänze ein oder zwei Wörter aus dem PDF-Wortlaut als präzisen Textanker.");
   }
 
   if (signals.some((signal) => body.includes(signal))) {
@@ -102,6 +102,10 @@ function feedbackFor(note, module) {
   return { positives, steps };
 }
 
+function pdfUrlForEntry(entry) {
+  return `${pdfSource}#page=${entry.pageNumber || 1}&zoom=page-width`;
+}
+
 function renderSidebar() {
   return readerModules.map((module) => `
     <button class="module-pill ${module.id === state.moduleId ? "is-active" : ""}" data-action="select-module" data-module-id="${module.id}">
@@ -115,6 +119,16 @@ function renderEntryTabs(module) {
   return module.entries.map((entry) => `
     <button class="entry-tab ${entry.id === state.entryId ? "is-active" : ""}" data-action="select-entry" data-entry-id="${entry.id}">
       ${escapeHtml(entry.title)}
+    </button>
+  `).join("");
+}
+
+function renderPassageNavigator(module) {
+  return module.entries.map((entry) => `
+    <button class="passage-card ${entry.id === state.entryId ? "is-active" : ""}" data-action="select-entry" data-entry-id="${entry.id}">
+      <span class="passage-page">${escapeHtml(entry.pageHint)}</span>
+      <strong>${escapeHtml(entry.passageLabel)}</strong>
+      <span>${escapeHtml(entry.prompt)}</span>
     </button>
   `).join("");
 }
@@ -153,7 +167,7 @@ function renderNotebook(entry) {
         </label>
         <label>
           Signalwörter / Wortlaut
-          <textarea name="evidence" placeholder="Signalwörter oder kurze Wortgruppen aus der Szene">${escapeHtml(note.evidence)}</textarea>
+          <textarea name="evidence" placeholder="Kurze Wortgruppen aus dem eingebetteten PDF">${escapeHtml(note.evidence)}</textarea>
         </label>
         <label>
           Deutung
@@ -170,7 +184,7 @@ function renderNotebook(entry) {
         <div class="feedback-columns">
           <div>
             <strong>Stärken</strong>
-            <ul>${feedback.positives.map((item) => `<li>${escapeHtml(item)}</li>`).join("") || "<li>Noch keine textnahe Stärke sichtbar.</li>"}</ul>
+            <ul>${feedback.positives.length ? feedback.positives.map((item) => `<li>${escapeHtml(item)}</li>`).join("") : "<li>Noch keine textnahe Stärke sichtbar.</li>"}</ul>
           </div>
           <div>
             <strong>Nächste Schritte</strong>
@@ -179,6 +193,36 @@ function renderNotebook(entry) {
         </div>
       </div>
     </section>
+  `;
+}
+
+function renderPdfPanel(entry, module) {
+  return `
+    <article class="panel pdf-panel">
+      <div class="panel-head">
+        <div>
+          <div class="eyebrow">Text im PDF</div>
+          <h2>${escapeHtml(entry.passageLabel)}</h2>
+        </div>
+        <div class="pdf-head-actions">
+          <span class="status-badge">${escapeHtml(entry.pageHint)}</span>
+          <a class="button secondary" href="${pdfUrlForEntry(entry)}" target="_blank" rel="noreferrer">PDF separat öffnen</a>
+        </div>
+      </div>
+
+      <div class="pdf-focus-box">
+        <strong>Arbeitsfokus</strong>
+        <p>${escapeHtml(module.briefing)}</p>
+      </div>
+
+      <div class="passage-nav">
+        ${renderPassageNavigator(module)}
+      </div>
+
+      <div class="pdf-frame-wrap">
+        <iframe class="pdf-frame" src="${pdfUrlForEntry(entry)}" title="Bahnwärter Thiel PDF"></iframe>
+      </div>
+    </article>
   `;
 }
 
@@ -191,15 +235,15 @@ function render() {
       <section class="hero">
         <div>
           <div class="eyebrow">Bahnwärter Thiel · ${escapeHtml(modeLabel)}</div>
-          <h1>Konkretes Lesetool für textnahe Arbeit</h1>
+          <h1>PDF-Lesetool für textnahe Arbeit</h1>
           <p>
-            Kuratierte Szenen, Signalwörter und ein lokales Notizbuch für Close Reading.
-            Die Notizen bleiben im Browser erhalten und lassen sich am Ende als Markdown sichern.
+            Der Text ist direkt integriert. Links steuerst du die Arbeitsmodule, in der Mitte liest du die passende
+            Passage im eingebetteten PDF, rechts notierst du Beobachtungen, Textanker und Deutungen.
           </p>
         </div>
         <div class="hero-actions">
           <span class="status-badge">${escapeHtml(modeLabel)}</span>
-          ${mode === "open" ? '<a class="button secondary" href="/auth/logout">Passwort zurücksetzen</a>' : ""}
+          ${mode === "open" ? '<a class="button secondary" href="/auth/logout">Abmelden</a>' : ""}
         </div>
       </section>
 
@@ -213,26 +257,27 @@ function render() {
           </div>
           <ul class="prompt-list">${renderPromptList()}</ul>
           <div class="module-list">${renderSidebar()}</div>
+          <div class="sidebar-task">
+            <strong>${escapeHtml(module.title)}</strong>
+            <p>${escapeHtml(module.task)}</p>
+          </div>
         </aside>
+
+        ${renderPdfPanel(entry, module)}
 
         <section class="content-column">
           <article class="panel scene-panel">
             <div class="panel-head">
               <div>
                 <div class="eyebrow">${escapeHtml(module.lens)}</div>
-                <h2>${escapeHtml(module.title)}</h2>
+                <h2>${escapeHtml(entry.title)}</h2>
               </div>
-              <span class="status-badge">${escapeHtml(module.briefing)}</span>
+              <span class="status-badge">${escapeHtml(entry.pageHint)}</span>
             </div>
 
-            <p class="task-callout"><strong>Arbeitsauftrag:</strong> ${escapeHtml(module.task)}</p>
             <div class="entry-tabs">${renderEntryTabs(module)}</div>
             <div class="scene-card">
-              <div class="scene-meta">
-                <span class="status-badge">${escapeHtml(entry.pageHint)}</span>
-                <span class="status-badge">Signalwörter statt Langzitat</span>
-              </div>
-              <h3>${escapeHtml(entry.title)}</h3>
+              <h3>${escapeHtml(entry.passageLabel)}</h3>
               <p>${escapeHtml(entry.context)}</p>
               <div class="signal-grid">${renderSignalWords(entry)}</div>
               <div class="prompt-box">
@@ -260,10 +305,10 @@ function updateNoteField(field, value) {
 
 function exportNotes() {
   const lines = [
-    `# Bahnwärter Thiel Lesetool`,
-    ``,
+    "# Bahnwärter Thiel Lesetool",
+    "",
     `Modus: ${modeLabel}`,
-    ``
+    ""
   ];
 
   for (const module of readerModules) {
@@ -274,7 +319,8 @@ function exportNotes() {
     for (const entry of module.entries) {
       const note = noteForEntry(entry.id);
       lines.push(`### ${entry.title}`);
-      lines.push(`Seitenhinweis: ${entry.pageHint}`);
+      lines.push(`Seite: ${entry.pageHint}`);
+      lines.push(`Passage: ${entry.passageLabel}`);
       lines.push(`Kontext: ${entry.context}`);
       lines.push(`Signalwörter: ${note.evidence || entry.signalWords.join(", ")}`);
       lines.push(`Beobachtung: ${note.observation || "-"}`);
