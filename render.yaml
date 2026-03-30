@@ -2,5 +2,17 @@ services:
   - type: web
     name: bahnwaerter-lektueretool
     runtime: node
+    plan: free
     buildCommand: npm install
     startCommand: npm start
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: OPEN_VERSION_PASSWORD
+        value: thiel
+      - key: SEB_CONFIG_KEY_HASH
+        sync: false

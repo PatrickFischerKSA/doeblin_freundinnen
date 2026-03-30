@@ -2,7 +2,11 @@
 
 # bahnwaerter_lektueretool
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/PatrickFischerKSA/bahnwaerter_lektueretool)
+
 Produktionsnahes MVP für schulischen Literaturunterricht mit textnaher Annotation, Versionierung, Peer-Feedback und didaktisch übersetzter GitHub-Logik.
+
+Wichtig: Die produktive App läuft als Node-Webservice auf Render oder lokal mit `npm start`. GitHub Pages reicht für die Passwort- und SEB-Logik nicht aus.
 
 Empfohlene GitHub-Kurzbeschreibung:
 Textnahe Lernplattform für den Literaturunterricht mit Arbeitskopien, Annotationen, Review-Workflows, Versionierung und didaktischem Feedback.
