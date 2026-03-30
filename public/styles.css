@@ -185,6 +185,16 @@ button {
   grid-template-columns: minmax(320px, 1.2fr) minmax(360px, 0.9fr);
 }
 
+.meta-list {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.meta-list p {
+  margin: 0;
+}
+
 .card,
 .panel {
   border-radius: var(--radius-xl);
@@ -317,6 +327,10 @@ button {
 .task-list {
   display: grid;
   gap: 12px;
+}
+
+#project-form textarea[name="segmentsRaw"] {
+  min-height: 220px;
 }
 
 .annotation-item,

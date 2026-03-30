@@ -1,38 +1,55 @@
-# `bahnwaerter_lektueretool`
+![CI](https://github.com/PatrickFischerKSA/bahnwaerter_lektueretool/actions/workflows/ci.yml/badge.svg)
 
-Produktionsnahes MVP für schulischen Literaturunterricht mit textnaher Annotation, Versionierung, Peer-Feedback und didaktisch interpretierbarer GitHub-Logik.
+# bahnwaerter_lektueretool
 
-## 1. Architekturvorschlag
+Produktionsnahes MVP für schulischen Literaturunterricht mit textnaher Annotation, Versionierung, Peer-Feedback und didaktisch übersetzter GitHub-Logik.
 
-**Technologiewahl**
+Empfohlene GitHub-Kurzbeschreibung:
+Textnahe Lernplattform für den Literaturunterricht mit Arbeitskopien, Annotationen, Review-Workflows, Versionierung und didaktischem Feedback.
 
-- Frontend: modulare Vanilla-JS-Single-Page-App mit responsivem HTML/CSS
+## Kernidee
+
+Lehrpersonen legen ein Lektüreprojekt an. Schüler*innen arbeiten in eigenen Arbeitskopien oder später in Gruppenräumen daran weiter, markieren Textstellen, formulieren Deutungen, erhalten Feedback und überarbeiten ihre Arbeit sichtbar in Versionen. Die Plattform übersetzt GitHub-Logik in schulisch lesbare Begriffe:
+
+- Fork → Arbeitskopie
+- Commit/Version → Arbeitsstand
+- Pull Request → Einreichen
+- Review → Rückmeldung
+
+## Was das MVP schon kann
+
+- segmentierte literarische Texte in einer Zwei-Spalten-Leseansicht
+- direkte Annotationen mit Quote, Typ, Tags und Versionierung
+- Arbeitsstände sichern und Versionen vergleichen
+- Einreichungen und threaded Peer-/Lehrkraft-Reviews
+- regelbasiertes didaktisches Feedback mit Fokus auf Textnähe
+- Lehrpersonen-Setup für neue Lektüreprojekte direkt im UI
+- Projekt-Export als JSON-Bundle
+
+## Architektur
+
+- Frontend: modulare Vanilla-JS-Single-Page-App
 - Backend: Node.js + Express JSON-API
-- Persistenz im MVP: dateibasierte JSON-Store-Schicht mit Seed-Daten
-- Tests: `node:test` für Kernlogik ohne Zusatzabhängigkeiten
+- Persistenz im MVP: dateibasierter JSON-Store
+- Tests: `node:test`
 
-**Begründung**
+Warum diese Wahl:
 
-- Startet lokal ohne Build-Tooling und ohne unnötige Infrastruktur.
-- Trennt trotzdem sauber zwischen UI, API und Domänenlogik.
-- Ist GitHub-freundlich: einfach versionierbar, klar dokumentierbar, gut deploybar.
-- Kann später schrittweise auf React, PostgreSQL, OAuth und echtes GitHub-Mapping migriert werden.
+- läuft lokal ohne Build-Schritt
+- trennt UI, API und Domänenlogik trotzdem sauber
+- ist GitHub-freundlich und leicht zu deployen
+- lässt sich später auf React, PostgreSQL, OAuth und echte GitHub-Integrationen erweitern
 
-**Architektur in Schichten**
-
-1. `public/`: UI, Reader-Layout, Interaktionen, API-Client
-2. `src/routes/`: API-Endpunkte für Annotation, Version, Review, Export
-3. `src/services/`: Store, Bootstrap-Viewmodel, Feedback-Engine, Versioning
-4. `data/`: Seed-Daten und lokaler Arbeitsstand
-
-## 2. Ordnerstruktur
+## Projektstruktur
 
 ```text
 bahnwaerter_lektueretool/
+├── .github/workflows/ci.yml
 ├── data/
 │   └── seed.json
 ├── docs/
-│   └── architecture.md
+│   ├── architecture.md
+│   └── deployment.md
 ├── public/
 │   ├── index.html
 │   ├── styles.css
@@ -43,154 +60,80 @@ bahnwaerter_lektueretool/
 │           └── state.js
 ├── src/
 │   ├── app.mjs
-│   ├── routes/
-│   │   └── api.mjs
+│   ├── routes/api.mjs
 │   └── services/
 │       ├── bootstrap.mjs
 │       ├── feedback-engine.mjs
+│       ├── project-builder.mjs
 │       ├── store.mjs
 │       └── versioning.mjs
 ├── tests/
 │   ├── feedback-engine.test.mjs
+│   ├── project-builder.test.mjs
 │   └── versioning.test.mjs
-├── .gitignore
 ├── package.json
 ├── render.yaml
 └── server.mjs
 ```
 
-## 3. Datenmodell
+## Datenmodell
 
-**Zentrale Entitäten**
+- `Course`: Kurskontext
+- `Project`: Lektüreprojekt mit Metadaten, Sichtbarkeit und Feedbackschwerpunkten
+- `Segment`: textunabhängige Abschnitte eines Werks
+- `Task`: textbezogene oder projektweite Aufgaben
+- `Workspace`: Basisraum oder persönliche Arbeitskopie
+- `Annotation`: aktuelle Fassung einer Beobachtung
+- `AnnotationVersion`: Versionen einzelner Annotationen
+- `WorkspaceVersion`: Snapshots ganzer Arbeitsstände
+- `Submission`: Pull-Request-ähnliche Einreichung
+- `Thread`: Diskussion oder Review an Annotationen bzw. Einreichungen
+- `Rubric`: Bewertungs- und Feedbackkriterien
 
-- `Course`: Kurskontext, Klassenstufe, Zeitraum
-- `Project`: Lektüreprojekt, Arbeitsmodus, Bewertungsmodus, Sichtbarkeit, GitHub-Modus
-- `Segment`: textunabhängige Segmente wie Kapitel, Szene, Absatz oder frei definierter Ausschnitt
-- `Task`: textbezogene oder projektweite Aufgaben mit Deadline und Reviewpflicht
-- `Workspace`: didaktischer Fork, also Ausgangsprojekt, Einzelarbeitskopie oder Gruppenraum
-- `Annotation`: aktuelle Fassung einer Markierung mit Typ, Tags, Quote und Segmentbindung
-- `AnnotationVersion`: historisierte Annotationstexte zur Nachvollziehbarkeit von Revisionen
-- `WorkspaceVersion`: Snapshots eines ganzen Arbeitsstandes
-- `Submission`: Pull-Request-ähnliche Einreichung eines Arbeitsstandes
-- `Thread`: Feedback- oder Review-Thread an Annotationen oder Einreichungen
-- `Rubric`: konfigurierbare Kriterien wie Textnähe, Belegarbeit, Klarheit, Plausibilität
+## Kern-User-Flows
 
-**Didaktische Übersetzung von GitHub**
+1. Lehrperson legt im UI ein neues Lektüreprojekt mit Segmenten an.
+2. Das System erzeugt automatisch einen Basisraum und Arbeitskopien für alle Schüler*innen im Kurs.
+3. Schüler*innen markieren Textstellen und verfassen Annotationen.
+4. Das Feedback-Modul prüft Beleg, Begründung, Fokusbezug und Nacherzählungsrisiko.
+5. Arbeitsstände werden versioniert gespeichert.
+6. Schüler*innen reichen ihre Arbeit ein, Peers oder Lehrperson reviewen.
+7. Revisionen werden über Versionsvergleiche sichtbar.
 
-- `Fork` → `Arbeitskopie`
-- `Commit/Version` → `Arbeitsstand`
-- `Pull Request` → `Einreichen`
-- `Review` → `Rückmeldung / Peer-Review`
-- `Merge` → für spätere Ausbaustufe als Übernahme in Gruppen- oder Kursraum vorgesehen
-
-## 4. Kern-User-Flows
-
-1. Lehrperson legt Projekt an.
-   In diesem MVP geschieht das über Seed-Daten, später über ein UI-Formular.
-2. Schüler*in öffnet persönliche Arbeitskopie.
-   Der Arbeitsraum ist eine Fork-artige Abzweigung vom Basisprojekt.
-3. Textnahe Annotation.
-   Links Text, rechts Editor. Markierter Wortlaut wird in den Entwurf übernommen.
-4. Automatisches Feedback.
-   Die Feedback-Engine prüft Beleg, Begründung, Fokusbezug und Nacherzählungsrisiko.
-5. Version speichern.
-   Aus den aktuellen Annotationen wird ein Arbeitsstand erzeugt.
-6. Einreichen und Review.
-   Ein Arbeitsstand wird als Einreichung sichtbar; Peers oder Lehrperson kommentieren.
-7. Revision sichtbar machen.
-   Versionen lassen sich vergleichen, inklusive Revisionen nach Feedback.
-
-## 5. MVP-Umfang
-
-**Im MVP enthalten**
-
-- Kurse, Projektmetadaten und segmentierte Texte
-- Rollenansicht für Lehrperson und Schüler*innen
-- Arbeitskopien mit editierbaren und schreibgeschützten Bereichen
-- Annotationen mit Typ, Quote, Tags, Kommentar und Historie
-- Versionierung auf Annotations- und Arbeitsstandebene
-- Einreichen und submission-basierte Reviews
-- Regelbasierte Feedback-Engine mit didaktisch formulierten Hinweisen
-- Export eines kompletten Projektbundles als JSON
-
-**Noch nicht im MVP**
-
-- echte Authentifizierung
-- Gruppenräume und fein granularer Rechteeditor im UI
-- persistente Datenbank
-- echte GitHub-OAuth-, Repository- und Pull-Request-Integration
-- PDF-/DOCX-Import im UI
-- Moderations-, Logging- und KI-Provider-Schicht
-
-## API-Design
+## API
 
 | Methode | Route | Zweck |
 |---|---|---|
-| `GET` | `/api/bootstrap?viewerId=...` | Rollenabhängiges Viewmodel für UI |
+| `GET` | `/api/bootstrap?viewerId=...&projectId=...` | Rollen- und projektabhängiges Viewmodel |
+| `POST` | `/api/projects` | neues Lektüreprojekt anlegen |
 | `POST` | `/api/workspaces/:id/annotations` | Annotation anlegen |
 | `PATCH` | `/api/annotations/:id` | Annotation versioniert überarbeiten |
 | `POST` | `/api/annotations/:id/comments` | Diskussion an Annotation |
-| `POST` | `/api/annotations/:id/feedback` | Automatisches Feedback erzeugen |
+| `POST` | `/api/annotations/:id/feedback` | automatisches Feedback erzeugen |
 | `POST` | `/api/workspaces/:id/versions` | Arbeitsstand sichern |
 | `GET` | `/api/workspaces/:id/versions/:a/compare/:b` | Versionen vergleichen |
 | `POST` | `/api/workspaces/:id/submissions` | Arbeitsstand einreichen |
 | `POST` | `/api/submissions/:id/reviews` | Review zur Einreichung |
-| `GET` | `/api/export/projects/:id` | Projektartefakte exportieren |
+| `GET` | `/api/export/projects/:id` | Projektbundles exportieren |
 
-## UI-Konzept
+## Automatisiertes Feedback
 
-- Zwei-Hauptbereiche-Ansicht: links Text, rechts Annotation/Feedback/Versionen
-- zusätzlicher Kopfbereich mit Rollenwechsel und Arbeitsraum-Switcher
-- Dashboard-Karten für offene Aufgaben, Reviews, Rückmeldungen und Risikofälle
-- barrierearme, lesefokussierte Oberfläche mit warmem Paper-Look
-- responsive Anordnung für Tablet und kleinere Displays
+Das MVP arbeitet regelbasiert und modular:
 
-## Feedback-Engine
-
-Die erste Implementierung arbeitet regelbasiert und modular:
-
-- Ebene A: Beleg vorhanden, Länge sinnvoll, Begründungssignale vorhanden
-- Ebene B: Aufgabenfokus getroffen, Nacherzählungsrisiko erkannt, Präzision geprüft
-- Ebene C: positives und entwicklungsorientiertes didaktisches Feedback
-- Ebene D: Architektur vorbereitet für spätere KI-Module mit Logging und austauschbaren Rückgabeformaten
-
-## Rollen und Rechte
-
-- Lehrperson:
-  - sieht alle Arbeitsräume
-  - kommentiert alle Annotationen
-  - reviewt Einreichungen
-  - bearbeitet im MVP nur den Basisraum direkt
-- Schüler*in:
-  - bearbeitet eigene Arbeitskopie
-  - sieht Basisraum
-  - sieht eingereichte Peer-Arbeiten
-  - kommentiert und reviewt eingereichte Arbeiten
-
-## GitHub-Integrationskonzept
-
-**Im MVP**
-
-- Projektstruktur ist repository-tauglich
-- Export als JSON-Bundle für Archivierung oder spätere Repo-Synchronisation
-- Deployment über Standard-Node-Host möglich
-
-**Spätere Ausbaustufe**
-
-- OAuth mit GitHub für Lehrpersonen
-- Mapping: `Workspace` → Branch oder Repo-Fork
-- Mapping: `Submission` → Pull Request
-- Mapping: `ReviewThread` → Review Comment / Issue Comment
-- GitHub Pages nur für rein statische Lesemodi sinnvoll; die kollaborative App braucht ein Node-Backend
+- Ebene A: formale Basisprüfung von Beleg, Länge und Begründungssignalen
+- Ebene B: heuristische Prüfung von Textnähe, Fokusbezug und Präzision
+- Ebene C: didaktisch formulierte positive und entwicklungsorientierte Hinweise
+- Ebene D: vorbereitet für spätere KI- oder Moderationsmodule
 
 ## Lokale Entwicklung
 
 ```bash
 cd /Users/patrickfischer/Documents/New\ project/bahnwaerter_lektueretool
+npm install
 npm start
 ```
 
-App unter [http://localhost:3017](http://localhost:3017).
+App unter [http://localhost:3017](http://localhost:3017)
 
 Tests:
 
@@ -198,23 +141,36 @@ Tests:
 npm test
 ```
 
-## Deployment auf GitHub
+## Deployment und CI
 
-1. Repository mit dem Namen `bahnwaerter_lektueretool` anlegen.
-2. Projektordner in das Repository übernehmen.
-3. Auf einem Node-Host deployen, z. B. Render oder Railway.
-4. `npm install` und `npm start` als Standardkommandos verwenden.
-
-Eine Beispielkonfiguration für Render liegt in [render.yaml](/Users/patrickfischer/Documents/New project/bahnwaerter_lektueretool/render.yaml).
+- CI über GitHub Actions: [.github/workflows/ci.yml](/Users/patrickfischer/Documents/New project/bahnwaerter_lektueretool/.github/workflows/ci.yml)
+- Render-Blueprint: [render.yaml](/Users/patrickfischer/Documents/New project/bahnwaerter_lektueretool/render.yaml)
+- Deploy-Doku: [docs/deployment.md](/Users/patrickfischer/Documents/New project/bahnwaerter_lektueretool/docs/deployment.md)
 
 ## Neue Lektüren anlegen
 
-Im MVP läuft das Anlegen neuer Lektüren datengetrieben:
+Es gibt jetzt zwei Wege:
 
-1. In [data/seed.json](/Users/patrickfischer/Documents/New project/bahnwaerter_lektueretool/data/seed.json) ein neues `project` anlegen.
-2. Die zugehörigen `segments` mit freien Abschnittslabels definieren.
-3. `tasks`, `rubrics` und `workspaces` ergänzen.
-4. Optional Demo-Annotationen und Reviewthreads seed-en.
-5. `data/store.json` löschen, damit beim nächsten Start neue Seeds geladen werden.
+1. Direkt im UI als Lehrperson:
+   Im Bereich `Lehrpersonen-Setup` Titel, Metadaten und Segmentblöcke eingeben. Das System erstellt automatisch Projekt, Aufgaben, Rubrik, Basisraum und Schüler-Arbeitskopien.
+2. Datengetrieben:
+   [data/seed.json](/Users/patrickfischer/Documents/New project/bahnwaerter_lektueretool/data/seed.json) erweitern und anschließend `data/store.json` löschen.
 
-Die Datenstruktur ist absichtlich textneutral gehalten; sie funktioniert für Roman, Novelle, Drama oder Erzählung gleichermaßen.
+Segmentformat im UI:
+
+```text
+Abschnittstitel
+Hier steht der eigentliche Abschnittstext.
+
+Nächster Abschnitt
+Hier steht der nächste Textblock.
+```
+
+## Roadmap nach dem MVP
+
+- echte Authentifizierung
+- Gruppenräume und feinere Sichtbarkeiten
+- persistente Datenbank
+- PDF- oder DOCX-Import
+- GitHub-OAuth und echtes Branch-/PR-Mapping
+- austauschbare KI-Feedbackmodule mit Logging und Moderation

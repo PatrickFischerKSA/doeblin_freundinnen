@@ -2,6 +2,7 @@ import {
   compareVersions,
   createAnnotation,
   createComment,
+  createProject,
   createSubmissionReview,
   fetchBootstrap,
   requestFeedback,
@@ -9,7 +10,14 @@ import {
   submitWorkspace,
   updateAnnotation
 } from "./modules/api.js";
-import { applyBootstrap, getSelectedAnnotation, getSelectedWorkspace, resetDraft, state } from "./modules/state.js";
+import {
+  applyBootstrap,
+  getSelectedAnnotation,
+  getSelectedWorkspace,
+  resetDraft,
+  resetProjectDraft,
+  state
+} from "./modules/state.js";
 
 const app = document.querySelector("#app");
 
@@ -48,20 +56,20 @@ function highlightQuote(content, quote) {
   ].join("");
 }
 
+function currentProject() {
+  return state.bootstrap?.project || null;
+}
+
+function isTeacherView() {
+  return ["teacher", "admin"].includes(state.bootstrap?.viewer?.role);
+}
+
 function renderMetrics() {
   return state.bootstrap.dashboard.cards.map((card) => `
     <article class="card metric metric-tone-${card.tone}">
       <div class="metric-label">${escapeHtml(card.label)}</div>
       <div class="metric-value">${escapeHtml(card.value)}</div>
     </article>
-  `).join("");
-}
-
-function renderWorkspacePills() {
-  return state.bootstrap.workspaces.map((workspace) => `
-    <button class="pill ${workspace.id === state.selectedWorkspaceId ? "is-active" : ""}" data-action="select-workspace" data-workspace-id="${workspace.id}">
-      ${escapeHtml(workspace.title)}
-    </button>
   `).join("");
 }
 
@@ -73,9 +81,29 @@ function renderViewerPills() {
   `).join("");
 }
 
+function renderProjectPills() {
+  return state.bootstrap.projects.map((project) => `
+    <button class="pill ${project.id === state.selectedProjectId ? "is-active" : ""}" data-action="switch-project" data-project-id="${project.id}">
+      ${escapeHtml(project.title)}
+    </button>
+  `).join("");
+}
+
+function renderWorkspacePills() {
+  return state.bootstrap.workspaces.map((workspace) => `
+    <button class="pill ${workspace.id === state.selectedWorkspaceId ? "is-active" : ""}" data-action="select-workspace" data-workspace-id="${workspace.id}">
+      ${escapeHtml(workspace.title)}
+    </button>
+  `).join("");
+}
+
 function renderTaskList() {
   const currentWorkspace = getSelectedWorkspace();
   const ownTaskIds = new Set((currentWorkspace?.annotations || []).map((annotation) => annotation.taskId));
+
+  if (!state.bootstrap.tasks.length) {
+    return '<div class="empty">Für dieses Projekt gibt es noch keine Aufgaben.</div>';
+  }
 
   return state.bootstrap.tasks.map((task) => `
     <article class="task-item">
@@ -85,16 +113,144 @@ function renderTaskList() {
       </div>
       <p>${escapeHtml(task.prompt)}</p>
       <div class="status-line small">
-        <span class="muted">Deadline: ${escapeHtml(task.deadline)}</span>
+        <span class="muted">${task.deadline ? `Deadline: ${escapeHtml(task.deadline)}` : "ohne Deadline"}</span>
         ${task.reviewRequired ? '<span class="badge">mit Review</span>' : ""}
       </div>
     </article>
   `).join("");
 }
 
+function renderProjectMeta() {
+  const project = currentProject();
+  const workspace = getSelectedWorkspace();
+
+  return `
+    <article class="workspace-item">
+      <div class="workspace-meta">
+        <h4>${escapeHtml(project.title)}</h4>
+        <span class="badge">${escapeHtml(project.genre)}</span>
+      </div>
+      <div class="meta-list">
+        <p><strong>Autor*in:</strong> ${escapeHtml(project.author)}</p>
+        <p><strong>Klassenstufe:</strong> ${escapeHtml(project.gradeLevel || state.bootstrap.course.gradeLevel || "offen")}</p>
+        <p><strong>Zeitraum:</strong> ${escapeHtml(project.timeframe || state.bootstrap.course.timeframe || "offen")}</p>
+        <p><strong>Arbeitsmodus:</strong> ${escapeHtml(project.workMode)}</p>
+        <p><strong>Bewertungsmodus:</strong> ${escapeHtml(project.assessmentMode)}</p>
+        <p><strong>GitHub-Modus:</strong> ${escapeHtml(project.settings.githubMode)}</p>
+      </div>
+      ${workspace ? `
+        <p class="footnote">
+          Aktiver Arbeitsraum: <strong>${escapeHtml(workspace.title)}</strong> · ${workspace.permissions.canEdit ? "editierbar" : "lesend oder reviewend"}
+        </p>
+      ` : ""}
+    </article>
+  `;
+}
+
+function renderTeacherSetupForm() {
+  if (!isTeacherView()) {
+    return "";
+  }
+
+  const studentCount = state.bootstrap.users.filter((user) => user.role === "student").length;
+
+  return `
+    <section class="overview-grid">
+      <article class="panel">
+        <h2 class="section-title">Lehrpersonen-Setup</h2>
+        <p class="footnote">
+          Lege hier eine neue Lektüre direkt im MVP an. Das System erzeugt automatisch einen Basisraum sowie ${studentCount} persönliche Arbeitskopien.
+        </p>
+        <form id="project-form" class="form-grid">
+          <label class="form-label">
+            Projekttitel
+            <input name="title" value="${escapeHtml(state.projectDraft.title)}" placeholder="z. B. Lektüreprojekt Novelle">
+          </label>
+
+          <label class="form-label">
+            Autor*in
+            <input name="author" value="${escapeHtml(state.projectDraft.author)}" placeholder="z. B. Gerhart Hauptmann">
+          </label>
+
+          <label class="form-label">
+            Genre
+            <input name="genre" value="${escapeHtml(state.projectDraft.genre)}" placeholder="Roman, Novelle, Drama ...">
+          </label>
+
+          <label class="form-label">
+            Klassenstufe
+            <input name="gradeLevel" value="${escapeHtml(state.projectDraft.gradeLevel)}" placeholder="z. B. 9">
+          </label>
+
+          <label class="form-label">
+            Zeitraum
+            <input name="timeframe" value="${escapeHtml(state.projectDraft.timeframe)}" placeholder="z. B. April bis Mai">
+          </label>
+
+          <label class="form-label">
+            Arbeitsmodus
+            <input name="workMode" value="${escapeHtml(state.projectDraft.workMode)}">
+          </label>
+
+          <label class="form-label">
+            Bewertungsmodus
+            <input name="assessmentMode" value="${escapeHtml(state.projectDraft.assessmentMode)}">
+          </label>
+
+          <label class="form-label">
+            Sichtbarkeit
+            <select name="studentVisibility">
+              <option value="course-on-submission" ${state.projectDraft.studentVisibility === "course-on-submission" ? "selected" : ""}>Kurssicht nach Einreichung</option>
+              <option value="private" ${state.projectDraft.studentVisibility === "private" ? "selected" : ""}>nur eigene Arbeitskopie</option>
+            </select>
+          </label>
+
+          <label class="form-label">
+            Peer-Reviews pro Schüler*in
+            <input name="reviewAssignmentsPerStudent" type="number" min="0" max="10" value="${escapeHtml(state.projectDraft.reviewAssignmentsPerStudent)}">
+          </label>
+
+          <label class="form-label">
+            Feedbackschwerpunkte
+            <input name="feedbackFocus" value="${escapeHtml(state.projectDraft.feedbackFocus)}" placeholder="Textnähe, Belegarbeit, Klarheit">
+          </label>
+
+          <label class="form-label">
+            Aufgabe für Annotationen
+            <textarea name="annotationPrompt" placeholder="Leer lassen für eine sinnvolle Standardaufgabe.">${escapeHtml(state.projectDraft.annotationPrompt)}</textarea>
+          </label>
+
+          <label class="form-label">
+            Aufgabe für Deutungshypothesen
+            <textarea name="interpretationPrompt" placeholder="Leer lassen für eine sinnvolle Standardaufgabe.">${escapeHtml(state.projectDraft.interpretationPrompt)}</textarea>
+          </label>
+
+          <label class="form-label">
+            Segmente der Lektüre
+            <textarea name="segmentsRaw" placeholder="Abschnittstitel&#10;Hier steht der Abschnittstext.&#10;&#10;Nächster Abschnitt&#10;Hier steht der nächste Abschnitt.">${escapeHtml(state.projectDraft.segmentsRaw)}</textarea>
+          </label>
+
+          <div class="form-actions">
+            <button class="button" type="submit">Projekt anlegen</button>
+            <button class="button secondary" type="button" data-action="reset-project-draft">Formular leeren</button>
+          </div>
+        </form>
+      </article>
+      <article class="panel">
+        <h2 class="section-title">Projekt-Metadaten</h2>
+        ${renderProjectMeta()}
+      </article>
+    </section>
+  `;
+}
+
 function renderSegments() {
   const selectedAnnotation = getSelectedAnnotation();
   const currentWorkspace = getSelectedWorkspace();
+
+  if (!state.bootstrap.segments.length) {
+    return '<div class="empty">Dieses Projekt hat noch keine Segmente.</div>';
+  }
 
   return state.bootstrap.segments.map((segment) => {
     const annotationsForSegment = (currentWorkspace?.annotations || []).filter((annotation) => annotation.segmentId === segment.id);
@@ -272,7 +428,8 @@ function loadDraftFromAnnotation(annotation) {
 
 function renderAnnotationEditor() {
   const workspace = getSelectedWorkspace();
-  const canEdit = workspace?.permissions.canEdit;
+  const hasSegments = state.bootstrap.segments.length > 0;
+  const canEdit = workspace?.permissions.canEdit && hasSegments;
 
   return `
     <form id="annotation-form" class="form-grid">
@@ -332,7 +489,8 @@ function renderAnnotationEditor() {
         <button class="button secondary" type="button" data-action="save-version" ${workspace?.permissions.canSubmit ? "" : "disabled"}>Arbeitsstand sichern</button>
         <button class="button warning" type="button" data-action="submit-workspace" ${workspace?.permissions.canSubmit ? "" : "disabled"}>Einreichen</button>
       </div>
-      ${!canEdit ? '<p class="footnote">Dieser Arbeitsraum ist für dich schreibgeschützt. Du kannst aber kommentieren oder reviewen, sobald eine Einreichung vorliegt.</p>' : ""}
+      ${!hasSegments ? '<p class="footnote">Dieses Projekt enthält noch keine lesbaren Textsegmente.</p>' : ""}
+      ${!canEdit && hasSegments ? '<p class="footnote">Dieser Arbeitsraum ist für dich schreibgeschützt. Du kannst aber kommentieren oder reviewen, sobald eine Einreichung vorliegt.</p>' : ""}
     </form>
   `;
 }
@@ -378,6 +536,7 @@ function renderReviewForm() {
 function renderApp() {
   const workspace = getSelectedWorkspace();
   const annotation = getSelectedAnnotation();
+  const project = currentProject();
 
   app.innerHTML = `
     <main class="shell">
@@ -385,21 +544,26 @@ function renderApp() {
         <div class="hero-inner">
           <div class="hero-top">
             <div>
-              <div class="eyebrow">${escapeHtml(state.bootstrap.course.title)} · ${escapeHtml(state.bootstrap.project.genre)}</div>
-              <h1>${escapeHtml(state.bootstrap.project.title)}</h1>
+              <div class="eyebrow">${escapeHtml(state.bootstrap.course.title)} · ${escapeHtml(project.genre)}</div>
+              <h1>${escapeHtml(project.title)}</h1>
               <p>
                 Didaktisches MVP für textnahes Arbeiten: Arbeitskopien, Annotationen, Peer-Review, Versionen und automatisierte Rückmeldungen
                 in einer GitHub-nahen Lernlogik, ohne GitHub-Zwang im Unterricht.
               </p>
             </div>
             <div class="hero-actions">
-              <a class="button" href="/api/export/projects/${state.bootstrap.project.id}" target="_blank" rel="noreferrer">Projekt exportieren</a>
+              <a class="button" href="/api/export/projects/${project.id}" target="_blank" rel="noreferrer">Projekt exportieren</a>
             </div>
           </div>
 
           <div>
             <div class="section-title">Rollenansicht</div>
             <div class="viewer-switches">${renderViewerPills()}</div>
+          </div>
+
+          <div>
+            <div class="section-title">Projekte</div>
+            <div class="workspace-pills">${renderProjectPills()}</div>
           </div>
 
           <div>
@@ -417,21 +581,12 @@ function renderApp() {
           <div class="task-list">${renderTaskList()}</div>
         </article>
         <article class="panel">
-          <h2 class="section-title">Arbeitsraum</h2>
-          ${workspace ? `
-            <div class="workspace-item">
-              <div class="workspace-meta">
-                <h4>${escapeHtml(workspace.title)}</h4>
-                <span class="badge">${escapeHtml(workspace.kind)}</span>
-              </div>
-              <p>${escapeHtml(workspace.owner.name)} · ${workspace.permissions.canEdit ? "editierbar" : "lesend oder reviewend"}</p>
-              <div class="legend">
-                ${state.bootstrap.visibleLegend.map((entry) => `<span class="badge">${escapeHtml(entry.label)}</span>`).join("")}
-              </div>
-            </div>
-          ` : '<div class="empty">Kein Arbeitsraum ausgewählt.</div>'}
+          <h2 class="section-title">Projekt und Arbeitsraum</h2>
+          ${renderProjectMeta()}
         </article>
       </section>
+
+      ${renderTeacherSetupForm()}
 
       <section class="reader-layout">
         <div class="reader-columns">
@@ -494,8 +649,8 @@ function renderApp() {
   `;
 }
 
-async function load(viewerId = state.viewerId) {
-  const bootstrap = await fetchBootstrap(viewerId);
+async function load(viewerId = state.viewerId, projectId = state.selectedProjectId) {
+  const bootstrap = await fetchBootstrap(viewerId, projectId);
   applyBootstrap(bootstrap);
 
   const selectedAnnotation = getSelectedAnnotation();
@@ -529,6 +684,25 @@ function syncDraftFromForm(form) {
   };
 }
 
+function syncProjectDraftFromForm(form) {
+  const formData = new FormData(form);
+  state.projectDraft = {
+    title: formData.get("title"),
+    author: formData.get("author"),
+    genre: formData.get("genre"),
+    gradeLevel: formData.get("gradeLevel"),
+    timeframe: formData.get("timeframe"),
+    workMode: formData.get("workMode"),
+    assessmentMode: formData.get("assessmentMode"),
+    studentVisibility: formData.get("studentVisibility"),
+    reviewAssignmentsPerStudent: formData.get("reviewAssignmentsPerStudent"),
+    feedbackFocus: formData.get("feedbackFocus"),
+    annotationPrompt: formData.get("annotationPrompt"),
+    interpretationPrompt: formData.get("interpretationPrompt"),
+    segmentsRaw: formData.get("segmentsRaw")
+  };
+}
+
 document.addEventListener("change", (event) => {
   if (event.target.matches("#type-filter")) {
     state.filters.type = event.target.value;
@@ -537,6 +711,10 @@ document.addEventListener("change", (event) => {
 
   if (event.target.closest("#annotation-form")) {
     syncDraftFromForm(event.target.closest("#annotation-form"));
+  }
+
+  if (event.target.closest("#project-form")) {
+    syncProjectDraftFromForm(event.target.closest("#project-form"));
   }
 });
 
@@ -573,7 +751,15 @@ document.addEventListener("click", async (event) => {
       state.compareResult = null;
       state.commentDraft = "";
       state.reviewDraft = "";
-      await load(target.dataset.viewerId);
+      await load(target.dataset.viewerId, state.selectedProjectId);
+    }
+
+    if (action === "switch-project") {
+      state.compareResult = null;
+      state.selectedProjectId = target.dataset.projectId;
+      state.selectedWorkspaceId = null;
+      state.selectedAnnotationId = null;
+      await load(state.viewerId, target.dataset.projectId);
     }
 
     if (action === "select-workspace") {
@@ -613,6 +799,11 @@ document.addEventListener("click", async (event) => {
         quote: state.annotationDraft.quote
       });
       state.selectedAnnotationId = null;
+      renderApp();
+    }
+
+    if (action === "reset-project-draft") {
+      resetProjectDraft();
       renderApp();
     }
 
@@ -695,7 +886,7 @@ document.addEventListener("submit", async (event) => {
 
       await refreshWithBootstrap(bootstrap);
       const currentWorkspace = getSelectedWorkspace();
-      const currentAnnotation = currentWorkspace.annotations[0];
+      const currentAnnotation = currentWorkspace?.annotations[0];
       if (currentAnnotation) {
         state.selectedAnnotationId = currentAnnotation.id;
         loadDraftFromAnnotation(currentAnnotation);
@@ -723,6 +914,17 @@ document.addEventListener("submit", async (event) => {
         rubricScores: {}
       });
       state.reviewDraft = "";
+      await refreshWithBootstrap(bootstrap);
+    }
+
+    if (form.id === "project-form") {
+      syncProjectDraftFromForm(form);
+      const bootstrap = await createProject({
+        viewerId: state.viewerId,
+        ...state.projectDraft
+      });
+      state.compareResult = null;
+      resetProjectDraft();
       await refreshWithBootstrap(bootstrap);
     }
   } catch (error) {

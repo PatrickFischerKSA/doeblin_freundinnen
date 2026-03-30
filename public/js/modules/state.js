@@ -8,9 +8,26 @@ const defaultDraft = () => ({
   body: ""
 });
 
+const defaultProjectDraft = () => ({
+  title: "",
+  author: "",
+  genre: "Erzählung",
+  gradeLevel: "",
+  timeframe: "",
+  workMode: "Individuelle Arbeitskopien mit Peer-Review",
+  assessmentMode: "Rubrik + Entwicklungsfeedback",
+  studentVisibility: "course-on-submission",
+  reviewAssignmentsPerStudent: "2",
+  feedbackFocus: "Textnähe, Belegarbeit, Interpretationsplausibilität",
+  annotationPrompt: "",
+  interpretationPrompt: "",
+  segmentsRaw: ""
+});
+
 export const state = {
   bootstrap: null,
   viewerId: "user-teacher-mara",
+  selectedProjectId: null,
   selectedWorkspaceId: null,
   selectedSegmentId: null,
   selectedAnnotationId: null,
@@ -20,7 +37,8 @@ export const state = {
   filters: {
     type: "all"
   },
-  annotationDraft: defaultDraft()
+  annotationDraft: defaultDraft(),
+  projectDraft: defaultProjectDraft()
 };
 
 export function resetDraft(overrides = {}) {
@@ -30,9 +48,17 @@ export function resetDraft(overrides = {}) {
   };
 }
 
+export function resetProjectDraft(overrides = {}) {
+  state.projectDraft = {
+    ...defaultProjectDraft(),
+    ...overrides
+  };
+}
+
 export function applyBootstrap(bootstrap) {
   state.bootstrap = bootstrap;
   state.viewerId = bootstrap.viewer.id;
+  state.selectedProjectId = bootstrap.currentProjectId;
 
   const workspaceExists = bootstrap.workspaces.some((workspace) => workspace.id === state.selectedWorkspaceId);
   if (!workspaceExists) {
@@ -50,9 +76,7 @@ export function applyBootstrap(bootstrap) {
     state.selectedAnnotationId = currentWorkspace?.annotations[0]?.id || null;
   }
 
-  if (!state.annotationDraft.segmentId) {
-    state.annotationDraft.segmentId = state.selectedSegmentId;
-  }
+  state.annotationDraft.segmentId = state.selectedSegmentId;
 }
 
 export function getSelectedWorkspace() {

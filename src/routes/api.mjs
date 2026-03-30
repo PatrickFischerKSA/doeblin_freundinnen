@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { createBootstrap } from "../services/bootstrap.mjs";
 import { evaluateAnnotationFeedback } from "../services/feedback-engine.mjs";
+import { buildProjectArtifacts } from "../services/project-builder.mjs";
 import { readStore, updateStore, makeId } from "../services/store.mjs";
 import { compareWorkspaceVersions, createWorkspaceVersion } from "../services/versioning.mjs";
 
@@ -71,7 +72,34 @@ function currentTimestamp() {
 apiRouter.get("/bootstrap", async (request, response) => {
   const store = await readStore();
   const viewerId = request.query.viewerId || store.users[0].id;
-  response.json(createBootstrap(store, viewerId));
+  const projectId = request.query.projectId;
+  response.json(createBootstrap(store, viewerId, projectId));
+});
+
+apiRouter.post("/projects", async (request, response) => {
+  const { viewerId } = request.body;
+  const store = await readStore();
+  const viewer = getViewer(store, viewerId);
+
+  if (!viewer || (viewer.role !== "teacher" && viewer.role !== "admin")) {
+    return badRequest(response, "Nur Lehrpersonen können Projekte anlegen.");
+  }
+
+  try {
+    const result = await updateStore(async (draft) => {
+      const artifacts = buildProjectArtifacts(draft, request.body);
+      draft.projects.push(artifacts.project);
+      draft.segments.push(...artifacts.segments);
+      draft.tasks.push(...artifacts.tasks);
+      draft.rubrics.push(...artifacts.rubrics);
+      draft.workspaces.push(...artifacts.workspaces);
+      return createBootstrap(draft, viewerId, artifacts.project.id);
+    });
+
+    response.status(201).json(result);
+  } catch (error) {
+    badRequest(response, error.message);
+  }
 });
 
 apiRouter.post("/workspaces/:workspaceId/annotations", async (request, response) => {
@@ -129,7 +157,7 @@ apiRouter.post("/workspaces/:workspaceId/annotations", async (request, response)
       updatedAt: timestamp
     });
 
-    return createBootstrap(store, viewerId);
+    return createBootstrap(store, viewerId, workspace.projectId);
   });
 
   response.json(result);
@@ -183,7 +211,7 @@ apiRouter.patch("/annotations/:annotationId", async (request, response) => {
     nextAnnotation.currentVersionId = versionId;
     nextAnnotation.updatedAt = timestamp;
 
-    return createBootstrap(store, viewerId);
+    return createBootstrap(store, viewerId, workspace.projectId);
   });
 
   response.json(result);
@@ -221,7 +249,7 @@ apiRouter.post("/annotations/:annotationId/comments", async (request, response) 
       source: viewer.role
     });
 
-    return createBootstrap(store, viewerId);
+    return createBootstrap(store, viewerId, workspace.projectId);
   });
 
   response.json(result);
@@ -272,7 +300,7 @@ apiRouter.post("/annotations/:annotationId/feedback", async (request, response) 
       feedback
     });
 
-    return createBootstrap(draft, viewerId);
+    return createBootstrap(draft, viewerId, annotation.workspaceId ? getWorkspace(draft, annotation.workspaceId)?.projectId : undefined);
   });
 
   response.json(result);
@@ -309,7 +337,7 @@ apiRouter.post("/workspaces/:workspaceId/versions", async (request, response) =>
 
     draft.workspaceVersions.push(creation.version);
     return {
-      bootstrap: createBootstrap(draft, viewerId),
+      bootstrap: createBootstrap(draft, viewerId, workspace.projectId),
       compare: creation.compare
     };
   });
@@ -378,7 +406,7 @@ apiRouter.post("/workspaces/:workspaceId/submissions", async (request, response)
       note: note || ""
     });
 
-    return createBootstrap(draft, viewerId);
+    return createBootstrap(draft, viewerId, workspace.projectId);
   });
 
   response.json(result);
@@ -422,7 +450,7 @@ apiRouter.post("/submissions/:submissionId/reviews", async (request, response) =
       rubricScores
     });
 
-    return createBootstrap(draft, viewerId);
+    return createBootstrap(draft, viewerId, getWorkspace(draft, submission.workspaceId)?.projectId);
   });
 
   response.json(result);
@@ -436,19 +464,32 @@ apiRouter.get("/export/projects/:projectId", async (request, response) => {
     return badRequest(response, "Projekt nicht gefunden.");
   }
 
+  const workspaces = store.workspaces.filter((workspace) => workspace.projectId === project.id);
+  const workspaceIds = new Set(workspaces.map((workspace) => workspace.id));
+  const annotations = store.annotations.filter((annotation) => workspaceIds.has(annotation.workspaceId));
+  const annotationIds = new Set(annotations.map((annotation) => annotation.id));
+  const annotationVersions = store.annotationVersions.filter((version) => annotationIds.has(version.annotationId));
+  const workspaceVersions = store.workspaceVersions.filter((version) => workspaceIds.has(version.workspaceId));
+  const submissions = store.submissions.filter((submission) => workspaceIds.has(submission.workspaceId));
+  const submissionIds = new Set(submissions.map((submission) => submission.id));
+  const threads = store.threads.filter((thread) => (
+    (thread.targetType === "annotation" && annotationIds.has(thread.targetId)) ||
+    (thread.targetType === "submission" && submissionIds.has(thread.targetId))
+  ));
+
   const exportBundle = {
     exportedAt: currentTimestamp(),
-    course: store.courses[0],
+    course: store.courses.find((entry) => entry.id === project.courseId) || store.courses[0],
     project,
-    segments: store.segments,
-    tasks: store.tasks,
-    rubrics: store.rubrics,
-    workspaces: store.workspaces,
-    annotations: store.annotations,
-    annotationVersions: store.annotationVersions,
-    workspaceVersions: store.workspaceVersions,
-    submissions: store.submissions,
-    threads: store.threads
+    segments: store.segments.filter((entry) => entry.projectId === project.id),
+    tasks: store.tasks.filter((entry) => entry.projectId === project.id),
+    rubrics: store.rubrics.filter((entry) => entry.projectId === project.id),
+    workspaces,
+    annotations,
+    annotationVersions,
+    workspaceVersions,
+    submissions,
+    threads
   };
 
   response.setHeader("Content-Type", "application/json");

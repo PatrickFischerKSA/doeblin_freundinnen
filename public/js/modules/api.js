@@ -11,8 +11,25 @@ async function parseResponse(response) {
   return response.json();
 }
 
-export async function fetchBootstrap(viewerId) {
-  const response = await fetch(`/api/bootstrap?viewerId=${encodeURIComponent(viewerId)}`);
+export async function fetchBootstrap(viewerId, projectId) {
+  const params = new URLSearchParams({
+    viewerId
+  });
+
+  if (projectId) {
+    params.set("projectId", projectId);
+  }
+
+  const response = await fetch(`/api/bootstrap?${params.toString()}`);
+  return parseResponse(response);
+}
+
+export async function createProject(payload) {
+  const response = await fetch("/api/projects", {
+    method: "POST",
+    headers: jsonHeaders,
+    body: JSON.stringify(payload)
+  });
   return parseResponse(response);
 }
 
