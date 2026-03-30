@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: bahnwaerter-lektueretool
+    name: reise-der-verlorenen
     runtime: node
     plan: free
     buildCommand: npm install

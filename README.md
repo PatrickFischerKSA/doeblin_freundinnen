@@ -1,8 +1,8 @@
-![CI](https://github.com/PatrickFischerKSA/bahnwaerter_lektueretool/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/PatrickFischerKSA/reise_der_verlorenen/actions/workflows/ci.yml/badge.svg)
 
-# bahnwaerter_lektueretool
+# reise_der_verlorenen
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/PatrickFischerKSA/bahnwaerter_lektueretool)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/PatrickFischerKSA/reise_der_verlorenen)
 
 Produktionsnahes MVP für schulischen Literaturunterricht mit textnaher Annotation, Versionierung, Peer-Feedback und didaktisch übersetzter GitHub-Logik.
 
@@ -47,7 +47,7 @@ Warum diese Wahl:
 ## Projektstruktur
 
 ```text
-bahnwaerter_lektueretool/
+reise_der_verlorenen/
 ├── .github/workflows/ci.yml
 ├── data/
 │   └── seed.json
