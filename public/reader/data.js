@@ -840,6 +840,59 @@ export const readerModules = [
   }
 ];
 
+export const lessonSets = [
+  {
+    id: "lesson-auftakt",
+    title: "Lektion 1 · Auftakt und Minnas Raum",
+    summary:
+      "Berufsrolle, familiäre Ausgangslage und Minnas Nachleben im Wärterhäuschen. Geeignet als Einstieg oder erste textnahe SEB-Arbeit.",
+    moduleIds: ["auftakt", "kapelle"],
+    reviewFocus: "Arbeite mit Wendepunkt-Vorbereitung, Raumsemantik und erster Figurenanlage.",
+    sebPrompt:
+      "Bearbeite zwei Passagen aus Auftakt und Minnas Raum. Sichere mindestens zwei Wortsignale und verbinde deine Beobachtungen mit Novellentheorie oder Erzählperspektive."
+  },
+  {
+    id: "lesson-lene",
+    title: "Lektion 2 · Lene, Alltag und Milieu",
+    summary:
+      "Lene als Gegenfigur, Haushaltsmacht, Arbeitswelt und naturalistische Milieudarstellung.",
+    moduleIds: ["lene", "milieu"],
+    reviewFocus: "Achte auf Körper, Alltag, soziale Härte und ungeschönte Wirklichkeitsdarstellung.",
+    sebPrompt:
+      "Zeige an zwei Stellen, wie der Text Lene, Arbeit und Milieu zusammenbindet. Nutze die Theorie-Linse Naturalismus."
+  },
+  {
+    id: "lesson-gewalt",
+    title: "Lektion 3 · Gewalt, Schuld und innere Spaltung",
+    summary:
+      "Tobias' Gefährdung, moralische Passivität und die zunehmende Zersetzung von Thiels Wahrnehmung.",
+    moduleIds: ["gewalt", "spaltung"],
+    reviewFocus: "Verbinde Schuldfrage, Unterlassung und Wahrnehmungsinstabilität präzise mit dem Wortlaut.",
+    sebPrompt:
+      "Untersuche an zwei Passagen, wie Schuld durch Nicht-Handeln sichtbar wird und wie der Text die innere Spaltung vorbereitet."
+  },
+  {
+    id: "lesson-unfall",
+    title: "Lektion 4 · Ausflug, Risiko und Unfall",
+    summary:
+      "Familienszene, Risikoraum, Technik und Katastrophe als zentraler Wendepunkt der Novelle.",
+    moduleIds: ["ausflug", "traum"],
+    reviewFocus: "Achte auf Szenenbau, Wendepunkt, Wahrnehmungsverlust und die Rolle der Technik.",
+    sebPrompt:
+      "Arbeite den Wendepunkt der Novelle heraus und zeige, wie Technik, Perspektive und Überforderung in der Unfallszene zusammenwirken."
+  },
+  {
+    id: "lesson-schluss",
+    title: "Lektion 5 · Schluss und Gesamtdeutung",
+    summary:
+      "Zusammenbruch, Tat, Endbild und titelbezogene Gesamtdeutung.",
+    moduleIds: ["schluss"],
+    reviewFocus: "Begründe aus dem Wortlaut, warum der Schluss Schock und Konsequenz zugleich ist.",
+    sebPrompt:
+      "Formuliere eine belastbare Gesamtdeutung des Schlusses und stütze sie mit mindestens zwei Beobachtungen am Wortlaut."
+  }
+];
+
 export const starterPrompt = {
   title: "Arbeitsauftrag",
   items: [

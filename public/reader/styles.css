@@ -40,6 +40,20 @@ textarea {
   gap: 18px;
 }
 
+.status-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.status-card {
+  background: rgba(255, 252, 245, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 14px 16px;
+  box-shadow: var(--paper-shadow);
+}
+
 .hero,
 .panel {
   background: var(--surface);
@@ -153,13 +167,15 @@ button {
 .signal-grid,
 .passage-nav,
 .theory-pill-list,
-.theory-tag-row {
+.theory-tag-row,
+.lesson-list {
   display: grid;
   gap: 10px;
 }
 
 .entry-tabs,
-.theory-pill-list {
+.theory-pill-list,
+.lesson-list {
   grid-template-columns: 1fr;
 }
 
@@ -169,7 +185,8 @@ button {
 .status-badge,
 .passage-card,
 .theory-pill,
-.theory-tag {
+.theory-tag,
+.lesson-pill {
   border-radius: 20px;
   padding: 12px 14px;
   border: 1px solid rgba(49, 67, 53, 0.12);
@@ -180,7 +197,8 @@ button {
 .entry-tab,
 .signal-chip,
 .passage-card,
-.theory-pill {
+.theory-pill,
+.lesson-pill {
   display: inline-flex;
   gap: 10px;
   align-items: center;
@@ -193,12 +211,14 @@ button {
 
 .entry-tab,
 .passage-card,
-.theory-pill {
+.theory-pill,
+.lesson-pill {
   align-items: flex-start;
   text-align: left;
 }
 
-.theory-pill {
+.theory-pill,
+.lesson-pill {
   flex-direction: column;
 }
 
@@ -206,9 +226,19 @@ button {
 .entry-tab.is-active,
 .signal-chip.is-active,
 .passage-card.is-active,
-.theory-pill.is-active {
+.theory-pill.is-active,
+.lesson-pill.is-active {
   border-color: rgba(180, 92, 57, 0.42);
   background: rgba(180, 92, 57, 0.12);
+}
+
+.lesson-pill {
+  width: 100%;
+}
+
+.lesson-pill:disabled {
+  opacity: 0.85;
+  cursor: default;
 }
 
 .sidebar-task,
@@ -346,6 +376,27 @@ textarea {
   padding-left: 18px;
 }
 
+.progress-box {
+  display: grid;
+  gap: 10px;
+  border-radius: 20px;
+  padding: 14px;
+  border: 1px solid rgba(49, 67, 53, 0.12);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.progress-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.95rem;
+}
+
+.lesson-box {
+  display: grid;
+  gap: 12px;
+}
+
 .signal-grid {
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 }
@@ -364,12 +415,17 @@ textarea {
   .content-column {
     grid-column: 1 / -1;
   }
+
+  .status-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 1040px) {
   .layout,
   .theory-grid,
-  .feedback-columns {
+  .feedback-columns,
+  .status-strip {
     grid-template-columns: 1fr;
   }
 

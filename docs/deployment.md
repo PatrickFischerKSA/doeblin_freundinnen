@@ -23,14 +23,16 @@ Empfohlenes Vorgehen:
 4. Build Command: `npm install`
 5. Start Command: `npm start`
 6. Nach dem ersten Deploy die öffentliche Render-URL aufrufen.
-7. Offene Version: `/open` mit Passwort `thiel`
+7. Offene Version: `/open`
 8. SEB-Version: `/seb`
+9. Lehrkraft-Dashboard: `/teacher`
 
 Hinweise:
 
-- `OPEN_VERSION_PASSWORD` ist im Blueprint bereits auf `thiel` gesetzt.
+- `OPEN_VERSION_PASSWORD` ist im Blueprint bereits gesetzt und schützt die offene Schüler*innenversion zusätzlich zum Klassen-Code.
+- `TEACHER_DASHBOARD_PASSWORD` sollte in Render als geheime Variable gesetzt werden, damit das Lehrkraft-Dashboard produktiv geschützt ist.
 - `SEB_CONFIG_KEY_HASH` bleibt absichtlich leer und kann in Render als geheime Variable ergänzt werden, wenn die SEB-Version an eine konkrete SEB-Konfiguration gebunden werden soll.
-- Die dateibasierte Server-Persistenz ist auf Render flüchtig. Browser-Notizen im konkreten Thiel-Reader bleiben clientseitig erhalten, serverseitige Projektänderungen dagegen nicht dauerhaft über Container-Neustarts hinweg.
+- Die dateibasierte Server-Persistenz ist auf Render flüchtig. Klassen-Codes, Fortschrittsstände und Reader-Sitzungen sind ohne externes Storage nicht dauerhaft über Container-Neustarts hinweg gesichert.
 
 ## Lokaler Smoke-Test vor dem Deploy
 

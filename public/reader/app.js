@@ -1,39 +1,28 @@
-import { pdfSource, readerModules, starterPrompt, theoryResources } from "./data.js";
+import { pdfSource, readerModules, starterPrompt, theoryResources, lessonSets } from "./data.js";
 
 const mode = window.THIEL_READER_MODE || "open";
 const modeLabel = window.THIEL_READER_MODE_LABEL || "Offene Version";
-const storageKey = `thiel-reader-${mode}`;
+const config = window.THIEL_READER_CONFIG || {};
 const app = document.body;
 
 const defaultState = {
+  ready: false,
+  loading: true,
+  error: "",
+  classroom: null,
+  student: null,
+  progress: null,
+  lessonId: config.forcedLessonId || lessonSets[0].id,
   moduleId: readerModules[0].id,
   entryId: readerModules[0].entries[0].id,
   theoryId: theoryResources[0].id,
-  notes: {}
+  notes: {},
+  saveStatus: "idle",
+  lastSavedAt: ""
 };
 
-const state = loadState();
-ensureTheorySelection();
-
-function loadState() {
-  try {
-    const raw = window.localStorage.getItem(storageKey);
-    if (!raw) {
-      return structuredClone(defaultState);
-    }
-
-    return {
-      ...structuredClone(defaultState),
-      ...JSON.parse(raw)
-    };
-  } catch {
-    return structuredClone(defaultState);
-  }
-}
-
-function persistState() {
-  window.localStorage.setItem(storageKey, JSON.stringify(state));
-}
+const state = structuredClone(defaultState);
+let saveTimer = null;
 
 function escapeHtml(value) {
   return String(value || "")
@@ -43,16 +32,94 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;");
 }
 
+async function fetchBootstrap() {
+  const response = await fetch("/reader-api/bootstrap", { credentials: "same-origin" });
+  if (!response.ok) {
+    throw new Error("Die Reader-Sitzung konnte nicht geladen werden.");
+  }
+  return response.json();
+}
+
+async function saveProgress() {
+  clearTimeout(saveTimer);
+  state.saveStatus = "saving";
+  render();
+
+  try {
+    const response = await fetch("/reader-api/progress", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        mode,
+        lessonId: state.lessonId,
+        moduleId: state.moduleId,
+        entryId: state.entryId,
+        theoryId: state.theoryId,
+        notes: state.notes
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error("Arbeitsstand konnte nicht gespeichert werden.");
+    }
+
+    const payload = await response.json();
+    state.progress = payload.progress;
+    state.lastSavedAt = payload.work.updatedAt;
+    state.saveStatus = "saved";
+    render();
+  } catch (error) {
+    state.saveStatus = "error";
+    state.error = error.message;
+    render();
+  }
+}
+
+function queueSave() {
+  clearTimeout(saveTimer);
+  saveTimer = window.setTimeout(() => {
+    saveProgress();
+  }, 500);
+}
+
+function availableLessons() {
+  const allowedLessonIds = state.classroom?.lessonIds || lessonSets.map((lesson) => lesson.id);
+
+  if (config.forcedLessonId) {
+    return lessonSets.filter((lesson) => lesson.id === config.forcedLessonId);
+  }
+
+  if (mode === "seb") {
+    const activeLessonId = state.classroom?.activeSebLessonId || state.lessonId;
+    return lessonSets.filter((lesson) => lesson.id === activeLessonId);
+  }
+
+  return lessonSets.filter((lesson) => allowedLessonIds.includes(lesson.id));
+}
+
+function currentLesson() {
+  return availableLessons().find((lesson) => lesson.id === state.lessonId) || availableLessons()[0] || lessonSets[0];
+}
+
+function modulesForLesson(lesson = currentLesson()) {
+  return lesson.moduleIds
+    .map((moduleId) => readerModules.find((module) => module.id === moduleId))
+    .filter(Boolean);
+}
+
 function currentModule() {
-  return readerModules.find((module) => module.id === state.moduleId) || readerModules[0];
+  return modulesForLesson().find((module) => module.id === state.moduleId) || modulesForLesson()[0];
 }
 
 function currentEntry() {
-  return currentModule().entries.find((entry) => entry.id === state.entryId) || currentModule().entries[0];
+  return currentModule()?.entries.find((entry) => entry.id === state.entryId) || currentModule()?.entries[0];
 }
 
 function theoryIdsFor(module = currentModule(), entry = currentEntry()) {
-  const ids = [...(module.relatedTheoryIds || []), ...(entry.relatedTheoryIds || [])];
+  const ids = [...(module?.relatedTheoryIds || []), ...(entry?.relatedTheoryIds || [])];
   return [...new Set(ids)].filter((id) => theoryResources.some((resource) => resource.id === id));
 }
 
@@ -67,15 +134,25 @@ function theoryOptionsFor(module = currentModule(), entry = currentEntry()) {
     .filter(Boolean);
 }
 
-function ensureTheorySelection(module = currentModule(), entry = currentEntry()) {
-  const options = theoryOptionsFor(module, entry);
-  if (!options.length) {
-    state.theoryId = theoryResources[0].id;
-    return;
+function ensureSelection() {
+  const lessons = availableLessons();
+  if (!lessons.some((lesson) => lesson.id === state.lessonId)) {
+    state.lessonId = lessons[0]?.id || lessonSets[0].id;
   }
 
-  if (!options.some((resource) => resource.id === state.theoryId)) {
-    state.theoryId = options[0].id;
+  const visibleModules = modulesForLesson();
+  if (!visibleModules.some((module) => module.id === state.moduleId)) {
+    state.moduleId = visibleModules[0]?.id || readerModules[0].id;
+  }
+
+  const module = currentModule();
+  if (module && !module.entries.some((entry) => entry.id === state.entryId)) {
+    state.entryId = module.entries[0]?.id || state.entryId;
+  }
+
+  const theories = theoryOptionsFor();
+  if (!theories.some((resource) => resource.id === state.theoryId)) {
+    state.theoryId = theories[0]?.id || theoryResources[0].id;
   }
 }
 
@@ -101,6 +178,11 @@ function completion(module) {
   }).length;
 
   return `${completed}/${module.entries.length}`;
+}
+
+function progressForCurrentLesson() {
+  const lesson = currentLesson();
+  return state.progress?.lessonProgress?.find((entry) => entry.id === lesson.id) || null;
 }
 
 function transferPromptsFor(entry, theory) {
@@ -179,12 +261,24 @@ function pdfUrlForEntry(entry) {
 }
 
 function renderSidebar() {
-  return readerModules.map((module) => `
+  return modulesForLesson().map((module) => `
     <button class="module-pill ${module.id === state.moduleId ? "is-active" : ""}" data-action="select-module" data-module-id="${module.id}">
       <span>${escapeHtml(module.title)}</span>
       <strong>${completion(module)}</strong>
     </button>
   `).join("");
+}
+
+function renderLessonRail() {
+  return availableLessons().map((lesson) => {
+    const progress = state.progress?.lessonProgress?.find((entry) => entry.id === lesson.id);
+    return `
+      <button class="lesson-pill ${lesson.id === state.lessonId ? "is-active" : ""}" data-action="select-lesson" data-lesson-id="${lesson.id}" ${mode === "seb" || config.forcedLessonId ? "disabled" : ""}>
+        <span>${escapeHtml(lesson.title)}</span>
+        <small>${escapeHtml(progress ? `${progress.completedEntries}/${progress.totalEntries}` : lesson.moduleIds.length + " Module")}</small>
+      </button>
+    `;
+  }).join("");
 }
 
 function renderTheorySelector(module, entry) {
@@ -374,10 +468,70 @@ function renderTheoryPanel(module, entry) {
   `;
 }
 
+function renderTopStatus() {
+  const lesson = currentLesson();
+  const progress = progressForCurrentLesson();
+  const saveLabel = {
+    idle: "bereit",
+    saving: "speichert ...",
+    saved: state.lastSavedAt ? `gespeichert · ${new Date(state.lastSavedAt).toLocaleTimeString("de-CH", { hour: "2-digit", minute: "2-digit" })}` : "gespeichert",
+    error: "Speicherfehler"
+  }[state.saveStatus] || "bereit";
+
+  return `
+    <section class="status-strip">
+      <div class="status-card">
+        <span class="eyebrow">Klasse</span>
+        <strong>${escapeHtml(state.classroom?.name || "-")}</strong>
+      </div>
+      <div class="status-card">
+        <span class="eyebrow">Bearbeitung</span>
+        <strong>${escapeHtml(state.student?.displayName || "-")}</strong>
+      </div>
+      <div class="status-card">
+        <span class="eyebrow">Aktive Lektion</span>
+        <strong>${escapeHtml(lesson?.title || "-")}</strong>
+      </div>
+      <div class="status-card">
+        <span class="eyebrow">Fortschritt</span>
+        <strong>${escapeHtml(progress ? `${progress.completedEntries}/${progress.totalEntries}` : "-")}</strong>
+      </div>
+      <div class="status-card">
+        <span class="eyebrow">Status</span>
+        <strong>${escapeHtml(saveLabel)}</strong>
+      </div>
+    </section>
+  `;
+}
+
+function renderProgressBox() {
+  return `
+    <div class="progress-box">
+      ${state.progress?.lessonProgress?.map((lesson) => `
+        <div class="progress-row">
+          <span>${escapeHtml(lesson.title)}</span>
+          <strong>${escapeHtml(`${lesson.completedEntries}/${lesson.totalEntries}`)}</strong>
+        </div>
+      `).join("") || ""}
+    </div>
+  `;
+}
+
 function render() {
+  if (state.loading) {
+    app.innerHTML = '<main class="reader-shell"><section class="panel"><h1>Lädt ...</h1><p>Arbeitsumgebung wird vorbereitet.</p></section></main>';
+    return;
+  }
+
+  if (state.error && !state.ready) {
+    app.innerHTML = `<main class="reader-shell"><section class="panel"><h1>Reader nicht verfügbar</h1><p>${escapeHtml(state.error)}</p></section></main>`;
+    return;
+  }
+
+  ensureSelection();
   const module = currentModule();
   const entry = currentEntry();
-  ensureTheorySelection(module, entry);
+  const lesson = currentLesson();
 
   app.innerHTML = `
     <main class="reader-shell">
@@ -386,15 +540,21 @@ function render() {
           <div class="eyebrow">Bahnwärter Thiel · ${escapeHtml(modeLabel)}</div>
           <h1>Engmaschiges PDF-Lesetool für die ganze Novelle</h1>
           <p>
-            Der Text ist vollständig integriert. Links steuerst du den Textpfad und die Theorie-Linsen, in der Mitte
-            liest du die passende Passage im PDF, rechts verbindest du Textbeobachtung, Theoriebezug und Überarbeitung.
+            ${mode === "seb"
+              ? "Diese SEB-Fassung arbeitet mit einem klaren Lektionen-Set. Die Textpassagen und Theorie-Linsen sind auf die aktuelle Prüfungseinheit fokussiert."
+              : "Der Text ist vollständig integriert. Links steuerst du den Textpfad und die Theorie-Linsen, in der Mitte liest du die Passage im PDF, rechts verbindest du Textbeobachtung, Theoriebezug und Überarbeitung."}
           </p>
         </div>
         <div class="hero-actions">
           <span class="status-badge">${escapeHtml(modeLabel)}</span>
+          <span class="status-badge">${escapeHtml(lesson.reviewFocus)}</span>
           ${mode === "open" ? '<a class="button secondary" href="/auth/logout">Abmelden</a>' : ""}
         </div>
       </section>
+
+      ${renderTopStatus()}
+
+      ${state.error ? `<section class="panel"><p>${escapeHtml(state.error)}</p></section>` : ""}
 
       <section class="layout">
         <aside class="panel sidebar">
@@ -405,6 +565,19 @@ function render() {
             </div>
           </div>
           <ul class="prompt-list">${renderPromptList()}</ul>
+
+          <section class="lesson-box">
+            <div class="eyebrow">Lektionssets</div>
+            <div class="lesson-list">
+              ${renderLessonRail()}
+            </div>
+            <div class="sidebar-task">
+              <strong>${escapeHtml(lesson.title)}</strong>
+              <p>${escapeHtml(mode === "seb" ? lesson.sebPrompt : lesson.summary)}</p>
+            </div>
+          </section>
+
+          ${renderProgressBox()}
           <div class="module-list">${renderSidebar()}</div>
 
           <div class="sidebar-task">
@@ -462,7 +635,7 @@ function updateNoteField(field, value) {
     ...noteForEntry(entry.id),
     [field]: value
   };
-  persistState();
+  state.saveStatus = "idle";
 }
 
 function exportNotes() {
@@ -470,26 +643,35 @@ function exportNotes() {
     "# Bahnwärter Thiel Lesetool",
     "",
     `Modus: ${modeLabel}`,
+    `Klasse: ${state.classroom?.name || "-"}`,
+    `Bearbeitung: ${state.student?.displayName || "-"}`,
+    `Lektion: ${currentLesson().title}`,
     ""
   ];
 
-  for (const module of readerModules) {
-    lines.push(`## ${module.title}`);
-    lines.push(module.task);
+  for (const lesson of availableLessons()) {
+    lines.push(`## ${lesson.title}`);
+    lines.push(lesson.summary);
     lines.push("");
 
-    for (const entry of module.entries) {
-      const note = noteForEntry(entry.id);
-      lines.push(`### ${entry.title}`);
-      lines.push(`Seite: ${entry.pageHint}`);
-      lines.push(`Passage: ${entry.passageLabel}`);
-      lines.push(`Kontext: ${entry.context}`);
-      lines.push(`Signalwörter: ${note.evidence || entry.signalWords.join(", ")}`);
-      lines.push(`Beobachtung: ${note.observation || "-"}`);
-      lines.push(`Deutung: ${note.interpretation || "-"}`);
-      lines.push(`Theoriebezug: ${note.theory || "-"}`);
-      lines.push(`Revision: ${note.revision || "-"}`);
+    for (const module of modulesForLesson(lesson)) {
+      lines.push(`### ${module.title}`);
+      lines.push(module.task);
       lines.push("");
+
+      for (const entry of module.entries) {
+        const note = noteForEntry(entry.id);
+        lines.push(`#### ${entry.title}`);
+        lines.push(`Seite: ${entry.pageHint}`);
+        lines.push(`Passage: ${entry.passageLabel}`);
+        lines.push(`Kontext: ${entry.context}`);
+        lines.push(`Signalwörter: ${note.evidence || entry.signalWords.join(", ")}`);
+        lines.push(`Beobachtung: ${note.observation || "-"}`);
+        lines.push(`Deutung: ${note.interpretation || "-"}`);
+        lines.push(`Theoriebezug: ${note.theory || "-"}`);
+        lines.push(`Revision: ${note.revision || "-"}`);
+        lines.push("");
+      }
     }
   }
 
@@ -510,25 +692,32 @@ document.addEventListener("click", (event) => {
 
   const action = target.dataset.action;
 
+  if (action === "select-lesson" && !target.disabled) {
+    state.lessonId = target.dataset.lessonId;
+    ensureSelection();
+    render();
+    queueSave();
+  }
+
   if (action === "select-module") {
     state.moduleId = target.dataset.moduleId;
     state.entryId = currentModule().entries[0].id;
-    ensureTheorySelection();
-    persistState();
+    ensureSelection();
     render();
+    queueSave();
   }
 
   if (action === "select-entry") {
     state.entryId = target.dataset.entryId;
-    ensureTheorySelection();
-    persistState();
+    ensureSelection();
     render();
+    queueSave();
   }
 
   if (action === "select-theory") {
     state.theoryId = target.dataset.theoryId;
-    persistState();
     render();
+    queueSave();
   }
 
   if (action === "toggle-signal") {
@@ -546,6 +735,7 @@ document.addEventListener("click", (event) => {
 
     updateNoteField("evidence", nextTokens.join(", "));
     render();
+    queueSave();
   }
 
   if (action === "export-notes") {
@@ -560,6 +750,36 @@ document.addEventListener("input", (event) => {
   }
 
   updateNoteField(event.target.name, event.target.value);
+  queueSave();
 });
 
-render();
+async function init() {
+  render();
+
+  try {
+    const payload = await fetchBootstrap();
+    state.classroom = payload.classroom;
+    state.student = payload.student;
+    state.progress = payload.progress;
+    state.notes = payload.work.notes || {};
+    state.lessonId = config.forcedLessonId
+      || (mode === "seb" ? payload.classroom.activeSebLessonId : payload.work.selectedLessonId)
+      || state.lessonId;
+    state.moduleId = payload.work.moduleId || state.moduleId;
+    state.entryId = payload.work.entryId || state.entryId;
+    state.theoryId = payload.work.theoryId || state.theoryId;
+    state.lastSavedAt = payload.work.updatedAt || "";
+    state.ready = true;
+    state.loading = false;
+    state.error = "";
+    ensureSelection();
+    render();
+  } catch (error) {
+    state.loading = false;
+    state.ready = false;
+    state.error = error.message;
+    render();
+  }
+}
+
+init();
