@@ -1,0 +1,734 @@
+const verdammtenVideo =
+  "https://www.dropbox.com/scl/fi/ul98jwpg0x64t0jqdbjpv/Die-Reise-der-Verdammten-1.mp4?rlkey=3ipejfcqv65qrpmzko41xgu3g&st=m1i680vb&dl=0";
+const verlorenenVideo =
+  "https://www.dropbox.com/scl/fi/3h67gy4raonrf1z2deyh9/Die-Reise-der-Verlorenen-to-go-MeinSenf-Kehlmann-in-11-Minuten.mp4?rlkey=2e7ccsnjmphtu1haovcpwou75&st=gqx92xef&dl=0";
+const geschichteVideo =
+  "https://www.dropbox.com/scl/fi/eex00kfd2kpd86g4zddyo/Daniel-Kehlmann-was-ist-eine-gute-Geschichte-Interviewpodcast-Alles-gesagt.mp4?rlkey=tel4p06cf7eqtahp7eicx5kx1&st=a4rikz4e&dl=0";
+const dokumentartheaterVideo =
+  "https://www.dropbox.com/scl/fi/ux8nsigllc9o8knwzxzxb/Dokumentartheater-Deutsch-Dramatik.mp4?rlkey=nhx1ktv76qjk3gpbl042ktmq6&st=k8v0qr38&dl=0";
+const epischesTheaterVideo =
+  "https://www.dropbox.com/scl/fi/kcm1eu8mgnalwj5mykxl7/EpischesTheater.mp4?rlkey=vifs3zrdn2qcnf48kv82oq8se&st=f0yzthwx&dl=0";
+const steinbruchPdf = "/kehlmann-reader/assets/im-steinbruch-kehlmann.pdf";
+
+function asRaw(url) {
+  return url.replace("dl=0", "raw=1");
+}
+
+export const theoryResources = [
+  {
+    id: "historischer-kontext",
+    title: "Historischer Kontext: Die Reise der Verdammten",
+    shortTitle: "Kontext",
+    sourceTitle: "Die Reise der Verdammten",
+    mediaType: "video",
+    openUrl: verdammtenVideo,
+    embedUrl: asRaw(verdammtenVideo),
+    summary:
+      "Diese Linse bündelt die historische Ausgangslage: Flucht, verweigerte Aufnahme, internationale Verantwortungsverschiebung und die realen politischen Konstellationen von 1939.",
+    keyIdeas: ["St. Louis", "Flucht", "Aufnahmeverweigerung", "internationale Politik", "historische Verantwortung"],
+    questions: [
+      "Welche historischen Fakten nutzt das Stück, um die Handlung als reale Katastrophe lesbar zu machen?",
+      "Wo zeigt der Text, dass politisches Wegsehen tödliche Folgen hat?",
+      "Wie verändert das Wissen um den historischen Hintergrund deine Wahrnehmung der Figuren?"
+    ],
+    transferPrompts: [
+      "Zeige an der Passage, wie individuelle Schicksale mit internationalen Entscheidungen verschränkt werden.",
+      "Prüfe, ob die Szene eher dokumentiert, kommentiert oder emotional zuspitzt.",
+      "Erkläre, wie historische Realität auf der Bühne in dramatische Form übersetzt wird."
+    ],
+    writingFrame:
+      "Historisch bedeutsam ist die Passage, weil sie zeigt, wie ... nicht nur einzelnen Figuren, sondern einer ganzen Gruppe von Flüchtlingen widerfährt."
+  },
+  {
+    id: "werkueberblick",
+    title: "Werküberblick und Dramengang",
+    shortTitle: "Werk",
+    sourceTitle: "Die Reise der Verlorenen to go",
+    mediaType: "video",
+    openUrl: verlorenenVideo,
+    embedUrl: asRaw(verlorenenVideo),
+    summary:
+      "Nutze diese Linse, um den Gesamtverlauf des Stücks im Blick zu behalten: Abfahrt, Zwischenraum Schiff, Havanna, diplomatisches Ringen, Rückweg und Nachgeschichte.",
+    keyIdeas: ["Dramengang", "Montage", "Mehrstimmigkeit", "Zwischenraum Schiff", "Schlussbild"],
+    questions: [
+      "Wo verdichtet das Stück den Stoff besonders stark und warum?",
+      "Wie wechseln persönliche Szenen und politische Ebenen einander ab?",
+      "Welche Funktion hat der Schluss mit den späteren Lebenswegen?"
+    ],
+    transferPrompts: [
+      "Ordne die Passage in den Gesamtverlauf des Stücks ein.",
+      "Zeige, was die Szene für die spätere Entwicklung vorbereitet oder verschiebt.",
+      "Erkläre, ob die Passage eher zuspitzt, verzögert oder kommentiert."
+    ],
+    writingFrame:
+      "Im Gesamtaufbau ist die Passage wichtig, weil sie den Übergang von ... zu ... markiert und dadurch ..."
+  },
+  {
+    id: "gute-geschichte",
+    title: "Erzählen, Verdichtung und Verantwortung",
+    shortTitle: "Geschichte",
+    sourceTitle: "Daniel Kehlmann: Was ist eine gute Geschichte?",
+    mediaType: "video",
+    openUrl: geschichteVideo,
+    embedUrl: asRaw(geschichteVideo),
+    summary:
+      "Diese Linse hilft dabei zu untersuchen, wie Kehlmann historische Wirklichkeit in erzählerische Form, Bühnenrhythmus und erinnerbare Szenen übersetzt, ohne die Verantwortung des Stoffs zu verlieren.",
+    keyIdeas: ["Verdichtung", "Szenenbau", "Spannung", "Stimmenführung", "narrative Verantwortung"],
+    questions: [
+      "Wie macht Kehlmann einen historischen Stoff dramatisch, ohne ihn bloß nachzuerzählen?",
+      "Welche Szenen sind so gebaut, dass sie zugleich informieren und Spannung erzeugen?",
+      "Wo zeigt sich, dass gute Geschichte auch Auswahl, Verdichtung und Perspektivierung bedeutet?"
+    ],
+    transferPrompts: [
+      "Suche in der Passage nach erzählerischer Verdichtung statt bloßer Faktensammlung.",
+      "Beschreibe, wie Figurenrede und Szenenwechsel den Stoff rhythmisch organisieren.",
+      "Prüfe, wie die Passage Zuschauer*innen zugleich verstehen lässt und emotional bindet."
+    ],
+    writingFrame:
+      "Die Szene ist dramaturgisch stark gebaut, weil Kehlmann hier ... verdichtet und dadurch ..."
+  },
+  {
+    id: "dokumentartheater",
+    title: "Dokumentartheater",
+    shortTitle: "Dokumentarisch",
+    sourceTitle: "Dokumentartheater | Deutsch Dramatik",
+    mediaType: "video",
+    openUrl: dokumentartheaterVideo,
+    embedUrl: asRaw(dokumentartheaterVideo),
+    summary:
+      "Mit dieser Linse prüfst du, wie das Stück mit dokumentarischen Verfahren arbeitet: reale Personen, historische Vorgänge, protokollnahe Redeweisen und offengelegte Faktizität.",
+    keyIdeas: ["Dokument", "Authentizität", "historische Quelle", "Protokollnähe", "Faktenbühne"],
+    questions: [
+      "Welche Momente wirken fast wie Akten, Berichte oder Zeugenaussagen?",
+      "Wo macht das Stück seine historische Faktengrundlage sichtbar?",
+      "Wie verändert die dokumentarische Form die Wirkung im Vergleich zu rein fiktivem Drama?"
+    ],
+    transferPrompts: [
+      "Zeige, welche Elemente der Passage dokumentarisch wirken.",
+      "Prüfe, ob Figuren eher individuell gezeichnet oder als Träger historischer Aussagen eingesetzt werden.",
+      "Erkläre, wie Faktizität und Bühneneffekt hier zusammenarbeiten."
+    ],
+    writingFrame:
+      "Dokumentartheaterartig wirkt die Passage, weil sie ... nicht nur erzählt, sondern als historisch belegbare Wirklichkeit ausstellt."
+  },
+  {
+    id: "episches-theater",
+    title: "Episches Theater",
+    shortTitle: "Episch",
+    sourceTitle: "Episches Theater",
+    mediaType: "video",
+    openUrl: epischesTheaterVideo,
+    embedUrl: asRaw(epischesTheaterVideo),
+    summary:
+      "Diese Linse fokussiert Verfremdung, Zuschaueransprache, kommentierende Szenen und die politische Lesbarkeit des Geschehens statt bloßer Einfühlung.",
+    keyIdeas: ["Verfremdung", "Zuschaueransprache", "Kommentar", "Montage", "politische Distanz"],
+    questions: [
+      "Wo spricht das Stück direkt zum Publikum oder unterbricht illusionistisches Spielen?",
+      "Wie entsteht Distanz, die zum Nachdenken statt zum bloßen Mitleiden zwingt?",
+      "Welche Szenen funktionieren eher als gesellschaftlicher Kommentar denn als private Psychologie?"
+    ],
+    transferPrompts: [
+      "Untersuche, wie die Passage Zuschauer*innen adressiert oder mit Distanz arbeiten lässt.",
+      "Prüfe, ob die Szene eher miterleben lässt oder analytisch rahmt.",
+      "Zeige, wie Montage und Perspektivwechsel politische Wirkung erzeugen."
+    ],
+    writingFrame:
+      "Episch wirkt die Szene, weil sie das Geschehen nicht nur erleben lässt, sondern das Publikum dazu bringt, über ... nachzudenken."
+  },
+  {
+    id: "im-steinbruch",
+    title: "Sekundärtext: Kehlmanns Rede „Im Steinbruch“",
+    shortTitle: "Steinbruch",
+    sourceTitle: "Festrede Brucknerfest Linz 2018",
+    mediaType: "pdf",
+    openUrl: steinbruchPdf,
+    embedUrl: steinbruchPdf,
+    summary:
+      "Der Sekundärtext verbindet Kunst, Erinnerung, Mauthausen und gegenwärtige Flüchtlingspolitik. Er hilft, Kehlmanns Haltung zu Erinnerung, Tradition und politischer Gegenwart mitzulesen.",
+    keyIdeas: ["Erinnerungskultur", "Mauthausen", "Kunst und Barbarei", "Gegenwartsbezug", "ethische Verantwortung"],
+    questions: [
+      "Welche Verbindung stellt Kehlmann zwischen Kunst, Gedenken und politischer Gegenwart her?",
+      "Wie spricht die Rede über Orte, die sich nicht ästhetisch neutralisieren lassen?",
+      "Was bedeutet dieser Text für die Lektüre von Die Reise der Verlorenen?"
+    ],
+    transferPrompts: [
+      "Vergleiche die Passage mit Kehlmanns Aussagen über Gedenken und politische Verantwortung.",
+      "Prüfe, ob die Szene Erinnerung eher ritualisiert oder schmerzhaft offen hält.",
+      "Zeige, wie Kunst hier nicht entlastet, sondern Verantwortung zuspitzt."
+    ],
+    writingFrame:
+      "Mit dem Sekundärtext gelesen, gewinnt die Passage zusätzlich Gewicht, weil Kehlmann darin ... ausdrücklich als Gegenwartsfrage markiert."
+  }
+];
+
+export const readerModules = [
+  {
+    id: "abfahrt",
+    title: "Auftakt, Täterrede und Abfahrt",
+    lens: "Täterstimme, Exposition, Fluchtlage",
+    briefing:
+      "Arbeite die Eröffnung als bewusste Setzung heraus: Das Stück startet mit Täterperspektive, institutioneller Sprache und konkreten Fluchtgeschichten statt mit rein privater Einfühlung.",
+    task:
+      "Zeige, wie der dramatische Auftakt historische Gewalt, institutionelle Verantwortung und individuelle Bedrohung zugleich exponiert.",
+    relatedTheoryIds: ["dokumentartheater", "episches-theater", "historischer-kontext", "gute-geschichte"],
+    entries: [
+      {
+        id: "abfahrt-1",
+        title: "Schiendick eröffnet als Tätersprecher",
+        pageHint: "S. 4",
+        pageNumber: 4,
+        passageLabel: "Direkte Täteransprache",
+        context:
+          "Kehlmann lässt nicht zuerst ein Opfer sprechen, sondern einen offen auftretenden Nationalsozialisten. Dadurch wird der Zuschauerblick sofort politisch und unangenehm gerahmt.",
+        signalWords: ["ich bin ein Nazi", "vorstellen", "Publikum", "Schiendick"],
+        prompts: [
+          "Welche Wirkung hat es, dass das Stück mit einer Täterstimme beginnt?",
+          "Wie arbeitet diese Passage mit direkter Zuschaueradressierung?",
+          "Inwiefern ist dieser Einstieg eher episch oder dokumentarisch als psychologisch?"
+        ],
+        writingFrame:
+          "Die Eröffnung irritiert gezielt, weil sie ... nicht verbirgt, sondern frontal ausstellt.",
+        relatedTheoryIds: ["episches-theater", "dokumentartheater"]
+      },
+      {
+        id: "abfahrt-2",
+        title: "Holthusen und Schröder vor der Reise",
+        pageHint: "S. 5-6",
+        pageNumber: 5,
+        passageLabel: "Spezialfahrt statt Kreuzfahrt",
+        context:
+          "Schon vor dem Ablegen prallen Pflichterfüllung, Unternehmensinteresse und politische Einflussnahme aufeinander. Die Reise erscheint von Anfang an als belastete Ausnahmefahrt.",
+        signalWords: ["spezielle Fahrt", "ausgebucht", "Macht", "Schiff"],
+        prompts: [
+          "Wie wird die Reise sprachlich als Sonderfall markiert?",
+          "Welche Gegensätze zwischen Schröders Berufsethos und Holthusens Kalkül entstehen?",
+          "Wie wird institutionelle Verantwortung verteilt oder abgeschoben?"
+        ],
+        writingFrame:
+          "Die Passage zeigt, dass die Reise kein neutraler Transport ist, weil ...",
+        relatedTheoryIds: ["historischer-kontext", "gute-geschichte"]
+      },
+      {
+        id: "abfahrt-3",
+        title: "Pozners Bericht von Verfolgung und Flucht",
+        pageHint: "S. 7",
+        pageNumber: 7,
+        passageLabel: "Biografie unter Zwang",
+        context:
+          "Mit Pozners Rede kommt die Gewalt des nationalsozialistischen Alltags auf die Bühne. Das Stück konkretisiert Geschichte durch individuelle, knappe und belastete Zeugenschaft.",
+        signalWords: ["Dachau", "geschlagen", "versteckt", "Hebräischlehrer"],
+        prompts: [
+          "Wie verdichtet Pozners Sprache biografische Zerstörung?",
+          "Warum wirkt die Szene eher wie Zeugenschaft als wie lange Vorgeschichte?",
+          "Welche Funktion hat diese frühe Opferrede im Gesamtaufbau?"
+        ],
+        writingFrame:
+          "Pozners Bericht wirkt so stark, weil er in knapper Form sichtbar macht, dass ...",
+        relatedTheoryIds: ["dokumentartheater", "historischer-kontext"]
+      },
+      {
+        id: "abfahrt-4",
+        title: "Familienbilder und Überlebenshoffnung",
+        pageHint: "S. 8",
+        pageNumber: 8,
+        passageLabel: "Private Hoffnung im Ausnahmezustand",
+        context:
+          "Die frühen Familienmomente setzen keinen ruhigen Gegenraum, sondern zeigen verletzliche Hoffnung unter extremem politischem Druck.",
+        signalWords: ["Fotoapparat", "überleben", "Kinder", "Hoffnung"],
+        prompts: [
+          "Wie verbindet die Passage privates Sprechen mit drohender Katastrophe?",
+          "Welche Rolle spielt der Bild- oder Erinnerungscharakter dieser Szene?",
+          "Wie baut Kehlmann emotionale Nähe auf, ohne die politische Ebene zu verlieren?"
+        ],
+        writingFrame:
+          "Die Szene ist nicht bloß privat, weil in ihr ... und ... zugleich präsent bleiben.",
+        relatedTheoryIds: ["gute-geschichte", "werkueberblick"]
+      }
+    ]
+  },
+  {
+    id: "zwischenraum",
+    title: "Das Schiff als Zwischenraum",
+    lens: "Paradoxe Sicherheit, Bürokratie, Ambivalenz",
+    briefing:
+      "Untersuche das Schiff als scheinbaren Schutzraum: serviceorientiert, geordnet und zugleich von Gewalt, Kontrolle und Abschiebelogik durchzogen.",
+    task:
+      "Arbeite heraus, wie die St. Louis als widersprüchlicher Raum zwischen Rettung, Illusion und fortgesetzter Bedrohung erscheint.",
+    relatedTheoryIds: ["historischer-kontext", "dokumentartheater", "gute-geschichte"],
+    entries: [
+      {
+        id: "zwischenraum-1",
+        title: "Ankunft an Bord als falsche Normalität",
+        pageHint: "S. 9",
+        pageNumber: 9,
+        passageLabel: "Komfort unter Fluchtbedingungen",
+        context:
+          "Pozner erlebt an Bord etwas wie Würde und Normalität, doch gerade diese Zivilität macht die Gewaltgeschichte dahinter umso spürbarer.",
+        signalWords: ["Kabine", "Fiebertraum", "wohlfühlen", "Kinder"],
+        prompts: [
+          "Warum wirkt der Bordkomfort zugleich erleichternd und verstörend?",
+          "Wie zeigt die Szene, dass Sicherheit nur provisorisch ist?",
+          "Welche Spannung entsteht zwischen äußerer Höflichkeit und innerer Angst?"
+        ],
+        writingFrame:
+          "Die Szene wirkt paradox, weil das Schiff einerseits ... und andererseits ...",
+        relatedTheoryIds: ["historischer-kontext", "gute-geschichte"]
+      },
+      {
+        id: "zwischenraum-2",
+        title: "Holthusen erklärt das Geschäft mit der Flucht",
+        pageHint: "S. 9-12",
+        pageNumber: 10,
+        passageLabel: "Bürokratie und Zynismus",
+        context:
+          "Die Zuschauer erfahren, wie Bürokratie, Profit und antisemitische Politik zusammenarbeiten. Die Passage entlarvt Systemlogik statt einzelne Bosheit.",
+        signalWords: ["Bürokratie", "Rückfahrt", "Coup", "korrekte Buchhaltung"],
+        prompts: [
+          "Wie wird ökonomisches Denken hier mit Verfolgung verknüpft?",
+          "Welche Wirkung hat die offen zynische Sprache Holthusens?",
+          "Warum ist diese Szene für dokumentarisches Theater besonders ergiebig?"
+        ],
+        writingFrame:
+          "Die Passage entlarvt das System, weil sie zeigt, wie ... als normale Verwaltungslogik erscheint.",
+        relatedTheoryIds: ["dokumentartheater", "historischer-kontext"]
+      },
+      {
+        id: "zwischenraum-3",
+        title: "Gerüchte, Hilfsorganisationen, erste Gegenkräfte",
+        pageHint: "S. 11-13",
+        pageNumber: 13,
+        passageLabel: "Hilfe im Netzwerk der Abhängigkeiten",
+        context:
+          "Zwischen HAPAG, Hilfsorganisationen und Gerüchten entsteht ein Geflecht aus Hoffnung, Information und Ohnmacht.",
+        signalWords: ["Gerüchte", "Anwalt", "helfen", "gleichen Strang"],
+        prompts: [
+          "Wie zeigt die Passage, dass Hilfe immer schon von Machtverhältnissen abhängt?",
+          "Welche Rolle spielen Informationslücken für die Spannung?",
+          "Wie montiert das Stück private und institutionelle Stimmen?"
+        ],
+        writingFrame:
+          "Die Szene macht Hoffnung sichtbar, aber sie bleibt unsicher, weil ...",
+        relatedTheoryIds: ["werkueberblick", "gute-geschichte"]
+      },
+      {
+        id: "zwischenraum-4",
+        title: "Jockl, Schröder und Schiendick",
+        pageHint: "S. 14-16",
+        pageNumber: 15,
+        passageLabel: "Moralische Linien an Bord",
+        context:
+          "Zwischen Crewmitgliedern und Kapitän entstehen unterschiedliche Haltungen: Mitgefühl, Pflicht, Angst und politische Durchdringung des Schiffsraums.",
+        signalWords: ["Gerüchte", "sicher", "Gericht", "Seerecht"],
+        prompts: [
+          "Wie werden Schröder, Jockl und Schiendick kontrastiv gezeichnet?",
+          "Welche Handlungsspielräume zeigen sich und wo enden sie?",
+          "Wie organisiert das Stück moralische Differenzen nicht nur über Worte, sondern über Funktionsrollen?"
+        ],
+        writingFrame:
+          "Die Passage zeigt unterschiedliche Haltungen, indem ... einander scharf gegenübergestellt werden.",
+        relatedTheoryIds: ["episches-theater", "historischer-kontext"]
+      }
+    ]
+  },
+  {
+    id: "havanna",
+    title: "Havanna: Korruption, Politik und Warteschleife",
+    lens: "Machtlogik, Willkür, inszenierte Hoffnung",
+    briefing:
+      "Arbeite die Kuba-Sequenz als politische Bühne heraus: Bestechung, Dekrete, Spielräume und private Verzweiflung greifen hier ständig ineinander.",
+    task:
+      "Zeige, wie das Stück den verweigerten Landgang zugleich als politische Farce und als existentielle Katastrophe gestaltet.",
+    relatedTheoryIds: ["historischer-kontext", "dokumentartheater", "episches-theater"],
+    entries: [
+      {
+        id: "havanna-1",
+        title: "Benitez und die erfundene Genehmigung",
+        pageHint: "S. 17-19",
+        pageNumber: 17,
+        passageLabel: "Korruption als System",
+        context:
+          "Benitez erklärt offen seine Bestechlichkeit und macht sichtbar, dass rechtliche Verfahren hier bewusst in Grauzonen verwandelt werden.",
+        signalWords: ["bestechlich", "Landegenehmigungen", "erfunden", "Stempel"],
+        prompts: [
+          "Wie wirkt Benitez' offene Selbstentlarvung auf das Publikum?",
+          "Was zeigt die Passage über Recht, Willkür und politische Sprache?",
+          "Warum passt diese Szene besonders gut zur Linse Dokumentartheater?"
+        ],
+        writingFrame:
+          "Die Szene zeigt Willkür nicht als Ausnahme, sondern als ...",
+        relatedTheoryIds: ["dokumentartheater", "historischer-kontext"]
+      },
+      {
+        id: "havanna-2",
+        title: "Bru und das politische Kalkül",
+        pageHint: "S. 20-22",
+        pageNumber: 20,
+        passageLabel: "Das Land ist voll",
+        context:
+          "Bru formuliert genau jene Abwehrlogik, die bis heute als politische Formel wiederkehrt: Aufnahmegrenzen, nationale Interessen und öffentliche Wirkung.",
+        signalWords: ["überfüllt", "letzte", "nein sagen", "Schiff"],
+        prompts: [
+          "Wie wird politische Verantwortung in Sachzwangsprache übersetzt?",
+          "Welche Aktualität gewinnt die Passage gerade durch diese Formulierungen?",
+          "Wie baut Kehlmann Distanz auf, damit man die Logik analysiert statt nur mitzuleiden?"
+        ],
+        writingFrame:
+          "Die Passage wirkt politisch scharf, weil sie Ausgrenzung in scheinbar vernünftige Sprache kleidet: ...",
+        relatedTheoryIds: ["episches-theater", "historischer-kontext"]
+      },
+      {
+        id: "havanna-3",
+        title: "Max Aber und die zerschnittene Familie",
+        pageHint: "S. 23-24",
+        pageNumber: 23,
+        passageLabel: "Privates Schicksal unter politischen Entscheidungen",
+        context:
+          "Die Geschichte Max Abers zeigt exemplarisch, wie politische Grenzentscheidungen Familien zerteilen und individuelle Lebenswege zerstören.",
+        signalWords: ["Kinderheim", "Mädchen", "wiedersehen", "Angst"],
+        prompts: [
+          "Wie verbindet die Passage Einzelschicksal und Systemgewalt?",
+          "Wodurch wirkt Max Abers Stimme exemplarisch und zugleich individuell?",
+          "Welche dramaturgische Funktion hat diese Verschiebung ins Private?"
+        ],
+        writingFrame:
+          "Gerade durch die konkrete Familiengeschichte zeigt die Passage, dass ...",
+        relatedTheoryIds: ["historischer-kontext", "gute-geschichte"]
+      },
+      {
+        id: "havanna-4",
+        title: "Jockl und Pozner über zivilisierte Vertreibung",
+        pageHint: "S. 25-28",
+        pageNumber: 25,
+        passageLabel: "Höflichkeit im Unrecht",
+        context:
+          "Die Szene macht die zynische Form des Unrechts sichtbar: gepflegte Versorgung, gutes Essen und höflicher Service ändern nichts an Enteignung, Vertreibung und Gewalt.",
+        signalWords: ["Komödie", "Hauptgerichte", "anständiger Mensch", "falsche Seite"],
+        prompts: [
+          "Wie arbeitet die Passage mit dem Kontrast zwischen Service und Verfolgung?",
+          "Warum ist gerade Höflichkeit hier moralisch verstörend?",
+          "Welche Rolle spielt Jockl als Figur zwischen Mitgefühl und Systemzugehörigkeit?"
+        ],
+        writingFrame:
+          "Die Szene entlarvt scheinbare Menschlichkeit, weil ... nicht aufhebt, dass ...",
+        relatedTheoryIds: ["historischer-kontext", "gute-geschichte"]
+      }
+    ]
+  },
+  {
+    id: "hafenkrise",
+    title: "Hafenkrise und zerfallende Hoffnung",
+    lens: "Warten, Gewalt, Sichtbarkeit, Familie",
+    briefing:
+      "Lies diese Passagen als Verdichtung des Stillstands: Hoffnungsschübe, Gewaltmomente und einzelne Bilder von Nähe oder Trennung wechseln sich rasch ab.",
+    task:
+      "Arbeite heraus, wie das Stück aus Warten, Gerücht und Blickszenen eine immer größere Spannung erzeugt.",
+    relatedTheoryIds: ["werkueberblick", "gute-geschichte", "episches-theater"],
+    entries: [
+      {
+        id: "hafenkrise-1",
+        title: "Komitee, Telegramm und Rückkehrangst",
+        pageHint: "S. 29-30",
+        pageNumber: 29,
+        passageLabel: "Organisierte Hoffnung",
+        context:
+          "Mit dem Komitee wird Handlungsfähigkeit behauptet, doch die Szene macht zugleich klar, wie prekär und fremdbestimmt diese Hoffnung ist.",
+        signalWords: ["Komitee", "Wort", "Telegramm", "Deutschland"],
+        prompts: [
+          "Wie versucht die Szene, Ordnung in die Krise zu bringen?",
+          "Welche Rolle spielt Schröders Versprechen?",
+          "Wodurch bleibt die Hoffnung trotz Organisation brüchig?"
+        ],
+        writingFrame:
+          "Die Passage zeigt organisierte Hoffnung, aber sie bleibt fragil, weil ...",
+        relatedTheoryIds: ["werkueberblick", "historischer-kontext"]
+      },
+      {
+        id: "hafenkrise-2",
+        title: "Hakenkreuz, Einschüchterung, Alltagsgewalt",
+        pageHint: "S. 31-32",
+        pageNumber: 32,
+        passageLabel: "Nazigewalt an Bord",
+        context:
+          "Die nationalsozialistische Gewalt ist nicht bloß Hintergrund, sondern dringt in den Bordalltag selbst ein und zerstört jeden Rest von Sicherheit.",
+        signalWords: ["Hakenkreuz", "Judensau", "Arm", "festhalten"],
+        prompts: [
+          "Wie macht die Szene die Grenze zwischen Schiff und Verfolgungsraum porös?",
+          "Welche Wirkung hat die direkte körperliche Aggression?",
+          "Wie verändert sich dein Bild des Schiffsraums durch diese Passage?"
+        ],
+        writingFrame:
+          "Die Szene zeigt, dass das Schiff kein Schutzraum mehr ist, weil ...",
+        relatedTheoryIds: ["historischer-kontext", "episches-theater"]
+      },
+      {
+        id: "hafenkrise-3",
+        title: "Havanna als Bild aus der Distanz",
+        pageHint: "S. 33-36",
+        pageNumber: 35,
+        passageLabel: "Stadt in Sicht, Landgang verwehrt",
+        context:
+          "Die Passagiere sehen Kuba, aber sie erreichen es nicht. Die Nähe des ersehnten Landes steigert die Qual des Wartens.",
+        signalWords: ["Reling", "Hafen", "niemand", "unklar"],
+        prompts: [
+          "Welche Funktion hat das Motiv des Sehens ohne Ankommen?",
+          "Wie arbeitet die Szene mit räumlicher Nähe und politischer Unerreichbarkeit?",
+          "Warum ist dieses Bühnenbild besonders wirkungsvoll?"
+        ],
+        writingFrame:
+          "Die Passage verschärft die Krise, weil ... sichtbar und zugleich unerreichbar bleibt.",
+        relatedTheoryIds: ["gute-geschichte", "werkueberblick"]
+      },
+      {
+        id: "hafenkrise-4",
+        title: "Max Aber sieht seine Töchter",
+        pageHint: "S. 37-40",
+        pageNumber: 37,
+        passageLabel: "Blickszene und familiale Trennung",
+        context:
+          "Die Szene verbindet politisches Drama mit einem fast unerträglich konkreten Augenblick der familialen Distanz.",
+        signalWords: ["Reling", "Kinder", "Visa", "auf Wiedersehen"],
+        prompts: [
+          "Warum ist gerade die Blickszene so stark?",
+          "Wie verdichtet das Stück hier Politik in ein einzelnes Bild?",
+          "Welche Rolle spielt Sprache unter Bedingungen von Panik, Distanz und Zeitdruck?"
+        ],
+        writingFrame:
+          "Die Szene wirkt so intensiv, weil der politische Konflikt in einem einzigen Bild von ... konzentriert wird.",
+        relatedTheoryIds: ["gute-geschichte", "historischer-kontext", "im-steinbruch"]
+      }
+    ]
+  },
+  {
+    id: "diplomatie",
+    title: "Diplomatie, Presse und Grenzen des Handelns",
+    lens: "Verhandlung, Öffentlichkeit, Ohnmacht",
+    briefing:
+      "Untersuche, wie das Stück politische Macht nicht als abstraktes System, sondern als Abfolge von Gesprächen, Erpressungen, Pressebildern und unterlassenen Entscheidungen zeigt.",
+    task:
+      "Zeige, wie Verhandlungsszenen politische Verantwortung zugleich konkretisieren und zerstreuen.",
+    relatedTheoryIds: ["dokumentartheater", "episches-theater", "im-steinbruch"],
+    entries: [
+      {
+        id: "diplomatie-1",
+        title: "Gesicht wahren, Akten führen, Intrigen spinnen",
+        pageHint: "S. 41-48",
+        pageNumber: 41,
+        passageLabel: "Politik als Bühne",
+        context:
+          "Die Akteure verhandeln nicht nur Inhalte, sondern Ansehen, Pressewirkung und Machtpositionen. Politik erscheint als strategische Inszenierung.",
+        signalWords: ["Gesicht wahren", "Bericht", "Telegramme", "Wahlen"],
+        prompts: [
+          "Wie zeigt die Passage Politik als Mischung aus Information, Image und Macht?",
+          "Welche Wirkung haben die schnellen Szenenwechsel auf dein Verständnis?",
+          "Warum eignet sich diese Passage für die Linse des epischen Theaters?"
+        ],
+        writingFrame:
+          "Die Szene macht Politik als Inszenierung sichtbar, weil ... nicht weniger wichtig ist als ...",
+        relatedTheoryIds: ["episches-theater", "dokumentartheater"]
+      },
+      {
+        id: "diplomatie-2",
+        title: "Suizidversuche und Patrouillen",
+        pageHint: "S. 49-53",
+        pageNumber: 49,
+        passageLabel: "Verzweiflung als Kollektivzustand",
+        context:
+          "Die psychische Belastung an Bord wird so groß, dass das Stück nicht mehr nur politisch argumentiert, sondern existentielle Zerbrechlichkeit zeigt.",
+        signalWords: ["Pulsader", "springen", "Patrouillen", "inständig"],
+        prompts: [
+          "Wie verändert sich die Stimmung des Stücks in diesen Szenen?",
+          "Welche Grenzen von Schröders Verantwortung werden sichtbar?",
+          "Wie verbindet Kehlmann individuelles Leid mit strukturellem Versagen?"
+        ],
+        writingFrame:
+          "Die Passage zeigt Verzweiflung nicht als Einzelfall, sondern als Folge davon, dass ...",
+        relatedTheoryIds: ["historischer-kontext", "gute-geschichte"]
+      },
+      {
+        id: "diplomatie-3",
+        title: "Berenson, Bru, Batista und das Geschäft mit den Flüchtlingen",
+        pageHint: "S. 50-60",
+        pageNumber: 57,
+        passageLabel: "Humanität im Modus des Deals",
+        context:
+          "Die Rettung der Flüchtlinge hängt an Summen, Garantien, Bildern und politischem Kalkül. Humanität erscheint als verhandelbare Größe.",
+        signalWords: ["halbe Million", "Garantie", "Fotograf", "Gefängnisinsel"],
+        prompts: [
+          "Wie entlarvt die Passage den Warencharakter politischer Rettung?",
+          "Welche Rolle spielen Bilder, Öffentlichkeit und Inszenierung?",
+          "Wie wird aus humanitärer Hilfe ein zähes Tauschgeschäft?"
+        ],
+        writingFrame:
+          "Die Passage ist so bitter, weil sie Rettung an ... bindet und dadurch ... sichtbar macht.",
+        relatedTheoryIds: ["dokumentartheater", "im-steinbruch", "historischer-kontext"]
+      },
+      {
+        id: "diplomatie-4",
+        title: "USA, Großbritannien und das Nicht-Handeln",
+        pageHint: "S. 61-71",
+        pageNumber: 65,
+        passageLabel: "Verantwortung wird weitergereicht",
+        context:
+          "Die Gespräche zwischen Ministerien und Botschaften machen sichtbar, wie Verantwortung durch Zuständigkeiten, Verzögerung und politische Rücksichtnahme verdünnt wird.",
+        signalWords: ["Spielraum", "Virgin Islands", "nichts tun", "Frieden mit Hitler"],
+        prompts: [
+          "Wie zeigt die Passage Unterlassung als politische Handlung?",
+          "Welche sprachlichen Formen des Ausweichens fallen auf?",
+          "Warum ist gerade das unspektakuläre Nicht-Handeln dramatisch so wichtig?"
+        ],
+        writingFrame:
+          "Die Szene zeigt politische Schuld als Unterlassung, weil ... immer wieder verschoben wird.",
+        relatedTheoryIds: ["historischer-kontext", "episches-theater", "im-steinbruch"]
+      }
+    ]
+  },
+  {
+    id: "rueckweg",
+    title: "Rückweg, letzte Optionen und Nachgeschichte",
+    lens: "Handlungsspielraum, Montage, Erinnerung",
+    briefing:
+      "Im letzten Abschnitt verschiebt sich das Stück von der unmittelbaren Krise zur Frage, was überhaupt noch getan werden kann und wie sich die Geschichte nach 1939 fortsetzt.",
+    task:
+      "Arbeite heraus, wie das Ende zwischen verpasster Rettung, begrenztem Glück und bitterer historischer Bilanz gebaut ist.",
+    relatedTheoryIds: ["episches-theater", "werkueberblick", "im-steinbruch", "gute-geschichte"],
+    entries: [
+      {
+        id: "rueckweg-1",
+        title: "Propaganda, Geheimdienst, britische Grenzen",
+        pageHint: "S. 67-72",
+        pageNumber: 67,
+        passageLabel: "Die Welt reagiert und reagiert doch nicht",
+        context:
+          "Goebbels' Propaganda, britische Zurückhaltung und Schiendicks Rolle zeigen, wie eng ideologische Deutung, staatliche Interessen und konkrete Lebensgefahr zusammenhängen.",
+        signalWords: ["Goebbels", "Abwehr", "Telegramm", "England"],
+        prompts: [
+          "Wie verbindet das Stück Propaganda und politische Realentscheidung?",
+          "Welche Funktion hat Schiendick im letzten Drittel des Dramas?",
+          "Wie entsteht hier eine besonders epische, kommentierende Struktur?"
+        ],
+        writingFrame:
+          "Die Passage verschärft die historische Anklage, weil ... und ... gleichzeitig sichtbar werden.",
+        relatedTheoryIds: ["episches-theater", "historischer-kontext"]
+      },
+      {
+        id: "rueckweg-2",
+        title: "Pozners Plan und Schröders Grenze",
+        pageHint: "S. 72-74",
+        pageNumber: 73,
+        passageLabel: "Meuterei oder Pflicht",
+        context:
+          "Die Szene stellt noch einmal radikal die Frage nach Handlungsspielraum. Schröders Berufsethos erscheint zugleich ehrenhaft, tragisch begrenzt und historisch unzureichend.",
+        signalWords: ["Manövrierfehler", "Küstenwache", "ich kann das nicht", "Kapitän"],
+        prompts: [
+          "Wie wird Schröders innere Grenze sprachlich sichtbar?",
+          "Warum ist Pozners Vorschlag dramaturgisch so stark?",
+          "Wie lässt sich die Szene zwischen moralischer Größe und historischem Versagen lesen?"
+        ],
+        writingFrame:
+          "Die Szene ist zentral, weil sie zeigt, dass Schröders Haltung ... und ... zugleich ist.",
+        relatedTheoryIds: ["gute-geschichte", "historischer-kontext", "episches-theater"]
+      },
+      {
+        id: "rueckweg-3",
+        title: "Belgien als verspäteter Ausweg",
+        pageHint: "S. 74-76",
+        pageNumber: 75,
+        passageLabel: "Erleichterung unter Vorbehalt",
+        context:
+          "Die Nachricht aus Belgien bringt keine Auflösung im klassischen Sinn, sondern nur begrenzte Rettung unter historischem Vorbehalt.",
+        signalWords: ["Belgien", "anlächeln", "Erleichterung", "Broschüre"],
+        prompts: [
+          "Warum ist diese Erleichterung nicht wirklich entlastend?",
+          "Wie setzt das Stück Hoffnung und spätere Bedrohung gleichzeitig in den Raum?",
+          "Welche Funktion hat diese Übergangsstimmung vor dem Schluss?"
+        ],
+        writingFrame:
+          "Die Passage wirkt doppeldeutig, weil sie Rettung andeutet, aber zugleich ... mitschwingen lässt.",
+        relatedTheoryIds: ["werkueberblick", "historischer-kontext"]
+      },
+      {
+        id: "rueckweg-4",
+        title: "Epilog der Überlebenden und Schiendicks Karriere",
+        pageHint: "S. 77-80",
+        pageNumber: 77,
+        passageLabel: "Nachgeschichte statt Katharsis",
+        context:
+          "Der Schluss verweigert einen versöhnlichen Ausklang. Stattdessen montiert das Stück Überlebenswege, Lagererfahrungen, spätere Rettung und Täterkarriere zu einer bitteren historischen Bilanz.",
+        signalWords: ["Westerborg", "London", "überlebt", "Karriere gemacht"],
+        prompts: [
+          "Warum endet das Stück mit Nachgeschichten statt mit einem einzelnen Schlussbild?",
+          "Wie verändert Schiendicks Schlussrede deine Deutung des gesamten Dramas?",
+          "Inwiefern ist dieses Ende episch, dokumentarisch und erinnerungspolitisch zugleich?"
+        ],
+        writingFrame:
+          "Der Schluss verweigert Katharsis, weil er ... nicht abschließt, sondern in die Geschichte hinein offen hält.",
+        relatedTheoryIds: ["episches-theater", "dokumentartheater", "im-steinbruch"]
+      }
+    ]
+  }
+];
+
+export const lessonSets = [
+  {
+    id: "lesson-abfahrt",
+    title: "Lektion 1 · Auftakt, Abfahrt und Zwischenraum",
+    summary:
+      "Täteransprache, institutionelle Exposition und das Schiff als paradoxer Schutzraum.",
+    moduleIds: ["abfahrt", "zwischenraum"],
+    reviewFocus: "Achte auf Täterrede, Exposition, dokumentarische Verfahren und die widersprüchliche Raumlogik des Schiffs.",
+    sebPrompt:
+      "Bearbeite zwei Passagen aus dem Auftakt oder dem Schiffszwischenraum. Sichere den Wortlaut und verbinde deine Analyse mit Dokumentartheater, epischem Theater oder historischem Kontext."
+  },
+  {
+    id: "lesson-havanna",
+    title: "Lektion 2 · Havanna und verweigerte Aufnahme",
+    summary:
+      "Korruption, politische Formeln der Abwehr und erste massive Zuspitzung der Krise.",
+    moduleIds: ["havanna"],
+    reviewFocus: "Arbeite heraus, wie politische Sprache und private Verzweiflung ineinandergreifen.",
+    sebPrompt:
+      "Untersuche zwei Passagen aus Havanna. Zeige, wie das Stück politische Willkür, Scheinlegalität und individuelle Bedrohung verbindet."
+  },
+  {
+    id: "lesson-hafenkrise",
+    title: "Lektion 3 · Hafenkrise und zerschnittene Hoffnung",
+    summary:
+      "Warten, Drohung, Gewalt an Bord und die schmerzhafte Sichtbarkeit der unerreichbaren Rettung.",
+    moduleIds: ["hafenkrise"],
+    reviewFocus: "Verbinde Blickregie, Bühnenbild, Familienmomente und Spannungserzeugung präzise mit dem Wortlaut.",
+    sebPrompt:
+      "Analysiere zwei Szenen der Hafenkrise. Zeige, wie Kehlmann aus Warten, Distanz und Gewalt eine immer größere Zuspitzung baut."
+  },
+  {
+    id: "lesson-diplomatie",
+    title: "Lektion 4 · Diplomatie, Öffentlichkeit und Nicht-Handeln",
+    summary:
+      "Verhandlungen, Pressebilder, Deals, Suizidversuche und politische Verantwortungsverschiebung.",
+    moduleIds: ["diplomatie"],
+    reviewFocus: "Achte auf politische Sprache, Unterlassung, Verhandlungsszenen und die Frage nach Verantwortung.",
+    sebPrompt:
+      "Arbeite zwei Passagen aus den Verhandlungsszenen heraus und zeige, wie das Stück Verantwortung konkretisiert und zugleich zersplittert."
+  },
+  {
+    id: "lesson-rueckweg",
+    title: "Lektion 5 · Rückweg, Schluss und Erinnerung",
+    summary:
+      "Letzte Handlungsoptionen, begrenzte Rettung und das epische Nachleben der Geschichte.",
+    moduleIds: ["rueckweg"],
+    reviewFocus: "Begründe am Wortlaut, wie das Ende moralische, politische und erinnerungskulturelle Fragen offen hält.",
+    sebPrompt:
+      "Formuliere eine belastbare Deutung des Schlusses und verbinde sie mit epischem Theater, historischer Verantwortung oder Kehlmanns Rede „Im Steinbruch“."
+  }
+];
+
+export const starterPrompt = {
+  title: "Arbeitsauftrag",
+  items: [
+    "Arbeite das Drama entlang des gesamten Textpfads im eingebetteten PDF durch und notiere Beobachtungen immer szenennah.",
+    "Sichere zuerst Wortlaut, Rollenrede, Regieanweisung oder Bühnenkonstellation, bevor du deutest.",
+    "Nutze pro Passage mindestens eine Linse: historischer Kontext, Dokumentartheater, episches Theater, Dramengang oder Kehlmanns Sekundärtext.",
+    "Halte im Revisionsfeld fest, welche Deutung du nach erneuter Lektüre schärfen oder gegenlesen willst."
+  ]
+};
+
+export const pdfSource = "/kehlmann-reader/assets/die-reise-der-verlorenen.pdf";
