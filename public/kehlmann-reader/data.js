@@ -778,15 +778,38 @@ export const lessonSets = [
     reviewFocus: "Begründe am Schlusswort und an den Nachgeschichten, wie das Stück Erinnerung politisch offen hält.",
     sebPrompt:
       "Formuliere eine belastbare Deutung des Endes und verbinde sie mit epischem Theater, dokumentarischer Form oder Kehlmanns Rede „Im Steinbruch“."
+  },
+  {
+    id: "lesson-11-kehlmann-haltung",
+    title: "Lektion 11 · Kehlmanns Haltung und persönliche Involvierung",
+    summary:
+      "Kehlmann als Autor des Stoffs: Verdichtung, Verantwortung, Erinnerungskultur und Gegenwartsbezug mit Podcast und „Im Steinbruch“.",
+    entryIds: ["havanna-3", "diplomatie-3", "diplomatie-4", "rueckweg-4"],
+    moduleIds: ["havanna", "diplomatie", "rueckweg"],
+    reviewFocus: "Arbeite daran, wie Kehlmann historische Stoffbearbeitung, ethische Verantwortung und persönliche Haltung im Drama lesbar macht.",
+    sebPrompt:
+      "Beziehe die Passagen ausdrücklich auf Kehlmanns Aussagen aus dem Interview und aus „Im Steinbruch“. Zeige, wie sein Zugang zu Geschichte, Kunst und Gegenwart das Drama prägt."
+  },
+  {
+    id: "lesson-12-theaterformen",
+    title: "Lektion 12 · Episches Theater und Dokumentartheater",
+    summary:
+      "Theorieeinheit zu den beiden zentralen Theaterformen des Dramas mit gezielten Vergleichspassagen über das ganze Werk.",
+    entryIds: ["abfahrt-1", "zwischenraum-2", "havanna-1", "diplomatie-1", "rueckweg-4"],
+    moduleIds: ["abfahrt", "zwischenraum", "havanna", "diplomatie", "rueckweg"],
+    reviewFocus: "Vergleiche genau, wo das Stück dokumentarisch arbeitet und wo es epische Distanz, Kommentar und Verfremdung erzeugt.",
+    sebPrompt:
+      "Ordne die ausgewählten Passagen systematisch epischem Theater und Dokumentartheater zu. Zeige am Wortlaut, an der Figurenführung und an der Zuschaueradressierung, welche Verfahren dominieren."
   }
 ];
 
 export const starterPrompt = {
   title: "Arbeitsauftrag",
   items: [
-    "Arbeite das Drama entlang von zehn feineren Lektionen im eingebetteten PDF durch und notiere Beobachtungen immer szenennah.",
+    "Arbeite das Drama entlang von zwölf feineren Lektionen im eingebetteten PDF durch und notiere Beobachtungen immer szenennah.",
     "Sichere zuerst Wortlaut, Rollenrede, Regieanweisung oder Bühnenkonstellation, bevor du deutest.",
     "Nutze pro Passage mindestens eine Linse: historischer Kontext, Dokumentartheater, episches Theater, Dramengang oder Kehlmanns Sekundärtext.",
+    "Ziehe in den erweiterten Theorie-Lektionen ausdrücklich die Dropbox-Ressourcen zu Kehlmann, Dokumentartheater und epischem Theater heran.",
     "Halte im Revisionsfeld fest, welche Deutung du nach erneuter Lektüre schärfen oder gegenlesen willst."
   ]
 };

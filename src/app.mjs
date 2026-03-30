@@ -195,6 +195,13 @@ function renderStudentAccessPage({ mode, lessonId, errorText = "" }) {
               ? "Diese Version ist für Unterricht, Hausaufgaben oder gemeinsame Analysephasen gedacht und wird über Unterrichtspasswort, Klassen-Code und Namen freigeschaltet."
               : "Diese Version läuft nur im Safe Exam Browser. Für die Zuordnung zur Klasse gibst du nur Klassen-Code und Namen an."}
           </p>
+          <div class="notice">
+            <strong>So funktioniert die Anmeldung:</strong>
+            <br>1. Klassen-Code exakt eingeben.
+            <br>2. Deinen Namen oder ein eindeutiges Kürzel eintragen.
+            ${isOpen ? "<br>3. Das Unterrichtspasswort eingeben." : ""}
+            <br>${isOpen ? "4." : "3."} Auf ${isOpen ? "Freischalten" : "Starten"} klicken und dann direkt in der zugewiesenen Lektion arbeiten.
+          </div>
           ${lesson ? `<div class="notice"><strong>Vorgewählte Lektion:</strong> ${lesson.title}<br>${lesson.sebPrompt}</div>` : ""}
           ${errorText ? `<div class="notice"><strong>Hinweis:</strong> ${errorText}</div>` : ""}
           <form method="post" action="${formAction}" class="form-grid">

@@ -4,7 +4,7 @@ import { evaluateReaderSebFeedback } from "../src/services/kehlmann-reader-feedb
 
 test("Kehlmann SEB feedback rewards documentarisch gestützte Analyse", () => {
   const result = evaluateReaderSebFeedback({
-    lessonId: "lesson-havanna",
+    lessonId: "lesson-04-havanna-macht",
     moduleId: "havanna",
     entryId: "havanna-1",
     theoryId: "dokumentartheater",
@@ -30,7 +30,7 @@ test("Kehlmann SEB feedback rewards documentarisch gestützte Analyse", () => {
 
 test("Kehlmann SEB feedback flags pauschale Reaktion ohne historische oder theatrale Schärfe", () => {
   const result = evaluateReaderSebFeedback({
-    lessonId: "lesson-rueckweg",
+    lessonId: "lesson-10-rueckweg-erinnerung",
     moduleId: "rueckweg",
     entryId: "rueckweg-4",
     theoryId: "im-steinbruch",

@@ -44,6 +44,7 @@ reise_der_verlorenen/
 │   └── kehlmann-reader-store.json
 ├── docs/
 │   ├── architecture.md
+│   ├── classroom-codes.md
 │   └── deployment.md
 ├── public/
 │   ├── kehlmann-reader/
@@ -92,6 +93,10 @@ Empfohlene Variablen in Render:
 - `SEB_CONFIG_KEY_HASH` optional
 
 `OPEN_VERSION_PASSWORD` ist absichtlich nicht mehr im Repo fest verdrahtet.
+
+## Klassen-Codes und Anmeldung
+
+Die minutöse Lehrkraft-Anleitung für Code-Erstellung, Regeneration und Schüler-Registrierung liegt in [docs/classroom-codes.md](/Users/patrickfischer/Documents/New project/reise_der_verlorenen/docs/classroom-codes.md).
 
 ## Inhalte der Einheit
 

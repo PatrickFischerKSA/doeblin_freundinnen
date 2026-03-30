@@ -1,4 +1,5 @@
 import { pdfSource, readerModules, starterPrompt, theoryResources, lessonSets } from "./data.js";
+import { buildParcoursMarkdown } from "./export.js";
 
 const mode = window.KEHLMANN_READER_MODE || "open";
 const modeLabel = window.KEHLMANN_READER_MODE_LABEL || "Offene Version";
@@ -356,6 +357,14 @@ function completion(module) {
 function progressForCurrentLesson() {
   const lesson = currentLesson();
   return state.progress?.lessonProgress?.find((entry) => entry.id === lesson.id) || null;
+}
+
+function isParcoursComplete() {
+  return Boolean(
+    state.progress &&
+    state.progress.totalEntries > 0 &&
+    state.progress.completedEntries >= state.progress.totalEntries
+  );
 }
 
 function currentReviewAssignment() {
@@ -1016,6 +1025,28 @@ function renderProgressBox() {
   `;
 }
 
+function renderParcoursExportPanel() {
+  const complete = isParcoursComplete();
+  const answered = state.progress?.completedEntries || 0;
+  const total = state.progress?.totalEntries || 0;
+
+  return `
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <div class="eyebrow">Parcours-Export</div>
+          <h2>${complete ? "Parcours abgeschlossen" : "Parcours dokumentieren"}</h2>
+        </div>
+        <button class="button secondary" data-action="export-notes">${complete ? "Fragen und Antworten exportieren" : "Zwischenstand exportieren"}</button>
+      </div>
+      <div class="notice-box">
+        <strong>${complete ? "Alle Stationen sind bearbeitet." : "Export bereits jetzt möglich."}</strong>
+        <p>${escapeHtml(`Der Export enthält alle Lektionen, Fokusfragen und die dazu eingetragenen Antworten. Aktuell sind ${answered} von ${total} Passagen bearbeitet.`)}</p>
+      </div>
+    </section>
+  `;
+}
+
 function render() {
   if (state.loading) {
     app.innerHTML = '<main class="reader-shell"><section class="panel"><h1>Lädt ...</h1><p>Arbeitsumgebung wird vorbereitet.</p></section></main>';
@@ -1040,13 +1071,13 @@ function render() {
           <h1>Engmaschiges PDF-Lesetool für das gesamte Drama</h1>
           <p>
             ${mode === "seb"
-              ? "Diese SEB-Fassung arbeitet jetzt mit zehn feineren Lektionen. Jede Lektion führt direkt zu den relevanten PDF-Passagen und bündelt historische, dramaturgische und erinnerungspolitische Schwerpunkte."
-              : "Das Drama ist vollständig integriert. Links steuerst du zehn engere Lektionssets und Theorie-Linsen, in der Mitte springst du direkt zu den relevanten PDF-Passagen, rechts verbindest du szenische Beobachtung, Theoriebezug, Überarbeitung und Peer Review."}
+              ? "Diese SEB-Fassung arbeitet jetzt mit zwölf feineren Lektionen. Dazu kommen zwei zusätzliche Theorieeinheiten zu Kehlmanns eigener Haltung sowie zu epischem und dokumentarischem Theater, jeweils mit direkter Passageführung im PDF."
+              : "Das Drama ist vollständig integriert. Links steuerst du zwölf engere Lektionssets und Theorie-Linsen, darunter zwei zusätzliche Theorieeinheiten zu Kehlmanns persönlicher Involvierung sowie zu epischem und dokumentarischem Theater. In der Mitte springst du direkt zu den relevanten PDF-Passagen, rechts verbindest du szenische Beobachtung, Theoriebezug, Überarbeitung und Peer Review."}
           </p>
         </div>
         <div class="hero-actions">
           <span class="status-badge">${escapeHtml(modeLabel)}</span>
-          <span class="status-badge">10 Lektionen</span>
+          <span class="status-badge">12 Lektionen</span>
           <span class="status-badge">${escapeHtml(lesson.reviewFocus)}</span>
           ${mode === "open" ? '<a class="button secondary" href="/auth/logout">Abmelden</a>' : ""}
         </div>
@@ -1126,6 +1157,7 @@ function render() {
           ${renderNotebook(entry)}
           ${renderSebFeedbackPanel()}
           ${renderPeerReviewPanel()}
+          ${renderParcoursExportPanel()}
         </section>
       </section>
     </main>
@@ -1207,47 +1239,47 @@ async function submitReview(status) {
 }
 
 function exportNotes() {
-  const lines = [
-    "# Die Reise der Verlorenen Lesetool",
-    "",
-    `Modus: ${modeLabel}`,
-    `Klasse: ${state.classroom?.name || "-"}`,
-    `Bearbeitung: ${state.student?.displayName || "-"}`,
-    `Lektion: ${currentLesson().title}`,
-    ""
-  ];
-
-  for (const lesson of availableLessons()) {
-    lines.push(`## ${lesson.title}`);
-    lines.push(lesson.summary);
-    lines.push("");
-
-    for (const module of modulesForLesson(lesson)) {
-      lines.push(`### ${module.title}`);
-      lines.push(module.task);
-      lines.push("");
-
-      for (const entry of module.entries) {
+  const markdown = buildParcoursMarkdown({
+    modeLabel,
+    classroomName: state.classroom?.name || "-",
+    studentName: state.student?.displayName || "-",
+    complete: isParcoursComplete(),
+    completedEntries: state.progress?.completedEntries || 0,
+    totalEntries: state.progress?.totalEntries || 0,
+    lessons: availableLessons().map((lesson) => ({
+      title: lesson.title,
+      summary: lesson.summary,
+      reviewFocus: lesson.reviewFocus,
+      pageRange: pageRangeForLesson(lesson),
+      entries: entriesForLesson(lesson).map((entry) => {
         const note = noteForEntry(entry.id);
-        lines.push(`#### ${entry.title}`);
-        lines.push(`Seite: ${entry.pageHint}`);
-        lines.push(`Passage: ${entry.passageLabel}`);
-        lines.push(`Kontext: ${entry.context}`);
-        lines.push(`Signalwörter: ${note.evidence || entry.signalWords.join(", ")}`);
-        lines.push(`Beobachtung: ${note.observation || "-"}`);
-        lines.push(`Deutung: ${note.interpretation || "-"}`);
-        lines.push(`Theoriebezug: ${note.theory || "-"}`);
-        lines.push(`Revision: ${note.revision || "-"}`);
-        lines.push("");
-      }
-    }
-  }
+        const module = entryIndex.get(entry.id)?.module;
+        return {
+          title: entry.title,
+          moduleTitle: module?.title || "-",
+          pageHint: entry.pageHint,
+          passageLabel: entry.passageLabel,
+          context: entry.context,
+          prompts: entry.prompts,
+          signalWords: entry.signalWords,
+          writingFrame: entry.writingFrame,
+          answers: {
+            observation: note.observation || "-",
+            evidence: note.evidence || "-",
+            interpretation: note.interpretation || "-",
+            theory: note.theory || "-",
+            revision: note.revision || "-"
+          }
+        };
+      })
+    }))
+  });
 
-  const blob = new Blob([lines.join("\n")], { type: "text/markdown;charset=utf-8" });
+  const blob = new Blob([markdown], { type: "text/markdown;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `die-reise-der-verlorenen-lesetool-${mode}.md`;
+  link.download = `die-reise-der-verlorenen-parcours-${mode}.md`;
   link.click();
   URL.revokeObjectURL(url);
 }
