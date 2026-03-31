@@ -407,6 +407,7 @@ document.addEventListener("submit", async (event) => {
   if (event.target.id === "create-class-form") {
     event.preventDefault();
     const formData = new FormData(event.target);
+    const previousSelectedClassId = state.selectedClassId;
 
     try {
       state.overview = await request("/reader-api/teacher/classes", {
@@ -415,8 +416,14 @@ document.addEventListener("submit", async (event) => {
           name: formData.get("name")
         })
       });
-      state.selectedClassId = state.overview.classes.at(-1)?.id || state.selectedClassId;
-      state.notice = `Klasse erstellt. Neuer Klassen-Code: ${currentClassroom()?.code || ""}`;
+      const createdClassroom = state.overview.classes.at(-1) || null;
+      const selectedClassStillExists = state.overview.classes.some((entry) => entry.id === previousSelectedClassId);
+      state.selectedClassId = selectedClassStillExists
+        ? previousSelectedClassId
+        : (previousSelectedClassId || state.overview.classes[0]?.id || null);
+      state.notice = createdClassroom
+        ? `Klasse ${createdClassroom.name} erstellt. Neuer Klassen-Code: ${createdClassroom.code}. Die aktuelle Ansicht bleibt auf der bisher gewählten Lektion und Klasse.`
+        : "Klasse erstellt.";
       state.error = "";
       event.target.reset();
       render();

@@ -39,7 +39,7 @@ const defaultPeerReviewCriteria = [
 
 const lessonCatalog = () => getLessonSetsWithCounts();
 const defaultLessonIds = () => lessonCatalog().map((lesson) => lesson.id);
-const defaultActiveLessonId = () => lessonCatalog().find((lesson) => lesson.id === "lesson-09-diplomatie-blockade")?.id || defaultLessonIds()[0];
+const defaultActiveLessonId = () => defaultLessonIds()[0];
 const defaultPeerReviewLessonId = () => lessonCatalog().find((lesson) => lesson.id === "lesson-07-hafen-blickszenen")?.id || defaultLessonIds()[0];
 
 let inMemoryReaderStore = null;

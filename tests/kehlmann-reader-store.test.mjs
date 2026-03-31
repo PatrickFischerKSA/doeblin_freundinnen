@@ -25,6 +25,7 @@ test("createClassroom generates a code and all current lesson ids", () => {
   assert.equal(classroom.name, "Klasse 10B");
   assert.match(classroom.code, /^KEHL-[A-Z0-9]{6}$/);
   assert.equal(classroom.lessonIds.length, 12);
+  assert.equal(classroom.activeSebLessonId, classroom.lessonIds[0]);
   assert.ok(classroom.lessonIds.includes("lesson-11-kehlmann-haltung"));
   assert.ok(classroom.lessonIds.includes("lesson-12-theaterformen"));
 });
