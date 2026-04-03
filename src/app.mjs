@@ -234,13 +234,15 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             overflow: hidden;
             border-radius: 16px;
             border: 1px solid var(--border);
-            background: rgba(255,255,255,0.9);
+            background: linear-gradient(180deg, #f0eadf, #e6decd);
+            padding: 12px;
           }
           .lesson-media-frame img {
             display: block;
             width: 100%;
-            max-height: 320px;
-            object-fit: cover;
+            height: 300px;
+            object-fit: contain;
+            object-position: center center;
           }
           .lesson-media-task {
             border-left: 4px solid var(--accent);

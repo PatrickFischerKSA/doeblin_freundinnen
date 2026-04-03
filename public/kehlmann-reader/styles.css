@@ -320,14 +320,16 @@ button {
   overflow: hidden;
   border-radius: 18px;
   border: 1px solid rgba(49, 67, 53, 0.12);
-  background: #e9e2d3;
+  background: linear-gradient(180deg, #f0eadf, #e6decd);
+  padding: 14px;
 }
 
 .lesson-media-frame img {
   display: block;
   width: 100%;
-  max-height: 360px;
-  object-fit: cover;
+  height: 320px;
+  object-fit: contain;
+  object-position: center center;
 }
 
 .lesson-media-copy,

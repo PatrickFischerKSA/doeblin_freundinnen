@@ -973,6 +973,26 @@ export const lessonSets = [
     title: "Lektion 1 · Täterauftakt und Spezialfahrt",
     summary:
       "Schiendicks Auftaktrede und die institutionelle Exposition der Fahrt als belastete Ausnahme.",
+    chapterMedia: [
+      {
+        src: stLouisHavanaImg,
+        alt: "Die St. Louis im Hafen.",
+        title: "Das Schiff als politische Ausnahmefahrt",
+        caption:
+          "Dieses Bild eröffnet die erste Lektion, weil die St. Louis hier nicht als neutrales Verkehrsmittel, sondern als historisch aufgeladener Raum sichtbar wird. Die Fahrt ist von Beginn an Sonderfall, Bühne und Krisenraum zugleich.",
+        focusPrompt:
+          "Nimm das Schiffsbild als Auftakt: Wie hilft es dir, die Spezialfahrt nicht technisch, sondern als politisch belastete Ausnahme zu deuten?"
+      },
+      {
+        src: gustavSchroederImg,
+        alt: "Porträt von Gustav Schröder in Kapitänsuniform.",
+        title: "Schröder als Gegenfigur zum Täterauftakt",
+        caption:
+          "Neben Schiendicks Täterrede steht in dieser Lektion sofort die Frage nach Verantwortung und Berufsethos. Schröders Porträt schärft diese Gegenlinie von Anfang an.",
+        focusPrompt:
+          "Setze Schröders Bild ausdrücklich neben den Täterauftakt: Welche Gegenfigur zur offenen Gewalt beginnt hier schon sichtbar zu werden?"
+      }
+    ],
     entryIds: ["abfahrt-1", "abfahrt-2"],
     moduleIds: ["abfahrt"],
     reviewFocus: "Achte auf Täterrede, Publikumseffekt, institutionelle Sprache und die frühe politische Rahmung der Fahrt.",
@@ -1100,6 +1120,17 @@ export const lessonSets = [
     title: "Lektion 5 · Havanna und die zerschnittenen Familien",
     summary:
       "Einzelschicksale, Höflichkeit im Unrecht und menschliche Katastrophe unter politischen Entscheidungen.",
+    chapterMedia: [
+      {
+        src: fritzSpanierImg,
+        alt: "Fritz Spanier mit Kindern in Bullaugen der St. Louis.",
+        title: "Familienblick statt abstrakter Krise",
+        caption:
+          "Diese Lektion beginnt bewusst mit einem Bild von Erwachsenen und Kindern an Bord. So wird klar, dass die Havanna-Blockade nicht nur ein diplomatischer Vorgang, sondern eine Zerstörung konkreter Familienbeziehungen ist.",
+        focusPrompt:
+          "Nutze das Bild, um deine Passage von Anfang an auf Familie, Trennung und verletzliche Zukunft hin zu lesen."
+      }
+    ],
     entryIds: ["havanna-3", "havanna-4"],
     moduleIds: ["havanna"],
     reviewFocus: "Arbeite heraus, wie das Stück Einzelschicksale gegen die kalte politische Logik stellt.",
@@ -1111,6 +1142,26 @@ export const lessonSets = [
     title: "Lektion 6 · Organisierte Hoffnung und offene Gewalt",
     summary:
       "Komitee, Telegramme und zugleich die Eskalation der Gewalt an Bord.",
+    chapterMedia: [
+      {
+        src: gustavSchroederImg,
+        alt: "Porträt von Gustav Schröder.",
+        title: "Schröder zwischen Hoffnung und Kontrollverlust",
+        caption:
+          "Das Porträt passt hier, weil sich in dieser Lektion Hoffnung nicht abstrakt organisiert, sondern immer an Schröders Versprechen, Autorität und Grenzen seines Handelns bindet.",
+        focusPrompt:
+          "Beziehe Schröders Bild auf Komitee, Telegramme und Gewalt: Wo trägt er Hoffnung, und wo zeigt die Passage die Grenze seiner Macht?"
+      },
+      {
+        src: stLouisHavanaImg,
+        alt: "Die St. Louis vor Havanna.",
+        title: "Das Schiff als wartender Krisenraum",
+        caption:
+          "Das Hafenbild macht die paradoxe Lage der Lektion sichtbar: Bewegung ist zu Stillstand geworden, und jeder Hoffnungsschub steht unter dem Druck fortgesetzter Gewalt.",
+        focusPrompt:
+          "Arbeite mit dem Hafenbild: Wie macht deine Passage das Warten selbst zur Krise?"
+      }
+    ],
     entryIds: ["hafenkrise-1", "hafenkrise-2"],
     moduleIds: ["hafenkrise"],
     reviewFocus: "Verbinde Hoffnungstechniken, Gerüchte, Gewalt und Raumerfahrung präzise mit dem Wortlaut.",
@@ -1144,6 +1195,26 @@ export const lessonSets = [
     title: "Lektion 8 · Politik als Inszenierung",
     summary:
       "Gesichtswahrung, Presse, Verhandlungen und kollektive Verzweiflung als zweite große Zuspitzung.",
+    chapterMedia: [
+      {
+        src: jButlerWrightImg,
+        alt: "Porträt von J. Butler Wright.",
+        title: "Diplomatie als sichtbare Figur",
+        caption:
+          "Die Lektion beginnt mit Wright, damit Verhandlungen nicht als leere Bühne wirken. Hier bekommt Diplomatie ein Gesicht und damit auch eine präzisere Verantwortung.",
+        focusPrompt:
+          "Nutze Wrights Bild, um deine Passage als Inszenierung politischer Vermittlung zu lesen: Wer handelt, wer beobachtet, wer verschiebt?"
+      },
+      {
+        src: cordellHullImg,
+        alt: "Porträt von Cordell Hull.",
+        title: "Staatliche Außenpolitik im Hintergrund der Szene",
+        caption:
+          "Hull schärft die übergeordnete Ebene der Lektion: Die Szene spielt nicht nur zwischen Einzelpersonen, sondern unter dem Druck staatlicher Außenpolitik und strategischer Interessen.",
+        focusPrompt:
+          "Öffne die Passage mit Hull auf die größere politische Ebene: Wo erscheint das Geschehen als Bühne staatlicher Interessen?"
+      }
+    ],
     entryIds: ["diplomatie-1", "diplomatie-2"],
     moduleIds: ["diplomatie"],
     reviewFocus: "Untersuche Politik als Bühne und frage, wie öffentliches Handeln und psychische Zerstörung zusammenhängen.",
@@ -1263,6 +1334,26 @@ export const lessonSets = [
     title: "Lektion 10 · Rückweg, Epilog und Erinnerung",
     summary:
       "Grenzen des Handelns, begrenzte Rettung und ein Schluss ohne Katharsis.",
+    chapterMedia: [
+      {
+        src: stLouisHavanaImg,
+        alt: "Die St. Louis im Hafen.",
+        title: "Die Fahrt als offener Schlussraum",
+        caption:
+          "Das Bild kehrt hier wieder, weil die Rückweg- und Epilog-Lektion die ganze Fahrt noch einmal unter einem neuen Vorzeichen liest: nicht als abgeschlossene Reise, sondern als offengehaltene Geschichte.",
+        focusPrompt:
+          "Lies das Schiffsbild im Modus des Schlusses: Warum lässt sich diese Fahrt trotz Antwerpen nicht als abgeschlossene Rettung verstehen?"
+      },
+      {
+        src: fritzSpanierImg,
+        alt: "Fritz Spanier mit Kindern auf der St. Louis.",
+        title: "Konkrete Menschen gegen ein falsches Happy End",
+        caption:
+          "Dieses Bild verhindert, dass der Schluss in abstrakter Nachgeschichte verschwindet. Die offenen Enden des Dramas betreffen konkrete Familien, Kinder und künftige Lebenswege.",
+        focusPrompt:
+          "Arbeite den Schluss gegen ein Happy End: Wie hilft dir das Bild, die Nachgeschichte von Menschen her statt nur von Stationen her zu lesen?"
+      }
+    ],
     entryIds: ["rueckweg-2", "rueckweg-3", "rueckweg-4"],
     moduleIds: ["rueckweg"],
     reviewFocus: "Begründe am Schlusswort und an den Nachgeschichten, wie das Stück Erinnerung politisch offen hält.",
@@ -1355,6 +1446,26 @@ export const lessonSets = [
     title: "Lektion 11 · Kehlmanns Haltung und persönliche Involvierung",
     summary:
       "Kehlmann als Autor des Stoffs: Verdichtung, Verantwortung, Erinnerungskultur und Gegenwartsbezug mit Podcast und „Im Steinbruch“.",
+    chapterMedia: [
+      {
+        src: stLouisHavanaImg,
+        alt: "Die St. Louis vor Havanna.",
+        title: "Der historische Stoff, den Kehlmann formt",
+        caption:
+          "Diese Lektion hat kein Autorenporträt als Auftakt, sondern bewusst ein Bild des historischen Materials selbst. So steht im Zentrum, wie Kehlmann einen realen Stoff auswählt, verdichtet und erinnerungspolitisch zuspitzt.",
+        focusPrompt:
+          "Nutze das Bild, um über Kehlmanns Haltung nachzudenken: Was bedeutet es, einen solchen historischen Stoff so zu formen, dass er Gegenwartsverantwortung erzeugt?"
+      },
+      {
+        src: fritzSpanierImg,
+        alt: "Fritz Spanier mit Kindern auf der St. Louis.",
+        title: "Kehlmanns Stoff ist immer menschlich konkret",
+        caption:
+          "Die Lektion zur Autorhaltung braucht auch die Rückbindung an konkrete Menschen. Das Bild erinnert daran, dass Kehlmanns Formentscheidungen nie vom Einzelschicksal getrennt gelesen werden dürfen.",
+        focusPrompt:
+          "Arbeite mit dem Bild gegen eine rein abstrakte Poetologie: Wie verbindet Kehlmann Formbewusstsein und konkrete menschliche Verletzbarkeit?"
+      }
+    ],
     entryIds: ["havanna-3", "diplomatie-3", "diplomatie-4", "rueckweg-4"],
     moduleIds: ["havanna", "diplomatie", "rueckweg"],
     reviewFocus: "Arbeite daran, wie Kehlmann historische Stoffbearbeitung, ethische Verantwortung und persönliche Haltung im Drama lesbar macht.",
@@ -1408,6 +1519,26 @@ export const lessonSets = [
     title: "Lektion 12 · Episches Theater und Dokumentartheater",
     summary:
       "Theorieeinheit zu den beiden zentralen Theaterformen des Dramas mit gezielten Vergleichspassagen über das ganze Werk.",
+    chapterMedia: [
+      {
+        src: stLouisHavanaImg,
+        alt: "Die St. Louis vor Havanna.",
+        title: "Historisches Material als dokumentarische Basis",
+        caption:
+          "Dieses Bild passt an den Beginn der Theorieeinheit, weil es historisches Material sichtbar macht, das im Drama nicht erfunden, sondern geformt und auf die Bühne gebracht wird.",
+        focusPrompt:
+          "Arbeite mit dem Bild als dokumentarischem Ausgangspunkt: Wie wird aus historischem Material theatrale Form?"
+      },
+      {
+        src: fritzSpanierImg,
+        alt: "Fritz Spanier mit Kindern an Bord der St. Louis.",
+        title: "Menschenbild zwischen Dokument und Theaterform",
+        caption:
+          "Das Bild eignet sich hier, weil sich an ihm fragen lässt, wie ein konkretes historisches Motiv im Drama dokumentarisch gestützt und zugleich episch gerahmt werden kann.",
+        focusPrompt:
+          "Prüfe mit diesem Bild, wie das Drama zwischen dokumentarischer Konkretion und epischer Formgebung arbeitet."
+      }
+    ],
     entryIds: ["abfahrt-1", "zwischenraum-2", "havanna-1", "diplomatie-1", "rueckweg-4"],
     moduleIds: ["abfahrt", "zwischenraum", "havanna", "diplomatie", "rueckweg"],
     reviewFocus: "Vergleiche genau, wo das Stück dokumentarisch arbeitet und wo es epische Distanz, Kommentar und Verfremdung erzeugt.",
@@ -1461,6 +1592,26 @@ export const lessonSets = [
     title: "Lektion 13 · Évian, Grenzen und internationale Verantwortung",
     summary:
       "Historische Vertiefung zu Konferenzlogik, Grenzregime und politischer Unterlassung als Unterbau des Dramas.",
+    chapterMedia: [
+      {
+        src: cordellHullImg,
+        alt: "Porträt von Cordell Hull.",
+        title: "Internationale Verantwortung hat Gesichter",
+        caption:
+          "Die Évian- und Grenzlogik soll hier nicht abstrakt bleiben. Hull steht exemplarisch für internationale Verantwortung auf staatlicher Ebene und hilft, Unterlassung als politische Struktur zu lesen.",
+        focusPrompt:
+          "Beziehe das Porträt ausdrücklich auf Évian und die Verweigerungslogik: Wo wird aus internationaler Verantwortung politische Unterlassung?"
+      },
+      {
+        src: federicoLaredoBruImg,
+        alt: "Porträt von Federico Laredo Brú.",
+        title: "Brú als Figur konkreter Grenzpolitik",
+        caption:
+          "Brú ergänzt die internationale Ebene um die konkrete kubanische Grenz- und Aufnahmeentscheidung. So lässt sich die Lektion zwischen Konferenzlogik und realer Grenzpolitik aufspannen.",
+        focusPrompt:
+          "Arbeite mit Brús Bild, um die Passage zwischen abstrakter Konferenzstruktur und konkreter staatlicher Abwehr zu verorten."
+      }
+    ],
     entryIds: ["havanna-2", "havanna-3", "diplomatie-3", "rueckweg-1", "rueckweg-4"],
     moduleIds: ["havanna", "diplomatie", "rueckweg"],
     reviewFocus: "Arbeite historisch präzise heraus, wie das Drama internationale Verweigerung, Grenzpolitik und Zuständigkeitsverschiebung sichtbar macht.",
