@@ -40,6 +40,26 @@ let saveTimer = null;
 let feedbackTimer = null;
 let sebFeedbackRequestId = 0;
 const entryIndex = new Map();
+const semanticGroups = {
+  historisch: ["historisch", "geschichte", "geschichtlich", "1938", "1939", "vergangenheit"],
+  havanna: ["havanna", "kuba"],
+  florida: ["florida", "miami", "usa", "amerika"],
+  antwerpen: ["antwerpen", "belgien"],
+  evian: ["évian", "evian", "konferenz", "delegation"],
+  grenze: ["grenze", "grenzen", "grenzregime", "grenzordnung", "transit", "zwischenraum", "zwischenräume"],
+  verweigerung: ["verweigerung", "abwehr", "abweisung", "zurückweisung", "nichtaufnahme", "unterlassung", "untätigkeit"],
+  verhandlung: ["verhandlung", "verhandeln", "diplomatie", "beratung", "telegramm", "gespräch"],
+  buerokratie: ["bürokratie", "buerokratie", "verwaltung", "amt", "akte", "stempel", "genehmigung", "dekret", "formular", "protokoll"],
+  korruption: ["korruption", "bestechung", "bestechlich", "schmiergeld", "gekauft"],
+  dokumentartheater: ["dokumentartheater", "dokumentarisch", "protokollnah", "faktizität", "faktizitaet", "quelle", "zeugenschaft"],
+  episches_theater: ["episch", "episches", "verfremdung", "kommentar", "montage", "distanz", "zuschaueradressierung"],
+  erinnerung: ["erinnerung", "gedenken", "nachgeschichte", "gegenwart", "steinbruch", "mauthausen"],
+  perspektive: ["perspektive", "blick", "sicht", "binnenperspektive", "ich-perspektive", "innenperspektive"],
+  buff: ["buff", "fritz", "17", "siebzehn", "allein", "jugendlich", "jugendlicher", "jugendliche"]
+};
+const semanticLookup = new Map(
+  Object.entries(semanticGroups).flatMap(([canonical, variants]) => variants.map((variant) => [variant, canonical]))
+);
 
 for (const module of readerModules) {
   for (const entry of module.entries) {
@@ -53,6 +73,76 @@ function escapeHtml(value) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
+}
+
+function tokenizeText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]/gu, " ")
+    .split(/\s+/)
+    .map((part) => part.trim())
+    .filter((part) => part.length >= 3 || /^\d+$/.test(part));
+}
+
+function canonicalToken(token) {
+  return semanticLookup.get(token) || token;
+}
+
+function conceptSet(value) {
+  const text = String(value || "").toLowerCase();
+  const set = new Set(tokenizeText(text).map(canonicalToken));
+  for (const [canonical, variants] of Object.entries(semanticGroups)) {
+    if (variants.some((variant) => text.includes(variant))) {
+      set.add(canonical);
+    }
+  }
+  return set;
+}
+
+function hasSemanticSignal(value, candidates) {
+  const concepts = conceptSet(value);
+  return candidates.some((candidate) => concepts.has(canonicalToken(String(candidate).toLowerCase())));
+}
+
+function promptOperator(prompt = "") {
+  const text = String(prompt).trim().toLowerCase();
+  if (/^(nenne|benenne|welche|welcher|welches)/.test(text)) {
+    return "Benennen";
+  }
+  if (/^(erkläre|erlaeutere|warum|wie)/.test(text)) {
+    return "Erklären";
+  }
+  if (/^(zeige|weise|ordne|vergleiche|verbinde)/.test(text)) {
+    return "Zeigen";
+  }
+  if (/^(prüfe|pruefe|entscheide)/.test(text)) {
+    return "Prüfen";
+  }
+  if (/^(beschreibe|bestimme|wähle|waehle)/.test(text)) {
+    return "Präzisieren";
+  }
+  return "Ausarbeiten";
+}
+
+function responseLabel(base, index, prompt) {
+  return `${base} ${index + 1} · ${promptOperator(prompt)}`;
+}
+
+function responsePlaceholder(prompt = "") {
+  const operator = promptOperator(prompt);
+  if (operator === "Benennen") {
+    return "Antworte knapp und präzise. Nenne die Beobachtung und sichere sie am Wortlaut.";
+  }
+  if (operator === "Erklären") {
+    return "Erkläre in 2-4 Sätzen: Beobachtung, Textsignal, Wirkung.";
+  }
+  if (operator === "Zeigen") {
+    return "Zeige die Aussage am Text: nenne ein Signal und leite daraus eine Deutung ab.";
+  }
+  if (operator === "Prüfen") {
+    return "Prüfe die Möglichkeit genau und entscheide dich begründet.";
+  }
+  return "Arbeite die Frage in 2-4 präzisen, textnahen Sätzen aus.";
 }
 
 async function fetchBootstrap() {
@@ -501,28 +591,34 @@ function transferPromptsFor(entry, theory) {
 }
 
 function feedbackFor(note, module, entry) {
-  const body = `${note.observation} ${note.interpretation} ${note.theory}`.toLowerCase();
-  const evidence = note.evidence.toLowerCase();
-  const theory = note.theory.toLowerCase();
-  const signals = ["zeigt", "verdeutlicht", "deutet", "wirkt", "weil"];
-  const summarySignals = ["dann", "danach", "passiert", "anschließend"];
+  const body = `${note.observation} ${note.interpretation} ${note.theory}`;
+  const evidence = note.evidence;
+  const theory = note.theory;
+  const signals = ["zeigt", "verdeutlicht", "deutet", "wirkt", "weil", "macht sichtbar", "inszeniert"];
+  const summarySignals = ["dann", "danach", "passiert", "anschließend", "erzählt"];
+  const historicalSignals = ["historisch", "havanna", "florida", "antwerpen", "evian", "évian", "grenze", "transit", "verweigerung", "schröder", "buff"];
+  const precisionSignals = ["wort", "formulierung", "kontrast", "bühne", "montage", "szene", "satz", "bild", "perspektive", "rhythmus", "protokollnah", "zeugenschaft"];
   const positives = [];
+  const cautions = [];
   const steps = [];
   const relatedTheories = theoryOptionsFor(module, entry);
+  const lesson = currentLesson();
+  const combined = `${body} ${evidence}`;
 
   if (evidence.trim().length >= 8) {
-    positives.push("Du arbeitest bereits mit konkreten Wortsignalen aus dem Text.");
+    positives.push("Du arbeitest bereits mit konkreten Wortsignalen aus dem Text und löst dich damit von bloßer Nacherzählung.");
   } else {
     steps.push("Ergänze ein oder zwei Wörter aus dem PDF-Wortlaut als präzisen Textanker.");
   }
 
-  if (signals.some((signal) => body.includes(signal))) {
-    positives.push("Deine Notiz enthält bereits eine deutende Begründung.");
+  if (hasSemanticSignal(body, signals)) {
+    positives.push("Deine Notiz enthält bereits eine deutende Bewegung: Du sagst nicht nur, was geschieht, sondern was die Passage funktional leistet.");
   } else {
     steps.push("Formuliere deutlicher, was die Stelle zeigt, andeutet oder bewirkt.");
   }
 
-  if (summarySignals.some((signal) => body.includes(signal))) {
+  if (hasSemanticSignal(body, summarySignals)) {
+    cautions.push("An einigen Stellen rutscht die Antwort noch in Ablauf oder Nacherzählung. Fachlich stärker wird sie, wenn du die Inszenierung statt nur das Geschehen erklärst.");
     steps.push("Achte darauf, nicht nur den Ablauf zu erzählen, sondern die sprachliche Wirkung zu erklären.");
   }
 
@@ -532,8 +628,21 @@ function feedbackFor(note, module, entry) {
     steps.push(`Ziehe zusätzlich eine Theorie-Linse heran: ${relatedTheories.map((resource) => resource.shortTitle).join(", ")}.`);
   }
 
-  if (module.lens && !body.includes(module.lens.toLowerCase().split(",")[0])) {
+  if (module.lens && !hasSemanticSignal(body, tokenizeText(module.lens))) {
     steps.push(`Binde deine Beobachtung noch stärker an die Linse des Moduls: ${module.lens.toLowerCase()}.`);
+  }
+
+  if (hasSemanticSignal(combined, historicalSignals)) {
+    positives.push("Die Antwort signalisiert bereits, dass du die Szene historisch rahmst und nicht nur isoliert als Einzelschicksal liest.");
+  } else if (relatedTheories.some((resource) => ["evian-konferenz", "evian-deutschlandfunk", "susanne-heim-grenzen", "ndr-st-louis", "fritz-buff-reisebericht", "historischer-kontext"].includes(resource.id))) {
+    steps.push("Schärfe die historische Dimension ausdrücklich: Benenne die Station, Konferenzlogik, Grenzordnung oder Passagierperspektive, die die Passage strukturiert.");
+  }
+
+  if (hasSemanticSignal(combined, precisionSignals)) {
+    positives.push("Du gehst teilweise schon an sprachliche oder szenische Präzision heran, statt nur allgemein zu urteilen.");
+  } else {
+    cautions.push("Die Deutung bleibt noch zu allgemein. Im Moment fehlen noch klar benannte Signale wie Wortwahl, Kontrast, Bühnenbild, Perspektive oder Montage.");
+    steps.push("Arbeite nicht nur mit Wertungen. Benenne genauer Wortwahl, Bühnenkonstellation, Perspektive, Kontrast oder Montage.");
   }
 
   if (entry.relatedTheoryIds?.includes("naturalismus")) {
@@ -557,11 +666,28 @@ function feedbackFor(note, module, entry) {
     }
   }
 
-  if (!steps.length) {
-    steps.push("Die Notiz ist schon tragfähig. Präzisiere im nächsten Schritt noch die Gesamtwirkung der Szene.");
+  if (lesson?.id === "lesson-14-fritz-buff-primärquelle" && !body.includes("17") && !body.includes("allein")) {
+    steps.push("Nutze die Primärquelle noch schärfer: Halte ausdrücklich fest, dass Fritz Buff erst 17 war und allein reiste, und prüfe, wie das die Passage verändert.");
   }
 
-  return { positives, steps };
+  if (!note.observation.trim() || !note.interpretation.trim()) {
+    cautions.push("Die Grundstruktur der Antwort ist noch zu dünn. Eine tragfähige Deutung braucht mindestens Beobachtung, Textsignal und Folgerung.");
+  }
+
+  if (!steps.length) {
+    steps.push("Die Notiz ist schon tragfähig. Schärfe im nächsten Schritt noch genauer, wie Textsignal, historische Einordnung und Deutung ineinandergreifen.");
+  }
+
+  const summary = positives.length
+    ? "Die Notiz hat bereits eine belastbare Richtung, muss aber noch enger an Textsignal und Analysefunktion gebunden werden."
+    : "Die Notiz ist im Ansatz da, braucht aber noch deutlich mehr Textnähe, Präzision und fachliche Zuspitzung.";
+
+  return {
+    summary,
+    positives: positives.slice(0, 4),
+    cautions: cautions.slice(0, 4),
+    steps: steps.slice(0, 5)
+  };
 }
 
 function pdfUrlForEntry(entry) {
@@ -697,9 +823,9 @@ function renderNotebook(entry) {
           </div>
           ${entry.prompts.map((prompt, index) => `
             <label>
-              ${escapeHtml(`Fokusfrage ${index + 1}`)}
+              ${escapeHtml(responseLabel("Fokusfrage", index, prompt))}
               <span class="field-prompt">${escapeHtml(prompt)}</span>
-              <textarea data-note-array="focusAnswers" data-index="${index}" placeholder="Formuliere hier eine knappe, textnahe Antwort.">${escapeHtml(focusAnswers[index])}</textarea>
+              <textarea data-note-array="focusAnswers" data-index="${index}" placeholder="${escapeHtml(responsePlaceholder(prompt))}">${escapeHtml(focusAnswers[index])}</textarea>
             </label>
           `).join("")}
         </section>
@@ -711,9 +837,9 @@ function renderNotebook(entry) {
           </div>
           ${theory.questions.map((question, index) => `
             <label>
-              ${escapeHtml(`Leitfrage ${index + 1}`)}
+              ${escapeHtml(responseLabel("Leitfrage", index, question))}
               <span class="field-prompt">${escapeHtml(question)}</span>
-              <textarea data-note-theory-section="guidingAnswers" data-index="${index}" placeholder="Halte deine Antwort zur Leitfrage schriftlich fest.">${escapeHtml(theoryResponses.guidingAnswers[index])}</textarea>
+              <textarea data-note-theory-section="guidingAnswers" data-index="${index}" placeholder="${escapeHtml(responsePlaceholder(question))}">${escapeHtml(theoryResponses.guidingAnswers[index])}</textarea>
             </label>
           `).join("")}
         </section>
@@ -725,9 +851,9 @@ function renderNotebook(entry) {
           </div>
           ${transferPromptsFor(entry, theory).map((prompt, index) => `
             <label>
-              ${escapeHtml(`Transfer ${index + 1}`)}
+              ${escapeHtml(responseLabel("Transfer", index, prompt))}
               <span class="field-prompt">${escapeHtml(prompt)}</span>
-              <textarea data-note-theory-section="transferAnswers" data-index="${index}" placeholder="Übertrage die Theorie hier ausdrücklich auf die aktuelle Passage.">${escapeHtml(theoryResponses.transferAnswers[index])}</textarea>
+              <textarea data-note-theory-section="transferAnswers" data-index="${index}" placeholder="${escapeHtml(responsePlaceholder(prompt))}">${escapeHtml(theoryResponses.transferAnswers[index])}</textarea>
             </label>
           `).join("")}
         </section>
@@ -736,10 +862,15 @@ function renderNotebook(entry) {
       ${mode === "seb" ? "" : `
         <div class="feedback-box">
           <h3>Arbeitsfeedback</h3>
+          <p class="feedback-summary">${escapeHtml(feedback.summary)}</p>
           <div class="feedback-columns">
             <div>
               <strong>Stärken</strong>
               <ul>${feedback.positives.length ? feedback.positives.map((item) => `<li>${escapeHtml(item)}</li>`).join("") : "<li>Noch keine textnahe Stärke sichtbar.</li>"}</ul>
+            </div>
+            <div>
+              <strong>Diagnose</strong>
+              <ul>${feedback.cautions.length ? feedback.cautions.map((item) => `<li>${escapeHtml(item)}</li>`).join("") : "<li>Keine akute Schwachstelle sichtbar; jetzt vor allem noch präziser absichern.</li>"}</ul>
             </div>
             <div>
               <strong>Nächste Schritte</strong>
@@ -1062,9 +1193,9 @@ function renderResourceAssignmentsPanel() {
               </div>
               ${questions.map((question, index) => `
                 <label>
-                  ${escapeHtml(`Ressourcenfrage ${index + 1}`)}
+                  ${escapeHtml(responseLabel("Ressourcenfrage", index, question))}
                   <span class="field-prompt">${escapeHtml(question)}</span>
-                  <textarea data-resource-id="${resource.id}" data-resource-field="questionAnswers" data-index="${index}" placeholder="Formuliere hier eine präzise schriftliche Antwort.">${escapeHtml(response.questionAnswers[index])}</textarea>
+                  <textarea data-resource-id="${resource.id}" data-resource-field="questionAnswers" data-index="${index}" placeholder="${escapeHtml(responsePlaceholder(question))}">${escapeHtml(response.questionAnswers[index])}</textarea>
                 </label>
               `).join("")}
             </section>

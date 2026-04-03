@@ -63,14 +63,14 @@ export const theoryResources = [
       "Diese Ressource schärft den historischen Unterbau des Dramas: Évian 1938 steht für internationale Beratungen ohne bindende Aufnahmepolitik und für eine globale Politik der verweigerten Rettung.",
     keyIdeas: ["Évian", "32 Staaten", "Dominikanische Republik", "Aufnahmeverweigerung", "Intergovernmental Committee on Refugees"],
     questions: [
-      "Welche politische Logik der Verantwortungsverschiebung wird in Évian sichtbar?",
-      "Warum ist die Dominikanische Republik als fast einzige Zusage historisch aufschlussreich und zugleich begrenzt?",
-      "Wie hilft dir das Wissen über Évian, die Havanna- und Rückweg-Szenen des Dramas schärfer zu lesen?"
+      "Benennen die Struktur von Évian in einem Satz: Wer berät, wer hilft nicht, wer bleibt gefährdet?",
+      "Erkläre präzise, warum die Dominikanische Republik historisch auffällt, aber keine wirkliche Lösung darstellt.",
+      "Zeige konkret, welche Havanna- oder Rückweg-Passage mit Évian besser verständlich wird."
     ],
     transferPrompts: [
-      "Zeige an der Passage, wie das Drama dieselbe Struktur aus Sichtbarkeit, Verhandlung und verweigerter Aufnahme dramatisiert.",
-      "Prüfe, ob die Szene eher individuelles Leid, institutionelle Logik oder internationale Mitschuld in den Vordergrund rückt.",
-      "Verbinde einen konkreten Satz der Passage mit der historischen Konstellation von Évian."
+      "Weise an einem Satz der Passage nach, wie Verhandlung ohne Rettung inszeniert wird.",
+      "Entscheide klar: zeigt die Szene vor allem Leid, Bürokratie oder internationale Mitschuld?",
+      "Verbinde ein konkretes Textsignal der Passage ausdrücklich mit Évian 1938."
     ],
     writingFrame:
       "Mit Évian gelesen, erscheint die Passage nicht als Einzelfall, sondern als Symptom einer internationalen Politik, die ..."
@@ -89,14 +89,14 @@ export const theoryResources = [
       "Die Rezension zu Jochen Thies verschiebt den Blick auf die Sprache der Konferenz: kein Land öffnet die Grenzen, Hitler wird nicht klar benannt, und ökonomische Ausreden überlagern die politische Verantwortung.",
     keyIdeas: ["unterschwelliger Antisemitismus", "Flüchtlinge statt Vertriebene", "hohe Arbeitslosigkeit", "kein Land öffnete seine Grenzen", "Nachfolgeorganisation wirkungslos"],
     questions: [
-      "Welche Begriffe und Argumentationsmuster der Konferenz werden im Deutschlandfunk-Beitrag als entlastende Sprache entlarvt?",
-      "Warum ist der Hinweis wichtig, dass Hitler zwar gefürchtet, aber nicht offen benannt wird?",
-      "Wie verstärkt diese Quelle deine Deutung der diplomatischen Szenen als Geschichte politischer Unterlassung?"
+      "Nenne zwei Sprachmuster des Ausweichens, die der Beitrag offenlegt.",
+      "Erkläre knapp, warum das Nicht-Benennen Hitlers historisch und rhetorisch wichtig ist.",
+      "Zeige an einer diplomatischen Szene, wie aus Sprache politische Unterlassung wird."
     ],
     transferPrompts: [
-      "Suche in der Passage nach Formulierungen des Ausweichens, Verschiebens oder Beschönigens und verbinde sie mit dem DLF-Befund.",
-      "Prüfe, wo das Drama politische Gewalt nicht offen ausspricht, sondern über Verwaltungs- und Diplomatensprache zeigt.",
-      "Erkläre, wie die Szene internationale Untätigkeit nicht nur berichtet, sondern moralisch lesbar macht."
+      "Markiere ein Ausweichsignal in der Passage und erkläre seine Funktion.",
+      "Prüfe, wo das Drama Gewalt über Verwaltungs- oder Diplomatensprache sichtbar macht.",
+      "Erkläre in einem präzisen Satz, wie die Szene Untätigkeit moralisch lesbar macht."
     ],
     writingFrame:
       "Mit dem Deutschlandfunk-Beitrag wird sichtbar, dass die Passage nicht nur von gescheiterter Hilfe erzählt, sondern die Sprache dieser Hilfeverweigerung offenlegt."
@@ -113,14 +113,14 @@ export const theoryResources = [
       "Der Text vertieft die Frage nach Grenzregimen, internationalen Abwehrmechanismen und der historischen Erfahrung, zwischen Transit, Blockade und Zuständigkeitsverschiebung festzusitzen.",
     keyIdeas: ["Grenzregime", "Transit", "Zwischenräume", "staatliche Abwehr", "historische Bewegungszwänge"],
     questions: [
-      "Welche Grenzlogik wird im Text sichtbar, und wie hilft sie dir, die St.-Louis-Szenen historisch zu präzisieren?",
-      "Wie beschreibt die Quelle das Gefühl des Hin- und Herirrens zwischen Zuständigkeiten und Grenzen?",
-      "Wo zeigt das Drama dieselbe Erfahrung von Transit ohne Ankunft und Sichtbarkeit ohne Aufnahme?"
+      "Bestimme die Grenzlogik der Quelle möglichst genau: Grenze als Linie, Verfahren oder Machtordnung?",
+      "Erkläre knapp, wie die Quelle das Hin- und Hergeschobenwerden beschreibt.",
+      "Zeige an einer Passage, wie das Drama Transit ohne Ankunft inszeniert."
     ],
     transferPrompts: [
-      "Verbinde die Passage mit einer konkreten Beobachtung aus dem Republik-Text über Grenzen, Transit oder politische Zuständigkeit.",
-      "Prüfe, ob die Szene eher die emotionale, bürokratische oder geopolitische Seite des Grenzregimes freilegt.",
-      "Erkläre, wie der historische Text die Dramenpassage gegen zu schnelle Individualisierung absichert."
+      "Verbinde die Passage mit einer präzisen Beobachtung aus dem Republik-Text zu Grenze oder Transit.",
+      "Entscheide klar: legt die Szene eher Gefühl, Bürokratie oder Geopolitik frei?",
+      "Erkläre, wie die Quelle eine bloß individuelle Deutung der Passage korrigiert."
     ],
     writingFrame:
       "Die Quelle von Susanne Heim verschärft die Passage historisch, weil sie zeigt, dass das Hin- und Hergeschobenwerden ..."
@@ -137,14 +137,14 @@ export const theoryResources = [
       "Die NDR-Chronologie verdichtet den historischen Ablauf der Reise: Abfahrt in Hamburg, Havanna, Florida, Rückweg, Antwerpen und die europäische Verteilung. Sie hilft, den dramatischen Ablauf als reale Chronologie nachzuvollziehen.",
     keyIdeas: ["13. Mai 1939", "Havanna", "Florida", "Antwerpen", "mehr als 900 Flüchtlinge"],
     questions: [
-      "Welche Stationen der Reise werden im NDR-Beitrag als Wendepunkte markiert, und wie nutzt das Drama diese Struktur?",
-      "Wie verbindet der Artikel Kapitän Schröders Handeln mit der politischen Verantwortungslosigkeit anderer Akteure?",
-      "Warum ist die Reihenfolge Hamburg, Havanna, Florida und Antwerpen für deine Deutung des Dramas wichtig?"
+      "Ordne die Passage eindeutig einer Station der Irrfahrt zu.",
+      "Erkläre knapp, wie der Artikel Schröders Handeln von staatlicher Untätigkeit abgrenzt.",
+      "Zeige, warum die Reihenfolge Hamburg, Havanna, Florida, Antwerpen für das Drama wichtig ist."
     ],
     transferPrompts: [
-      "Ordne die Passage in die historische Chronologie des NDR-Beitrags ein und zeige, welche Phase der Irrfahrt hier verdichtet wird.",
-      "Prüfe, ob die Szene eher die Erfahrung der Passagiere, die Handlung Schröders oder die Untätigkeit der Staaten scharfstellt.",
-      "Erkläre, wie der historische Überblick dir hilft, die Passagen nicht als einzelne Bilder, sondern als zusammenhängenden Katastrophenverlauf zu lesen."
+      "Ordne die Passage in die Chronologie ein und benenne die verdichtete Phase der Irrfahrt.",
+      "Entscheide klar: fokussiert die Szene Passagiere, Schröder oder die Staaten?",
+      "Erkläre, wie der historische Überblick aus Einzelbildern einen Katastrophenverlauf macht."
     ],
     writingFrame:
       "Im NDR-Beitrag erscheint die Passage als Teil einer genauen historischen Chronologie, in der ..."
@@ -163,14 +163,14 @@ export const theoryResources = [
       "Die Primärquelle führt in eine unmittelbare Binnenperspektive der Reise. Besonders wichtig: Fritz Buff war erst 17 Jahre alt und reiste allein. Bildseiten, Transkript-Auszüge und Soundfile schärfen, wie Hoffnung, Warten, Gerüchte, politische Entscheidungen und die Angst vor der Rückkehr aus einer zeitgenössischen Passagiersicht erlebt werden.",
     keyIdeas: ["17 Jahre", "allein reisend", "Binnenperspektive", "Havanna", "Florida", "Antwerpen", "Passagiererfahrung"],
     questions: [
-      "Welche Stimmungsschwankungen zwischen Hoffnung, Panik und Erleichterung werden im Reisebericht sichtbar?",
-      "Wie verändert die Ich-Perspektive des Berichts deinen Blick auf Passagen, die das Drama stärker montiert oder verteilt?",
-      "Welche Formulierungen der Quelle helfen dir, das Stück historisch konkreter und emotional präziser zu lesen?"
+      "Benenne präzise zwei Stimmungslagen, die im Bericht aufeinanderprallen.",
+      "Erkläre klar, was sich ändert, wenn du die Szene aus Buffs Ich-Perspektive liest.",
+      "Wähle eine Formulierung der Quelle und zeige, wie sie deine Dramenlektüre schärft."
     ],
     transferPrompts: [
-      "Verbinde die Passage mit mindestens einer Beobachtung aus Fritz Buffs Bericht und zeige, welche Erfahrungsebene das Drama übernimmt oder umformt.",
-      "Prüfe, ob die Szene eher der Binnenperspektive der Passagiere oder der übergeordneten politischen Dramaturgie entspricht.",
-      "Erkläre, wie der Reisebericht die Dramenpassage gegen eine zu abstrakte Deutung absichert."
+      "Verbinde die Passage mit einer Beobachtung aus Buffs Bericht und bestimme die gemeinsame Erfahrungsebene.",
+      "Entscheide klar: dominiert Binnenperspektive oder politische Übersicht?",
+      "Erkläre, wie der Reisebericht eine zu abstrakte Deutung der Passage verhindert."
     ],
     writingFrame:
       "Mit Fritz Buffs Bericht gelesen, wirkt die Passage besonders eindringlich, weil die Quelle zeigt, dass ..."
@@ -911,11 +911,11 @@ export const lessonSets = [
         summary:
           "Das Dossier zu Évian dient hier als direkte Vergleichsfolie für Havanna, Florida und den Rückweg: internationale Beratung, aber keine belastbare Aufnahmebereitschaft.",
         task:
-          "Arbeite an den ausgewählten Passagen heraus, wie das Drama dieselbe politische Struktur sichtbar macht, die schon in Évian 1938 scheitert: Zuständigkeiten werden verteilt, Verantwortung wird beraten, aber konkrete Rettung bleibt aus.",
+          "Zeige an den Passagen, wie das Drama dieselbe Struktur sichtbar macht wie Évian 1938: beraten, verschieben, nicht retten.",
         questions: [
-          "Welche Ähnlichkeiten bestehen zwischen der Konferenzlogik von Évian und den diplomatischen Szenen des Dramas?",
-          "Wie hilft dir die Information über 32 Staaten, die ergebnislos beraten, die Blockadeszenen weniger als Ausnahme und stärker als System zu lesen?",
-          "Wo wird im Drama sichtbar, dass Aufnahmeverweigerung nicht einfach privat motiviert ist, sondern politisch organisiert?"
+          "Welche Parallele zwischen Évian und den diplomatischen Szenen ist am klarsten?",
+          "Warum liest du die Blockade mit Évian stärker als System denn als Ausnahme?",
+          "Wo zeigt das Drama politisch organisierte Aufnahmeverweigerung?"
         ]
       },
       {
@@ -924,11 +924,11 @@ export const lessonSets = [
         summary:
           "Die Deutschlandfunk-Rezension lenkt den Blick auf die Sprache von Entlastung, Arbeitsmarktargumenten und diplomatischem Ausweichen.",
         task:
-          "Vergleiche die Wortlogik des DLF-Beitrags mit den Passagen der Lektion. Zeige, wie das Drama politische Untätigkeit über Verwaltungs-, Sicherheits- und Sachzwangsprache lesbar macht.",
+          "Vergleiche die Wortlogik des DLF-Beitrags mit den Passagen der Lektion. Zeige, wie Untätigkeit über Sachzwangssprache legitimiert wird.",
         questions: [
-          "Welche Formeln des Ausweichens oder Verschiebens erkennst du sowohl im DLF-Beitrag als auch im Drama?",
-          "Warum ist der Hinweis auf 'Flüchtlinge' statt 'Vertriebene' oder Staatsbürger historisch und sprachkritisch wichtig?",
-          "Wie verändert der Beitrag deine Deutung von Unterlassung: als zufälliges Versagen oder als politisch codierte Entscheidung?"
+          "Welche Ausweichformel erkennst du im Beitrag und im Drama?",
+          "Warum ist die Wortwahl 'Flüchtlinge' historisch und sprachkritisch brisant?",
+          "Liest du Unterlassung nach der Quelle noch als Zufall oder als politisch codierte Entscheidung?"
         ]
       },
       {
@@ -937,11 +937,11 @@ export const lessonSets = [
         summary:
           "Die NDR-Chronologie bindet die diplomatischen und maritimen Szenen an einen klaren historischen Ablauf von Hamburg über Havanna und Florida bis Antwerpen zurück.",
         task:
-          "Nutze den NDR-Beitrag, um die Lektion als Folge realer Wendepunkte zu lesen. Zeige, wie das Drama aus den historischen Stationen eine immer schärfere Kette politischer Blockaden aufbaut.",
+          "Nutze den NDR-Beitrag, um die Lektion als Folge realer Wendepunkte zu lesen. Zeige, wie aus Stationen eine Blockadekette wird.",
         questions: [
-          "Welche Station der NDR-Chronologie wird in dieser Lektion besonders verdichtet?",
-          "Wie hilft dir der Artikel, die Rolle Schröders von der Untätigkeit der Regierungen zu unterscheiden?",
-          "Wo macht das Drama aus Chronologie moralische Eskalation?"
+          "Welche Station der Chronologie wird hier verdichtet?",
+          "Wie trennt der Artikel Schröders Rolle von staatlicher Untätigkeit?",
+          "Wo wird aus Chronologie im Drama moralische Eskalation?"
         ]
       }
     ]
@@ -977,11 +977,11 @@ export const lessonSets = [
         summary:
           "Der Republik-Text von Susanne Heim verschärft den historischen Blick auf Transit, Grenzregime und das Hin- und Hergeschobensein zwischen Staaten.",
         task:
-          "Lies den Schluss des Dramas zusammen mit dem Text von Susanne Heim. Zeige, wie Rückweg, Zwischenhalt und europäische Verteilung nicht als rettende Ordnung erscheinen, sondern als Teil eines Grenzregimes, das Menschen in Transit hält.",
+          "Lies den Schluss des Dramas zusammen mit Susanne Heim. Zeige, wie Rückweg und Verteilung Teil eines Grenzregimes bleiben.",
         questions: [
-          "Wie hilft dir die Quelle, den Rückweg historisch genauer als Grenz- und Zuständigkeitskrise zu verstehen?",
-          "Wo zeigt das Drama nicht nur Verzweiflung, sondern strukturelles Feststecken zwischen Staaten und Grenzen?",
-          "Wie verändert diese historische Perspektive deine Deutung der scheinbaren Rettung am Ende?"
+          "Wie macht die Quelle den Rückweg zur Grenz- und Zuständigkeitskrise?",
+          "Wo zeigt das Drama strukturelles Feststecken statt bloßer Verzweiflung?",
+          "Wie verändert diese Perspektive deine Deutung der scheinbaren Rettung?"
         ]
       },
       {
@@ -990,11 +990,11 @@ export const lessonSets = [
         summary:
           "Der NDR-Beitrag macht sichtbar, wie die Ankunft in Antwerpen nicht das Ende der Gefahr, sondern nur eine späte und brüchige Verteilung markiert.",
         task:
-          "Arbeite mit dem NDR-Beitrag, um den Schluss des Dramas präzise historisch einzuordnen. Zeige, wie das Stück zwischen Erleichterung, Verteilung und fortgesetzter Gefährdung balanciert.",
+          "Arbeite mit dem NDR-Beitrag, um den Schluss historisch genau einzuordnen. Zeige, wie das Stück Erleichterung und fortgesetzte Gefährdung zusammenhält.",
         questions: [
-          "Was verändert sich mit Antwerpen tatsächlich und was bleibt offen?",
-          "Wie hilft dir die Chronologie, den Schluss nicht als Happy End zu missverstehen?",
-          "Welche Nachgeschichte wirkt im Drama durch den historischen Überblick besonders scharf?"
+          "Was ändert Antwerpen tatsächlich und was bleibt offen?",
+          "Warum verhindert die Chronologie ein Happy-End-Lesen des Schlusses?",
+          "Welche Nachgeschichte wird dadurch im Drama besonders scharf?"
         ]
       },
       {
@@ -1003,10 +1003,10 @@ export const lessonSets = [
         summary:
           "Fritz Buffs Bericht zeigt den Rückweg und die Nachricht von Antwerpen aus einer Passagierperspektive, die die letzten Szenen des Dramas historisch und emotional verdichtet.",
         task:
-          "Vergleiche den Schluss des Dramas mit Fritz Buffs Bericht. Arbeite heraus, welche Spannung zwischen Erleichterung, Unsicherheit und späterer Bedrohung beide Texte sichtbar machen.",
+          "Vergleiche den Schluss des Dramas mit Fritz Buffs Bericht. Arbeite die Spannung zwischen Erleichterung, Unsicherheit und späterer Bedrohung heraus.",
         questions: [
-          "Welche Formulierungen des Reiseberichts helfen dir, das Ende des Dramas genauer zu fassen?",
-          "Wo unterscheidet sich die Binnenperspektive des Berichts von der epischen Anlage des Dramas?",
+          "Welche Formulierung des Berichts schärft das Ende des Dramas am stärksten?",
+          "Wo unterscheidet sich Buffs Binnenperspektive von der epischen Anlage des Dramas?",
           "Wie verändert die Primärquelle deine Bewertung des Schlusses?"
         ]
       }
@@ -1136,11 +1136,11 @@ export const lessonSets = [
         summary:
           "Die Konferenz von Évian wird hier als Vorkonstellation des Dramas gelesen: internationale Beratung, fast keine Aufnahmebereitschaft und institutionalisierte Ohnmacht.",
         task:
-          "Zeige an den Passagen der Lektion, dass die St. Louis nicht aus einem isolierten Moment des Scheiterns erzählt, sondern aus einer bereits etablierten internationalen Politik der verweigerten Aufnahme.",
+          "Zeige an den Passagen der Lektion, dass die St. Louis nicht an einem Einzelfall scheitert, sondern an einer etablierten Politik verweigerter Aufnahme.",
         questions: [
-          "Welche Details aus dem Évian-Dossier helfen dir, Havanna und den Rückweg als historisch vorstrukturiert zu lesen?",
-          "Warum ist die weitgehende Ergebnislosigkeit der Konferenz für das Drama zentral?",
-          "Wie macht das Stück aus dieser historischen Struktur eine konkrete Bühnensituation?"
+          "Welches Detail aus Évian hilft dir am stärksten, Havanna historisch vorzuprägen?",
+          "Warum ist die Ergebnislosigkeit der Konferenz für das Drama zentral?",
+          "Wie macht das Stück aus dieser Struktur eine Bühnensituation?"
         ]
       },
       {
@@ -1149,11 +1149,11 @@ export const lessonSets = [
         summary:
           "Der Deutschlandfunk-Beitrag schärft die sprachkritische Dimension: Antisemitismus, Beschönigung, Nicht-Benennung und Arbeitsmarktargumente prägen die Verweigerung.",
         task:
-          "Arbeite heraus, wie das Drama dieselbe Sprache des Ausweichens, Entlastens und Nicht-Benennens inszeniert, die der Deutschlandfunk-Beitrag für Évian beschreibt.",
+          "Arbeite heraus, wie das Drama dieselbe Sprache des Ausweichens und Nicht-Benennens inszeniert wie der Deutschlandfunk-Beitrag.",
         questions: [
-          "Welche Formulierungen im Drama entsprechen dem im DLF-Beitrag beschriebenen Muster des Nicht-Offen-Sprechens?",
-          "Wie wird Unterlassung im Stück sprachlich kaschiert oder sachlich verkleidet?",
-          "Warum ist diese sprachliche Ebene für die historische Deutung ebenso wichtig wie die faktische Entscheidung?"
+          "Welche Formulierung im Drama entspricht dem Muster des Nicht-Offen-Sprechens?",
+          "Wie wird Unterlassung sprachlich kaschiert oder sachlich verkleidet?",
+          "Warum ist diese Sprache historisch so wichtig wie die Entscheidung selbst?"
         ]
       },
       {
@@ -1162,11 +1162,11 @@ export const lessonSets = [
         summary:
           "Mit Susanne Heim wird die Erfahrung vertieft, zwischen Grenzen, Zuständigkeiten und politischen Räumen hin- und hergeschoben zu werden.",
         task:
-          "Verbinde den Republik-Text mit den ausgewählten Szenen. Zeige, wie das Drama Transit, Warten und Rückweg nicht als Zwischenfall, sondern als Kern moderner Grenzregime darstellt.",
+          "Verbinde den Republik-Text mit den ausgewählten Szenen. Zeige, wie Transit, Warten und Rückweg als Grenzregime erscheinen.",
         questions: [
-          "Wo wird im Drama das Feststecken zwischen politischen Räumen besonders deutlich?",
-          "Wie verändert die Quelle dein Verständnis von Grenze: als Linie, als Verfahren oder als Machtordnung?",
-          "Welche Passage zeigt am klarsten, dass Sichtbarkeit und Aufnahme nicht dasselbe sind?"
+          "Wo zeigt das Drama Feststecken zwischen politischen Räumen besonders deutlich?",
+          "Wie verändert die Quelle dein Verständnis von Grenze?",
+          "Welche Passage zeigt am klarsten, dass Sichtbarkeit und Aufnahme nicht identisch sind?"
         ]
       },
       {
@@ -1175,11 +1175,11 @@ export const lessonSets = [
         summary:
           "Die NDR-Chronologie verbindet die Reisephasen zu einer zusammenhängenden Struktur internationaler Verantwortungslosigkeit.",
         task:
-          "Arbeite die ausgewählten Passagen entlang der realen Reisebewegung durch. Zeige, wie aus Hamburg, Havanna, Florida und Antwerpen eine historische Dramaturgie der verweigerten Aufnahme entsteht.",
+          "Arbeite die ausgewählten Passagen entlang der realen Reisebewegung durch. Zeige, wie aus Hamburg, Havanna, Florida und Antwerpen eine Dramaturgie der verweigerten Aufnahme entsteht.",
         questions: [
-          "Welche Stationen des NDR-Artikels werden in der Lektion direkt oder indirekt aufgerufen?",
-          "Wie hilft dir die Chronologie, politische Unterlassung als Prozess und nicht nur als Einzelentscheidung zu lesen?",
-          "Wo wird im Drama aus geografischer Bewegung moralische Sackgasse?"
+          "Welche Stationen des NDR-Artikels ruft die Lektion auf?",
+          "Wie macht die Chronologie Unterlassung als Prozess sichtbar?",
+          "Wo wird aus geografischer Bewegung moralische Sackgasse?"
         ]
       },
       {
@@ -1188,11 +1188,11 @@ export const lessonSets = [
         summary:
           "Fritz Buffs Reisebericht gibt der historischen Analyse eine unmittelbare Stimme und verhindert, dass Grenz- und Konferenzpolitik zu abstrakt gelesen wird.",
         task:
-          "Verbinde die Lektion mit Fritz Buffs Bericht. Zeige, wie politische Entscheidungen in der Quelle als konkrete Stimmungs- und Erfahrungslage an Bord sichtbar werden.",
+          "Verbinde die Lektion mit Fritz Buffs Bericht. Zeige, wie politische Entscheidungen als konkrete Erfahrung an Bord sichtbar werden.",
         questions: [
-          "Welche Stellen des Berichts helfen dir, politische Entscheidungen als erfahrene Wirklichkeit zu lesen?",
+          "Welche Stelle des Berichts macht politische Entscheidung als Erfahrung sichtbar?",
           "Wo arbeitet das Drama stärker verdichtend oder montierend als die Primärquelle?",
-          "Wie verändert die Passagierperspektive deine historische Deutung der Lektion?"
+          "Wie verändert Buffs Perspektive deine historische Deutung der Lektion?"
         ]
       }
     ]
@@ -1215,12 +1215,12 @@ export const lessonSets = [
         summary:
           "Der Reisebericht von Fritz Buff führt in die Binnenperspektive der Passagiere und lässt sich direkt mit ausgewählten Szenen des Dramas vergleichen. Entscheidend ist dabei, dass Buff erst 17 war und allein reiste.",
         task:
-          "Nutze die Bildseiten, den eingebetteten Bericht und das Soundfile, um die Passagen historisch und perspektivisch zu schärfen. Zeige, wie Hoffen, Warten, Gerüchte und Erleichterung im Drama verdichtet werden, und arbeite ausdrücklich mit dem Umstand, dass Fritz Buff als 17-Jähriger allein unterwegs war.",
+          "Nutze Bildseiten, Bericht und Soundfile, um die Passagen historisch und perspektivisch zu schärfen. Zeige, wie Hoffen, Warten, Gerüchte und Erleichterung verdichtet werden, und arbeite ausdrücklich mit dem Umstand, dass Fritz Buff als 17-Jähriger allein unterwegs war.",
         questions: [
-          "Welche Stimmungslagen aus der Quelle kehren im Drama wieder?",
-          "Wie verändert es deine Lektüre, dass Fritz Buff erst 17 Jahre alt war und ohne Familie reiste?",
-          "Wo wird die Passagierperspektive im Stück übernommen, wo überformt?",
-          "Welche Bild- oder Tonspur hilft dir am stärksten, die Passage neu zu lesen?"
+          "Welche Stimmungslagen der Quelle kehren im Drama wieder?",
+          "Wie verändert es deine Lektüre, dass Fritz Buff erst 17 war und ohne Familie reiste?",
+          "Wo übernimmt das Stück die Passagierperspektive, wo formt es sie um?",
+          "Welche Bild- oder Tonspur schärft die Passage am stärksten?"
         ]
       },
       {
@@ -1229,11 +1229,11 @@ export const lessonSets = [
         summary:
           "Die NDR-Chronologie ordnet die Binnenperspektive Fritz Buffs in den größeren Bewegungsverlauf der Irrfahrt ein.",
         task:
-          "Verbinde den Reisebericht mit der Chronologie des NDR-Artikels. Zeige, wie persönliche Erfahrung und politische Ereignisfolge ineinandergreifen.",
+          "Verbinde den Reisebericht mit der NDR-Chronologie. Zeige, wie persönliche Erfahrung und politische Ereignisfolge ineinandergreifen.",
         questions: [
-          "Welche Station der Irrfahrt steht jeweils hinter den ausgewählten Passagen?",
-          "Wie hilft die Chronologie, Buffs Bericht nicht isoliert, sondern als Teil eines größeren Prozesses zu lesen?",
-          "Wo macht das Drama aus historischer Abfolge eine politische Zuspitzung?"
+          "Welche Station der Irrfahrt steht hinter den ausgewählten Passagen?",
+          "Wie verhindert die Chronologie ein isoliertes Lesen von Buffs Bericht?",
+          "Wo macht das Drama aus historischer Abfolge politische Zuspitzung?"
         ]
       }
     ]

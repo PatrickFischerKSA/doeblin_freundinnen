@@ -48,6 +48,25 @@ const languageSignals = [
   "erzähler"
 ];
 
+const historicalSignals = [
+  "évian",
+  "evian",
+  "havanna",
+  "florida",
+  "antwerpen",
+  "grenze",
+  "grenzen",
+  "transit",
+  "aufnahme",
+  "verweigerung",
+  "unterlassung",
+  "verhandlung",
+  "schröder",
+  "buff",
+  "allein",
+  "17"
+];
+
 const vagueJudgements = [
   "interessant",
   "spannend",
@@ -61,8 +80,34 @@ const vagueJudgements = [
   "schön"
 ];
 
+const synonymGroups = {
+  historisch: ["historisch", "geschichte", "geschichtlich", "1938", "1939", "vergangenheit"],
+  havanna: ["havanna", "kuba"],
+  florida: ["florida", "miami", "usa", "amerika"],
+  antwerpen: ["antwerpen", "belgien"],
+  evian: ["évian", "evian", "konferenz", "delegation"],
+  grenze: ["grenze", "grenzen", "grenzregime", "grenzordnung", "transit", "zwischenraum", "zwischenräume"],
+  verweigerung: ["verweigerung", "abwehr", "abweisung", "zurückweisung", "unterlassung", "untätigkeit", "nichtaufnahme"],
+  verhandlung: ["verhandlung", "verhandeln", "diplomatie", "beratung", "gespräch", "telegramm"],
+  buerokratie: ["bürokratie", "buerokratie", "verwaltung", "amt", "akte", "stempel", "genehmigung", "dekret", "formular", "protokoll"],
+  korruption: ["korruption", "bestechung", "bestechlich", "schmiergeld", "gekauft"],
+  dokumentartheater: ["dokumentartheater", "dokumentarisch", "protokollnah", "faktizität", "faktizitaet", "quelle", "zeugenschaft"],
+  episches_theater: ["episch", "episches", "verfremdung", "kommentar", "montage", "distanz", "zuschaueradressierung"],
+  erinnerung: ["erinnerung", "gedenken", "nachgeschichte", "gegenwart", "steinbruch", "mauthausen"],
+  perspektive: ["perspektive", "blick", "sicht", "binnenperspektive", "ich-perspektive", "innenperspektive"],
+  buff: ["buff", "fritz", "17", "siebzehn", "allein", "jugendlich", "jugendlicher", "jugendliche"]
+};
+
+const synonymLookup = new Map(
+  Object.entries(synonymGroups).flatMap(([canonical, variants]) => variants.map((variant) => [variant, canonical]))
+);
+
 function normalize(value = "") {
   return String(value).toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+function canonicalToken(token = "") {
+  return synonymLookup.get(token) || token;
 }
 
 function tokenize(value = "") {
@@ -70,7 +115,8 @@ function tokenize(value = "") {
     .replace(/[^\p{L}\p{N}\s-]/gu, " ")
     .split(" ")
     .map((token) => token.trim())
-    .filter((token) => token.length >= 4);
+    .filter((token) => token.length >= 3 || /^\d+$/.test(token))
+    .map((token) => canonicalToken(token));
 }
 
 function unique(items) {
@@ -82,7 +128,17 @@ function pickKeywords(...sources) {
 }
 
 function countHits(text, candidates) {
-  return candidates.filter((candidate) => text.includes(candidate)).length;
+  const normalizedText = normalize(text);
+  const concepts = new Set(tokenize(text));
+
+  for (const [canonical, variants] of Object.entries(synonymGroups)) {
+    if (variants.some((variant) => normalizedText.includes(variant))) {
+      concepts.add(canonical);
+    }
+  }
+
+  return unique(candidates.map((candidate) => canonicalToken(normalize(candidate))))
+    .filter((candidate) => concepts.has(candidate)).length;
 }
 
 function ratio(hits, total) {
@@ -118,7 +174,7 @@ function collectExpectedTerms(module, entry, theoryId, lessonId) {
   return {
     promptKeywords: pickKeywords(...entry.prompts, entry.context, module.task, module.lens, lesson.reviewFocus),
     theoryKeywords: pickKeywords(theory.title, ...theory.keyIdeas, ...theory.questions),
-    signalKeywords: unique(entry.signalWords.map((word) => normalize(word))).filter(Boolean)
+    signalKeywords: unique(entry.signalWords.flatMap((word) => tokenize(word))).filter(Boolean)
   };
 }
 
@@ -149,6 +205,7 @@ export function evaluateReaderSebFeedback({ lessonId, moduleId, entryId, theoryI
   const analysisHits = countHits(combined, analyticalSignals);
   const summaryHits = countHits(combined, summarySignals);
   const languageHits = countHits(combined, languageSignals);
+  const historicalHits = countHits(combined, historicalSignals);
   const vagueHits = countHits(interpretation, vagueJudgements);
   const observationTokens = tokenize(observation);
   const interpretationTokens = tokenize(interpretation);
@@ -176,6 +233,12 @@ export function evaluateReaderSebFeedback({ lessonId, moduleId, entryId, theoryI
     ratio(promptHits, Math.max(expected.promptKeywords.length, 1)) * 0.45 +
     ratio(theoryHits, Math.max(expected.theoryKeywords.length, 1)) * 0.35 +
     (module.relatedTheoryIds?.includes(theory.id) || entry.relatedTheoryIds?.includes(theory.id) ? 0.2 : 0.05)
+  ));
+
+  const historicalPrecisionScore = Math.min(1, (
+    ratio(historicalHits, Math.max(historicalSignals.length / 4, 1)) * 0.5 +
+    (/(havanna|florida|antwerpen|évian|evian|schröder|buff|grenze|transit)/.test(combined) ? 0.25 : 0) +
+    (/(unterlassung|aufnahme|verweigerung|konferenz|verhandlung|grenzregime)/.test(combined) ? 0.25 : 0)
   ));
 
   const precisionScore = Math.min(1, (
@@ -223,6 +286,13 @@ export function evaluateReaderSebFeedback({ lessonId, moduleId, entryId, theoryI
         : `Die Theorie-Linse ${theory.shortTitle.toLowerCase()} ist als Stichwort erkennbar, wird aber noch nicht systematisch auf die konkrete Passage heruntergebrochen.`
     ),
     criterion(
+      "Historische Schärfe",
+      historicalPrecisionScore,
+      historicalPrecisionScore >= 0.62
+        ? "Die Antwort rahmt die Passage als Teil einer historischen Struktur und nicht nur als isolierte Szene. Stationen, politische Logiken oder Primärquellen werden erkennbar funktional eingebunden."
+        : "Die historische Dimension ist noch zu blass. Die Szene wird erst wirklich tragfähig, wenn Station, Grenzlogik, Konferenzstruktur, Passagierperspektive oder politische Unterlassung ausdrücklich benannt und auf den Wortlaut zurückgeführt werden."
+    ),
+    criterion(
       "Revisionsreife",
       revisionReadinessScore,
       revisionReadinessScore >= 0.62
@@ -257,6 +327,13 @@ export function evaluateReaderSebFeedback({ lessonId, moduleId, entryId, theoryI
     nextMoves.push(`Formuliere einen Satz, der die Passage ausdrücklich mit ${theory.shortTitle.toLowerCase()} verbindet und dabei ein konkretes Signal aus dem Text mit einem Theoriebegriff zusammenführt.`);
   }
 
+  if (historicalPrecisionScore >= 0.62) {
+    strengths.push("Die Passage wird bereits historisch situiert; dadurch wirkt die Deutung weniger beliebig und stärker strukturbezogen.");
+  } else {
+    cautions.push("Die historische Einordnung bleibt noch zu allgemein. Gerade bei diesem Stoff reicht es nicht, bloß Leid oder Spannung zu benennen.");
+    nextMoves.push("Ergänze einen Satz, der die Passage ausdrücklich historisch verortet: nenne z. B. Havanna, Florida, Antwerpen, Évian, Grenzregime, Schröder oder Fritz Buff.");
+  }
+
   if (precisionScore < 0.62) {
     nextMoves.push("Ersetze mindestens ein allgemeines Werturteil durch eine genauere sprachliche Beobachtung: nicht 'stark' oder 'wichtig', sondern etwa Wortwahl, Kontrast, Erzähldistanz oder Wiederholung.");
   }
@@ -273,19 +350,29 @@ export function evaluateReaderSebFeedback({ lessonId, moduleId, entryId, theoryI
     cautions.push("Mehrere Wertwörter bleiben noch ungesichert. Ohne sprachlichen Nachweis wirken sie fachlich zu pauschal.");
   }
 
-  prompts.push(`Welche Formulierung der Passage trägt deine Deutung am stärksten, und was genau macht sie funktional bedeutsam?`);
-  prompts.push(`Wie verändert sich deine Aussage, wenn du ${theory.shortTitle.toLowerCase()} nicht nur nennst, sondern an einem einzelnen Signal der Passage demonstrierst?`);
-  prompts.push(`Welche Gegenlesart wäre möglich, und woran könntest du im Wortlaut zeigen, dass deine Deutung dennoch plausibler ist?`);
+  if (lesson.id === "lesson-14-fritz-buff-primärquelle" && !/(17|siebzehn|allein)/.test(combined)) {
+    cautions.push("Bei der Fritz-Buff-Lektion bleibt der entscheidende Perspektivenschlüssel noch ungenutzt: Buff war 17 Jahre alt und allein unterwegs.");
+    nextMoves.push("Baue die Alters- und Alleinreise-Perspektive ausdrücklich ein und zeige, was sie an deiner Passage verändert.");
+  }
 
-  const overallScore = Math.round(((textAnchoringScore + interpretiveDepthScore + conceptualFitScore + precisionScore + revisionReadinessScore) / 5) * 100);
+  prompts.push(`Welches einzelne Wort, Bild oder Bühnenmoment trägt deine Deutung am stärksten, und warum genau dieses?`);
+  prompts.push(`Welche historische Präzisierung fehlt deiner Antwort noch: Station, politische Logik, Grenzordnung, Konferenzstruktur oder Passagierperspektive?`);
+  prompts.push(`Welche Gegenlesart wäre möglich, und an welchem genauen Signal des Wortlauts würdest du deine Lesart dagegen absichern?`);
+
+  const overallScore = Math.round(((textAnchoringScore + interpretiveDepthScore + conceptualFitScore + historicalPrecisionScore + precisionScore + revisionReadinessScore) / 6) * 100);
   const emphasis = interpretiveDepthScore < textAnchoringScore
-    ? "Die fachlich nächste Entwicklungsstufe liegt weniger im Finden weiterer Zitate als im Ausbau ihrer interpretatorischen Funktion."
-    : "Die nächste Qualitätssteigerung liegt vor allem in noch engerer sprachlicher Absicherung deiner bereits entwickelten Deutung.";
+    ? "Die fachlich nächste Entwicklungsstufe liegt weniger im Finden weiterer Zitate als im Ausbau ihrer interpretatorischen und historischen Funktion."
+    : "Die nächste Qualitätssteigerung liegt vor allem in noch engerer sprachlicher und historischer Absicherung deiner bereits entwickelten Deutung.";
+  const specificEmphasis = historicalPrecisionScore < 0.62
+    ? "Im Moment fehlt der Analyse vor allem eine klare historische Verortung."
+    : precisionScore < 0.62
+      ? "Im Moment fehlt der Analyse vor allem sprachliche Genauigkeit am Textdetail."
+      : "Die Analyse ist tragfähig angelegt, muss aber die Einzelbeobachtung noch konsequenter in eine belastbare Gesamtaussage überführen.";
 
   return {
     heading: `Fachfeedback zu ${entry.title}`,
     summary:
-      `Die Antwort zeigt bereits einen erkennbaren analytischen Ansatz, bewegt sich aber noch nicht durchgehend auf dem Niveau einer belastbaren, textgestützten Interpretation. ${emphasis}`,
+      `Die Antwort zeigt bereits einen analytischen Zugriff, bewegt sich aber noch nicht durchgehend auf dem Niveau einer belastbaren, textnahen und historisch präzisen Interpretation. ${specificEmphasis} ${emphasis}`,
     overallScore,
     profile,
     strengths: strengths.slice(0, 3),

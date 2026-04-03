@@ -512,6 +512,12 @@ textarea {
   padding-left: 18px;
 }
 
+.feedback-summary {
+  margin: 8px 0 18px;
+  color: var(--text);
+  line-height: 1.65;
+}
+
 .seb-feedback-summary {
   display: grid;
   gap: 14px;
