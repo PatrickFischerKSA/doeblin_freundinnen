@@ -32,6 +32,14 @@ const ushmmVoyageDossier = "/reader/assets/ushmm-voyage-dossier.html";
 const ushmmReturnDossier = "/reader/assets/ushmm-return-to-europe-dossier.html";
 const ushmmFateDossier = "/reader/assets/ushmm-wartime-fate-dossier.html";
 const gerdaBlachmannDossier = "/reader/assets/gerda-blachmann-dossier.html";
+const fritzSpanierImg = "/reader/assets/fritz-spanier.jpg";
+const gustavSchroederImg = "/reader/assets/gustav-schroeder.jpg";
+const stLouisHavanaImg = "/reader/assets/st-louis-havana.jpg";
+const federicoLaredoBruImg = "/reader/assets/federico-laredo-bru.jpg";
+const jButlerWrightImg = "/reader/assets/j-butler-wright.jpg";
+const cordellHullImg = "/reader/assets/cordell-hull.jpg";
+const henryMorgenthauImg = "/reader/assets/henry-morgenthau-jr.jpg";
+const fulgencioBatistaImg = "/reader/assets/fulgencio-batista.jpg";
 
 function asRaw(url) {
   return url.replace("dl=0", "raw=1");
@@ -976,6 +984,17 @@ export const lessonSets = [
     title: "Lektion 2 · Fluchtstimmen und fragile Hoffnung",
     summary:
       "Pozners Zeugenschaft, private Hoffnungsbilder und erste provisorische Sicherheit an Bord.",
+    chapterMedia: [
+      {
+        src: fritzSpanierImg,
+        alt: "Fritz Spanier mit zwei Kindern in Bullaugen der St. Louis.",
+        title: "Fritz Spanier und Kinder an Bord",
+        caption:
+          "Dieses Foto gehört an den Beginn der Lektion, weil es die frühen Fluchtstimmen sofort auf Familie, Kindheit und verletzliche Zukunft zurückbindet. Die St. Louis erscheint hier nicht als abstrakter Fall, sondern als Raum konkreter Schutzsuche.",
+        focusPrompt:
+          "Arbeite mit dem Bild in deine erste Deutung hinein: Welche Form von Hoffnung, Bedrohung oder familiärer Verletzlichkeit wird sichtbar, die auch deine Passage trägt?"
+      }
+    ],
     entryIds: ["abfahrt-3", "abfahrt-4", "zwischenraum-1"],
     moduleIds: ["abfahrt", "zwischenraum"],
     reviewFocus: "Arbeite genau an Zeugenschaft, Familienmotiven und der paradoxen Normalität an Bord.",
@@ -1003,6 +1022,17 @@ export const lessonSets = [
     title: "Lektion 3 · Das Schiff als Systemraum",
     summary:
       "Bürokratie, Gerüchte und moralische Linien an Bord zwischen Service, Zynismus und Mitgefühl.",
+    chapterMedia: [
+      {
+        src: gustavSchroederImg,
+        alt: "Porträt von Gustav Schröder in Kapitänsuniform.",
+        title: "Gustav Schröder als Verantwortungsfigur",
+        caption:
+          "Schröders Porträt eröffnet diese Lektion, weil hier das Schiff als geordneter, aber belasteter Systemraum lesbar wird. Sein Gesicht und seine Uniform helfen, Verantwortung, Autorität und Begrenzung seiner Rolle genauer zu fassen.",
+        focusPrompt:
+          "Beziehe das Porträt gezielt auf deine Passage: Was zeigt Schröders Auftreten über Pflicht, Handlungsspielraum und moralische Spannung an Bord?"
+      }
+    ],
     entryIds: ["zwischenraum-2", "zwischenraum-3", "zwischenraum-4"],
     moduleIds: ["zwischenraum"],
     reviewFocus: "Analysiere das Schiff als widersprüchlichen Raum aus Ordnung, Gerücht und fortgesetzter Gewalt.",
@@ -1014,6 +1044,35 @@ export const lessonSets = [
     title: "Lektion 4 · Havanna als Machtbühne",
     summary:
       "Korruption, Scheinlegalität und politische Abwehrformeln in den ersten Kuba-Szenen.",
+    chapterMedia: [
+      {
+        src: stLouisHavanaImg,
+        alt: "Die St. Louis im Hafen vor Havanna.",
+        title: "Die St. Louis vor Havanna",
+        caption:
+          "Das Foto führt die Grundspannung der Kuba-Kapitel unmittelbar ein: Das Schiff ist da, das Ziel ist sichtbar, doch die Grenze bleibt bestehen. Sichtbarkeit wird nicht zu Aufnahme.",
+        focusPrompt:
+          "Nutze das Hafenbild als Lesemodell: Wo arbeitet deine Passage ebenfalls mit Nähe ohne Ankunft und mit politisch erzeugter Distanz?"
+      },
+      {
+        src: federicoLaredoBruImg,
+        alt: "Porträt von Federico Laredo Brú.",
+        title: "Federico Laredo Brú als Staatsfigur",
+        caption:
+          "Brús Porträt macht deutlich, dass die Havanna-Szenen nicht in anonymer Verwaltung spielen, sondern in einer staatlichen Entscheidungskonstellation. Das Bild schärft die Frage, wie Regierungsmacht im Drama auftritt.",
+        focusPrompt:
+          "Ordne deine Passage ausdrücklich einer staatlichen Entscheidungsebene zu: Was wird hier als Regierungshandeln, was als Verwaltungsakt und was als politisches Kalkül sichtbar?"
+      },
+      {
+        src: fulgencioBatistaImg,
+        alt: "Späteres Porträt von Fulgencio Batista in Uniform.",
+        title: "Batista als Machtfaktor im kubanischen Hintergrund",
+        caption:
+          "Dieses spätere Porträt ist hier nicht bloß illustrativ, sondern verweist auf die Machtkonstellationen im kubanischen Hintergrund. Die Lektion soll zeigen, dass die St.-Louis-Krise in innere Machtkämpfe eingebettet ist.",
+        focusPrompt:
+          "Lies das Bild als Hinweis auf Macht hinter der sichtbaren Szene: Wo spürst du in deiner Passage Kräfte, Interessen oder Druck, die über die einzelne Verhandlung hinausreichen?"
+      }
+    ],
     entryIds: ["havanna-1", "havanna-2"],
     moduleIds: ["havanna"],
     reviewFocus: "Achte auf politische Sprache, offene Selbstentlarvung und Willkür im Gewand von Verfahren.",
@@ -1063,6 +1122,17 @@ export const lessonSets = [
     title: "Lektion 7 · Blickszenen, Distanz und Trennung",
     summary:
       "Havanna bleibt sichtbar und unerreichbar; politische Krise verdichtet sich zu Familienbildern und Distanzszenen.",
+    chapterMedia: [
+      {
+        src: stLouisHavanaImg,
+        alt: "Die St. Louis vor Havanna, umgeben von Hafenverkehr.",
+        title: "Hafenbild als Distanzszene",
+        caption:
+          "Dieses Bild steht am Beginn der Lektion, weil es genau die Wahrnehmungsstruktur der Blickszenen enthält: Stadt und Hafen liegen vor Augen, aber die Grenze bleibt unangreifbar. Das macht Nähe und Trennung zugleich sichtbar.",
+        focusPrompt:
+          "Verbinde das Bild direkt mit deiner Passage: Wie werden räumliche Nähe, politische Unerreichbarkeit und familiäre Trennung zusammengeführt?"
+      }
+    ],
     entryIds: ["hafenkrise-3", "hafenkrise-4"],
     moduleIds: ["hafenkrise"],
     reviewFocus: "Achte auf Blickregie, Distanz, Bühnenraum und die Übersetzung von Politik in einzelne Bilder.",
@@ -1085,6 +1155,35 @@ export const lessonSets = [
     title: "Lektion 9 · Deals, Unterlassung und Blockade",
     summary:
       "Humanität als Deal und Verantwortung als Kette des Nicht-Handelns.",
+    chapterMedia: [
+      {
+        src: jButlerWrightImg,
+        alt: "Porträt von J. Butler Wright.",
+        title: "J. Butler Wright und die diplomatische Schnittstelle",
+        caption:
+          "Wrights Porträt verankert die Verhandlungsszenen in einem konkreten diplomatischen Feld. So wird sichtbar, dass Blockade im Drama nicht bloß Stimmung, sondern internationale Politik ist.",
+        focusPrompt:
+          "Beziehe deine Passage ausdrücklich auf diplomatische Vermittlung: Wo zeigt sich Verzögerung, Verhandlung oder Unterlassung als politische Praxis?"
+      },
+      {
+        src: cordellHullImg,
+        alt: "Porträt von Cordell Hull.",
+        title: "Cordell Hull und die Ebene staatlicher Außenpolitik",
+        caption:
+          "Mit Hull wird die Blockade als außenpolitische Entscheidungsebene greifbar. Das Bild hilft, die Szene als staatlich organisierte Nicht-Aufnahme statt als bloßes Misslingen zu lesen.",
+        focusPrompt:
+          "Öffne die Passage in Richtung Außenpolitik: Welche Form von staatlicher Verantwortung oder Unterlassung wird mit Hulls Ebene sichtbarer?"
+      },
+      {
+        src: henryMorgenthauImg,
+        alt: "Porträt von Henry Morgenthau Jr.",
+        title: "Henry Morgenthau Jr. und begrenzte Gegenkräfte",
+        caption:
+          "Morgenthau steht hier für die Frage, welche Gegenkräfte innerhalb des politischen Apparats überhaupt noch handlungsfähig sind. Dadurch werden die Diplomatieszenen differenzierter als reine Totalblockade lesbar.",
+        focusPrompt:
+          "Prüfe an deiner Passage, ob sie nur Blockade zeigt oder auch begrenzte Gegenkräfte sichtbar macht, die dennoch nicht ausreichen."
+      }
+    ],
     entryIds: ["diplomatie-3", "diplomatie-4", "rueckweg-1"],
     moduleIds: ["diplomatie", "rueckweg"],
     reviewFocus: "Arbeite an den Sprachformen der Verzögerung, des Dealens und der politischen Schuld durch Unterlassung.",
@@ -1467,6 +1566,26 @@ export const lessonSets = [
     title: "Lektion 14 · Fritz Buff, NDR-Chronologie und historische Nahperspektive",
     summary:
       "Primärquellen-Einheit mit Reisebericht, Bilddokumenten, Soundfile und historischer Chronologie zur St. Louis. Fritz Buff war dabei erst 17 und allein unterwegs.",
+    chapterMedia: [
+      {
+        src: fritzSpanierImg,
+        alt: "Fritz Spanier mit zwei Kindern in Bullaugen der St. Louis.",
+        title: "Passagierbild als Auftakt der Primärquellenarbeit",
+        caption:
+          "Das Foto eröffnet diese Lektion, weil es wie Fritz Buffs Bericht eine Binnenperspektive der Passagiere trägt. Familie, Enge, Blick und Schutzsuche werden hier nicht erklärt, sondern sichtbar.",
+        focusPrompt:
+          "Verbinde Bild und Primärquelle ausdrücklich: Welche Erfahrungsebene teilen das Foto, Fritz Buffs Bericht und deine Passage?"
+      },
+      {
+        src: gustavSchroederImg,
+        alt: "Porträt von Gustav Schröder.",
+        title: "Schröder im Zusammenspiel mit der Passagierperspektive",
+        caption:
+          "Auch in der Primärquellenarbeit bleibt Schröder wichtig. Das Porträt hält die zweite Blickachse offen: nicht nur Passagiererfahrung, sondern auch die Frage nach Verantwortung und begrenzter Handlungsmacht.",
+        focusPrompt:
+          "Prüfe, wie sich deine Passage verändert, wenn du Passagierwahrnehmung und Schröders Rolle gleichzeitig mitdenkst."
+      }
+    ],
     entryIds: ["abfahrt-1", "havanna-3", "rueckweg-2", "rueckweg-4"],
     moduleIds: ["abfahrt", "havanna", "rueckweg"],
     reviewFocus: "Arbeite präzise mit Primärquelle, Chronologie und Dramentext zusammen und zeige, wie das Stück historische Erfahrung zugleich verdichtet und erweitert. Behalte dabei im Blick, dass Fritz Buff als 17-Jähriger allein reiste und damit jünger war als manche Lerngruppenmitglieder.",
@@ -1534,6 +1653,17 @@ export const lessonSets = [
     title: "Lektion 15 · USHMM, Gerda Blachmann und die Nachgeschichte der Passagiere",
     summary:
       "USHMM-Schlusseinheit zur gesamten St.-Louis-Bewegung: politische Vorstruktur, Gerda Blachmanns Videostimme, die Verteilung nach Europa und die ungleichen Kriegsschicksale der Passagiere.",
+    chapterMedia: [
+      {
+        src: fritzSpanierImg,
+        alt: "Fritz Spanier und Kinder aus Bullaugen der St. Louis.",
+        title: "Gesichter gegen abstrakte Nachgeschichte",
+        caption:
+          "Am Beginn der USHMM-Schlusseinheit steht dieses Bild, damit Verteilung, Deportation und Überlebenszahlen nicht abstrakt bleiben. Die Nachgeschichte betrifft konkrete Gesichter, Kinder und Familien.",
+        focusPrompt:
+          "Nimm das Bild als Auftakt deiner Schlussdeutung: Wie verändert es deine Sicht auf Nachgeschichte, wenn du von konkreten Menschen statt nur von Zahlen ausgehst?"
+      }
+    ],
     entryIds: ["havanna-3", "diplomatie-4", "rueckweg-2", "rueckweg-4"],
     moduleIds: ["havanna", "diplomatie", "rueckweg"],
     reviewFocus: "Verbinde die dramatische Krise mit ihrer Nachgeschichte: Gerda Blachmann, Verteilung auf vier Länder, blockierte Fluchtwege, ungleiche Überlebenschancen und die offene Verantwortung des Schlusses.",

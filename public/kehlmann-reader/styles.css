@@ -293,6 +293,56 @@ button {
   gap: 16px;
 }
 
+.lesson-media-panel {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 24px;
+  border: 1px solid rgba(49, 67, 53, 0.12);
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.lesson-media-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.lesson-media-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(49, 67, 53, 0.12);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(245, 239, 227, 0.88));
+}
+
+.lesson-media-frame {
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(49, 67, 53, 0.12);
+  background: #e9e2d3;
+}
+
+.lesson-media-frame img {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+}
+
+.lesson-media-copy,
+.lesson-media-task {
+  display: grid;
+  gap: 10px;
+}
+
+.lesson-media-task {
+  border-left: 4px solid var(--accent);
+  padding: 14px;
+  border-radius: 0 16px 16px 0;
+  background: rgba(180, 92, 57, 0.1);
+}
+
 .scene-card,
 .theory-card,
 .theory-summary,

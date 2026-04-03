@@ -214,6 +214,40 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             display: grid;
             gap: 14px;
           }
+          .lesson-media-panel {
+            display: grid;
+            gap: 14px;
+          }
+          .lesson-media-grid {
+            display: grid;
+            gap: 14px;
+          }
+          .lesson-media-card {
+            display: grid;
+            gap: 12px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 14px;
+            background: rgba(255,255,255,0.74);
+          }
+          .lesson-media-frame {
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.9);
+          }
+          .lesson-media-frame img {
+            display: block;
+            width: 100%;
+            max-height: 320px;
+            object-fit: cover;
+          }
+          .lesson-media-task {
+            border-left: 4px solid var(--accent);
+            padding: 12px 14px;
+            border-radius: 0 14px 14px 0;
+            background: rgba(180,92,57,0.09);
+          }
           @media (max-width: 960px) {
             .teacher-entry-layout {
               grid-template-columns: 1fr;
@@ -325,6 +359,7 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
   const currentEntry = currentLesson.entries.find((entry) => entry.id === entryId) || currentLesson.entries[0];
   const pdfUrl = `${READER_PDF_SOURCE}#page=${currentEntry?.pageNumber || 1}&zoom=page-width`;
   const lessonResources = resourcesForLesson(currentLesson);
+  const lessonMedia = Array.isArray(currentLesson.chapterMedia) ? currentLesson.chapterMedia : [];
   const selectedResource = lessonResources[0] || null;
   const selectedResourceMarkup = selectedResource
     ? selectedResource.resource.mediaType === "pdf"
@@ -443,6 +478,29 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
                 <p>${currentLesson.pageRange}</p>
               </div>
             </div>
+
+            ${lessonMedia.length ? `
+              <section class="lesson-media-panel">
+                <div class="eyebrow">Bildauftakt dieser Lektion</div>
+                <div class="lesson-media-grid">
+                  ${lessonMedia.map((item) => `
+                    <article class="lesson-media-card">
+                      <div class="lesson-media-frame">
+                        <img src="${item.src}" alt="${item.alt || item.title}">
+                      </div>
+                      <div>
+                        <strong>${item.title}</strong>
+                        <p>${item.caption}</p>
+                      </div>
+                      <div class="lesson-media-task">
+                        <strong>Arbeitsimpuls</strong>
+                        <p>${item.focusPrompt}</p>
+                      </div>
+                    </article>
+                  `).join("")}
+                </div>
+              </section>
+            ` : ""}
 
             <div class="teacher-entry-passage-list">
               <div class="eyebrow">Passagen dieser Lektion</div>

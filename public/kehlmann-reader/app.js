@@ -793,6 +793,40 @@ function renderPromptList() {
   return starterPrompt.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
 }
 
+function renderLessonMediaPanel(lesson = currentLesson()) {
+  const media = Array.isArray(lesson?.chapterMedia) ? lesson.chapterMedia : [];
+  if (!media.length) {
+    return "";
+  }
+
+  return `
+    <section class="lesson-media-panel">
+      <div class="section-head">
+        <strong>Bildauftakt dieser Lektion</strong>
+        <span class="status-badge">${escapeHtml(`${media.length} Quelle${media.length === 1 ? "" : "n"}`)}</span>
+      </div>
+      <div class="lesson-media-grid">
+        ${media.map((item) => `
+          <article class="lesson-media-card">
+            <div class="lesson-media-frame">
+              <img src="${escapeHtml(item.src)}" alt="${escapeHtml(item.alt || item.title || "Historische Bildquelle")}">
+            </div>
+            <div class="lesson-media-copy">
+              <div class="eyebrow">Kapitelauftakt</div>
+              <h3>${escapeHtml(item.title)}</h3>
+              <p>${escapeHtml(item.caption)}</p>
+            </div>
+            <div class="lesson-media-task">
+              <strong>Arbeitsimpuls</strong>
+              <p>${escapeHtml(item.focusPrompt)}</p>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
 function renderFocusQuestions(entry) {
   return `
     <ul class="question-list">
@@ -1049,6 +1083,8 @@ function renderPdfPanel(entry, module) {
         <strong>Arbeitsfokus</strong>
         <p>${escapeHtml(module.briefing)}</p>
       </div>
+
+      ${renderLessonMediaPanel(lesson)}
 
       <div class="lesson-passages-box">
         <strong>Relevante Passagen dieser Lektion</strong>
