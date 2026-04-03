@@ -15,12 +15,23 @@ const evianDeutschlandfunkUrl =
   "https://www.deutschlandfunk.de/jochen-thies-evian-1938-als-die-welt-die-juden-verriet-100.html";
 const ndrStLouisUrl =
   "https://www.ndr.de/geschichte/chronologie/Die-Irrfahrt-der-St-Louis-Fluechtlinge-die-keiner-wollte,stlouis126.html";
+const ushmmVoyageUrl = "https://encyclopedia.ushmm.org/content/de/article/voyage-of-the-st-louis";
+const ushmmReturnUrl = "https://encyclopedia.ushmm.org/content/de/article/return-to-europe-of-the-st-louis";
+const ushmmFateUrl = "https://encyclopedia.ushmm.org/content/de/article/wartime-fate-of-the-passengers-of-the-st-louis";
+const gerdaBlachmannVideoUrl =
+  "https://encyclopedia.ushmm.org/content/en/oral-history/gerda-blachmann-wilchfort-describes-the-mood-of-passengers-on-the-st-louis-after-they-were-denied-entry-into-cuba";
 const andruckRssUrl = "https://www.deutschlandfunk.de/andruck-100.xml";
 const evianWikipediaDossier = "/reader/assets/evian-konferenz-dossier.html";
 const evianDeutschlandfunkDossier = "/reader/assets/evian-deutschlandfunk-dossier.html";
 const ndrStLouisDossier = "/reader/assets/ndr-st-louis-dossier.html";
 const fritzBuffDossier = "/reader/assets/fritz-buff-reisebericht-dossier.html";
 const fritzBuffAudio = "/reader/assets/fritz-buff-soundfile.mp3";
+const bilddossierReise = "/reader/assets/bilddossier-reise-und-passagiere.html";
+const bilddossierAkteure = "/reader/assets/bilddossier-politische-akteure.html";
+const ushmmVoyageDossier = "/reader/assets/ushmm-voyage-dossier.html";
+const ushmmReturnDossier = "/reader/assets/ushmm-return-to-europe-dossier.html";
+const ushmmFateDossier = "/reader/assets/ushmm-wartime-fate-dossier.html";
+const gerdaBlachmannDossier = "/reader/assets/gerda-blachmann-dossier.html";
 
 function asRaw(url) {
   return url.replace("dl=0", "raw=1");
@@ -174,6 +185,150 @@ export const theoryResources = [
     ],
     writingFrame:
       "Mit Fritz Buffs Bericht gelesen, wirkt die Passage besonders eindringlich, weil die Quelle zeigt, dass ..."
+  },
+  {
+    id: "bilddossier-reise",
+    title: "Bilddossier: Schiff, Kapitän und Passagiere",
+    shortTitle: "Bilder Reise",
+    sourceTitle: "Historische Bildquellen",
+    mediaType: "html",
+    openUrl: bilddossierReise,
+    embedUrl: bilddossierReise,
+    summary:
+      "Dieses Bilddossier bündelt die St. Louis in Havanna, Gustav Schröder und die Passagierperspektive. Es hilft, Bordraum, Verantwortung und Familienblick nicht nur textlich, sondern visuell zu erfassen.",
+    keyIdeas: ["Schiffsrumpf", "Passagiere", "Schröder", "Havanna", "Blickregie", "Bordraum"],
+    questions: [
+      "Welches Bild schärft deine aktuelle Passage am stärksten, und warum gerade dieses?",
+      "Wie verändert das Schiffs- oder Passagierbild deinen Blick auf Nähe, Enge und Ausgeliefertsein an Bord?",
+      "Was zeigt das Porträt Schröders über Verantwortung, Haltung oder Begrenzung seiner Rolle?"
+    ],
+    transferPrompts: [
+      "Verbinde ein Bildelement ausdrücklich mit einer Formulierung aus der Passage.",
+      "Entscheide klar: schärft das Bild eher Raum, Figur oder Stimmung?",
+      "Erkläre, wie das Bild die Passage konkreter und weniger abstrakt lesbar macht."
+    ],
+    writingFrame:
+      "Das Bild schärft die Passage, weil es sichtbar macht, wie ..."
+  },
+  {
+    id: "bilddossier-akteure",
+    title: "Bilddossier: Politische Akteure der Blockade",
+    shortTitle: "Bilder Politik",
+    sourceTitle: "Historische Porträts",
+    mediaType: "html",
+    openUrl: bilddossierAkteure,
+    embedUrl: bilddossierAkteure,
+    summary:
+      "Das Bilddossier bündelt zentrale politische Akteure der Krise: Federico Laredo Brú, J. Butler Wright, Cordell Hull, Henry Morgenthau Jr. und Batista. Die Porträts helfen, diplomatische und staatliche Macht im Drama genauer zu verorten.",
+    keyIdeas: ["Bru", "Wright", "Hull", "Morgenthau", "Batista", "politische Verantwortung"],
+    questions: [
+      "Welche Figur des Dossiers steht deiner Passage politisch am nächsten?",
+      "Wie verändert ein konkretes Gesicht deine Deutung von Diplomatie, Verhandlung und Unterlassung?",
+      "Welche Machtstufe wird durch das Bild sichtbar: Regierung, Diplomatie, Ministerium oder militärischer Einfluss?"
+    ],
+    transferPrompts: [
+      "Ordne die Passage einem Akteur oder Machtfeld des Bilddossiers zu.",
+      "Prüfe, ob das Bild eher Entscheidungsmacht, Distanz oder Verantwortungslosigkeit schärft.",
+      "Erkläre, wie das Porträt die politische Struktur deiner Passage konkretisiert."
+    ],
+    writingFrame:
+      "Mit dem Bilddossier wird die Passage politisch konkreter, weil hinter der Verhandlung sichtbar wird, dass ..."
+  },
+  {
+    id: "ushmm-voyage",
+    title: "USHMM-Dossier: Die Reise der St. Louis",
+    shortTitle: "USHMM Reise",
+    sourceTitle: "USHMM · Voyage of the St. Louis",
+    mediaType: "html",
+    openUrl: ushmmVoyageUrl,
+    embedUrl: ushmmVoyageDossier,
+    summary:
+      "Das Dossier schärft die Ausgangslage der Irrfahrt: 937 Passagiere, ungültig erklärte Dokumente, kubanische Machtkämpfe, informierte Behörden und eine Krise, die politisch längst sichtbar war, bevor die Passagiere sie erfuhren.",
+    keyIdeas: ["937 Passagiere", "13. Mai 1939", "ungültige Papiere", "Havanna", "informierte Behörden", "sichtbar und ausgeschlossen"],
+    questions: [
+      "Benenne die drei wichtigsten historischen Vorentscheidungen, die die Reise schon vor Havanna belasten.",
+      "Erkläre präzise, warum die USHMM-Seite die Krise nicht als plötzliches Unglück, sondern als politisch bekannte Entwicklung lesbar macht.",
+      "Zeige an deiner Passage, wie aus Sichtbarkeit noch keine Aufnahme wird."
+    ],
+    transferPrompts: [
+      "Ordne die Passage eindeutig der Phase vor Havanna, im Hafen oder vor Florida zu und sichere das mit einem Textsignal.",
+      "Prüfe, ob die Szene eher Machtkampf, Verwaltungsentscheidung oder Passagiererfahrung verdichtet.",
+      "Erkläre, wie die USHMM-Seite eine bloß emotionale Lektüre der Passage historisch schärft."
+    ],
+    writingFrame:
+      "Mit dem USHMM-Dossier gelesen, erscheint die Passage als Teil einer politisch vorbereiteten Krise, weil ..."
+  },
+  {
+    id: "gerda-blachmann",
+    title: "Gerda Blachmann: Videostimme vom Schiff",
+    shortTitle: "Gerda Video",
+    sourceTitle: "USHMM · Oral History",
+    mediaType: "html",
+    openUrl: gerdaBlachmannVideoUrl,
+    embedUrl: gerdaBlachmannDossier,
+    summary:
+      "Gerda Blachmann Wilchfort erinnert als junge Passagierin Depression, Suizidversuch, Newsletter an Bord, die Lichter von Miami und die Angst vor der Rückkehr. Das Video gibt der St.-Louis-Krise eine dichte Binnenstimme und verbindet Havanna mit späterer Verfolgung.",
+    keyIdeas: ["Gerda Blachmann", "Video", "Suizidversuch", "Miami-Lichter", "Newsletter an Bord", "Belgien und Schweiz"],
+    questions: [
+      "Benenne präzise zwei Beobachtungen, die Gerdas Aussage über die Stimmung an Bord macht.",
+      "Erkläre, warum die Miami-Lichter in ihrer Erinnerung mehr als ein Detail der Reise sind.",
+      "Zeige, wie Gerdas Videostimme deine Passage gegen eine zu abstrakte historische Lektüre absichert."
+    ],
+    transferPrompts: [
+      "Verbinde ein Detail aus Gerdas Aussage ausdrücklich mit einem Wort, Bild oder Bühnenmoment deiner Passage.",
+      "Prüfe, ob Gerda vor allem Angst, Hoffnung oder politisches Warten sichtbar macht.",
+      "Erkläre, wie die Oral History den Weg von Havanna zur europäischen Nachgeschichte eröffnet."
+    ],
+    writingFrame:
+      "Gerdas Aussage schärft die Passage, weil ihre Erinnerung zeigt, dass ..."
+  },
+  {
+    id: "ushmm-return-europe",
+    title: "USHMM-Dossier: Rückkehr nach Europa und Verteilung",
+    shortTitle: "Rückkehr Europa",
+    sourceTitle: "USHMM · Return to Europe",
+    mediaType: "html",
+    openUrl: ushmmReturnUrl,
+    embedUrl: ushmmReturnDossier,
+    summary:
+      "Dieses Dossier macht die Rückkehr nach Europa präzise: 287 Passagiere gingen nach Großbritannien, 224 nach Frankreich, 214 nach Belgien, 181 in die Niederlande. Die Aufnahme blieb provisorisch, an Fragebögen und Lager gekoppelt und ausdrücklich ohne Präzedenzwirkung.",
+    keyIdeas: ["287 Großbritannien", "224 Frankreich", "214 Belgien", "181 Niederlande", "provisorisches Asyl", "kein Präzedenzfall"],
+    questions: [
+      "Ordne die Verteilung der Passagiere auf die vier Aufnahmeländer korrekt zu.",
+      "Erkläre klar, warum die Rückkehr nach Europa keine Rettung im starken Sinn ist.",
+      "Zeige an deiner Passage, wie das Drama Übergang, Verteilung oder vorläufige Sicherheit inszeniert."
+    ],
+    transferPrompts: [
+      "Verbinde die Passage ausdrücklich mit einem der vier Aufnahmeländer oder mit der Verteilungslogik.",
+      "Prüfe, wo die Szene vorläufige Aufnahme statt wirklicher Sicherheit sichtbar macht.",
+      "Erkläre, wie aus Verwaltung, Fragebögen und Transporten eine neue Form der Unsicherheit entsteht."
+    ],
+    writingFrame:
+      "Das USHMM-Dossier zeigt, dass die Passage nicht in Rettung mündet, sondern in eine provisorische und gefährdete Verteilung, weil ..."
+  },
+  {
+    id: "ushmm-wartime-fate",
+    title: "USHMM-Dossier: Kriegsschicksale der Passagiere",
+    shortTitle: "Kriegsschicksale",
+    sourceTitle: "USHMM · Wartime Fate",
+    mediaType: "html",
+    openUrl: ushmmFateUrl,
+    embedUrl: ushmmFateDossier,
+    summary:
+      "Das Dossier verfolgt die Nachgeschichte bis in Internierung, Fluchtwege und Deportation. Von den 620 Passagieren, die auf den Kontinent zurückkehrten, saßen 532 später im besetzten Westeuropa fest; 278 überlebten, 254 starben. Die Familien Seligmann und Hermanns zeigen, wie ungleich die Schicksale verliefen.",
+    keyIdeas: ["532 festgesetzt", "278 überlebt", "254 ermordet", "Seligmann", "Hermanns", "1942 versiegende Fluchtwege"],
+    questions: [
+      "Benenne die drei entscheidenden Zahlen des USHMM-Dossiers korrekt und erkläre ihre Aussagekraft.",
+      "Erkläre präzise, was die Gegenüberstellung von Seligmann und Hermanns historisch sichtbar macht.",
+      "Zeige an deiner Passage, wie das Drama ein Ende verweigert, weil die Nachgeschichte weiterläuft."
+    ],
+    transferPrompts: [
+      "Verbinde die Passage ausdrücklich mit Internierung, Deportation, untergetauchtem Überleben oder blockierten Fluchtwegen.",
+      "Prüfe, ob deine Szene eher Vorausdeutung, Nachgeschichte oder offene Bedrohung trägt.",
+      "Erkläre, wie die USHMM-Seite die moralische Schärfe des Schlusses erhöht."
+    ],
+    writingFrame:
+      "Mit dem USHMM-Dossier zu den Kriegsschicksalen gelesen, erhält die Passage ihre volle Härte, weil ..."
   },
   {
     id: "werkueberblick",
@@ -825,7 +980,23 @@ export const lessonSets = [
     moduleIds: ["abfahrt", "zwischenraum"],
     reviewFocus: "Arbeite genau an Zeugenschaft, Familienmotiven und der paradoxen Normalität an Bord.",
     sebPrompt:
-      "Zeige, wie Kehlmann frühe Opferstimmen und private Hoffnungsbilder gestaltet, ohne die politische Bedrohung aus dem Blick zu verlieren."
+      "Zeige, wie Kehlmann frühe Opferstimmen und private Hoffnungsbilder gestaltet, ohne die politische Bedrohung aus dem Blick zu verlieren.",
+    recommendedTheoryIds: ["bilddossier-reise", "historischer-kontext", "gute-geschichte"],
+    resourceAssignments: [
+      {
+        resourceId: "bilddossier-reise",
+        title: "Bildauftrag: Schiff, Passagiere und Bordraum konkret sehen",
+        summary:
+          "Die Bilder der St. Louis, Schröders und der Passagiere helfen, das frühe Bordgeschehen nicht nur sprachlich, sondern räumlich und menschlich zu konkretisieren.",
+        task:
+          "Nutze das Bilddossier, um die frühen Passagen genauer zu lesen. Zeige, wie Schiff, Blick und Passagiernähe die Hoffnungs- und Bedrohungslage sichtbar machen.",
+        questions: [
+          "Welches Bild passt am besten zu den frühen Hoffnungs- und Fluchtszenen?",
+          "Wie schärft das Bild dein Verständnis des Bordraums?",
+          "Was wird durch das Bild deutlicher als durch eine bloß abstrakte Beschreibung?"
+        ]
+      }
+    ]
   },
   {
     id: "lesson-03-schiffssystem",
@@ -847,7 +1018,23 @@ export const lessonSets = [
     moduleIds: ["havanna"],
     reviewFocus: "Achte auf politische Sprache, offene Selbstentlarvung und Willkür im Gewand von Verfahren.",
     sebPrompt:
-      "Zeige an zwei Passagen, wie Havanna als Bühne von Bestechung, Machtkalkül und verweigerter Aufnahme aufgebaut wird."
+      "Zeige an zwei Passagen, wie Havanna als Bühne von Bestechung, Machtkalkül und verweigerter Aufnahme aufgebaut wird.",
+    recommendedTheoryIds: ["bilddossier-akteure", "historischer-kontext", "dokumentartheater"],
+    resourceAssignments: [
+      {
+        resourceId: "bilddossier-akteure",
+        title: "Bildauftrag: Havanna, Bru und die Gesichter politischer Entscheidung",
+        summary:
+          "Die Porträts von Laredo Brú und Batista ziehen die Kuba-Szenen weg von abstrakter Staatsmacht hin zu konkreten politischen Akteuren und Machtfeldern.",
+        task:
+          "Nutze das Bilddossier, um die Havanna-Szenen politisch zu präzisieren. Zeige, wie Korruption, Abwehr und staatliche Entscheidungsmacht im Drama personell greifbar werden.",
+        questions: [
+          "Welches Porträt schärft die Havanna-Szenen am stärksten?",
+          "Wie hilft dir das Bild, Staatsmacht konkreter zu denken?",
+          "Welche Machtfigur oder welches Machtfeld steht hinter der Passage?"
+        ]
+      }
+    ]
   },
   {
     id: "lesson-05-havanna-menschen",
@@ -903,8 +1090,21 @@ export const lessonSets = [
     reviewFocus: "Arbeite an den Sprachformen der Verzögerung, des Dealens und der politischen Schuld durch Unterlassung.",
     sebPrompt:
       "Analysiere die politische Blockade im letzten Drittel des Dramas und zeige, wie Verantwortung immer weiter verschoben wird.",
-    recommendedTheoryIds: ["evian-konferenz", "evian-deutschlandfunk", "ndr-st-louis", "historischer-kontext"],
+    recommendedTheoryIds: ["evian-konferenz", "evian-deutschlandfunk", "ushmm-voyage", "ndr-st-louis", "bilddossier-akteure", "historischer-kontext"],
     resourceAssignments: [
+      {
+        resourceId: "ushmm-voyage",
+        title: "USHMM-Auftrag: Die Krise war politisch längst bekannt",
+        summary:
+          "Die USHMM-Seite zeigt die Reise nicht als plötzliches Missgeschick, sondern als bereits vorbereitete Krise: ungültige Papiere, informierte Behörden, kubanische Machtkämpfe und eine Reise, deren Risiko vor Havanna sichtbar war.",
+        task:
+          "Verbinde die diplomatischen Passagen mit dem USHMM-Dossier. Zeige, wie das Drama eine Krise verdichtet, die politisch schon vor der sichtbaren Blockade angelegt war.",
+        questions: [
+          "Welche Vorentscheidung des Dossiers schärft die Passage am stärksten?",
+          "Wo zeigt das Drama, dass Wissen und Handeln auseinanderfallen?",
+          "Wie macht die Szene aus politischer Kenntnis trotzdem unterlassene Rettung?"
+        ]
+      },
       {
         resourceId: "evian-konferenz",
         title: "Historischer Tiefenauftrag: Évian als Vorstruktur der St. Louis",
@@ -943,6 +1143,19 @@ export const lessonSets = [
           "Wie trennt der Artikel Schröders Rolle von staatlicher Untätigkeit?",
           "Wo wird aus Chronologie im Drama moralische Eskalation?"
         ]
+      },
+      {
+        resourceId: "bilddossier-akteure",
+        title: "Bildauftrag: Diplomatie und politische Verantwortung bekommen Gesichter",
+        summary:
+          "Die Porträts von Wright, Hull, Morgenthau, Brú und Batista helfen, die Verhandlungsszenen als konkrete Machtkonstellation zu lesen.",
+        task:
+          "Nutze das Bilddossier, um die Diplomatieszenen politisch zu konkretisieren. Ordne die Passage einem Machtzentrum oder Akteur zu und zeige, wie dadurch Unterlassung und Verantwortungsverschiebung greifbarer werden.",
+        questions: [
+          "Welcher Akteur passt am ehesten zur Passage?",
+          "Wie verändert das Porträt deine Deutung der Verhandlungsszene?",
+          "Welche Form von Macht oder Verantwortung wird dadurch sichtbarer?"
+        ]
       }
     ]
   },
@@ -956,8 +1169,34 @@ export const lessonSets = [
     reviewFocus: "Begründe am Schlusswort und an den Nachgeschichten, wie das Stück Erinnerung politisch offen hält.",
     sebPrompt:
       "Formuliere eine belastbare Deutung des Endes und verbinde sie mit epischem Theater, dokumentarischer Form oder Kehlmanns Rede „Im Steinbruch“.",
-    recommendedTheoryIds: ["im-steinbruch", "episches-theater", "dokumentartheater", "susanne-heim-grenzen", "ndr-st-louis", "fritz-buff-reisebericht"],
+    recommendedTheoryIds: ["im-steinbruch", "episches-theater", "dokumentartheater", "susanne-heim-grenzen", "ndr-st-louis", "fritz-buff-reisebericht", "ushmm-return-europe", "ushmm-wartime-fate"],
     resourceAssignments: [
+      {
+        resourceId: "ushmm-return-europe",
+        title: "USHMM-Auftrag: Rückkehr nach Europa ist nur vorläufige Aufnahme",
+        summary:
+          "Das USHMM-Dossier legt offen, wie die Passagiere auf vier Länder verteilt wurden und dort nur befristeten Schutz erhielten. Gerade diese Vorläufigkeit macht den Schluss historisch scharf.",
+        task:
+          "Arbeite den Schluss mit dem USHMM-Dossier durch. Zeige, warum Antwerpen und die Verteilung auf vier Länder keine Rettung abschließen, sondern nur eine neue prekäre Phase eröffnen.",
+        questions: [
+          "Welche Zahl oder Verteilungsinformation musst du im Blick behalten, um die Schlusssequenz richtig zu lesen?",
+          "Wo zeigt das Drama Sicherheit nur als Übergang?",
+          "Wie verändert das Dossier deine Bewertung des Wortes Rettung?"
+        ]
+      },
+      {
+        resourceId: "ushmm-wartime-fate",
+        title: "USHMM-Auftrag: Nachgeschichte gegen falsche Entlastung",
+        summary:
+          "Die USHMM-Seite zu den Kriegsschicksalen verfolgt, was nach 1939 geschieht: Internierung, blockierte Fluchtwege, Deportation, Überleben und Ermordung. Damit wird der Schluss des Dramas radikal entlastungsresistent.",
+        task:
+          "Verbinde den Epilog und die Rückwegspassagen mit dem USHMM-Dossier. Zeige, wie das Drama bewusst kein beruhigendes Ende zulässt, weil die eigentliche Gefährdung erst weitergeht.",
+        questions: [
+          "Welche der Zahlen 532, 278 und 254 schärft den Schluss am stärksten, und warum?",
+          "Wo macht das Drama Nachgeschichte als offene Bedrohung sichtbar?",
+          "Wie verhindern die Fälle Seligmann und Hermanns ein pauschales Urteil über die Rückkehr?"
+        ]
+      },
       {
         resourceId: "im-steinbruch",
         title: "Sekundärtext-Auftrag: Erinnerung als Gegenwartsfrage",
@@ -1128,7 +1367,7 @@ export const lessonSets = [
     reviewFocus: "Arbeite historisch präzise heraus, wie das Drama internationale Verweigerung, Grenzpolitik und Zuständigkeitsverschiebung sichtbar macht.",
     sebPrompt:
       "Verbinde die ausgewählten Passagen ausdrücklich mit Évian 1938, mit der Sprache des politischen Ausweichens und mit historischen Grenzregimen. Zeige, wie das Drama diese Zusammenhänge verdichtet.",
-    recommendedTheoryIds: ["evian-konferenz", "evian-deutschlandfunk", "susanne-heim-grenzen", "ndr-st-louis", "fritz-buff-reisebericht", "historischer-kontext"],
+    recommendedTheoryIds: ["evian-konferenz", "evian-deutschlandfunk", "ushmm-voyage", "ushmm-return-europe", "susanne-heim-grenzen", "ndr-st-louis", "fritz-buff-reisebericht", "historischer-kontext"],
     resourceAssignments: [
       {
         resourceId: "evian-konferenz",
@@ -1183,6 +1422,32 @@ export const lessonSets = [
         ]
       },
       {
+        resourceId: "ushmm-voyage",
+        title: "USHMM-Auftrag: Politisch bekannte Krise statt Einzelfall",
+        summary:
+          "Das USHMM-Dossier zeigt, dass die Reise schon vor Havanna von Machtkampf, ungültigen Papieren und informierten Behörden geprägt war. Damit wirkt die St. Louis als Strukturfall, nicht als überraschender Unfall.",
+        task:
+          "Prüfe die Lektion mit dem USHMM-Dossier gegen ein Einzelfall-Lesen. Arbeite heraus, wie das Drama politische Vorstruktur und sichtbare Blockade zusammenführt.",
+        questions: [
+          "Welche historische Vorentscheidung musst du nennen, um die Passage präzise zu verorten?",
+          "Wo wird aus einer Verwaltungsentscheidung eine existenzielle Krise?",
+          "Wie macht das Stück aus bekannter Gefahr trotzdem öffentliches Wegsehen?"
+        ]
+      },
+      {
+        resourceId: "ushmm-return-europe",
+        title: "USHMM-Auftrag: Verteilung statt Lösung",
+        summary:
+          "Die Rückkehr nach Europa zeigt, dass auch die spätere Aufnahme in vier Ländern nur vorläufig, kontrolliert und ohne Präzedenzwirkung erfolgt.",
+        task:
+          "Nutze das USHMM-Dossier, um die Lektion nicht nur als Hafen- oder Diplomatieszene, sondern als Beginn einer prekären europäischen Verteilung zu lesen.",
+        questions: [
+          "Wie verändert die Verteilungslogik deine Sicht auf die diplomatischen Szenen?",
+          "Warum ist vorläufiges Asyl nicht mit Sicherheit gleichzusetzen?",
+          "Wo deutet das Drama schon an, dass nach der Rückkehr keine Ruhe eintritt?"
+        ]
+      },
+      {
         resourceId: "fritz-buff-reisebericht",
         title: "Primärquellen-Auftrag: Passagierstimme gegen Abstraktion",
         summary:
@@ -1207,7 +1472,7 @@ export const lessonSets = [
     reviewFocus: "Arbeite präzise mit Primärquelle, Chronologie und Dramentext zusammen und zeige, wie das Stück historische Erfahrung zugleich verdichtet und erweitert. Behalte dabei im Blick, dass Fritz Buff als 17-Jähriger allein reiste und damit jünger war als manche Lerngruppenmitglieder.",
     sebPrompt:
       "Verbinde die ausgewählten Passagen ausdrücklich mit Fritz Buffs Reisebericht, mit den Bildseiten und mit der NDR-Chronologie. Zeige, wie das Drama Binnenperspektive und historische Gesamtbewegung zusammenführt, und arbeite ausdrücklich heraus, welche Wirkung es hat, dass Buff erst 17 war und allein reiste.",
-    recommendedTheoryIds: ["fritz-buff-reisebericht", "ndr-st-louis", "historischer-kontext"],
+    recommendedTheoryIds: ["fritz-buff-reisebericht", "gerda-blachmann", "bilddossier-reise", "ndr-st-louis", "historischer-kontext"],
     resourceAssignments: [
       {
         resourceId: "fritz-buff-reisebericht",
@@ -1224,6 +1489,19 @@ export const lessonSets = [
         ]
       },
       {
+        resourceId: "gerda-blachmann",
+        title: "Videostimmen-Auftrag: Gerda Blachmann und die Erfahrung des Wartens",
+        summary:
+          "Gerda Blachmanns Video bringt Depression, Hoffnung, Suizidversuch, Newsletter an Bord und die Lichter von Miami in eine knappe, eindringliche Binnenperspektive. Dadurch lässt sich die St.-Louis-Erfahrung noch enger an die Passagierwahrnehmung binden.",
+        task:
+          "Öffne ausdrücklich das Gerda-Blachmann-Video und verbinde ihre Erinnerung mit den ausgewählten Passagen. Zeige, wie Angst, Hoffnung und politische Blockade aus Passagiersicht erlebt werden.",
+        questions: [
+          "Welches Detail aus Gerdas Erinnerung schärft deine Passage am stärksten?",
+          "Wie verändert die Videostimme deinen Blick auf das Warten an Bord?",
+          "Wo stimmen Gerda und Fritz Buff überein, wo setzen sie andere Akzente?"
+        ]
+      },
+      {
         resourceId: "ndr-st-louis",
         title: "Chronologieauftrag: Historische Orientierung",
         summary:
@@ -1235,6 +1513,85 @@ export const lessonSets = [
           "Wie verhindert die Chronologie ein isoliertes Lesen von Buffs Bericht?",
           "Wo macht das Drama aus historischer Abfolge politische Zuspitzung?"
         ]
+      },
+      {
+        resourceId: "bilddossier-reise",
+        title: "Bildauftrag: Schiff, Passagiere und Kapitän noch einmal zusammendenken",
+        summary:
+          "Die Bilder der St. Louis, der Passagiere und Schröders bündeln Raum, Verantwortung und Ausgeliefertsein in einer eigenen visuellen Spur.",
+        task:
+          "Verbinde die Schluss- und Rückwegspassagen mit dem Bilddossier. Zeige, wie sich in den Bildern Bordraum, Blickbeziehung und Verantwortungsfigur noch einmal zuspitzen.",
+        questions: [
+          "Welches Bild schärft die Schluss- oder Rückwegspassage am stärksten?",
+          "Wie verändert sich dein Blick auf Schröder, wenn du sein Porträt mit der Passage zusammendenkst?",
+          "Wie machen die Bilder Passagierperspektive und Ausgeliefertsein sichtbarer?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-15-ushmm-nachgeschichte",
+    title: "Lektion 15 · USHMM, Gerda Blachmann und die Nachgeschichte der Passagiere",
+    summary:
+      "USHMM-Schlusseinheit zur gesamten St.-Louis-Bewegung: politische Vorstruktur, Gerda Blachmanns Videostimme, die Verteilung nach Europa und die ungleichen Kriegsschicksale der Passagiere.",
+    entryIds: ["havanna-3", "diplomatie-4", "rueckweg-2", "rueckweg-4"],
+    moduleIds: ["havanna", "diplomatie", "rueckweg"],
+    reviewFocus: "Verbinde die dramatische Krise mit ihrer Nachgeschichte: Gerda Blachmann, Verteilung auf vier Länder, blockierte Fluchtwege, ungleiche Überlebenschancen und die offene Verantwortung des Schlusses.",
+    sebPrompt:
+      "Arbeite die ausgewählten Passagen zusammen mit den USHMM-Dossiers durch. Zeige präzise, wie Havanna, Rückkehr nach Europa, provisorische Aufnahme, spätere Besatzung und Kriegsschicksale ineinandergreifen. Nutze ausdrücklich Gerdas Videostimme und mindestens eine der zentralen Zahlen zur Nachgeschichte.",
+    recommendedTheoryIds: ["ushmm-voyage", "gerda-blachmann", "ushmm-return-europe", "ushmm-wartime-fate", "fritz-buff-reisebericht", "ndr-st-louis"],
+    resourceAssignments: [
+      {
+        resourceId: "ushmm-voyage",
+        title: "USHMM-Auftrag: Die St. Louis als vorbereitete Krise",
+        summary:
+          "Die Reise beginnt nicht erst mit der sichtbaren Blockade in Havanna. Das Dossier macht deutlich, wie ungültige Papiere, kubanischer Machtkampf und informierte Behörden den Verlauf vorprägen.",
+        task:
+          "Arbeite mit dem USHMM-Dossier zur Reise und zeige, wie das Drama aus bekannter politischer Vorstruktur eine Bühnensituation der späten Erkenntnis macht.",
+        questions: [
+          "Welche historische Vorentscheidung musst du nennen, um die Passage präzise zu rahmen?",
+          "Wie macht das Drama sichtbar, dass Wissen vorhanden ist, Rettung aber ausbleibt?",
+          "Wo wird aus Reiseorganisation politische Falle?"
+        ]
+      },
+      {
+        resourceId: "gerda-blachmann",
+        title: "Videostimmen-Auftrag: Gerda Blachmann als Binnenperspektive",
+        summary:
+          "Gerda Blachmann verdichtet Angst, Hoffnung, Depression, den Suizidversuch an Bord, die Newsletter und die Lichter von Miami zu einer Erinnerung, die den politischen Stoff von innen her lesbar macht.",
+        task:
+          "Nutze Gerdas Video als zentrale Quelle der Lektion. Zeige, wie ihre Erinnerung die ausgewählten Passagen auflädt und wie sie den Weg von Havanna zur europäischen Nachgeschichte öffnet.",
+        questions: [
+          "Welches Detail aus Gerdas Aussage musst du in deine Deutung aufnehmen?",
+          "Wie verändert der Blick auf die Lichter von Miami deine Lesart der Passage?",
+          "Warum ist die Videostimme analytisch mehr als bloße Illustration?"
+        ]
+      },
+      {
+        resourceId: "ushmm-return-europe",
+        title: "USHMM-Auftrag: Verteilung auf vier Länder",
+        summary:
+          "Die Rückkehr nach Europa wird hier als administrative, prekäre und ungleiche Verteilung lesbar: Großbritannien, Frankreich, Belgien und die Niederlande nehmen auf, aber nur vorläufig und ausdrücklich ohne Präzedenzfall.",
+        task:
+          "Arbeite die Passage mit der Verteilungslogik des USHMM-Dossiers durch. Benenne die vier Länder und erkläre, warum diese Verteilung historisch keine Entwarnung bedeutet.",
+        questions: [
+          "Welche vier Länder musst du nennen, um die Nachgeschichte korrekt zu erfassen?",
+          "Wie macht die Quelle die Aufnahme als provisorische Lösung sichtbar?",
+          "Wo trägt die Passage schon die spätere Gefährdung in sich?"
+        ]
+      },
+      {
+        resourceId: "ushmm-wartime-fate",
+        title: "USHMM-Auftrag: 532, 278, 254 und die ungleichen Schicksale",
+        summary:
+          "Das Dossier verfolgt, wie sich die scheinbare Rettung in sehr unterschiedliche Kriegsschicksale auflöst. Die Zahlen und die Fälle Seligmann und Hermanns schärfen das Ende des Dramas historisch radikal nach.",
+        task:
+          "Binde mindestens eine Zahl und einen Fallvergleich aus dem USHMM-Dossier in deine Deutung ein. Zeige, wie das Drama aus offener Form und Nachgeschichte eine besonders harte politische Erinnerung macht.",
+        questions: [
+          "Welche der Zahlen 532, 278 und 254 musst du in deiner Antwort erklären?",
+          "Was zeigt der Vergleich von Seligmann und Hermanns über Zuflucht, Bürokratie und Gefahr?",
+          "Warum verhindert diese Nachgeschichte ein beruhigendes Schlusslesen des Dramas?"
+        ]
       }
     ]
   }
@@ -1243,11 +1600,11 @@ export const lessonSets = [
 export const starterPrompt = {
   title: "Arbeitsauftrag",
   items: [
-    "Arbeite das Drama entlang von vierzehn eng geführten Lektionen im eingebetteten PDF durch und notiere Beobachtungen immer szenennah.",
+    "Arbeite das Drama entlang von fünfzehn eng geführten Lektionen im eingebetteten PDF durch und notiere Beobachtungen immer szenennah.",
     "Sichere zuerst Wortlaut, Rollenrede, Regieanweisung oder Bühnenkonstellation, bevor du deutest.",
     "Nutze pro Passage mindestens eine Linse: historischer Kontext, Dokumentartheater, episches Theater, Dramengang oder Kehlmanns Sekundärtext.",
     "Ziehe in den erweiterten Theorie-Lektionen ausdrücklich die Dropbox-Ressourcen zu Kehlmann, Dokumentartheater und epischem Theater heran.",
-    "Nutze für die historische Vertiefung zusätzlich die Dossiers zu Évian, den Deutschlandfunk-Beitrag samt Audio-Link, den NDR-Überblick, Fritz Buffs Reisebericht mit Bildseiten und Soundfile sowie den Text von Susanne Heim.",
+    "Nutze für die historische Vertiefung zusätzlich die Dossiers zu Évian, den Deutschlandfunk-Beitrag samt Audio-Link, den NDR-Überblick, Fritz Buffs Reisebericht mit Bildseiten und Soundfile, die USHMM-Dossiers zur Reise, zur Rückkehr nach Europa und zu den Kriegsschicksalen sowie Gerdas Blachmanns Videostimme und den Text von Susanne Heim.",
     "Halte im Revisionsfeld fest, welche Deutung du nach erneuter Lektüre schärfen oder gegenlesen willst."
   ]
 };

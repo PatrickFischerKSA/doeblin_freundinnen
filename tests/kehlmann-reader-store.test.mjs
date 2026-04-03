@@ -24,12 +24,13 @@ test("createClassroom generates a code and all current lesson ids", () => {
   assert.equal(store.classes.length, 1);
   assert.equal(classroom.name, "Klasse 10B");
   assert.match(classroom.code, /^KEHL-[A-Z0-9]{6}$/);
-  assert.equal(classroom.lessonIds.length, 14);
+  assert.equal(classroom.lessonIds.length, 15);
   assert.equal(classroom.activeSebLessonId, classroom.lessonIds[0]);
   assert.ok(classroom.lessonIds.includes("lesson-11-kehlmann-haltung"));
   assert.ok(classroom.lessonIds.includes("lesson-12-theaterformen"));
   assert.ok(classroom.lessonIds.includes("lesson-13-evian-grenzen-verantwortung"));
   assert.ok(classroom.lessonIds.includes("lesson-14-fritz-buff-primärquelle"));
+  assert.ok(classroom.lessonIds.includes("lesson-15-ushmm-nachgeschichte"));
 });
 
 test("regenerateClassroomCode replaces the existing class code", () => {

@@ -54,6 +54,13 @@ const historicalSignals = [
   "havanna",
   "florida",
   "antwerpen",
+  "belgien",
+  "niederlande",
+  "holland",
+  "frankreich",
+  "großbritannien",
+  "grossbritannien",
+  "england",
   "grenze",
   "grenzen",
   "transit",
@@ -63,8 +70,18 @@ const historicalSignals = [
   "verhandlung",
   "schröder",
   "buff",
+  "gerda",
+  "blachmann",
   "allein",
-  "17"
+  "17",
+  "deportation",
+  "auschwitz",
+  "drancy",
+  "gurs",
+  "les milles",
+  "überlebt",
+  "ueberlebt",
+  "ermordet"
 ];
 
 const vagueJudgements = [
@@ -84,7 +101,7 @@ const synonymGroups = {
   historisch: ["historisch", "geschichte", "geschichtlich", "1938", "1939", "vergangenheit"],
   havanna: ["havanna", "kuba"],
   florida: ["florida", "miami", "usa", "amerika"],
-  antwerpen: ["antwerpen", "belgien"],
+  antwerpen: ["antwerpen", "belgien", "großbritannien", "grossbritannien", "england", "frankreich", "niederlande", "holland"],
   evian: ["évian", "evian", "konferenz", "delegation"],
   grenze: ["grenze", "grenzen", "grenzregime", "grenzordnung", "transit", "zwischenraum", "zwischenräume"],
   verweigerung: ["verweigerung", "abwehr", "abweisung", "zurückweisung", "unterlassung", "untätigkeit", "nichtaufnahme"],
@@ -93,9 +110,11 @@ const synonymGroups = {
   korruption: ["korruption", "bestechung", "bestechlich", "schmiergeld", "gekauft"],
   dokumentartheater: ["dokumentartheater", "dokumentarisch", "protokollnah", "faktizität", "faktizitaet", "quelle", "zeugenschaft"],
   episches_theater: ["episch", "episches", "verfremdung", "kommentar", "montage", "distanz", "zuschaueradressierung"],
-  erinnerung: ["erinnerung", "gedenken", "nachgeschichte", "gegenwart", "steinbruch", "mauthausen"],
+  erinnerung: ["erinnerung", "gedenken", "nachgeschichte", "gegenwart", "steinbruch", "mauthausen", "deportation", "drancy", "auschwitz", "gurs", "les milles"],
   perspektive: ["perspektive", "blick", "sicht", "binnenperspektive", "ich-perspektive", "innenperspektive"],
-  buff: ["buff", "fritz", "17", "siebzehn", "allein", "jugendlich", "jugendlicher", "jugendliche"]
+  buff: ["buff", "fritz", "17", "siebzehn", "allein", "jugendlich", "jugendlicher", "jugendliche"],
+  gerda: ["gerda", "blachmann", "wilchfort", "miami-lichter", "newsletter", "suizidversuch", "küstenwache", "coast", "guard"],
+  schicksal: ["schicksal", "überlebt", "ueberlebt", "ermordet", "überleben", "ueberleben", "internierung", "lager", "drancy", "auschwitz", "fluchtweg", "visa", "vichy"]
 };
 
 const synonymLookup = new Map(
@@ -237,8 +256,8 @@ export function evaluateReaderSebFeedback({ lessonId, moduleId, entryId, theoryI
 
   const historicalPrecisionScore = Math.min(1, (
     ratio(historicalHits, Math.max(historicalSignals.length / 4, 1)) * 0.5 +
-    (/(havanna|florida|antwerpen|évian|evian|schröder|buff|grenze|transit)/.test(combined) ? 0.25 : 0) +
-    (/(unterlassung|aufnahme|verweigerung|konferenz|verhandlung|grenzregime)/.test(combined) ? 0.25 : 0)
+    (/(havanna|florida|antwerpen|évian|evian|schröder|buff|gerda|blachmann|grenze|transit|belgien|niederlande|frankreich|großbritannien|grossbritannien|england)/.test(combined) ? 0.25 : 0) +
+    (/(unterlassung|aufnahme|verweigerung|konferenz|verhandlung|grenzregime|deportation|auschwitz|drancy|gurs|les milles|überlebt|ueberlebt|ermordet)/.test(combined) ? 0.25 : 0)
   ));
 
   const precisionScore = Math.min(1, (
@@ -353,6 +372,11 @@ export function evaluateReaderSebFeedback({ lessonId, moduleId, entryId, theoryI
   if (lesson.id === "lesson-14-fritz-buff-primärquelle" && !/(17|siebzehn|allein)/.test(combined)) {
     cautions.push("Bei der Fritz-Buff-Lektion bleibt der entscheidende Perspektivenschlüssel noch ungenutzt: Buff war 17 Jahre alt und allein unterwegs.");
     nextMoves.push("Baue die Alters- und Alleinreise-Perspektive ausdrücklich ein und zeige, was sie an deiner Passage verändert.");
+  }
+
+  if (lesson.id === "lesson-15-ushmm-nachgeschichte" && !/(gerda|blachmann|belgien|niederlande|frankreich|großbritannien|grossbritannien|england|deportation|auschwitz|drancy|gurs|les milles|überlebt|ueberlebt|ermordet)/.test(combined)) {
+    cautions.push("In der USHMM-Schlusseinheit fehlt noch der Schritt von der unmittelbaren Hafenkrise zur europäischen Nachgeschichte der Passagiere.");
+    nextMoves.push("Nenne ausdrücklich Gerda Blachmann oder eines der vier Aufnahmeländer und führe die Passage weiter zu Internierung, Deportation, Überleben oder blockierten Fluchtwegen.");
   }
 
   prompts.push(`Welches einzelne Wort, Bild oder Bühnenmoment trägt deine Deutung am stärksten, und warum genau dieses?`);

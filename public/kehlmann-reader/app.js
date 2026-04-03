@@ -44,7 +44,7 @@ const semanticGroups = {
   historisch: ["historisch", "geschichte", "geschichtlich", "1938", "1939", "vergangenheit"],
   havanna: ["havanna", "kuba"],
   florida: ["florida", "miami", "usa", "amerika"],
-  antwerpen: ["antwerpen", "belgien"],
+  antwerpen: ["antwerpen", "belgien", "großbritannien", "grossbritannien", "england", "frankreich", "niederlande", "holland"],
   evian: ["évian", "evian", "konferenz", "delegation"],
   grenze: ["grenze", "grenzen", "grenzregime", "grenzordnung", "transit", "zwischenraum", "zwischenräume"],
   verweigerung: ["verweigerung", "abwehr", "abweisung", "zurückweisung", "nichtaufnahme", "unterlassung", "untätigkeit"],
@@ -53,9 +53,11 @@ const semanticGroups = {
   korruption: ["korruption", "bestechung", "bestechlich", "schmiergeld", "gekauft"],
   dokumentartheater: ["dokumentartheater", "dokumentarisch", "protokollnah", "faktizität", "faktizitaet", "quelle", "zeugenschaft"],
   episches_theater: ["episch", "episches", "verfremdung", "kommentar", "montage", "distanz", "zuschaueradressierung"],
-  erinnerung: ["erinnerung", "gedenken", "nachgeschichte", "gegenwart", "steinbruch", "mauthausen"],
+  erinnerung: ["erinnerung", "gedenken", "nachgeschichte", "gegenwart", "steinbruch", "mauthausen", "deportation", "deportiert", "auschwitz", "drancy", "gurs", "les milles"],
   perspektive: ["perspektive", "blick", "sicht", "binnenperspektive", "ich-perspektive", "innenperspektive"],
-  buff: ["buff", "fritz", "17", "siebzehn", "allein", "jugendlich", "jugendlicher", "jugendliche"]
+  buff: ["buff", "fritz", "17", "siebzehn", "allein", "jugendlich", "jugendlicher", "jugendliche"],
+  gerda: ["gerda", "blachmann", "wilchfort", "miami-lichter", "newsletter", "suizidversuch", "küstenwache", "coast", "guard"],
+  schicksal: ["schicksal", "überlebt", "ueberlebt", "ermordet", "überleben", "ueberleben", "internierung", "lager", "drancy", "auschwitz", "fluchtweg", "visa", "vichy"]
 };
 const semanticLookup = new Map(
   Object.entries(semanticGroups).flatMap(([canonical, variants]) => variants.map((variant) => [variant, canonical]))
@@ -596,7 +598,33 @@ function feedbackFor(note, module, entry) {
   const theory = note.theory;
   const signals = ["zeigt", "verdeutlicht", "deutet", "wirkt", "weil", "macht sichtbar", "inszeniert"];
   const summarySignals = ["dann", "danach", "passiert", "anschließend", "erzählt"];
-  const historicalSignals = ["historisch", "havanna", "florida", "antwerpen", "evian", "évian", "grenze", "transit", "verweigerung", "schröder", "buff"];
+  const historicalSignals = [
+    "historisch",
+    "havanna",
+    "florida",
+    "antwerpen",
+    "evian",
+    "évian",
+    "grenze",
+    "transit",
+    "verweigerung",
+    "schröder",
+    "buff",
+    "gerda",
+    "belgien",
+    "niederlande",
+    "frankreich",
+    "großbritannien",
+    "england",
+    "deportation",
+    "auschwitz",
+    "drancy",
+    "gurs",
+    "les milles",
+    "schicksal",
+    "überlebt",
+    "ermordet"
+  ];
   const precisionSignals = ["wort", "formulierung", "kontrast", "bühne", "montage", "szene", "satz", "bild", "perspektive", "rhythmus", "protokollnah", "zeugenschaft"];
   const positives = [];
   const cautions = [];
@@ -634,7 +662,7 @@ function feedbackFor(note, module, entry) {
 
   if (hasSemanticSignal(combined, historicalSignals)) {
     positives.push("Die Antwort signalisiert bereits, dass du die Szene historisch rahmst und nicht nur isoliert als Einzelschicksal liest.");
-  } else if (relatedTheories.some((resource) => ["evian-konferenz", "evian-deutschlandfunk", "susanne-heim-grenzen", "ndr-st-louis", "fritz-buff-reisebericht", "historischer-kontext"].includes(resource.id))) {
+  } else if (relatedTheories.some((resource) => ["evian-konferenz", "evian-deutschlandfunk", "susanne-heim-grenzen", "ndr-st-louis", "fritz-buff-reisebericht", "ushmm-voyage", "ushmm-return-europe", "ushmm-wartime-fate", "gerda-blachmann", "historischer-kontext"].includes(resource.id))) {
     steps.push("Schärfe die historische Dimension ausdrücklich: Benenne die Station, Konferenzlogik, Grenzordnung oder Passagierperspektive, die die Passage strukturiert.");
   }
 
@@ -668,6 +696,11 @@ function feedbackFor(note, module, entry) {
 
   if (lesson?.id === "lesson-14-fritz-buff-primärquelle" && !body.includes("17") && !body.includes("allein")) {
     steps.push("Nutze die Primärquelle noch schärfer: Halte ausdrücklich fest, dass Fritz Buff erst 17 war und allein reiste, und prüfe, wie das die Passage verändert.");
+  }
+
+  if (lesson?.id === "lesson-15-ushmm-nachgeschichte" && !hasSemanticSignal(combined, ["gerda", "belgien", "niederlande", "frankreich", "großbritannien", "deportation", "überlebt", "ermordet", "schicksal"])) {
+    cautions.push("Für die USHMM-Schlusseinheit bleibt die Nachgeschichte noch zu blass. Im Moment fehlt der Sprung von der Hafenkrise zu Verteilung, Verfolgung oder ungleichen Kriegsschicksalen.");
+    steps.push("Nenne ausdrücklich Gerda Blachmann oder eines der Aufnahmeländer und verbinde die Passage zusätzlich mit Verteilung, Nachgeschichte, Deportation oder Überleben.");
   }
 
   if (!note.observation.trim() || !note.interpretation.trim()) {
@@ -1482,13 +1515,13 @@ function render() {
           <h1>Engmaschiges PDF-Lesetool für das gesamte Drama</h1>
           <p>
             ${mode === "seb"
-              ? "Diese SEB-Fassung arbeitet jetzt mit vierzehn eng geführten Lektionen. Dazu kommen die historische Vertiefung zu Évian, der Deutschlandfunk-Beitrag mit Audio-Link, der NDR-Überblick, Fritz Buffs Reisebericht mit Bildseiten und Soundfile, Susanne Heim sowie die Theorieeinheiten zu Kehlmanns eigener Haltung und zu epischem und dokumentarischem Theater, jeweils mit direkter Passageführung im PDF."
-              : "Das Drama ist vollständig integriert. Links steuerst du vierzehn engere Lektionssets und Theorie-Linsen, darunter die historische Vertiefung zu Évian, den Deutschlandfunk-Beitrag mit Audio-Link, den NDR-Überblick, Fritz Buffs Reisebericht mit Bildseiten und Soundfile, Susanne Heim sowie die Theorieeinheiten zu Kehlmanns persönlicher Involvierung und zu epischem und dokumentarischem Theater. In der Mitte springst du direkt zu den relevanten PDF-Passagen, rechts verbindest du szenische Beobachtung, Theoriebezug, Überarbeitung und Peer Review."}
+              ? "Diese SEB-Fassung arbeitet jetzt mit fünfzehn eng geführten Lektionen. Dazu kommen die historische Vertiefung zu Évian, die USHMM-Dossiers zur Reise, zur Rückkehr nach Europa und zu den Kriegsschicksalen der Passagiere, das Video von Gerda Blachmann, der Deutschlandfunk-Beitrag mit Audio-Link, der NDR-Überblick, Fritz Buffs Reisebericht mit Bildseiten und Soundfile, Susanne Heim sowie die Theorieeinheiten zu Kehlmanns eigener Haltung und zu epischem und dokumentarischem Theater, jeweils mit direkter Passageführung im PDF."
+              : "Das Drama ist vollständig integriert. Links steuerst du fünfzehn engere Lektionssets und Theorie-Linsen, darunter die historische Vertiefung zu Évian, die USHMM-Dossiers zur Reise, zur Rückkehr nach Europa und zu den Kriegsschicksalen der Passagiere, das Video von Gerda Blachmann, den Deutschlandfunk-Beitrag mit Audio-Link, den NDR-Überblick, Fritz Buffs Reisebericht mit Bildseiten und Soundfile, Susanne Heim sowie die Theorieeinheiten zu Kehlmanns persönlicher Involvierung und zu epischem und dokumentarischem Theater. In der Mitte springst du direkt zu den relevanten PDF-Passagen, rechts verbindest du szenische Beobachtung, Theoriebezug, Überarbeitung und Peer Review."}
           </p>
         </div>
         <div class="hero-actions">
           <span class="status-badge">${escapeHtml(modeLabel)}</span>
-          <span class="status-badge">14 Lektionen</span>
+          <span class="status-badge">15 Lektionen</span>
           <span class="status-badge">${escapeHtml(lesson.reviewFocus)}</span>
           ${mode === "open" ? '<a class="button secondary" href="/auth/logout">Abmelden</a>' : ""}
         </div>
