@@ -22,6 +22,7 @@ Empfohlenes Vorgehen:
 ## Wichtige Hinweise
 
 - GitHub Pages reicht nicht aus, weil Passwort- und SEB-Logik Serverrouten brauchen.
+- Falls ein bereits existierender Render-Service noch auf `yarn install` steht, im Render-Dashboard manuell auf `npm install` umstellen.
 - `data/kehlmann-reader-store.json` ist Laufzeitdatenbestand und sollte nicht versioniert werden.
 - Auf Render-Free ist dateibasierte Persistenz flüchtig. Für dauerhafte Kursdaten braucht es später externes Storage oder einen persistenten Datenträger auf einem passenden Plan.
 - Die App erzeugt den Store beim ersten Start selbst, auch wenn der `data`-Ordner noch leer ist.

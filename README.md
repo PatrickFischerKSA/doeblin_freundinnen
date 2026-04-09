@@ -33,6 +33,7 @@ Für Render solltest du diese Variablen setzen:
 
 Wichtig:
 
+- Wenn dein bestehender Render-Service im Dashboard noch `yarn install` verwendet, stelle ihn manuell auf `npm install` um.
 - Die App speichert Lernstände dateibasiert in `data/kehlmann-reader-store.json`.
 - Auf Render-Free ist dieses Dateisystem nicht dauerhaft persistent.
 - Das Tool lässt sich also veröffentlichen und benutzen, aber Kursdaten können bei Redeploys oder Neustarts verloren gehen.
