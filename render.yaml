@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: reise-der-verlorenen
+    name: wahl-22bahnen
     runtime: node
     plan: free
     buildCommand: npm install
