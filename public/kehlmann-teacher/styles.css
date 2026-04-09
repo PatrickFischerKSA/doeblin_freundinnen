@@ -19,14 +19,41 @@ body {
   min-height: 100%;
   font-family: "Avenir Next", "Segoe UI", sans-serif;
   color: var(--text);
-  background:
-    radial-gradient(circle at top left, rgba(180, 92, 57, 0.15), transparent 28%),
-    radial-gradient(circle at top right, rgba(49, 67, 53, 0.15), transparent 32%),
-    linear-gradient(180deg, #f4f0e6 0%, #ece4d2 100%);
+  background: linear-gradient(180deg, #f4f0e6 0%, #ece4d2 100%);
 }
 
 body {
+  position: relative;
+  overflow-x: hidden;
   padding: 18px;
+}
+
+.site-background {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.site-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(180, 92, 57, 0.22), transparent 28%),
+    radial-gradient(circle at top right, rgba(49, 67, 53, 0.2), transparent 32%),
+    rgba(244, 240, 230, 0.64);
+}
+
+.site-background video {
+  position: absolute;
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+  object-fit: cover;
+  filter: blur(24px) saturate(0.95) brightness(0.76);
+  transform: scale(1.1);
 }
 
 .teacher-shell {
@@ -34,6 +61,8 @@ body {
   margin: 0 auto;
   display: grid;
   gap: 18px;
+  position: relative;
+  z-index: 1;
 }
 
 .panel,

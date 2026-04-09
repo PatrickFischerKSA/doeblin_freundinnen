@@ -25,6 +25,7 @@ const CLASS_COOKIE = "kehlmann_reader_class";
 const TEACHER_COOKIE = "kehlmann_teacher_access";
 const SEB_CONFIG_KEY_HASH = process.env.SEB_CONFIG_KEY_HASH || process.env.KEHLMANN_SEB_CONFIG_KEY_HASH || "";
 const READER_PDF_SOURCE = "/reader/assets/22-bahnen.pdf";
+const BACKGROUND_VIDEO_SOURCE = "/reader/assets/22-bahnen-background.mp4";
 
 function teacherRuntimeConfig() {
   return {
@@ -62,10 +63,34 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             min-height: 100vh;
             font-family: "Avenir Next", "Segoe UI", sans-serif;
             color: var(--text);
+            background: linear-gradient(180deg, #f4f0e6 0%, #ece6d7 100%);
+            position: relative;
+            overflow-x: hidden;
+          }
+          .site-background {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+          }
+          .site-background::after {
+            content: "";
+            position: absolute;
+            inset: 0;
             background:
-              radial-gradient(circle at top left, rgba(180, 92, 57, 0.16), transparent 30%),
-              radial-gradient(circle at top right, rgba(49, 67, 53, 0.18), transparent 36%),
-              linear-gradient(180deg, #f4f0e6 0%, #ece6d7 100%);
+              radial-gradient(circle at top left, rgba(180, 92, 57, 0.22), transparent 30%),
+              radial-gradient(circle at top right, rgba(49, 67, 53, 0.24), transparent 36%),
+              rgba(244, 240, 230, 0.64);
+          }
+          .site-background video {
+            position: absolute;
+            inset: -6%;
+            width: 112%;
+            height: 112%;
+            object-fit: cover;
+            filter: blur(22px) saturate(0.95) brightness(0.78);
+            transform: scale(1.08);
           }
           .page {
             max-width: 1120px;
@@ -73,6 +98,8 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             padding: 28px 20px 48px;
             display: grid;
             gap: 20px;
+            position: relative;
+            z-index: 1;
           }
           .panel {
             background: var(--surface);
@@ -262,6 +289,11 @@ function renderShellPage({ title, body, bodyClass = "" }) {
         </style>
       </head>
       <body class="${bodyClass}">
+        <div class="site-background" aria-hidden="true">
+          <video autoplay muted loop playsinline preload="auto">
+            <source src="${BACKGROUND_VIDEO_SOURCE}" type="video/mp4">
+          </video>
+        </div>
         ${body}
       </body>
     </html>
@@ -685,6 +717,11 @@ function renderTeacherPage() {
         <link rel="stylesheet" href="/kehlmann-teacher/styles.css">
       </head>
       <body>
+        <div class="site-background" aria-hidden="true">
+          <video autoplay muted loop playsinline preload="auto">
+            <source src="${BACKGROUND_VIDEO_SOURCE}" type="video/mp4">
+          </video>
+        </div>
         <script>
           window.KEHLMANN_TEACHER_CONFIG = ${JSON.stringify(config)};
         </script>
@@ -706,6 +743,11 @@ function renderReaderPage(mode, lessonId) {
         <link rel="stylesheet" href="/reader/styles.css">
       </head>
       <body>
+        <div class="site-background" aria-hidden="true">
+          <video autoplay muted loop playsinline preload="auto">
+            <source src="${BACKGROUND_VIDEO_SOURCE}" type="video/mp4">
+          </video>
+        </div>
         <script>
           window.KEHLMANN_READER_MODE = "${mode}";
           window.KEHLMANN_READER_MODE_LABEL = "${modeLabel}";
