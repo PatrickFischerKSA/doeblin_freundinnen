@@ -12,6 +12,257 @@ function youtubeEmbed(url) {
   return `https://www.youtube.com/embed/${id}`;
 }
 
+const fillerWords = new Set([
+  "der",
+  "die",
+  "das",
+  "und",
+  "oder",
+  "dass",
+  "weil",
+  "wird",
+  "werden",
+  "einer",
+  "eine",
+  "einem",
+  "einen",
+  "eines",
+  "wie",
+  "warum",
+  "welche",
+  "welcher",
+  "welches",
+  "wodurch",
+  "woran",
+  "wo",
+  "hier",
+  "dieser",
+  "diese",
+  "dieses",
+  "deiner",
+  "deine",
+  "deinem",
+  "deinen",
+  "passage",
+  "szene",
+  "roman",
+  "text",
+  "stelle",
+  "genau",
+  "besonders",
+  "mehr",
+  "bloße",
+  "blosse",
+  "bloß",
+  "bloss",
+  "schon",
+  "früh",
+  "frueh",
+  "gerade"
+]);
+
+const theoryProfiles = {
+  perspektive: {
+    label: "Perspektive",
+    aliases: ["perspektive", "ich-erzählung", "ich-erzaehlung", "blick", "sicht", "wahrnehmung", "nähe", "naehe", "distanz", "filter", "selbstschutz"]
+  },
+  "wasser-motivik": {
+    label: "Wasser-Motivik",
+    aliases: ["wasser", "schwimmen", "bahnen", "tauchen", "meer", "rettung", "becken", "ritual", "welle"]
+  },
+  familienrollen: {
+    label: "Familienrollen",
+    aliases: ["familie", "fürsorge", "fuersorge", "verantwortung", "mutter", "ida", "schwester", "parentifizierung", "versorgung"]
+  },
+  "sprache-koerper": {
+    label: "Sprache und Körper",
+    aliases: ["sprache", "liste", "lakonie", "körper", "koerper", "rhythmus", "geruch", "temperatur", "schmerz", "bewegung"]
+  },
+  materialpool: {
+    label: "Materialvergleich",
+    aliases: ["material", "materialpool", "vergleich", "außenperspektive", "aussenperspektive", "impuls", "zusatzmaterial"]
+  },
+  "inputvideo-1": {
+    label: "Videovergleich",
+    aliases: ["video", "außenlesart", "aussenlesart", "deutung", "vergleich", "schwerpunkt"]
+  },
+  "inputvideo-2": {
+    label: "Videovergleich",
+    aliases: ["video", "symbolik", "deutung", "vergleich", "außenlesart", "aussenlesart"]
+  },
+  "inputvideo-3": {
+    label: "Videovergleich",
+    aliases: ["video", "schluss", "ende", "deutung", "vergleich", "offenheit", "ambivalenz"]
+  }
+};
+
+function normalizeText(value = "") {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s-]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function tokenizeMeaningful(value = "") {
+  return normalizeText(value)
+    .split(" ")
+    .filter((token) => token && token.length > 2 && !fillerWords.has(token));
+}
+
+function unique(items) {
+  return [...new Set(items.filter(Boolean))];
+}
+
+function firstSentence(value = "") {
+  const text = String(value || "").trim();
+  if (!text) {
+    return "";
+  }
+  const [sentence] = text.split(/(?<=[.!?])\s+/u);
+  return sentence || text;
+}
+
+function capitalize(value = "") {
+  const text = String(value || "").trim();
+  return text ? `${text.charAt(0).toUpperCase()}${text.slice(1)}` : "";
+}
+
+function operatorProfile(prompt = "") {
+  const text = normalizeText(prompt);
+  if (/^(warum|wie|erkläre|erklaere|erläutere|erlaeutere)/.test(text)) {
+    return { label: "Erklären", sentenceCount: "3-4", action: "Erkläre die Beobachtung, sichere sie am Text und leite ihre Wirkung ab" };
+  }
+  if (/^(zeige|weise|ordne|vergleiche|verbinde)/.test(text)) {
+    return { label: "Zeigen", sentenceCount: "3-4", action: "Zeige die Aussage an einem genauen Detail und führe sie zu einer Deutung weiter" };
+  }
+  if (/^(prüfe|pruefe|entscheide)/.test(text)) {
+    return { label: "Prüfen", sentenceCount: "3-4", action: "Entscheide dich begründet und sichere deine Entscheidung am Text" };
+  }
+  if (/^(wo|wodurch|woran|welche|welcher|welches|nenne|benenne)/.test(text)) {
+    return { label: "Benennen", sentenceCount: "2-3", action: "Benenne zuerst das Textsignal und erkläre dann knapp seine Funktion" };
+  }
+  return { label: "Ausarbeiten", sentenceCount: "3-4", action: "Arbeite die Frage in präzisen, textnahen Sätzen aus" };
+}
+
+function focusTerms(prompt = "", context = "", extras = []) {
+  return unique([
+    ...tokenizeMeaningful(prompt),
+    ...tokenizeMeaningful(context),
+    ...extras.flatMap((item) => tokenizeMeaningful(item))
+  ]).slice(0, 6);
+}
+
+function conceptFromAliases(label, aliases = []) {
+  const normalizedAliases = unique(
+    aliases.flatMap((alias) => {
+      const plain = normalizeText(alias);
+      if (!plain) {
+        return [];
+      }
+      return unique([plain, ...plain.split(" ").filter((part) => part.length > 2)]);
+    })
+  );
+
+  return {
+    label,
+    aliases: normalizedAliases
+  };
+}
+
+function theoryConcepts(ids = []) {
+  return ids
+    .map((id) => theoryProfiles[id])
+    .filter(Boolean)
+    .map((profile) => conceptFromAliases(profile.label, profile.aliases));
+}
+
+function modelAnswerForTask({ prompt, context, signalWords = [], keyIdeas = [], writingFrame = "", relatedTheoryIds = [], taskTitle = "" }) {
+  const sentence = firstSentence(context || writingFrame || taskTitle);
+  const evidence = signalWords.length
+    ? `Das sieht man an Signalen wie ${signalWords.slice(0, 2).map((word) => `"${word}"`).join(" und ")}.`
+    : "";
+  const theoryHint = relatedTheoryIds
+    .map((id) => theoryProfiles[id]?.label)
+    .filter(Boolean)
+    .slice(0, 2);
+  const focus = keyIdeas.length ? keyIdeas.slice(0, 2).join(" und ") : focusTerms(prompt, context, signalWords).slice(0, 2).join(" und ");
+  const finalSentence = theoryHint.length
+    ? `Dadurch wird besonders ${theoryHint.join(" und ").toLowerCase()} sichtbar.`
+    : focus
+      ? `Dadurch wird besonders ${focus.toLowerCase()} als Deutungsschwerpunkt greifbar.`
+      : "Dadurch wird die Funktion der Passage deutlich und nicht nur ihr Inhalt nacherzählt.";
+
+  return unique([capitalize(sentence), evidence, finalSentence]).join(" ");
+}
+
+function instructionForTask(prompt, { signalWords = [], relatedTheoryIds = [], kind = "question" } = {}) {
+  const operator = operatorProfile(prompt);
+  const evidencePart = signalWords.length
+    ? `Arbeite mit mindestens einem genauen Signalwort aus der Passage, zum Beispiel ${signalWords.slice(0, 2).map((word) => `"${word}"`).join(" oder ")}.`
+    : "Arbeite mit mindestens einem genauen Textdetail oder Wortlaut aus der Passage.";
+  const theoryPart = relatedTheoryIds.length
+    ? `Verbinde deine Beobachtung am Schluss mit ${relatedTheoryIds.map((id) => theoryProfiles[id]?.label).filter(Boolean).slice(0, 2).join(" oder ")}.`
+    : "Schließe mit einer klaren Deutung oder Funktionsaussage.";
+  const opening = kind === "transfer"
+    ? "Beziehe Passage und Deutungslinse ausdrücklich aufeinander."
+    : kind === "resource"
+      ? "Nutze die Ressource nur als Vergleichsfolie und bleibe beim Romantext."
+      : operator.action;
+
+  return `Antworte in ${operator.sentenceCount} Sätzen. ${opening}. ${evidencePart} ${theoryPart}`;
+}
+
+function checklistForTask(prompt, { signalWords = [], relatedTheoryIds = [] } = {}) {
+  const operator = operatorProfile(prompt);
+  return unique([
+    `${operator.label}: ${capitalize(prompt.replace(/\?$/, ""))}.`,
+    signalWords.length
+      ? `Nenne mindestens ein Textsignal aus der Passage: ${signalWords.slice(0, 3).join(", ")}.`
+      : "Nenne mindestens ein Textsignal oder eine genaue Beobachtung aus der Passage.",
+    relatedTheoryIds.length
+      ? `Verbinde deine Aussage mit ${relatedTheoryIds.map((id) => theoryProfiles[id]?.label).filter(Boolean).slice(0, 2).join(" oder ")}.`
+      : "Formuliere am Schluss die Wirkung, Funktion oder Ambivalenz der Stelle."
+  ]);
+}
+
+export function buildTask(prompt, options = {}) {
+  const {
+    context = "",
+    signalWords = [],
+    relatedTheoryIds = [],
+    keyIdeas = [],
+    writingFrame = "",
+    kind = "question",
+    taskTitle = ""
+  } = options;
+  const question = String(prompt || "").trim();
+  const conceptTerms = focusTerms(question, context, [...signalWords, ...keyIdeas]);
+  const concepts = unique([
+    signalWords.length ? conceptFromAliases("Textsignal", signalWords) : null,
+    ...theoryConcepts(relatedTheoryIds),
+    conceptTerms.length ? conceptFromAliases("Fragekern", conceptTerms) : null
+  ]);
+
+  return {
+    prompt: question,
+    operatorLabel: operatorProfile(question).label,
+    instruction: instructionForTask(question, { signalWords, relatedTheoryIds, kind }),
+    checklist: checklistForTask(question, { signalWords, relatedTheoryIds }),
+    modelAnswer: modelAnswerForTask({
+      prompt: question,
+      context,
+      signalWords,
+      keyIdeas,
+      writingFrame,
+      relatedTheoryIds,
+      taskTitle
+    }),
+    concepts,
+    synonymHints: unique(concepts.flatMap((concept) => concept.aliases)).slice(0, 10)
+  };
+}
+
 export const theoryResources = [
   {
     id: "materialpool",
@@ -1089,6 +1340,79 @@ export const lessonSets = [
     ]
   }
 ];
+
+function decorateTheoryResources() {
+  for (const resource of theoryResources) {
+    resource.questionTasks = resource.questions.map((question) =>
+      buildTask(question, {
+        context: resource.summary,
+        keyIdeas: resource.keyIdeas,
+        relatedTheoryIds: [resource.id],
+        writingFrame: resource.writingFrame,
+        kind: "theory",
+        taskTitle: resource.title
+      })
+    );
+    resource.transferTasks = resource.transferPrompts.map((prompt) =>
+      buildTask(prompt, {
+        context: resource.summary,
+        keyIdeas: resource.keyIdeas,
+        relatedTheoryIds: [resource.id],
+        writingFrame: resource.writingFrame,
+        kind: "transfer",
+        taskTitle: resource.title
+      })
+    );
+  }
+}
+
+function decorateReaderModules() {
+  for (const module of readerModules) {
+    for (const entry of module.entries) {
+      entry.focusTasks = entry.prompts.map((prompt) =>
+        buildTask(prompt, {
+          context: `${entry.context} ${module.briefing}`,
+          signalWords: entry.signalWords,
+          relatedTheoryIds: entry.relatedTheoryIds,
+          writingFrame: entry.writingFrame,
+          kind: "focus",
+          taskTitle: entry.title
+        })
+      );
+    }
+  }
+}
+
+function decorateLessonSets() {
+  for (const lesson of lessonSets) {
+    for (const assignment of lesson.resourceAssignments || []) {
+      const resource = theoryResources.find((entry) => entry.id === assignment.resourceId);
+      assignment.questionTasks = assignment.questions.map((question) =>
+        buildTask(question, {
+          context: `${assignment.summary} ${assignment.task} ${resource?.summary || ""}`,
+          signalWords: [],
+          keyIdeas: resource?.keyIdeas || [],
+          relatedTheoryIds: [assignment.resourceId],
+          writingFrame: resource?.writingFrame || "",
+          kind: "resource",
+          taskTitle: assignment.title
+        })
+      );
+      assignment.taskCard = buildTask(assignment.task, {
+        context: `${assignment.summary} ${resource?.summary || ""}`,
+        keyIdeas: resource?.keyIdeas || [],
+        relatedTheoryIds: [assignment.resourceId],
+        writingFrame: resource?.writingFrame || "",
+        kind: "resource",
+        taskTitle: assignment.title
+      });
+    }
+  }
+}
+
+decorateTheoryResources();
+decorateReaderModules();
+decorateLessonSets();
 
 export const starterPrompt = {
   title: "Arbeitsauftrag",

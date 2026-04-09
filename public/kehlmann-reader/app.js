@@ -1,4 +1,4 @@
-import { pdfSource, readerModules, starterPrompt, theoryResources, lessonSets } from "./data.js";
+import { buildTask, pdfSource, readerModules, starterPrompt, theoryResources, lessonSets } from "./data.js";
 import { buildParcoursMarkdown } from "./export.js";
 
 const mode = window.KEHLMANN_READER_MODE || "open";
@@ -41,6 +41,20 @@ let feedbackTimer = null;
 let sebFeedbackRequestId = 0;
 const entryIndex = new Map();
 const semanticGroups = {
+  tilda: ["tilda", "ich-erzählerin", "ich-erzaehlerin", "erzählerin", "erzaehlerin"],
+  ida: ["ida", "schwester", "kleine schwester"],
+  mutter: ["mutter", "mama", "mam"],
+  viktor: ["viktor"],
+  ivan: ["ivan", "bruder"],
+  wasser: ["wasser", "schwimmen", "bahn", "bahnen", "becken", "meer", "tauchen", "rettung"],
+  kontrolle: ["kontrolle", "ordnen", "ordnung", "ritual", "zählen", "zaehlen", "disziplin", "selbststeuerung"],
+  belastung: ["belastung", "überforderung", "ueberforderung", "druck", "erschöpfung", "erschoepfung", "stress", "panik"],
+  fuersorge: ["fürsorge", "fuersorge", "versorgen", "verantwortung", "parentifizierung", "kümmern", "kuemmern"],
+  perspektive_roman: ["blick", "perspektive", "wahrnehmung", "sicht", "nähe", "naehe", "distanz", "filter", "selbstschutz"],
+  sprache_roman: ["liste", "lakonie", "sprache", "wortwahl", "rhythmus", "satz", "dialog", "körper", "koerper", "geruch", "temperatur"],
+  familie_roman: ["familie", "mutter", "ida", "schwester", "wohnung", "zuhause", "scham"],
+  erinnerung_roman: ["erinnerung", "schuld", "ivan", "vergangenheit", "trauma", "schock"],
+  ambivalenz: ["ambivalenz", "zugleich", "gleichzeitig", "widerspruch", "offen", "offenheit", "doppelt"],
   historisch: ["historisch", "geschichte", "geschichtlich", "1938", "1939", "vergangenheit"],
   havanna: ["havanna", "kuba"],
   florida: ["florida", "miami", "usa", "amerika"],
@@ -145,6 +159,165 @@ function responsePlaceholder(prompt = "") {
     return "Prüfe die Möglichkeit genau und entscheide dich begründet.";
   }
   return "Arbeite die Frage in 2-4 präzisen, textnahen Sätzen aus.";
+}
+
+function taskPrompt(task) {
+  return typeof task === "string" ? task : task?.prompt || "";
+}
+
+function focusTasksFor(entry = currentEntry()) {
+  return entry?.focusTasks || entry?.prompts?.map((prompt) => buildTask(prompt, {
+    context: entry.context,
+    signalWords: entry.signalWords,
+    relatedTheoryIds: entry.relatedTheoryIds,
+    writingFrame: entry.writingFrame,
+    kind: "focus",
+    taskTitle: entry.title
+  })) || [];
+}
+
+function guidingTasksFor(theory = currentTheory()) {
+  return theory?.questionTasks || theory?.questions?.map((question) => buildTask(question, {
+    context: theory.summary,
+    keyIdeas: theory.keyIdeas,
+    relatedTheoryIds: [theory.id],
+    writingFrame: theory.writingFrame,
+    kind: "theory",
+    taskTitle: theory.title
+  })) || [];
+}
+
+function transferTasksFor(entry = currentEntry(), theory = currentTheory()) {
+  const prompts = [
+    `Beziehe "${entry.passageLabel}" gezielt auf ${theory.shortTitle.toLowerCase()} und sichere deine Aussage mit mindestens zwei Wörtern aus dem Text.`,
+    ...(theory.transferPrompts || []).slice(0, 2)
+  ];
+
+  return prompts.map((prompt) => buildTask(prompt, {
+    context: `${entry.context} ${theory.summary}`,
+    signalWords: entry.signalWords,
+    keyIdeas: theory.keyIdeas,
+    relatedTheoryIds: uniqueTheoryIds(entry.relatedTheoryIds, [theory.id]),
+    writingFrame: theory.writingFrame,
+    kind: "transfer",
+    taskTitle: `${entry.title} · ${theory.shortTitle}`
+  }));
+}
+
+function resourceQuestionTasksFor(assignment) {
+  return assignment?.questionTasks || assignment?.questions?.map((question) => buildTask(question, {
+    context: `${assignment.summary} ${assignment.task}`,
+    relatedTheoryIds: [assignment.resourceId],
+    kind: "resource",
+    taskTitle: assignment.title
+  })) || [];
+}
+
+function uniqueTheoryIds(primary = [], extra = []) {
+  return [...new Set([...(primary || []), ...(extra || [])].filter(Boolean))];
+}
+
+function conceptMatches(answer, concept) {
+  const text = String(answer || "").toLowerCase();
+  const concepts = conceptSet(text);
+  return (concept?.aliases || []).some((alias) => {
+    const normalized = String(alias || "").toLowerCase();
+    return normalized && (text.includes(normalized) || concepts.has(canonicalToken(normalized)));
+  });
+}
+
+function evaluateAnswer(answer, task, { minTokens = 12 } = {}) {
+  const plain = String(answer || "").trim();
+  const tokens = tokenizeText(plain);
+  const analysisTerms = ["zeigt", "verdeutlicht", "macht sichtbar", "deutet", "wirkt", "funktion", "bedeutet", "deshalb", "dadurch", "zugleich"];
+  const concepts = Array.isArray(task?.concepts) ? task.concepts : [];
+  const matchedConcepts = concepts.filter((concept) => conceptMatches(plain, concept)).map((concept) => concept.label);
+  const missingConcepts = concepts.filter((concept) => !conceptMatches(plain, concept)).map((concept) => concept.label);
+  const hasAnalysis = hasSemanticSignal(plain, analysisTerms);
+  const hasEvidence = matchedConcepts.includes("Textsignal") || /["„‚]/.test(plain);
+
+  if (!plain) {
+    return {
+      level: "empty",
+      heading: "Noch keine Antwort eingetragen",
+      summary: "Schreibe jetzt 2-4 Sätze. Die Antwort soll Textsignal, Deutung und Wirkung verbinden.",
+      recognized: [],
+      missing: concepts.slice(0, 3).map((concept) => concept.label)
+    };
+  }
+
+  if (tokens.length >= minTokens && hasEvidence && hasAnalysis && matchedConcepts.length >= Math.min(2, concepts.length || 2)) {
+    return {
+      level: "strong",
+      heading: "Tragfähige Antwort",
+      summary: "Die Antwort ist textnah und bereits analytisch angebunden. Jetzt kannst du vor allem noch präziser formulieren.",
+      recognized: matchedConcepts,
+      missing: missingConcepts.slice(0, 2)
+    };
+  }
+
+  if (tokens.length >= 8 && (hasEvidence || matchedConcepts.length >= 1)) {
+    return {
+      level: "partial",
+      heading: "Gute Richtung, aber noch zu knapp",
+      summary: "Ein Ansatz ist erkennbar. Es fehlen aber noch mehr Wortlaut, klarere Deutung oder ein expliziter Theoriebezug.",
+      recognized: matchedConcepts,
+      missing: missingConcepts.slice(0, 3)
+    };
+  }
+
+  return {
+    level: "weak",
+    heading: "Noch zu allgemein",
+    summary: "Im Moment klingt die Antwort eher nach Eindruck oder Nacherzählung. Benenne ein konkretes Signal und leite daraus eine Wirkung ab.",
+    recognized: matchedConcepts,
+    missing: missingConcepts.slice(0, 3)
+  };
+}
+
+function renderTaskPreview(task, index, baseLabel = "Aufgabe") {
+  return `
+    <article class="question-task-card">
+      <div class="section-head">
+        <strong>${escapeHtml(`${baseLabel} ${index + 1} · ${task.operatorLabel || promptOperator(taskPrompt(task))}`)}</strong>
+      </div>
+      <p class="field-prompt">${escapeHtml(taskPrompt(task))}</p>
+      <p class="task-instruction">${escapeHtml(task.instruction || responsePlaceholder(taskPrompt(task)))}</p>
+      <ul class="task-checklist">
+        ${(task.checklist || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+      </ul>
+    </article>
+  `;
+}
+
+function renderTaskField({ task, value, dataset, label }) {
+  const feedback = evaluateAnswer(value, task);
+  const dataAttributes = Object.entries(dataset)
+    .map(([key, fieldValue]) => `data-${key}="${escapeHtml(String(fieldValue))}"`)
+    .join(" ");
+
+  return `
+    <label class="question-answer-block">
+      ${escapeHtml(label)}
+      <span class="field-prompt">${escapeHtml(taskPrompt(task))}</span>
+      <span class="task-instruction">${escapeHtml(task.instruction || responsePlaceholder(taskPrompt(task)))}</span>
+      <ul class="task-checklist">
+        ${(task.checklist || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+      </ul>
+      <textarea ${dataAttributes} placeholder="${escapeHtml(task.instruction || responsePlaceholder(taskPrompt(task)))}">${escapeHtml(value || "")}</textarea>
+      <div class="task-feedback task-feedback--${feedback.level}">
+        <strong>${escapeHtml(feedback.heading)}</strong>
+        <p>${escapeHtml(feedback.summary)}</p>
+        ${feedback.recognized.length ? `<p><strong>Erkannt:</strong> ${escapeHtml(feedback.recognized.join(", "))}</p>` : ""}
+        ${feedback.missing.length ? `<p><strong>Noch absichern:</strong> ${escapeHtml(feedback.missing.join(", "))}</p>` : ""}
+        <p><strong>Synonymerkennung:</strong> ${escapeHtml((task.synonymHints || []).slice(0, 8).join(", "))}</p>
+      </div>
+      <details class="model-answer">
+        <summary>Musterlösung einblenden</summary>
+        <p>${escapeHtml(task.modelAnswer || "")}</p>
+      </details>
+    </label>
+  `;
 }
 
 async function fetchBootstrap() {
@@ -471,25 +644,27 @@ function noteForEntry(entryId) {
 
 function focusAnswersFor(entry = currentEntry()) {
   const note = noteForEntry(entry.id);
-  return entry.prompts.map((_, index) => note.focusAnswers?.[index] || "");
+  return focusTasksFor(entry).map((_, index) => note.focusAnswers?.[index] || "");
 }
 
 function theoryResponseFor(entry = currentEntry(), theory = currentTheory()) {
   const note = noteForEntry(entry.id);
   const stored = note.theoryResponses?.[theory.id] || {};
-  const transferPrompts = transferPromptsFor(entry, theory);
+  const guidingTasks = guidingTasksFor(theory);
+  const transferTasks = transferTasksFor(entry, theory);
 
   return {
-    guidingAnswers: theory.questions.map((_, index) => stored.guidingAnswers?.[index] || ""),
-    transferAnswers: transferPrompts.map((_, index) => stored.transferAnswers?.[index] || "")
+    guidingAnswers: guidingTasks.map((_, index) => stored.guidingAnswers?.[index] || ""),
+    transferAnswers: transferTasks.map((_, index) => stored.transferAnswers?.[index] || "")
   };
 }
 
 function resourceResponseForAssignment(assignment, lesson = currentLesson()) {
   const raw = state.notes[resourceResponseKey(lesson.id, assignment.resourceId)] || {};
+  const questionTasks = resourceQuestionTasksFor(assignment);
   return {
     taskResponse: raw.taskResponse || "",
-    questionAnswers: assignment.questions.map((_, index) => raw.questionAnswers?.[index] || "")
+    questionAnswers: questionTasks.map((_, index) => raw.questionAnswers?.[index] || "")
   };
 }
 
@@ -501,22 +676,25 @@ function documentationStatusForEntry(entry = currentEntry(), theory = currentThe
   const note = noteForEntry(entry.id);
   const focusAnswers = focusAnswersFor(entry);
   const theoryResponses = theoryResponseFor(entry, theory);
+  const focusTasks = focusTasksFor(entry);
+  const guidingTasks = guidingTasksFor(theory);
+  const transferTasks = transferTasksFor(entry, theory);
   const checks = [
     { label: "Beobachtung", complete: Boolean(trimmed(note.observation)) },
     { label: "Textanker / Wortlaut", complete: Boolean(trimmed(note.evidence)) },
     { label: "Deutung", complete: Boolean(trimmed(note.interpretation)) },
     { label: "Theoriebezug", complete: Boolean(trimmed(note.theory)) },
     { label: "Revision / nächster Schritt", complete: Boolean(trimmed(note.revision)) },
-    ...entry.prompts.map((prompt, index) => ({
-      label: `Fokusfrage ${index + 1}: ${prompt}`,
+    ...focusTasks.map((task, index) => ({
+      label: `Fokusfrage ${index + 1}: ${taskPrompt(task)}`,
       complete: Boolean(trimmed(focusAnswers[index]))
     })),
-    ...theory.questions.map((question, index) => ({
-      label: `Leitfrage ${index + 1}: ${question}`,
+    ...guidingTasks.map((task, index) => ({
+      label: `Leitfrage ${index + 1}: ${taskPrompt(task)}`,
       complete: Boolean(trimmed(theoryResponses.guidingAnswers[index]))
     })),
-    ...transferPromptsFor(entry, theory).map((prompt, index) => ({
-      label: `Transfer ${index + 1}: ${prompt}`,
+    ...transferTasks.map((task, index) => ({
+      label: `Transfer ${index + 1}: ${taskPrompt(task)}`,
       complete: Boolean(trimmed(theoryResponses.transferAnswers[index]))
     }))
   ];
@@ -530,10 +708,11 @@ function documentationStatusForEntry(entry = currentEntry(), theory = currentThe
 
 function documentationStatusForAssignment(assignment, lesson = currentLesson()) {
   const response = resourceResponseForAssignment(assignment, lesson);
+  const questionTasks = resourceQuestionTasksFor(assignment);
   const checks = [
     { label: "Arbeitsauftrag schriftlich beantworten", complete: Boolean(trimmed(response.taskResponse)) },
-    ...assignment.questions.map((question, index) => ({
-      label: `Ressourcenfrage ${index + 1}: ${question}`,
+    ...questionTasks.map((task, index) => ({
+      label: `Ressourcenfrage ${index + 1}: ${taskPrompt(task)}`,
       complete: Boolean(trimmed(response.questionAnswers[index]))
     }))
   ];
@@ -583,13 +762,6 @@ function pageRangeForLesson(lesson = currentLesson()) {
   const first = Math.min(...pageNumbers);
   const last = Math.max(...pageNumbers);
   return first === last ? `S. ${first}` : `S. ${first}-${last}`;
-}
-
-function transferPromptsFor(entry, theory) {
-  return [
-    `Beziehe "${entry.passageLabel}" gezielt auf ${theory.shortTitle.toLowerCase()} und sichere deine Aussage mit mindestens zwei Wörtern aus dem Text.`,
-    ...theory.transferPrompts.slice(0, 2)
-  ];
 }
 
 function feedbackFor(note, module, entry) {
@@ -761,12 +933,13 @@ function renderEntryTabs(module) {
 function renderPassageNavigator(lesson = currentLesson()) {
   return entriesForLesson(lesson).map((entry) => {
     const module = entryIndex.get(entry.id)?.module;
+    const focusTasks = focusTasksFor(entry);
     return `
     <button class="passage-card ${entry.id === state.entryId ? "is-active" : ""}" data-action="select-entry" data-entry-id="${entry.id}">
       <span class="passage-page">${escapeHtml(entry.pageHint)}</span>
       <strong>${escapeHtml(entry.passageLabel)}</strong>
       <small>${escapeHtml(module?.title || "")}</small>
-      <span>${escapeHtml(entry.prompts[0])}</span>
+      <span>${escapeHtml(taskPrompt(focusTasks[0]))}</span>
     </button>
   `;
   }).join("");
@@ -820,11 +993,7 @@ function renderLessonMediaPanel(lesson = currentLesson()) {
 }
 
 function renderFocusQuestions(entry) {
-  return `
-    <ul class="question-list">
-      ${entry.prompts.map((prompt) => `<li>${escapeHtml(prompt)}</li>`).join("")}
-    </ul>
-  `;
+  return focusTasksFor(entry).map((task, index) => renderTaskPreview(task, index, "Fokusauftrag")).join("");
 }
 
 function renderNotebook(entry) {
@@ -834,6 +1003,9 @@ function renderNotebook(entry) {
   const focusAnswers = focusAnswersFor(entry);
   const theoryResponses = theoryResponseFor(entry, theory);
   const documentation = documentationStatusForEntry(entry, theory);
+  const focusTasks = focusTasksFor(entry);
+  const guidingTasks = guidingTasksFor(theory);
+  const transferTasks = transferTasksFor(entry, theory);
 
   return `
     <section class="panel notebook">
@@ -878,43 +1050,40 @@ function renderNotebook(entry) {
         <section class="structured-section">
           <div class="section-head">
             <strong>Fokusfragen schriftlich beantworten</strong>
-            <span class="status-badge" data-doc-count="focus">${escapeHtml(`${focusAnswers.filter((value) => trimmed(value)).length}/${entry.prompts.length}`)}</span>
+            <span class="status-badge" data-doc-count="focus">${escapeHtml(`${focusAnswers.filter((value) => trimmed(value)).length}/${focusTasks.length}`)}</span>
           </div>
-          ${entry.prompts.map((prompt, index) => `
-            <label>
-              ${escapeHtml(responseLabel("Fokusfrage", index, prompt))}
-              <span class="field-prompt">${escapeHtml(prompt)}</span>
-              <textarea data-note-array="focusAnswers" data-index="${index}" placeholder="${escapeHtml(responsePlaceholder(prompt))}">${escapeHtml(focusAnswers[index])}</textarea>
-            </label>
-          `).join("")}
+          ${focusTasks.map((task, index) => renderTaskField({
+            task,
+            value: focusAnswers[index],
+            dataset: { "note-array": "focusAnswers", index },
+            label: responseLabel("Fokusfrage", index, taskPrompt(task))
+          })).join("")}
         </section>
 
         <section class="structured-section">
           <div class="section-head">
             <strong>${escapeHtml(`Leitfragen zu ${theory.shortTitle}`)}</strong>
-            <span class="status-badge" data-doc-count="guiding">${escapeHtml(`${theoryResponses.guidingAnswers.filter((value) => trimmed(value)).length}/${theory.questions.length}`)}</span>
+            <span class="status-badge" data-doc-count="guiding">${escapeHtml(`${theoryResponses.guidingAnswers.filter((value) => trimmed(value)).length}/${guidingTasks.length}`)}</span>
           </div>
-          ${theory.questions.map((question, index) => `
-            <label>
-              ${escapeHtml(responseLabel("Leitfrage", index, question))}
-              <span class="field-prompt">${escapeHtml(question)}</span>
-              <textarea data-note-theory-section="guidingAnswers" data-index="${index}" placeholder="${escapeHtml(responsePlaceholder(question))}">${escapeHtml(theoryResponses.guidingAnswers[index])}</textarea>
-            </label>
-          `).join("")}
+          ${guidingTasks.map((task, index) => renderTaskField({
+            task,
+            value: theoryResponses.guidingAnswers[index],
+            dataset: { "note-theory-section": "guidingAnswers", index },
+            label: responseLabel("Leitfrage", index, taskPrompt(task))
+          })).join("")}
         </section>
 
         <section class="structured-section">
           <div class="section-head">
             <strong>Transfer zur Passage schriftlich festhalten</strong>
-            <span class="status-badge" data-doc-count="transfer">${escapeHtml(`${theoryResponses.transferAnswers.filter((value) => trimmed(value)).length}/${transferPromptsFor(entry, theory).length}`)}</span>
+            <span class="status-badge" data-doc-count="transfer">${escapeHtml(`${theoryResponses.transferAnswers.filter((value) => trimmed(value)).length}/${transferTasks.length}`)}</span>
           </div>
-          ${transferPromptsFor(entry, theory).map((prompt, index) => `
-            <label>
-              ${escapeHtml(responseLabel("Transfer", index, prompt))}
-              <span class="field-prompt">${escapeHtml(prompt)}</span>
-              <textarea data-note-theory-section="transferAnswers" data-index="${index}" placeholder="${escapeHtml(responsePlaceholder(prompt))}">${escapeHtml(theoryResponses.transferAnswers[index])}</textarea>
-            </label>
-          `).join("")}
+          ${transferTasks.map((task, index) => renderTaskField({
+            task,
+            value: theoryResponses.transferAnswers[index],
+            dataset: { "note-theory-section": "transferAnswers", index },
+            label: responseLabel("Transfer", index, taskPrompt(task))
+          })).join("")}
         </section>
       </form>
 
@@ -1096,7 +1265,8 @@ function renderPdfPanel(entry, module) {
 
 function renderTheoryPanel(module, entry) {
   const theory = currentTheory();
-  const transferPrompts = transferPromptsFor(entry, theory);
+  const guidingTasks = guidingTasksFor(theory);
+  const transferTasks = transferTasksFor(entry, theory);
   const mediaMarkup = theory.mediaType === "pdf"
     ? `
       <div class="pdf-frame-wrap">
@@ -1147,16 +1317,16 @@ function renderTheoryPanel(module, entry) {
 
       <div class="theory-grid">
         <div class="theory-card">
-          <strong>Leitfragen</strong>
-          <ul class="question-list">
-            ${theory.questions.map((question) => `<li>${escapeHtml(question)}</li>`).join("")}
-          </ul>
+          <strong>Verbindliche Leitaufträge</strong>
+          <div class="question-task-list">
+            ${guidingTasks.map((task, index) => renderTaskPreview(task, index, "Leitauftrag")).join("")}
+          </div>
         </div>
         <div class="theory-card">
           <strong>Transfer zur Passage</strong>
-          <ul class="question-list">
-            ${transferPrompts.map((question) => `<li>${escapeHtml(question)}</li>`).join("")}
-          </ul>
+          <div class="question-task-list">
+            ${transferTasks.map((task, index) => renderTaskPreview(task, index, "Transferauftrag")).join("")}
+          </div>
         </div>
       </div>
 
@@ -1189,7 +1359,8 @@ function renderResourceAssignmentsPanel() {
 
       <div class="resource-assignment-grid">
         ${assignments.map((assignment) => {
-          const { resource, title, summary, task, questions } = assignment;
+          const { resource, title, summary, task } = assignment;
+          const questionTasks = resourceQuestionTasksFor(assignment);
           const response = resourceResponseForAssignment(assignment);
           const documentation = documentationStatusForAssignment(assignment);
           return `
@@ -1225,10 +1396,10 @@ function renderResourceAssignmentsPanel() {
 
             <div class="theory-grid">
               <div class="theory-card">
-                <strong>Leitfragen zur Ressource</strong>
-                <ul class="question-list">
-                  ${questions.map((question) => `<li>${escapeHtml(question)}</li>`).join("")}
-                </ul>
+                <strong>Verbindliche Ressourcenfragen</strong>
+                <div class="question-task-list">
+                  ${questionTasks.map((questionTask, index) => renderTaskPreview(questionTask, index, "Ressourcenfrage")).join("")}
+                </div>
               </div>
               <div class="theory-card">
                 <strong>Warum diese Ressource hier wichtig ist</strong>
@@ -1240,25 +1411,32 @@ function renderResourceAssignmentsPanel() {
               <div class="section-head">
                 <strong>Arbeitsauftrag schriftlich beantworten</strong>
               </div>
-              <label>
-                ${escapeHtml(title)}
-                <span class="field-prompt">${escapeHtml(task)}</span>
-                <textarea data-resource-id="${resource.id}" data-resource-field="taskResponse" placeholder="Halte hier deine zusammenhängende Antwort zum Ressourcen-Auftrag fest.">${escapeHtml(response.taskResponse)}</textarea>
-              </label>
+              ${renderTaskField({
+                task: assignment.taskCard || buildTask(task, {
+                  context: `${summary} ${resource.summary}`,
+                  relatedTheoryIds: [assignment.resourceId],
+                  keyIdeas: resource.keyIdeas,
+                  writingFrame: resource.writingFrame,
+                  kind: "resource",
+                  taskTitle: title
+                }),
+                value: response.taskResponse,
+                dataset: { "resource-id": resource.id, "resource-field": "taskResponse" },
+                label: title
+              })}
             </section>
 
             <section class="structured-section">
               <div class="section-head">
                 <strong>Leitfragen schriftlich beantworten</strong>
-                <span class="status-badge" data-doc-count="resource-questions" data-resource-id="${resource.id}">${escapeHtml(`${response.questionAnswers.filter((value) => trimmed(value)).length}/${questions.length}`)}</span>
+                <span class="status-badge" data-doc-count="resource-questions" data-resource-id="${resource.id}">${escapeHtml(`${response.questionAnswers.filter((value) => trimmed(value)).length}/${questionTasks.length}`)}</span>
               </div>
-              ${questions.map((question, index) => `
-                <label>
-                  ${escapeHtml(responseLabel("Ressourcenfrage", index, question))}
-                  <span class="field-prompt">${escapeHtml(question)}</span>
-                  <textarea data-resource-id="${resource.id}" data-resource-field="questionAnswers" data-index="${index}" placeholder="${escapeHtml(responsePlaceholder(question))}">${escapeHtml(response.questionAnswers[index])}</textarea>
-                </label>
-              `).join("")}
+              ${questionTasks.map((questionTask, index) => renderTaskField({
+                task: questionTask,
+                value: response.questionAnswers[index],
+                dataset: { "resource-id": resource.id, "resource-field": "questionAnswers", index },
+                label: responseLabel("Ressourcenfrage", index, taskPrompt(questionTask))
+              })).join("")}
             </section>
 
             <div class="video-card">
@@ -1615,7 +1793,7 @@ function render() {
               <p>${escapeHtml(entry.context)}</p>
               <div class="signal-grid">${renderSignalWords(entry)}</div>
               <div class="prompt-box">
-                <strong>Fokusfragen</strong>
+                <strong>Verbindliche Fokusaufträge</strong>
                 ${renderFocusQuestions(entry)}
               </div>
               <div class="writing-frame-box">
@@ -1708,6 +1886,9 @@ function updateLiveDocumentation() {
     const focusAnswers = focusAnswersFor(entry);
     const theoryResponses = theoryResponseFor(entry, theory);
     const documentation = documentationStatusForEntry(entry, theory);
+    const focusTasks = focusTasksFor(entry);
+    const guidingTasks = guidingTasksFor(theory);
+    const transferTasks = transferTasksFor(entry, theory);
     const summary = document.querySelector('[data-doc-summary="entry"]');
     const missing = document.querySelector('[data-doc-missing="entry"]');
     const focusCount = document.querySelector('[data-doc-count="focus"]');
@@ -1731,15 +1912,15 @@ function updateLiveDocumentation() {
     }
 
     if (focusCount) {
-      focusCount.textContent = `${focusAnswers.filter((value) => trimmed(value)).length}/${entry.prompts.length}`;
+      focusCount.textContent = `${focusAnswers.filter((value) => trimmed(value)).length}/${focusTasks.length}`;
     }
 
     if (guidingCount) {
-      guidingCount.textContent = `${theoryResponses.guidingAnswers.filter((value) => trimmed(value)).length}/${theory.questions.length}`;
+      guidingCount.textContent = `${theoryResponses.guidingAnswers.filter((value) => trimmed(value)).length}/${guidingTasks.length}`;
     }
 
     if (transferCount) {
-      transferCount.textContent = `${theoryResponses.transferAnswers.filter((value) => trimmed(value)).length}/${transferPromptsFor(entry, theory).length}`;
+      transferCount.textContent = `${theoryResponses.transferAnswers.filter((value) => trimmed(value)).length}/${transferTasks.length}`;
     }
   }
 
@@ -1767,7 +1948,7 @@ function updateLiveDocumentation() {
     }
 
     if (count) {
-      count.textContent = `${response.questionAnswers.filter((value) => trimmed(value)).length}/${assignment.questions.length}`;
+      count.textContent = `${response.questionAnswers.filter((value) => trimmed(value)).length}/${resourceQuestionTasksFor(assignment).length}`;
     }
   }
 }
@@ -1853,6 +2034,7 @@ function exportNotes() {
       resources: resourceAssignmentsForLesson(lesson).map((assignment) => {
         const response = resourceResponseForAssignment(assignment, lesson);
         const documentation = documentationStatusForAssignment(assignment, lesson);
+        const questionTasks = resourceQuestionTasksFor(assignment);
 
         return {
           title: assignment.title,
@@ -1860,8 +2042,8 @@ function exportNotes() {
           summary: assignment.summary,
           task: assignment.task,
           taskResponse: response.taskResponse,
-          questions: assignment.questions.map((question, index) => ({
-            prompt: question,
+          questions: questionTasks.map((questionTask, index) => ({
+            prompt: taskPrompt(questionTask),
             answer: response.questionAnswers[index] || ""
           })),
           documentation
@@ -1872,22 +2054,24 @@ function exportNotes() {
         const module = entryIndex.get(entry.id)?.module;
         const exportTheories = theoryOptionsFor(module, entry);
         const documentationTheory = exportTheories.find((resource) => resource.id === state.theoryId) || exportTheories[0];
+        const focusTasks = focusTasksFor(entry);
         const theorySections = theoryIdsFor(module, entry)
           .map((theoryId) => theoryResources.find((resource) => resource.id === theoryId))
           .filter(Boolean)
           .map((theory) => {
             const stored = note.theoryResponses?.[theory.id] || {};
-            const transferPrompts = transferPromptsFor(entry, theory);
+            const guidingTasks = guidingTasksFor(theory);
+            const transferTasks = transferTasksFor(entry, theory);
 
             return {
               title: theory.title,
               sourceTitle: theory.sourceTitle,
-              guidingQuestions: theory.questions.map((question, index) => ({
-                prompt: question,
+              guidingQuestions: guidingTasks.map((questionTask, index) => ({
+                prompt: taskPrompt(questionTask),
                 answer: stored.guidingAnswers?.[index] || ""
               })),
-              transferQuestions: transferPrompts.map((prompt, index) => ({
-                prompt,
+              transferQuestions: transferTasks.map((transferTask, index) => ({
+                prompt: taskPrompt(transferTask),
                 answer: stored.transferAnswers?.[index] || ""
               }))
             };
@@ -1902,8 +2086,8 @@ function exportNotes() {
           prompts: entry.prompts,
           signalWords: entry.signalWords,
           writingFrame: entry.writingFrame,
-          focusAnswers: entry.prompts.map((prompt, index) => ({
-            prompt,
+          focusAnswers: focusTasks.map((focusTask, index) => ({
+            prompt: taskPrompt(focusTask),
             answer: note.focusAnswers?.[index] || ""
           })),
           theorySections,

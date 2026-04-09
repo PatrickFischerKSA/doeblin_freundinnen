@@ -1,6 +1,6 @@
 :root {
   --bg: #efe7d8;
-  --surface: rgba(255, 252, 245, 0.92);
+  --surface: rgba(255, 252, 245, 0.64);
   --border: rgba(49, 67, 53, 0.14);
   --text: #223027;
   --muted: #66736b;
@@ -41,19 +41,19 @@ body {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at top left, rgba(180, 92, 57, 0.22), transparent 28%),
-    radial-gradient(circle at top right, rgba(49, 67, 53, 0.2), transparent 32%),
-    rgba(244, 240, 230, 0.64);
+    radial-gradient(circle at top left, rgba(180, 92, 57, 0.16), transparent 28%),
+    radial-gradient(circle at top right, rgba(49, 67, 53, 0.14), transparent 32%),
+    rgba(244, 240, 230, 0.36);
 }
 
 .site-background video {
   position: absolute;
-  inset: -6%;
-  width: 112%;
-  height: 112%;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
   object-fit: cover;
-  filter: blur(24px) saturate(0.95) brightness(0.76);
-  transform: scale(1.1);
+  filter: blur(10px) saturate(1.05) brightness(0.72);
+  transform: scale(1.03);
 }
 
 .teacher-shell {
@@ -72,6 +72,7 @@ body {
   border-radius: 28px;
   box-shadow: var(--shadow);
   padding: 22px;
+  backdrop-filter: blur(12px);
 }
 
 .hero {
@@ -172,7 +173,7 @@ button {
 
 .class-card.is-active {
   border-color: rgba(180, 92, 57, 0.42);
-  background: rgba(180, 92, 57, 0.1);
+  background: rgba(180, 92, 57, 0.14);
 }
 
 .panel-head {
@@ -192,7 +193,7 @@ textarea {
   border-radius: 14px;
   padding: 12px 14px;
   font: inherit;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.8);
 }
 
 textarea {
@@ -228,17 +229,18 @@ textarea {
   border: 1px solid var(--border);
   border-radius: 22px;
   padding: 18px;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.46);
   display: grid;
   gap: 12px;
+  backdrop-filter: blur(12px);
 }
 
 .review-settings-box {
-  background: rgba(49, 67, 53, 0.05);
+  background: rgba(49, 67, 53, 0.12);
 }
 
 .code-box {
-  background: rgba(49, 67, 53, 0.06);
+  background: rgba(49, 67, 53, 0.14);
 }
 
 .protocol-banner {
@@ -249,7 +251,7 @@ textarea {
 }
 
 .protocol-chip {
-  background: rgba(49, 67, 53, 0.06);
+  background: rgba(49, 67, 53, 0.14);
 }
 
 .protocol-chip strong {
@@ -268,11 +270,11 @@ textarea {
 }
 
 .notice-box.success {
-  background: rgba(49, 67, 53, 0.08);
+  background: rgba(49, 67, 53, 0.14);
 }
 
 .notice-box.error {
-  background: rgba(180, 92, 57, 0.12);
+  background: rgba(180, 92, 57, 0.16);
 }
 
 .student-head {
@@ -287,7 +289,7 @@ textarea {
   justify-content: center;
   border-radius: 999px;
   padding: 7px 11px;
-  background: rgba(49, 67, 53, 0.1);
+  background: rgba(49, 67, 53, 0.14);
   color: var(--forest);
 }
 
@@ -311,7 +313,7 @@ textarea {
 .empty {
   padding: 16px;
   border-radius: 20px;
-  background: rgba(49, 67, 53, 0.08);
+  background: rgba(49, 67, 53, 0.14);
   color: var(--muted);
 }
 

@@ -50,7 +50,7 @@ function renderShellPage({ title, body, bodyClass = "" }) {
         <style>
           :root {
             --bg: #f3efe7;
-            --surface: rgba(255,255,255,0.86);
+            --surface: rgba(255,255,255,0.64);
             --border: rgba(48,66,55,0.16);
             --text: #213026;
             --muted: #66736b;
@@ -158,7 +158,7 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             padding: 12px 14px;
             font: inherit;
             margin: 10px 0 12px;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.78);
           }
           .notice {
             border-left: 4px solid var(--accent);
@@ -199,7 +199,8 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             border: 1px solid var(--border);
             border-radius: 18px;
             padding: 14px;
-            background: rgba(255,255,255,0.72);
+            background: rgba(255,255,255,0.46);
+            backdrop-filter: blur(12px);
             text-decoration: none;
             color: var(--text);
           }
@@ -207,7 +208,7 @@ function renderShellPage({ title, body, bodyClass = "" }) {
           .passage-nav-card.is-active,
           .resource-nav-card.is-active {
             border-color: rgba(180, 92, 57, 0.45);
-            background: rgba(180, 92, 57, 0.1);
+            background: rgba(180, 92, 57, 0.14);
           }
           .meta-grid {
             display: grid;
@@ -218,14 +219,16 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             border: 1px solid var(--border);
             border-radius: 18px;
             padding: 14px;
-            background: rgba(255,255,255,0.74);
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(12px);
           }
           .iframe-shell {
             min-height: 72vh;
             border: 1px solid var(--border);
             border-radius: 20px;
             overflow: hidden;
-            background: rgba(255,255,255,0.72);
+            background: rgba(255,255,255,0.38);
+            backdrop-filter: blur(10px);
           }
           .iframe-shell iframe {
             width: 100%;
@@ -236,7 +239,8 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             border: 1px solid var(--border);
             border-radius: 18px;
             padding: 16px;
-            background: rgba(255,255,255,0.74);
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(12px);
           }
           .resource-panel {
             display: grid;
@@ -256,13 +260,14 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             border: 1px solid var(--border);
             border-radius: 18px;
             padding: 14px;
-            background: rgba(255,255,255,0.74);
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(12px);
           }
           .lesson-media-frame {
             overflow: hidden;
             border-radius: 16px;
             border: 1px solid var(--border);
-            background: linear-gradient(180deg, #f0eadf, #e6decd);
+            background: linear-gradient(180deg, rgba(240, 234, 223, 0.62), rgba(230, 222, 205, 0.48));
             padding: 12px;
           }
           .lesson-media-frame img {
@@ -548,14 +553,21 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
               `).join("")}
             </div>
 
-            <div class="prompt-panel">
+              <div class="prompt-panel">
               <div class="eyebrow">Aktuelle Passage</div>
               <h2>${currentEntry.title}</h2>
               <p><strong>${currentEntry.pageHint}</strong> · ${currentEntry.passageLabel}</p>
               <p>${currentEntry.context}</p>
-              <ul class="small-list">
-                ${currentEntry.prompts.map((prompt) => `<li>${prompt}</li>`).join("")}
-              </ul>
+              ${(currentEntry.focusTasks || []).map((task, index) => `
+                <div class="lesson-media-task">
+                  <strong>Fokusauftrag ${index + 1}</strong>
+                  <p>${task.prompt}</p>
+                  <p>${task.instruction}</p>
+                  <ul class="small-list">
+                    ${(task.checklist || []).map((item) => `<li>${item}</li>`).join("")}
+                  </ul>
+                </div>
+              `).join("")}
             </div>
 
             <div class="iframe-shell">
@@ -575,9 +587,9 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
                       <span>${resource.sourceTitle}</span>
                       <span>${assignment?.summary || resource.summary}</span>
                       ${assignment?.task ? `<p><strong>Auftrag:</strong> ${assignment.task}</p>` : ""}
-                      ${assignment?.questions?.length ? `
+                      ${assignment?.questionTasks?.length ? `
                         <ul class="small-list">
-                          ${assignment.questions.map((question) => `<li>${question}</li>`).join("")}
+                          ${assignment.questionTasks.map((questionTask) => `<li>${questionTask.prompt}</li>`).join("")}
                         </ul>
                       ` : ""}
                       <div class="row">
