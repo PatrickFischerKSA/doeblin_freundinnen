@@ -50,7 +50,7 @@ function renderShellPage({ title, body, bodyClass = "" }) {
         <style>
           :root {
             --bg: #f3efe7;
-            --surface: rgba(255,255,255,0.64);
+            --surface: rgba(255,255,255,0.12);
             --border: rgba(48,66,55,0.16);
             --text: #213026;
             --muted: #66736b;
@@ -199,7 +199,7 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             border: 1px solid var(--border);
             border-radius: 18px;
             padding: 14px;
-            background: rgba(255,255,255,0.46);
+            background: rgba(255,255,255,0.05);
             backdrop-filter: blur(12px);
             text-decoration: none;
             color: var(--text);
@@ -219,7 +219,7 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             border: 1px solid var(--border);
             border-radius: 18px;
             padding: 14px;
-            background: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.06);
             backdrop-filter: blur(12px);
           }
           .iframe-shell {
@@ -227,7 +227,7 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             border: 1px solid var(--border);
             border-radius: 20px;
             overflow: hidden;
-            background: rgba(255,255,255,0.38);
+            background: rgba(255,255,255,0.03);
             backdrop-filter: blur(10px);
           }
           .iframe-shell iframe {
@@ -239,7 +239,7 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             border: 1px solid var(--border);
             border-radius: 18px;
             padding: 16px;
-            background: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.05);
             backdrop-filter: blur(12px);
           }
           .resource-panel {
@@ -260,14 +260,14 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             border: 1px solid var(--border);
             border-radius: 18px;
             padding: 14px;
-            background: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.05);
             backdrop-filter: blur(12px);
           }
           .lesson-media-frame {
             overflow: hidden;
             border-radius: 16px;
             border: 1px solid var(--border);
-            background: linear-gradient(180deg, rgba(240, 234, 223, 0.62), rgba(230, 222, 205, 0.48));
+            background: linear-gradient(180deg, rgba(240, 234, 223, 0.1), rgba(230, 222, 205, 0.05));
             padding: 12px;
           }
           .lesson-media-frame img {

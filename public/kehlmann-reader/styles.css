@@ -1,7 +1,7 @@
 :root {
   --bg: #efe8da;
-  --surface: rgba(255, 252, 245, 0.64);
-  --surface-strong: rgba(255, 250, 240, 0.74);
+  --surface: rgba(255, 252, 245, 0.12);
+  --surface-strong: rgba(255, 250, 240, 0.16);
   --border: rgba(49, 67, 53, 0.14);
   --text: #223027;
   --muted: #64736a;
@@ -79,7 +79,7 @@ textarea {
 }
 
 .status-card {
-  background: rgba(255, 252, 245, 0.54);
+  background: rgba(255, 252, 245, 0.08);
   border: 1px solid var(--border);
   border-radius: 22px;
   padding: 14px 16px;
@@ -227,7 +227,7 @@ button {
   border-radius: 20px;
   padding: 12px 14px;
   border: 1px solid rgba(49, 67, 53, 0.12);
-  background: rgba(255, 255, 255, 0.46);
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(12px);
 }
 
@@ -333,7 +333,7 @@ button {
   padding: 18px;
   border-radius: 24px;
   border: 1px solid rgba(49, 67, 53, 0.12);
-  background: rgba(255, 255, 255, 0.46);
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(12px);
 }
 
@@ -348,7 +348,7 @@ button {
   padding: 18px;
   border-radius: 22px;
   border: 1px solid rgba(49, 67, 53, 0.12);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(245, 239, 227, 0.48));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(245, 239, 227, 0.05));
   backdrop-filter: blur(12px);
 }
 
@@ -395,7 +395,7 @@ button {
   border-radius: 24px;
   padding: 20px;
   border: 1px solid rgba(49, 67, 53, 0.12);
-  background: rgba(255, 255, 255, 0.44);
+  background: rgba(255, 255, 255, 0.05);
   display: grid;
   gap: 14px;
   backdrop-filter: blur(12px);
@@ -572,7 +572,7 @@ textarea {
   padding: 18px;
   border-radius: 22px;
   border: 1px solid rgba(49, 67, 53, 0.12);
-  background: rgba(255, 255, 255, 0.44);
+  background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(12px);
 }
 
@@ -603,7 +603,7 @@ textarea {
   border: 1px solid rgba(49, 67, 53, 0.12);
   border-radius: 18px;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(12px);
 }
 
@@ -715,7 +715,7 @@ textarea {
   border-radius: 20px;
   padding: 14px;
   border: 1px solid rgba(49, 67, 53, 0.12);
-  background: rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(12px);
 }
 

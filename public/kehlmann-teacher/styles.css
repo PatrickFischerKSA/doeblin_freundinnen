@@ -1,6 +1,6 @@
 :root {
   --bg: #efe7d8;
-  --surface: rgba(255, 252, 245, 0.64);
+  --surface: rgba(255, 252, 245, 0.12);
   --border: rgba(49, 67, 53, 0.14);
   --text: #223027;
   --muted: #66736b;
@@ -229,18 +229,18 @@ textarea {
   border: 1px solid var(--border);
   border-radius: 22px;
   padding: 18px;
-  background: rgba(255, 255, 255, 0.46);
+  background: rgba(255, 255, 255, 0.05);
   display: grid;
   gap: 12px;
   backdrop-filter: blur(12px);
 }
 
 .review-settings-box {
-  background: rgba(49, 67, 53, 0.12);
+  background: rgba(49, 67, 53, 0.04);
 }
 
 .code-box {
-  background: rgba(49, 67, 53, 0.14);
+  background: rgba(49, 67, 53, 0.04);
 }
 
 .protocol-banner {
@@ -251,7 +251,7 @@ textarea {
 }
 
 .protocol-chip {
-  background: rgba(49, 67, 53, 0.14);
+  background: rgba(49, 67, 53, 0.04);
 }
 
 .protocol-chip strong {
@@ -270,11 +270,11 @@ textarea {
 }
 
 .notice-box.success {
-  background: rgba(49, 67, 53, 0.14);
+  background: rgba(49, 67, 53, 0.04);
 }
 
 .notice-box.error {
-  background: rgba(180, 92, 57, 0.16);
+  background: rgba(180, 92, 57, 0.05);
 }
 
 .student-head {
@@ -289,7 +289,7 @@ textarea {
   justify-content: center;
   border-radius: 999px;
   padding: 7px 11px;
-  background: rgba(49, 67, 53, 0.14);
+  background: rgba(49, 67, 53, 0.04);
   color: var(--forest);
 }
 
@@ -313,7 +313,7 @@ textarea {
 .empty {
   padding: 16px;
   border-radius: 20px;
-  background: rgba(49, 67, 53, 0.14);
+  background: rgba(49, 67, 53, 0.04);
   color: var(--muted);
 }
 
