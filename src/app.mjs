@@ -17,6 +17,7 @@ const __dirname = path.dirname(__filename);
 const publicDir = path.resolve(__dirname, "../public");
 const readerDir = path.join(publicDir, "kehlmann-reader");
 const teacherDir = path.join(publicDir, "kehlmann-teacher");
+const readerAssetDir = path.join(publicDir, "reader/assets");
 const OPEN_PASSWORD = process.env.OPEN_VERSION_PASSWORD || process.env.KEHLMANN_OPEN_VERSION_PASSWORD || "22bahnen";
 const TEACHER_PASSWORD = process.env.TEACHER_DASHBOARD_PASSWORD || "caroline_wahl";
 const OPEN_COOKIE = "kehlmann_open_access";
@@ -79,18 +80,18 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             position: absolute;
             inset: 0;
             background:
-              radial-gradient(circle at top left, rgba(180, 92, 57, 0.22), transparent 30%),
-              radial-gradient(circle at top right, rgba(49, 67, 53, 0.24), transparent 36%),
-              rgba(244, 240, 230, 0.64);
+              radial-gradient(circle at top left, rgba(180, 92, 57, 0.16), transparent 30%),
+              radial-gradient(circle at top right, rgba(49, 67, 53, 0.16), transparent 36%),
+              rgba(244, 240, 230, 0.36);
           }
           .site-background video {
             position: absolute;
-            inset: -6%;
-            width: 112%;
-            height: 112%;
+            inset: -4%;
+            width: 108%;
+            height: 108%;
             object-fit: cover;
-            filter: blur(22px) saturate(0.95) brightness(0.78);
-            transform: scale(1.08);
+            filter: blur(10px) saturate(1.05) brightness(0.72);
+            transform: scale(1.03);
           }
           .page {
             max-width: 1120px;
@@ -814,6 +815,7 @@ export function createApp() {
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json({ limit: "1mb" }));
   app.use("/reader-api", kehlmannReaderApiRouter);
+  app.use("/reader/assets", express.static(readerAssetDir));
   app.use("/reader", express.static(readerDir));
   app.use("/kehlmann-teacher", express.static(teacherDir));
 
