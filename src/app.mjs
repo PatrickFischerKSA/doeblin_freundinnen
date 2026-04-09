@@ -17,14 +17,14 @@ const __dirname = path.dirname(__filename);
 const publicDir = path.resolve(__dirname, "../public");
 const readerDir = path.join(publicDir, "kehlmann-reader");
 const teacherDir = path.join(publicDir, "kehlmann-teacher");
-const OPEN_PASSWORD = process.env.OPEN_VERSION_PASSWORD || process.env.KEHLMANN_OPEN_VERSION_PASSWORD || "kehlmann";
-const TEACHER_PASSWORD = process.env.TEACHER_DASHBOARD_PASSWORD || "kursraum";
+const OPEN_PASSWORD = process.env.OPEN_VERSION_PASSWORD || process.env.KEHLMANN_OPEN_VERSION_PASSWORD || "22bahnen";
+const TEACHER_PASSWORD = process.env.TEACHER_DASHBOARD_PASSWORD || "caroline_wahl";
 const OPEN_COOKIE = "kehlmann_open_access";
 const STUDENT_COOKIE = "kehlmann_reader_student";
 const CLASS_COOKIE = "kehlmann_reader_class";
 const TEACHER_COOKIE = "kehlmann_teacher_access";
 const SEB_CONFIG_KEY_HASH = process.env.SEB_CONFIG_KEY_HASH || process.env.KEHLMANN_SEB_CONFIG_KEY_HASH || "";
-const READER_PDF_SOURCE = "/reader/assets/die-reise-der-verlorenen.pdf";
+const READER_PDF_SOURCE = "/reader/assets/22-bahnen.pdf";
 
 function teacherRuntimeConfig() {
   return {
@@ -279,15 +279,16 @@ function lessonMeta(lessonId) {
 function renderLandingPage() {
   const lessons = getLessonSetsWithCounts();
   return renderShellPage({
-    title: "Die Reise der Verlorenen Lesetool",
+    title: "22 Bahnen Lesetool",
     body: `
       <main class="page">
         <section class="panel">
-          <div class="eyebrow">Daniel Kehlmann</div>
-          <h1>Die Reise der Verlorenen</h1>
+          <div class="eyebrow">Caroline Wahl</div>
+          <h1>22 Bahnen</h1>
           <p>
-            Vollständige Unterrichtseinheit mit integriertem PDF, offenen und SEB-geschützten Zugängen,
-            Lehrer*innen-Dashboard, Klassen-Codes, Peer Review und differenziertem Fachfeedback.
+            Vollständige Unterrichtseinheit mit integriertem PDF, Registrierung, offenen und
+            SEB-geschützten Zugängen, Lehrer*innen-Dashboard, Klassen-Codes, Peer Review und
+            differenziertem Fachfeedback.
           </p>
           <div class="row">
             <a class="button" href="/open">Offene Version</a>
@@ -378,7 +379,7 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
     : "";
 
   return renderShellPage({
-    title: "Lehrer*inneneingang · Die Reise der Verlorenen",
+    title: "Lehrer*inneneingang · 22 Bahnen",
     body: `
       <main class="page">
         <section class="panel">
@@ -525,7 +526,7 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
             </div>
 
             <div class="iframe-shell">
-              <iframe src="${pdfUrl}" title="Die Reise der Verlorenen PDF"></iframe>
+              <iframe src="${pdfUrl}" title="22 Bahnen PDF"></iframe>
             </div>
 
             ${lessonResources.length ? `
@@ -570,8 +571,8 @@ function renderStudentAccessPage({ mode, lessonId, errorText = "" }) {
   const isOpen = mode === "open";
   const lesson = lessonMeta(lessonId);
   const formAction = isOpen ? "/auth/open" : "/auth/seb";
-  const title = isOpen ? "Die Reise der Verlorenen entsperren" : "SEB-Version öffnen";
-  const heading = isOpen ? "Drama-Einheit entsperren" : "SEB-Dramenreader starten";
+  const title = isOpen ? "22 Bahnen entsperren" : "SEB-Version öffnen";
+  const heading = isOpen ? "Roman-Reader entsperren" : "SEB-Reader starten";
 
   return renderShellPage({
     title,
@@ -597,7 +598,7 @@ function renderStudentAccessPage({ mode, lessonId, errorText = "" }) {
           <form method="post" action="${formAction}" class="form-grid">
             <input type="hidden" name="lessonId" value="${lessonId || ""}">
             <label for="classCode">Klassen-Code</label>
-            <input id="classCode" name="classCode" type="text" autocomplete="off" placeholder="z. B. KEHL-10A">
+            <input id="classCode" name="classCode" type="text" autocomplete="off" placeholder="z. B. WAHL-10A">
             <label for="displayName">Name / Kürzel</label>
             <input id="displayName" name="displayName" type="text" autocomplete="name" placeholder="z. B. Nora S.">
             ${isOpen ? `
@@ -623,7 +624,7 @@ function renderTeacherLoginPage(errorText = "", redirectTo = "/teacher") {
   const safeRedirect = normalizeTeacherRedirect(redirectTo);
   const isTeacherEntry = safeRedirect === "/teacher-entry";
   return renderShellPage({
-    title: `${isTeacherEntry ? "Lehrer*inneneingang" : "Lehrer*innen-Dashboard"} · Die Reise der Verlorenen`,
+    title: `${isTeacherEntry ? "Lehrer*inneneingang" : "Lehrer*innen-Dashboard"} · 22 Bahnen`,
     body: `
       <main class="page">
         <section class="panel">
@@ -631,7 +632,7 @@ function renderTeacherLoginPage(errorText = "", redirectTo = "/teacher") {
           <h1>${isTeacherEntry ? "Lehrer*inneneingang entsperren" : "Lehrer*innen-Dashboard entsperren"}</h1>
           <p>${isTeacherEntry
             ? "Der Lehrer*inneneingang zeigt alle Lektionen, Passagen und Fragen direkt, ist aber mit demselben Passwort wie das Lehrer*innen-Dashboard geschützt."
-            : "Die Lehrer*innenansicht verwaltet Klassen-Codes, SEB-Lektionen, Peer Review und Lernfortschritte für diese eine Kehlmann-Einheit."}</p>
+            : "Die Lehrer*innenansicht verwaltet Klassen-Codes, SEB-Lektionen, Peer Review und Lernfortschritte für diese eine 22-Bahnen-Einheit."}</p>
           ${errorText ? `<div class="notice"><strong>Hinweis:</strong> ${errorText}</div>` : ""}
           <form method="post" action="/auth/teacher" class="form-grid">
             <input type="hidden" name="redirectTo" value="${safeRedirect}">
@@ -680,7 +681,7 @@ function renderTeacherPage() {
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Lehrer*innen-Dashboard · Die Reise der Verlorenen</title>
+        <title>Lehrer*innen-Dashboard · 22 Bahnen</title>
         <link rel="stylesheet" href="/kehlmann-teacher/styles.css">
       </head>
       <body>
@@ -701,7 +702,7 @@ function renderReaderPage(mode, lessonId) {
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Die Reise der Verlorenen Lesetool</title>
+        <title>22 Bahnen Lesetool</title>
         <link rel="stylesheet" href="/reader/styles.css">
       </head>
       <body>

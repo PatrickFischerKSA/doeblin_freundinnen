@@ -2,55 +2,46 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { evaluateReaderSebFeedback } from "../src/services/kehlmann-reader-feedback.mjs";
 
-test("Kehlmann SEB feedback rewards documentarisch gestützte Analyse", () => {
-  const result = evaluateReaderSebFeedback({
-    lessonId: "lesson-04-havanna-macht",
-    moduleId: "havanna",
-    entryId: "havanna-1",
-    theoryId: "dokumentartheater",
+test("SEB feedback rewards textnahe and motivated 22-Bahnen analysis", () => {
+  const feedback = evaluateReaderSebFeedback({
+    lessonId: "lesson-12-libellen-und-offenes-ende",
+    moduleId: "aufbruch",
+    entryId: "aufbruch-3",
+    theoryId: "wasser-motivik",
     note: {
       observation:
-        "Benitez spricht wie ein zynischer Funktionär und legt die Logik der Landegenehmigungen mit Stempeln, Unterschriften und Amtswörtern offen. Die Szene wirkt fast wie eine kommentierte Akte auf der Bühne.",
-      evidence:
-        "bestechlich, Landegenehmigungen, erfunden, Stempel",
+        "Die Libellenpassage verbindet Naturwissen mit Tildas neuer Beweglichkeit. Das Erklären wirkt erst komisch und wird dann zu einer vorsichtigen Liebessprache.",
+      evidence: "Libelle, 95%, keine Angst, rückwärtsfliegen",
       interpretation:
-        "Die Passage zeigt, dass Recht hier nicht Schutz, sondern ein manipuliertes Verfahren ist. Gerade in Havanna wird sichtbar, dass politische Willkür nicht psychologisch verschleiert, sondern als Systemlogik von Aufnahmeverweigerung organisiert wird.",
+        "Die Szene zeigt, dass Tilda ihre Gefühle nicht mehr abwehrt, sondern in ein Bewegungs- und Jagdbild übersetzt. Gerade dadurch kippt Wissen in Beziehung.",
       theory:
-        "Dokumentartheaterartig ist die Szene, weil sie Faktizität, Verwaltungswörter und historische Verfahrenslogik aufruft. Die Sprache wirkt protokollnah und entlarvt in Havanna politische Realität eher, als dass sie bloß Einfühlung erzeugt.",
-      revision:
-        "Ich will die Deutung noch schärfen, indem ich genauer erkläre, wie Stempel und Unterschrift als Zeichen institutioneller Gewalt funktionieren."
+        "Mit dem Wasser- und Bewegungsdossier gelesen wird deutlich, dass die Libelle wie die 22 Bahnen für Kontrolle steht, hier aber in eine offenere Bewegungsform übergeht.",
+      revision: "Noch genauer mit dem offenen Ende und Viktors Wiederkommen verknüpfen."
     }
   });
 
-  assert.ok(result.overallScore >= 68);
-  assert.ok(result.profile.find((item) => item.label === "Textbindung").score >= 70);
-  assert.ok(result.profile.find((item) => item.label === "Historische Schärfe").score >= 45);
-  assert.ok(result.strengths.some((item) => item.includes("textinternen Spur")));
-  assert.ok(result.nextMoves.length > 0);
+  assert.ok(feedback.overallScore >= 70);
+  assert.match(feedback.summary, /tragfähig|erkennbare Richtung/i);
+  assert.equal(feedback.profile.length, 4);
+  assert.ok(feedback.strengths.some((item) => /Text|Theorie|Roman/i.test(item)));
 });
 
-test("Kehlmann SEB feedback flags pauschale Reaktion ohne historische oder theatrale Schärfe", () => {
-  const result = evaluateReaderSebFeedback({
-    lessonId: "lesson-10-rueckweg-erinnerung",
-    moduleId: "rueckweg",
-    entryId: "rueckweg-4",
-    theoryId: "im-steinbruch",
+test("SEB feedback flags vague summary without enough motif or text anchoring", () => {
+  const feedback = evaluateReaderSebFeedback({
+    lessonId: "lesson-10-fieber-und-rettung",
+    moduleId: "krise",
+    entryId: "krise-3",
+    theoryId: "familienrollen",
     note: {
-      observation:
-        "Am Ende ist alles einfach traurig und schlimm.",
-      evidence:
-        "",
-      interpretation:
-        "Dann erzählen die Figuren noch etwas und man merkt, dass alles schlecht ist.",
-      theory:
-        "Das hat mit Erinnerung zu tun.",
-      revision:
-        "Ich schreibe es später besser."
+      observation: "Die Stelle ist traurig und wichtig.",
+      evidence: "",
+      interpretation: "Dann ist alles schlimm und man merkt, dass die Familie Probleme hat.",
+      theory: "Es geht um Familie.",
+      revision: ""
     }
   });
 
-  assert.ok(result.overallScore < 65);
-  assert.equal(result.profile.find((item) => item.label === "Deutungstiefe").level, "noch deutlich zu schärfen");
-  assert.ok(result.cautions.some((item) => item.includes("Wortlaut") || item.includes("historische Einordnung")));
-  assert.ok(result.nextMoves.some((item) => item.includes("Wirkungsverb") || item.includes("historisch verortet")));
+  assert.ok(feedback.overallScore < 70);
+  assert.ok(feedback.cautions.length >= 1);
+  assert.ok(feedback.nextMoves.some((item) => /Textanker|Meer|Vaterverlust|Rettung|Linse/i.test(item)));
 });

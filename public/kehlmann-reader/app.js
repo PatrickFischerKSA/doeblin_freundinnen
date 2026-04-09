@@ -598,34 +598,25 @@ function feedbackFor(note, module, entry) {
   const theory = note.theory;
   const signals = ["zeigt", "verdeutlicht", "deutet", "wirkt", "weil", "macht sichtbar", "inszeniert"];
   const summarySignals = ["dann", "danach", "passiert", "anschließend", "erzählt"];
-  const historicalSignals = [
-    "historisch",
-    "havanna",
-    "florida",
-    "antwerpen",
-    "evian",
-    "évian",
-    "grenze",
-    "transit",
-    "verweigerung",
-    "schröder",
-    "buff",
-    "gerda",
-    "belgien",
-    "niederlande",
-    "frankreich",
-    "großbritannien",
-    "england",
-    "deportation",
-    "auschwitz",
-    "drancy",
-    "gurs",
-    "les milles",
-    "schicksal",
-    "überlebt",
-    "ermordet"
+  const contextualSignals = [
+    "tilda",
+    "ida",
+    "mutter",
+    "viktor",
+    "ivan",
+    "vater",
+    "schwimmbad",
+    "wasser",
+    "bahnen",
+    "fürsorge",
+    "kleinstadt",
+    "überdosis",
+    "fieber",
+    "meer",
+    "libelle",
+    "berlin"
   ];
-  const precisionSignals = ["wort", "formulierung", "kontrast", "bühne", "montage", "szene", "satz", "bild", "perspektive", "rhythmus", "protokollnah", "zeugenschaft"];
+  const precisionSignals = ["wort", "formulierung", "kontrast", "montage", "szene", "satz", "bild", "perspektive", "rhythmus", "liste", "dialog", "geruch", "körper"];
   const positives = [];
   const cautions = [];
   const steps = [];
@@ -646,7 +637,7 @@ function feedbackFor(note, module, entry) {
   }
 
   if (hasSemanticSignal(body, summarySignals)) {
-    cautions.push("An einigen Stellen rutscht die Antwort noch in Ablauf oder Nacherzählung. Fachlich stärker wird sie, wenn du die Inszenierung statt nur das Geschehen erklärst.");
+    cautions.push("An einigen Stellen rutscht die Antwort noch in Ablauf oder Nacherzählung. Fachlich stärker wird sie, wenn du Erzählweise und Wirkung statt nur das Geschehen erklärst.");
     steps.push("Achte darauf, nicht nur den Ablauf zu erzählen, sondern die sprachliche Wirkung zu erklären.");
   }
 
@@ -660,24 +651,17 @@ function feedbackFor(note, module, entry) {
     steps.push(`Binde deine Beobachtung noch stärker an die Linse des Moduls: ${module.lens.toLowerCase()}.`);
   }
 
-  if (hasSemanticSignal(combined, historicalSignals)) {
-    positives.push("Die Antwort signalisiert bereits, dass du die Szene historisch rahmst und nicht nur isoliert als Einzelschicksal liest.");
-  } else if (relatedTheories.some((resource) => ["evian-konferenz", "evian-deutschlandfunk", "susanne-heim-grenzen", "ndr-st-louis", "fritz-buff-reisebericht", "ushmm-voyage", "ushmm-return-europe", "ushmm-wartime-fate", "gerda-blachmann", "historischer-kontext"].includes(resource.id))) {
-    steps.push("Schärfe die historische Dimension ausdrücklich: Benenne die Station, Konferenzlogik, Grenzordnung oder Passagierperspektive, die die Passage strukturiert.");
+  if (hasSemanticSignal(combined, contextualSignals)) {
+    positives.push("Die Antwort bindet die Passage schon an zentrale Figuren, Motive oder Konfliktlinien des Romans zurück.");
+  } else if (relatedTheories.some((resource) => ["wasser-motivik", "familienrollen", "perspektive", "sprache-koerper"].includes(resource.id))) {
+    steps.push("Schärfe den Roman-Kontext ausdrücklich: Benenne die Figur, das Motiv oder die Beziehung, die diese Passage strukturiert.");
   }
 
   if (hasSemanticSignal(combined, precisionSignals)) {
-    positives.push("Du gehst teilweise schon an sprachliche oder szenische Präzision heran, statt nur allgemein zu urteilen.");
+    positives.push("Du gehst teilweise schon an sprachliche oder erzählerische Präzision heran, statt nur allgemein zu urteilen.");
   } else {
-    cautions.push("Die Deutung bleibt noch zu allgemein. Im Moment fehlen noch klar benannte Signale wie Wortwahl, Kontrast, Bühnenbild, Perspektive oder Montage.");
-    steps.push("Arbeite nicht nur mit Wertungen. Benenne genauer Wortwahl, Bühnenkonstellation, Perspektive, Kontrast oder Montage.");
-  }
-
-  if (entry.relatedTheoryIds?.includes("naturalismus")) {
-    const naturalismTerms = ["milieu", "arbeit", "körper", "wirklichkeit", "druck", "sozial"];
-    if (naturalismTerms.some((term) => theory.includes(term))) {
-      positives.push("Der Theoriebezug zur naturalistischen Darstellung ist schon sichtbar.");
-    }
+    cautions.push("Die Deutung bleibt noch zu allgemein. Im Moment fehlen noch klar benannte Signale wie Wortwahl, Liste, Dialog, Perspektive, Kontrast oder Körperwahrnehmung.");
+    steps.push("Arbeite nicht nur mit Wertungen. Benenne genauer Wortwahl, Liste, Perspektive, Kontrast, Geruch, Temperatur oder Körperreaktion.");
   }
 
   if (entry.relatedTheoryIds?.includes("perspektive")) {
@@ -687,20 +671,28 @@ function feedbackFor(note, module, entry) {
     }
   }
 
-  if (entry.relatedTheoryIds?.includes("novelle")) {
-    const novellaTerms = ["wendepunkt", "novelle", "konflikt", "verdichtung", "motiv"];
-    if (novellaTerms.some((term) => theory.includes(term))) {
-      positives.push("Du bindest die Passage schon an die Formlogik der Novelle zurück.");
+  if (entry.relatedTheoryIds?.includes("wasser-motivik")) {
+    const waterTerms = ["wasser", "schwimmen", "meer", "tauchen", "bahnen", "rettung"];
+    if (waterTerms.some((term) => theory.includes(term))) {
+      positives.push("Du bindest die Passage bereits überzeugend an die Wasser- und Bewegungsmotivik zurück.");
     }
   }
 
-  if (lesson?.id === "lesson-14-fritz-buff-primärquelle" && !body.includes("17") && !body.includes("allein")) {
-    steps.push("Nutze die Primärquelle noch schärfer: Halte ausdrücklich fest, dass Fritz Buff erst 17 war und allein reiste, und prüfe, wie das die Passage verändert.");
+  if (entry.relatedTheoryIds?.includes("familienrollen")) {
+    const familyTerms = ["fürsorge", "rolle", "mutter", "ida", "schwester", "verantwortung", "familie"];
+    if (familyTerms.some((term) => theory.includes(term))) {
+      positives.push("Du arbeitest bereits heraus, wie stark die Familienrollen in die Passage hineinwirken.");
+    }
   }
 
-  if (lesson?.id === "lesson-15-ushmm-nachgeschichte" && !hasSemanticSignal(combined, ["gerda", "belgien", "niederlande", "frankreich", "großbritannien", "deportation", "überlebt", "ermordet", "schicksal"])) {
-    cautions.push("Für die USHMM-Schlusseinheit bleibt die Nachgeschichte noch zu blass. Im Moment fehlt der Sprung von der Hafenkrise zu Verteilung, Verfolgung oder ungleichen Kriegsschicksalen.");
-    steps.push("Nenne ausdrücklich Gerda Blachmann oder eines der Aufnahmeländer und verbinde die Passage zusätzlich mit Verteilung, Nachgeschichte, Deportation oder Überleben.");
+  if (lesson?.id === "lesson-10-fieber-und-rettung" && !hasSemanticSignal(combined, ["meer", "wasser", "vater", "rettung", "seemann", "ida"])) {
+    cautions.push("Für die Fieberlektion bleibt der Zusammenhang von Vaterverlust, Meer und Rettung noch zu blass.");
+    steps.push("Verbinde die Passage ausdrücklich mit Meer, Verlassenwerden, Ida oder Viktors Rettungsfunktion.");
+  }
+
+  if (lesson?.id === "lesson-12-libellen-und-offenes-ende" && !hasSemanticSignal(combined, ["libelle", "schiff", "lotsen", "wiederkommen", "offen", "schwimmbad"])) {
+    cautions.push("Für die Schlusslektion fehlt noch ein klares Signal für Libellenmotiv, Schiffsbild oder offene Wiederkehr.");
+    steps.push("Nenne ausdrücklich Libelle, Schiff, Lotsenfunktion, Wiederkommen oder den Rücksprung zum Schwimmbad.");
   }
 
   if (!note.observation.trim() || !note.interpretation.trim()) {
@@ -708,7 +700,7 @@ function feedbackFor(note, module, entry) {
   }
 
   if (!steps.length) {
-    steps.push("Die Notiz ist schon tragfähig. Schärfe im nächsten Schritt noch genauer, wie Textsignal, historische Einordnung und Deutung ineinandergreifen.");
+    steps.push("Die Notiz ist schon tragfähig. Schärfe im nächsten Schritt noch genauer, wie Textsignal, Romanmotiv und Deutung ineinandergreifen.");
   }
 
   const summary = positives.length
@@ -1096,7 +1088,7 @@ function renderPdfPanel(entry, module) {
       </div>
 
       <div class="pdf-frame-wrap">
-        <iframe class="pdf-frame" src="${pdfUrlForEntry(entry)}" title="Die Reise der Verlorenen PDF"></iframe>
+        <iframe class="pdf-frame" src="${pdfUrlForEntry(entry)}" title="22 Bahnen PDF"></iframe>
       </div>
     </article>
   `;
@@ -1547,17 +1539,17 @@ function render() {
     <main class="reader-shell">
       <section class="hero">
         <div>
-          <div class="eyebrow">Daniel Kehlmann · Die Reise der Verlorenen · ${escapeHtml(modeLabel)}</div>
-          <h1>Engmaschiges PDF-Lesetool für das gesamte Drama</h1>
+          <div class="eyebrow">Caroline Wahl · 22 Bahnen · ${escapeHtml(modeLabel)}</div>
+          <h1>Engmaschiges PDF-Lesetool für den gesamten Roman</h1>
           <p>
             ${mode === "seb"
-              ? "Diese SEB-Fassung arbeitet jetzt mit fünfzehn eng geführten Lektionen. Dazu kommen die historische Vertiefung zu Évian, die USHMM-Dossiers zur Reise, zur Rückkehr nach Europa und zu den Kriegsschicksalen der Passagiere, das Video von Gerda Blachmann, der Deutschlandfunk-Beitrag mit Audio-Link, der NDR-Überblick, Fritz Buffs Reisebericht mit Bildseiten und Soundfile, Susanne Heim sowie die Theorieeinheiten zu Kehlmanns eigener Haltung und zu epischem und dokumentarischem Theater, jeweils mit direkter Passageführung im PDF."
-              : "Das Drama ist vollständig integriert. Links steuerst du fünfzehn engere Lektionssets und Theorie-Linsen, darunter die historische Vertiefung zu Évian, die USHMM-Dossiers zur Reise, zur Rückkehr nach Europa und zu den Kriegsschicksalen der Passagiere, das Video von Gerda Blachmann, den Deutschlandfunk-Beitrag mit Audio-Link, den NDR-Überblick, Fritz Buffs Reisebericht mit Bildseiten und Soundfile, Susanne Heim sowie die Theorieeinheiten zu Kehlmanns persönlicher Involvierung und zu epischem und dokumentarischem Theater. In der Mitte springst du direkt zu den relevanten PDF-Passagen, rechts verbindest du szenische Beobachtung, Theoriebezug, Überarbeitung und Peer Review."}
+              ? "Diese SEB-Fassung arbeitet mit zwölf eng geführten Lektionen, einem eingebetteten PDF, sofortigem Arbeitsfeedback, Theorie-Dossiers zu Perspektive, Wasser-Motivik, Familienrollen und Sprache sowie mit den externen Video- und Dropbox-Impulsen aus dem Auftrag."
+              : "Der Roman ist vollständig integriert. Links steuerst du zwölf eng geführte Lektionssets und Theorie-Linsen, in der Mitte springst du direkt zu den relevanten PDF-Passagen, rechts verbindest du Textbeobachtung, Theoriebezug, Überarbeitung, Peer Review und die externen Zusatzmaterialien aus dem Auftrag."}
           </p>
         </div>
         <div class="hero-actions">
           <span class="status-badge">${escapeHtml(modeLabel)}</span>
-          <span class="status-badge">15 Lektionen</span>
+          <span class="status-badge">12 Lektionen</span>
           <span class="status-badge">${escapeHtml(lesson.reviewFocus)}</span>
           ${mode === "open" ? '<a class="button secondary" href="/auth/logout">Abmelden</a>' : ""}
         </div>

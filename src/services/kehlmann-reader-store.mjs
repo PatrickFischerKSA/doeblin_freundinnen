@@ -40,7 +40,7 @@ const defaultPeerReviewCriteria = [
 const lessonCatalog = () => getLessonSetsWithCounts();
 const defaultLessonIds = () => lessonCatalog().map((lesson) => lesson.id);
 const defaultActiveLessonId = () => defaultLessonIds()[0];
-const defaultPeerReviewLessonId = () => lessonCatalog().find((lesson) => lesson.id === "lesson-07-hafen-blickszenen")?.id || defaultLessonIds()[0];
+const defaultPeerReviewLessonId = () => lessonCatalog().find((lesson) => lesson.id === "lesson-08-berlin-oder-bleiben")?.id || defaultLessonIds()[0];
 
 let inMemoryReaderStore = null;
 
@@ -65,8 +65,8 @@ function makeId(prefix) {
 function defaultClassroom(timestamp) {
   return {
     id: "reader-class-9a",
-    name: "Kehlmann 10A",
-    code: "KEHL-10A",
+    name: "22 Bahnen 10A",
+    code: "WAHL-10A",
     lessonIds: defaultLessonIds(),
     activeSebLessonId: defaultActiveLessonId(),
     allowOpen: true,
@@ -76,7 +76,7 @@ function defaultClassroom(timestamp) {
     peerReviewLessonId: defaultPeerReviewLessonId(),
     peerReviewVisibility: "assigned-only",
     peerReviewInstructions:
-      "Arbeite textnah, historisch verantwortungsbewusst und entwicklungsorientiert. Nenne mindestens eine Stärke, eine präzise Überarbeitung und eine Rückfrage zur Deutung oder Bühnenfunktion.",
+      "Arbeite textnah, entwicklungsorientiert und präzise. Nenne mindestens eine Stärke, eine konkrete Überarbeitung und eine Rückfrage zu Motiv, Figur, Perspektive oder Sprache.",
     peerReviewCriteria: structuredClone(defaultPeerReviewCriteria),
     createdAt: timestamp,
     updatedAt: timestamp
@@ -176,7 +176,7 @@ export function getStudentWork(store, studentId) {
 
 function randomCode() {
   const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  return `KEHL-${Array.from({ length: 6 }, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join("")}`;
+  return `WAHL-${Array.from({ length: 6 }, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join("")}`;
 }
 
 function createWork(studentId, classroom) {

@@ -1,9 +1,9 @@
 {
-  "name": "reise_der_verlorenen",
+  "name": "wahl_22bahnen",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Digitale Lerneinheit zu Daniel Kehlmanns Die Reise der Verlorenen mit offenem Reader, SEB-Modus, Lehrer*innen-Dashboard und Peer Review.",
+  "description": "Digitale Lerneinheit zu Caroline Wahls 22 Bahnen mit integriertem PDF, Registrierung, Lehrer*innen-Dashboard, SEB-Modus und differenziertem Feedback.",
   "scripts": {
     "start": "node server.mjs",
     "dev": "node --watch server.mjs",

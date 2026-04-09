@@ -1,967 +1,714 @@
-const verdammtenVideo =
-  "https://www.dropbox.com/scl/fi/ul98jwpg0x64t0jqdbjpv/Die-Reise-der-Verdammten-1.mp4?rlkey=3ipejfcqv65qrpmzko41xgu3g&st=m1i680vb&dl=0";
-const verlorenenVideo =
-  "https://www.dropbox.com/scl/fi/3h67gy4raonrf1z2deyh9/Die-Reise-der-Verlorenen-to-go-MeinSenf-Kehlmann-in-11-Minuten.mp4?rlkey=2e7ccsnjmphtu1haovcpwou75&st=gqx92xef&dl=0";
-const geschichteVideo =
-  "https://www.dropbox.com/scl/fi/eex00kfd2kpd86g4zddyo/Daniel-Kehlmann-was-ist-eine-gute-Geschichte-Interviewpodcast-Alles-gesagt.mp4?rlkey=tel4p06cf7eqtahp7eicx5kx1&st=a4rikz4e&dl=0";
-const dokumentartheaterVideo =
-  "https://www.dropbox.com/scl/fi/ux8nsigllc9o8knwzxzxb/Dokumentartheater-Deutsch-Dramatik.mp4?rlkey=nhx1ktv76qjk3gpbl042ktmq6&st=k8v0qr38&dl=0";
-const epischesTheaterVideo =
-  "https://www.dropbox.com/scl/fi/kcm1eu8mgnalwj5mykxl7/EpischesTheater.mp4?rlkey=vifs3zrdn2qcnf48kv82oq8se&st=f0yzthwx&dl=0";
-const steinbruchPdf = "/reader/assets/im-steinbruch-kehlmann.pdf";
-const susanneHeimPdf = "/reader/assets/susanne-heim-zwischen-den-grenzen.pdf";
-const evianWikipediaUrl = "https://de.wikipedia.org/wiki/Konferenz_von_%C3%89vian";
-const evianDeutschlandfunkUrl =
-  "https://www.deutschlandfunk.de/jochen-thies-evian-1938-als-die-welt-die-juden-verriet-100.html";
-const ndrStLouisUrl =
-  "https://www.ndr.de/geschichte/chronologie/Die-Irrfahrt-der-St-Louis-Fluechtlinge-die-keiner-wollte,stlouis126.html";
-const ushmmVoyageUrl = "https://encyclopedia.ushmm.org/content/de/article/voyage-of-the-st-louis";
-const ushmmReturnUrl = "https://encyclopedia.ushmm.org/content/de/article/return-to-europe-of-the-st-louis";
-const ushmmFateUrl = "https://encyclopedia.ushmm.org/content/de/article/wartime-fate-of-the-passengers-of-the-st-louis";
-const gerdaBlachmannVideoUrl =
-  "https://encyclopedia.ushmm.org/content/en/oral-history/gerda-blachmann-wilchfort-describes-the-mood-of-passengers-on-the-st-louis-after-they-were-denied-entry-into-cuba";
-const andruckRssUrl = "https://www.deutschlandfunk.de/andruck-100.xml";
-const evianWikipediaDossier = "/reader/assets/evian-konferenz-dossier.html";
-const evianDeutschlandfunkDossier = "/reader/assets/evian-deutschlandfunk-dossier.html";
-const ndrStLouisDossier = "/reader/assets/ndr-st-louis-dossier.html";
-const fritzBuffDossier = "/reader/assets/fritz-buff-reisebericht-dossier.html";
-const fritzBuffAudio = "/reader/assets/fritz-buff-soundfile.mp3";
-const bilddossierReise = "/reader/assets/bilddossier-reise-und-passagiere.html";
-const bilddossierAkteure = "/reader/assets/bilddossier-politische-akteure.html";
-const ushmmVoyageDossier = "/reader/assets/ushmm-voyage-dossier.html";
-const ushmmReturnDossier = "/reader/assets/ushmm-return-to-europe-dossier.html";
-const ushmmFateDossier = "/reader/assets/ushmm-wartime-fate-dossier.html";
-const gerdaBlachmannDossier = "/reader/assets/gerda-blachmann-dossier.html";
-const fritzSpanierImg = "/reader/assets/fritz-spanier.jpg";
-const gustavSchroederImg = "/reader/assets/gustav-schroeder.jpg";
-const stLouisHavanaImg = "/reader/assets/st-louis-havana.jpg";
-const federicoLaredoBruImg = "/reader/assets/federico-laredo-bru.jpg";
-const jButlerWrightImg = "/reader/assets/j-butler-wright.jpg";
-const cordellHullImg = "/reader/assets/cordell-hull.jpg";
-const henryMorgenthauImg = "/reader/assets/henry-morgenthau-jr.jpg";
-const fulgencioBatistaImg = "/reader/assets/fulgencio-batista.jpg";
+const pdfPath = "/reader/assets/22-bahnen.pdf";
+const coverImg = "/reader/assets/22-bahnen-cover.jpg";
+const authorImg = "/reader/assets/caroline-wahl.jpg";
+const dropboxFolder =
+  "https://www.dropbox.com/scl/fo/gvyema66vegtqwou0wnwr/AO4zf617pYeKWWyP_9wDrOI?rlkey=27l9qxttc7iem2fhtdt15f5za&st=hrr3zlfo&dl=0";
+const youtubeOne = "https://www.youtube.com/watch?v=ETB4dW189qY";
+const youtubeTwo = "https://www.youtube.com/watch?v=bCFr14gaHNQ";
+const youtubeThree = "https://www.youtube.com/watch?v=9Qjvm6u4eb4";
 
-function asRaw(url) {
-  return url.replace("dl=0", "raw=1");
+function youtubeEmbed(url) {
+  const id = new URL(url).searchParams.get("v");
+  return `https://www.youtube.com/embed/${id}`;
 }
 
 export const theoryResources = [
   {
-    id: "historischer-kontext",
-    title: "Historischer Kontext: Die Reise der Verdammten",
-    shortTitle: "Kontext",
-    sourceTitle: "Die Reise der Verdammten",
+    id: "materialpool",
+    title: "Externer Materialpool zum Roman",
+    shortTitle: "Materialpool",
+    sourceTitle: "Dropbox-Ordner und verlinkte Zusatzinputs",
+    mediaType: "html",
+    openUrl: dropboxFolder,
+    embedUrl: "/reader/assets/materialpool-22-bahnen.html",
+    summary:
+      "Diese Linse bündelt die vom Auftrag ausgehenden Zusatzmaterialien. Sie ist keine Musterlösung, sondern eine Vergleichsfolie für eigene Deutungen, Schwerpunktsetzungen und Unterrichtsgespräche.",
+    keyIdeas: ["Vergleichshorizont", "Außenperspektive", "Romanzugang", "Unterrichtsimpuls", "Materialauswahl"],
+    questions: [
+      "Welches der externen Materialien ergänzt deine aktuelle Passage am sinnvollsten, und warum gerade dieses?",
+      "An welcher Stelle bestätigt der Materialpool deine Lektüre, und an welcher widerspricht oder verschiebt er sie?",
+      "Wie kannst du ein externes Material nutzen, ohne bloß nachzuerzählen, was dort gesagt wird?"
+    ],
+    transferPrompts: [
+      "Vergleiche deine Passage mit einem Material aus dem Pool und halte genau fest, was sich an deiner Deutung dadurch schärft.",
+      "Erkläre, welche Perspektive von außen auf den Roman hier besonders hilfreich ist: Figurenblick, Motivik, Sprache oder Gesamtdeutung.",
+      "Prüfe, ob das externe Material eher eine Lücke füllt oder deine bisherige Sicht bewusst irritiert."
+    ],
+    writingFrame:
+      "Als Vergleichsfolie hilft mir das externe Material, weil es meine Passage nicht ersetzt, sondern ..."
+  },
+  {
+    id: "perspektive",
+    title: "Dossier: Ich-Erzählung, Wahrnehmung und Selbstschutz",
+    shortTitle: "Perspektive",
+    sourceTitle: "Lokales Dossier zur Erzählperspektive",
+    mediaType: "html",
+    openUrl: "/reader/assets/erzaehlperspektive-22-bahnen.html",
+    embedUrl: "/reader/assets/erzaehlperspektive-22-bahnen.html",
+    summary:
+      "Das Dossier schärft, dass Tildas Ich-Erzählung nie neutral ist. Sie beobachtet präzise, lenkt aber zugleich weg, wenn Schmerz, Schuld oder Überforderung zu nah kommen.",
+    keyIdeas: ["Ich-Erzählung", "Fokalisierung", "Nähe", "Distanz", "Selbstschutz"],
+    questions: [
+      "Wo merkt man in deiner Passage besonders deutlich, dass wir nur Tildas Wahrnehmung erhalten?",
+      "Was blendet Tilda aus, verkürzt sie oder kontrolliert sie sprachlich besonders stark?",
+      "Wie verändert sich die Wirkung einer Szene dadurch, dass Tilda zugleich Beobachterin und Betroffene ist?"
+    ],
+    transferPrompts: [
+      "Zeige an einem Wort, Blick oder Wahrnehmungssprung, wie Tilda die Szene filtert.",
+      "Prüfe, ob Tilda in deiner Passage eher Nähe zulässt oder Distanz erzeugt.",
+      "Erkläre, wie die Perspektive das Verhältnis von Kontrolle und Verletzlichkeit formt."
+    ],
+    writingFrame:
+      "Die Passage wirkt so, weil Tilda als Ich-Erzählerin ... wahrnimmt, aber ... zugleich zurückhält."
+  },
+  {
+    id: "wasser-motivik",
+    title: "Dossier: Wasser, Bahnen, Tauchen und Rettung",
+    shortTitle: "Wasser",
+    sourceTitle: "Lokales Dossier zur Motivik",
+    mediaType: "html",
+    openUrl: "/reader/assets/wasser-und-bahnen-22-bahnen.html",
+    embedUrl: "/reader/assets/wasser-und-bahnen-22-bahnen.html",
+    summary:
+      "Vom Freibad über den Regen bis zum Meer im Fiebertraum trägt Wasser den Roman. Es steht für Ordnung, Flucht, Kontrolle, Überforderung, Erinnerung und Rettung zugleich.",
+    keyIdeas: ["Schwimmen", "Zählen", "Tauchen", "Meer", "Rettung"],
+    questions: [
+      "Welche Funktion hat Wasser in deiner Passage genau: Beruhigung, Bedrohung, Erinnerung oder Übergang?",
+      "Wie verbindet das Schwimmen Körperdisziplin mit emotionalem Überleben?",
+      "Wo kippt Wasser im Roman von einem kontrollierten Element in etwas Unberechenbares?"
+    ],
+    transferPrompts: [
+      "Ordne deine Passage in die Wasser-Motivik des Romans ein und benenne eine klare Funktionsverschiebung.",
+      "Erkläre, wie aus den 22 Bahnen mehr wird als bloß eine Sportgewohnheit.",
+      "Zeige, ob Wasser hier eher Schutzraum, Prüfungsraum oder Beziehungsraum ist."
+    ],
+    writingFrame:
+      "Das Wasser-Motiv schärft die Passage, weil es hier nicht nur ... bedeutet, sondern zugleich ..."
+  },
+  {
+    id: "familienrollen",
+    title: "Dossier: Fürsorge, Parentifizierung und Schwesternschaft",
+    shortTitle: "Familie",
+    sourceTitle: "Lokales Dossier zu Rollen im Roman",
+    mediaType: "html",
+    openUrl: "/reader/assets/fuersorge-und-familie-22-bahnen.html",
+    embedUrl: "/reader/assets/fuersorge-und-familie-22-bahnen.html",
+    summary:
+      "Das Dossier zeigt, wie sehr `22 Bahnen` von verschobenen Rollen lebt: Tilda wird zur Versorgerin, Ida ist zugleich Kind und Gegenkraft, die Mutter kippt zwischen Bedürftigkeit, Verletzung und Aggression.",
+    keyIdeas: ["Fürsorge", "Parentifizierung", "Ida", "Mutter", "Vaterleerstelle"],
+    questions: [
+      "Welche Rolle übernimmt Tilda in deiner Passage, die eigentlich einer erwachsenen Bezugsperson zukommen müsste?",
+      "Wie wird Ida zugleich als schutzbedürftig und erstaunlich handlungsfähig gezeigt?",
+      "Woran erkennt man, dass die Familie nicht stabil ist, obwohl viele Routinen funktionieren?"
+    ],
+    transferPrompts: [
+      "Arbeite die Rollenverschiebung in deiner Passage präzise heraus.",
+      "Zeige, ob Tildas Fürsorge eher schützt, überfordert oder beides zugleich.",
+      "Prüfe, wie der Roman Nähe nicht idyllisiert, sondern mit Verantwortung auflädt."
+    ],
+    writingFrame:
+      "Die Passage macht Familienrolle nicht als festen Platz sichtbar, sondern als ...",
+  },
+  {
+    id: "sprache-koerper",
+    title: "Dossier: Lakonie, Listenstil und Körperwahrnehmung",
+    shortTitle: "Sprache",
+    sourceTitle: "Lokales Dossier zu Sprache und Stil",
+    mediaType: "html",
+    openUrl: "/reader/assets/sprache-und-koerper-22-bahnen.html",
+    embedUrl: "/reader/assets/sprache-und-koerper-22-bahnen.html",
+    summary:
+      "Caroline Wahl verbindet knappe Sätze, Aufzählungen, trockenen Witz und extreme Körpernähe. Gerade dadurch werden Überforderung, Zärtlichkeit und Angst unmittelbar lesbar.",
+    keyIdeas: ["Aufzählung", "Lakonie", "Körper", "Rhythmus", "Ironie"],
+    questions: [
+      "Welche sprachliche Form prägt die Passage am stärksten: Liste, Lakonie, Bildlichkeit oder Dialogknappheit?",
+      "Wie arbeitet der Roman mit Geruch, Temperatur, Schmerz oder Bewegung?",
+      "Wo kippt ein trockener Ton in Verletzlichkeit oder umgekehrt?"
+    ],
+    transferPrompts: [
+      "Benenne ein sprachliches Muster und erkläre seine Wirkung auf die Passage.",
+      "Zeige, wie Körperwahrnehmung die psychische Lage sichtbar macht.",
+      "Prüfe, ob der Witz entlastet, schützt oder den Schmerz gerade schärfer macht."
+    ],
+    writingFrame:
+      "Sprachlich trägt die Passage besonders, weil Wahl hier mit ... arbeitet und dadurch ..."
+  },
+  {
+    id: "inputvideo-1",
+    title: "YouTube-Impuls 1 aus dem Auftrag",
+    shortTitle: "Video 1",
+    sourceTitle: "Verlinkter YouTube-Input",
     mediaType: "video",
-    openUrl: verdammtenVideo,
-    embedUrl: asRaw(verdammtenVideo),
+    openUrl: youtubeOne,
+    embedUrl: youtubeEmbed(youtubeOne),
     summary:
-      "Diese Linse bündelt die historische Ausgangslage: Flucht, verweigerte Aufnahme, internationale Verantwortungsverschiebung und die realen politischen Konstellationen von 1939.",
-    keyIdeas: ["St. Louis", "Flucht", "Aufnahmeverweigerung", "internationale Politik", "historische Verantwortung"],
+      "Dieser vom Auftrag ausgehende Videoimpuls dient als Vergleichshorizont. Nutze ihn nicht als Lösung, sondern als Anlass, deine eigene Lektüre zu prüfen, zu schärfen oder bewusst abzugrenzen.",
+    keyIdeas: ["Vergleich", "Deutungsangebot", "Akzentsetzung", "Romanzugang"],
     questions: [
-      "Welche historischen Fakten nutzt das Stück, um die Handlung als reale Katastrophe lesbar zu machen?",
-      "Wo zeigt der Text, dass politisches Wegsehen tödliche Folgen hat?",
-      "Wie verändert das Wissen um den historischen Hintergrund deine Wahrnehmung der Figuren?"
+      "Welchen Schwerpunkt setzt das Video, den du in deiner Passage ebenfalls oder gerade nicht siehst?",
+      "Welche Figur, welches Motiv oder welche Beziehung rückt durch den Videoimpuls stärker in den Vordergrund?",
+      "Wo solltest du der Videoaussage widersprechen, weil der Romantext differenzierter ist?"
     ],
     transferPrompts: [
-      "Zeige an der Passage, wie individuelle Schicksale mit internationalen Entscheidungen verschränkt werden.",
-      "Prüfe, ob die Szene eher dokumentiert, kommentiert oder emotional zuspitzt.",
-      "Erkläre, wie historische Realität auf der Bühne in dramatische Form übersetzt wird."
+      "Vergleiche deine Passage mit einer Deutungsbewegung aus dem Video.",
+      "Entscheide, ob der Videoimpuls den Roman eher vereinfacht oder sinnvoll zuspitzt.",
+      "Halte fest, was du aus dem Video übernehmen würdest und was nicht."
     ],
     writingFrame:
-      "Historisch bedeutsam ist die Passage, weil sie zeigt, wie ... nicht nur einzelnen Figuren, sondern einer ganzen Gruppe von Flüchtlingen widerfährt."
+      "Der Videoimpuls ist für meine Passage hilfreich, weil er ... betont; zugleich bleibt wichtig, dass der Roman ..."
   },
   {
-    id: "evian-konferenz",
-    title: "Historisches Dossier: Die Konferenz von Évian",
-    shortTitle: "Évian",
-    sourceTitle: "Wikipedia · Konferenz von Évian",
-    mediaType: "html",
-    openUrl: evianWikipediaUrl,
-    embedUrl: evianWikipediaDossier,
-    summary:
-      "Diese Ressource schärft den historischen Unterbau des Dramas: Évian 1938 steht für internationale Beratungen ohne bindende Aufnahmepolitik und für eine globale Politik der verweigerten Rettung.",
-    keyIdeas: ["Évian", "32 Staaten", "Dominikanische Republik", "Aufnahmeverweigerung", "Intergovernmental Committee on Refugees"],
-    questions: [
-      "Benennen die Struktur von Évian in einem Satz: Wer berät, wer hilft nicht, wer bleibt gefährdet?",
-      "Erkläre präzise, warum die Dominikanische Republik historisch auffällt, aber keine wirkliche Lösung darstellt.",
-      "Zeige konkret, welche Havanna- oder Rückweg-Passage mit Évian besser verständlich wird."
-    ],
-    transferPrompts: [
-      "Weise an einem Satz der Passage nach, wie Verhandlung ohne Rettung inszeniert wird.",
-      "Entscheide klar: zeigt die Szene vor allem Leid, Bürokratie oder internationale Mitschuld?",
-      "Verbinde ein konkretes Textsignal der Passage ausdrücklich mit Évian 1938."
-    ],
-    writingFrame:
-      "Mit Évian gelesen, erscheint die Passage nicht als Einzelfall, sondern als Symptom einer internationalen Politik, die ..."
-  },
-  {
-    id: "evian-deutschlandfunk",
-    title: "Deutschlandfunk: Evian 1938 und die Sprache des Verrats",
-    shortTitle: "DLF Évian",
-    sourceTitle: "Deutschlandfunk · Andruck",
-    mediaType: "html",
-    openUrl: evianDeutschlandfunkUrl,
-    embedUrl: evianDeutschlandfunkDossier,
-    audioUrl: andruckRssUrl,
-    audioLabel: "Andruck-Podcast-RSS öffnen",
-    summary:
-      "Die Rezension zu Jochen Thies verschiebt den Blick auf die Sprache der Konferenz: kein Land öffnet die Grenzen, Hitler wird nicht klar benannt, und ökonomische Ausreden überlagern die politische Verantwortung.",
-    keyIdeas: ["unterschwelliger Antisemitismus", "Flüchtlinge statt Vertriebene", "hohe Arbeitslosigkeit", "kein Land öffnete seine Grenzen", "Nachfolgeorganisation wirkungslos"],
-    questions: [
-      "Nenne zwei Sprachmuster des Ausweichens, die der Beitrag offenlegt.",
-      "Erkläre knapp, warum das Nicht-Benennen Hitlers historisch und rhetorisch wichtig ist.",
-      "Zeige an einer diplomatischen Szene, wie aus Sprache politische Unterlassung wird."
-    ],
-    transferPrompts: [
-      "Markiere ein Ausweichsignal in der Passage und erkläre seine Funktion.",
-      "Prüfe, wo das Drama Gewalt über Verwaltungs- oder Diplomatensprache sichtbar macht.",
-      "Erkläre in einem präzisen Satz, wie die Szene Untätigkeit moralisch lesbar macht."
-    ],
-    writingFrame:
-      "Mit dem Deutschlandfunk-Beitrag wird sichtbar, dass die Passage nicht nur von gescheiterter Hilfe erzählt, sondern die Sprache dieser Hilfeverweigerung offenlegt."
-  },
-  {
-    id: "susanne-heim-grenzen",
-    title: "Susanne Heim: „Die Menschen irrten zwischen den Grenzen hin und her“",
-    shortTitle: "Susanne Heim",
-    sourceTitle: "Republik · Susanne Heim",
-    mediaType: "pdf",
-    openUrl: susanneHeimPdf,
-    embedUrl: susanneHeimPdf,
-    summary:
-      "Der Text vertieft die Frage nach Grenzregimen, internationalen Abwehrmechanismen und der historischen Erfahrung, zwischen Transit, Blockade und Zuständigkeitsverschiebung festzusitzen.",
-    keyIdeas: ["Grenzregime", "Transit", "Zwischenräume", "staatliche Abwehr", "historische Bewegungszwänge"],
-    questions: [
-      "Bestimme die Grenzlogik der Quelle möglichst genau: Grenze als Linie, Verfahren oder Machtordnung?",
-      "Erkläre knapp, wie die Quelle das Hin- und Hergeschobenwerden beschreibt.",
-      "Zeige an einer Passage, wie das Drama Transit ohne Ankunft inszeniert."
-    ],
-    transferPrompts: [
-      "Verbinde die Passage mit einer präzisen Beobachtung aus dem Republik-Text zu Grenze oder Transit.",
-      "Entscheide klar: legt die Szene eher Gefühl, Bürokratie oder Geopolitik frei?",
-      "Erkläre, wie die Quelle eine bloß individuelle Deutung der Passage korrigiert."
-    ],
-    writingFrame:
-      "Die Quelle von Susanne Heim verschärft die Passage historisch, weil sie zeigt, dass das Hin- und Hergeschobenwerden ..."
-  },
-  {
-    id: "ndr-st-louis",
-    title: "NDR-Chronologie: Die Irrfahrt der „St. Louis“",
-    shortTitle: "NDR St. Louis",
-    sourceTitle: "NDR Geschichte",
-    mediaType: "html",
-    openUrl: ndrStLouisUrl,
-    embedUrl: ndrStLouisDossier,
-    summary:
-      "Die NDR-Chronologie verdichtet den historischen Ablauf der Reise: Abfahrt in Hamburg, Havanna, Florida, Rückweg, Antwerpen und die europäische Verteilung. Sie hilft, den dramatischen Ablauf als reale Chronologie nachzuvollziehen.",
-    keyIdeas: ["13. Mai 1939", "Havanna", "Florida", "Antwerpen", "mehr als 900 Flüchtlinge"],
-    questions: [
-      "Ordne die Passage eindeutig einer Station der Irrfahrt zu.",
-      "Erkläre knapp, wie der Artikel Schröders Handeln von staatlicher Untätigkeit abgrenzt.",
-      "Zeige, warum die Reihenfolge Hamburg, Havanna, Florida, Antwerpen für das Drama wichtig ist."
-    ],
-    transferPrompts: [
-      "Ordne die Passage in die Chronologie ein und benenne die verdichtete Phase der Irrfahrt.",
-      "Entscheide klar: fokussiert die Szene Passagiere, Schröder oder die Staaten?",
-      "Erkläre, wie der historische Überblick aus Einzelbildern einen Katastrophenverlauf macht."
-    ],
-    writingFrame:
-      "Im NDR-Beitrag erscheint die Passage als Teil einer genauen historischen Chronologie, in der ..."
-  },
-  {
-    id: "fritz-buff-reisebericht",
-    title: "Primärquelle: Fritz Buffs Reisebericht von Bord der St. Louis",
-    shortTitle: "Fritz Buff",
-    sourceTitle: "Hamburger Schlüsseldokumente",
-    mediaType: "html",
-    openUrl: fritzBuffDossier,
-    embedUrl: fritzBuffDossier,
-    audioUrl: fritzBuffAudio,
-    audioLabel: "Soundfile öffnen",
-    summary:
-      "Die Primärquelle führt in eine unmittelbare Binnenperspektive der Reise. Besonders wichtig: Fritz Buff war erst 17 Jahre alt und reiste allein. Bildseiten, Transkript-Auszüge und Soundfile schärfen, wie Hoffnung, Warten, Gerüchte, politische Entscheidungen und die Angst vor der Rückkehr aus einer zeitgenössischen Passagiersicht erlebt werden.",
-    keyIdeas: ["17 Jahre", "allein reisend", "Binnenperspektive", "Havanna", "Florida", "Antwerpen", "Passagiererfahrung"],
-    questions: [
-      "Benenne präzise zwei Stimmungslagen, die im Bericht aufeinanderprallen.",
-      "Erkläre klar, was sich ändert, wenn du die Szene aus Buffs Ich-Perspektive liest.",
-      "Wähle eine Formulierung der Quelle und zeige, wie sie deine Dramenlektüre schärft."
-    ],
-    transferPrompts: [
-      "Verbinde die Passage mit einer Beobachtung aus Buffs Bericht und bestimme die gemeinsame Erfahrungsebene.",
-      "Entscheide klar: dominiert Binnenperspektive oder politische Übersicht?",
-      "Erkläre, wie der Reisebericht eine zu abstrakte Deutung der Passage verhindert."
-    ],
-    writingFrame:
-      "Mit Fritz Buffs Bericht gelesen, wirkt die Passage besonders eindringlich, weil die Quelle zeigt, dass ..."
-  },
-  {
-    id: "bilddossier-reise",
-    title: "Bilddossier: Schiff, Kapitän und Passagiere",
-    shortTitle: "Bilder Reise",
-    sourceTitle: "Historische Bildquellen",
-    mediaType: "html",
-    openUrl: bilddossierReise,
-    embedUrl: bilddossierReise,
-    summary:
-      "Dieses Bilddossier bündelt die St. Louis in Havanna, Gustav Schröder und die Passagierperspektive. Es hilft, Bordraum, Verantwortung und Familienblick nicht nur textlich, sondern visuell zu erfassen.",
-    keyIdeas: ["Schiffsrumpf", "Passagiere", "Schröder", "Havanna", "Blickregie", "Bordraum"],
-    questions: [
-      "Welches Bild schärft deine aktuelle Passage am stärksten, und warum gerade dieses?",
-      "Wie verändert das Schiffs- oder Passagierbild deinen Blick auf Nähe, Enge und Ausgeliefertsein an Bord?",
-      "Was zeigt das Porträt Schröders über Verantwortung, Haltung oder Begrenzung seiner Rolle?"
-    ],
-    transferPrompts: [
-      "Verbinde ein Bildelement ausdrücklich mit einer Formulierung aus der Passage.",
-      "Entscheide klar: schärft das Bild eher Raum, Figur oder Stimmung?",
-      "Erkläre, wie das Bild die Passage konkreter und weniger abstrakt lesbar macht."
-    ],
-    writingFrame:
-      "Das Bild schärft die Passage, weil es sichtbar macht, wie ..."
-  },
-  {
-    id: "bilddossier-akteure",
-    title: "Bilddossier: Politische Akteure der Blockade",
-    shortTitle: "Bilder Politik",
-    sourceTitle: "Historische Porträts",
-    mediaType: "html",
-    openUrl: bilddossierAkteure,
-    embedUrl: bilddossierAkteure,
-    summary:
-      "Das Bilddossier bündelt zentrale politische Akteure der Krise: Federico Laredo Brú, J. Butler Wright, Cordell Hull, Henry Morgenthau Jr. und Batista. Die Porträts helfen, diplomatische und staatliche Macht im Drama genauer zu verorten.",
-    keyIdeas: ["Bru", "Wright", "Hull", "Morgenthau", "Batista", "politische Verantwortung"],
-    questions: [
-      "Welche Figur des Dossiers steht deiner Passage politisch am nächsten?",
-      "Wie verändert ein konkretes Gesicht deine Deutung von Diplomatie, Verhandlung und Unterlassung?",
-      "Welche Machtstufe wird durch das Bild sichtbar: Regierung, Diplomatie, Ministerium oder militärischer Einfluss?"
-    ],
-    transferPrompts: [
-      "Ordne die Passage einem Akteur oder Machtfeld des Bilddossiers zu.",
-      "Prüfe, ob das Bild eher Entscheidungsmacht, Distanz oder Verantwortungslosigkeit schärft.",
-      "Erkläre, wie das Porträt die politische Struktur deiner Passage konkretisiert."
-    ],
-    writingFrame:
-      "Mit dem Bilddossier wird die Passage politisch konkreter, weil hinter der Verhandlung sichtbar wird, dass ..."
-  },
-  {
-    id: "ushmm-voyage",
-    title: "USHMM-Dossier: Die Reise der St. Louis",
-    shortTitle: "USHMM Reise",
-    sourceTitle: "USHMM · Voyage of the St. Louis",
-    mediaType: "html",
-    openUrl: ushmmVoyageUrl,
-    embedUrl: ushmmVoyageDossier,
-    summary:
-      "Das Dossier schärft die Ausgangslage der Irrfahrt: 937 Passagiere, ungültig erklärte Dokumente, kubanische Machtkämpfe, informierte Behörden und eine Krise, die politisch längst sichtbar war, bevor die Passagiere sie erfuhren.",
-    keyIdeas: ["937 Passagiere", "13. Mai 1939", "ungültige Papiere", "Havanna", "informierte Behörden", "sichtbar und ausgeschlossen"],
-    questions: [
-      "Benenne die drei wichtigsten historischen Vorentscheidungen, die die Reise schon vor Havanna belasten.",
-      "Erkläre präzise, warum die USHMM-Seite die Krise nicht als plötzliches Unglück, sondern als politisch bekannte Entwicklung lesbar macht.",
-      "Zeige an deiner Passage, wie aus Sichtbarkeit noch keine Aufnahme wird."
-    ],
-    transferPrompts: [
-      "Ordne die Passage eindeutig der Phase vor Havanna, im Hafen oder vor Florida zu und sichere das mit einem Textsignal.",
-      "Prüfe, ob die Szene eher Machtkampf, Verwaltungsentscheidung oder Passagiererfahrung verdichtet.",
-      "Erkläre, wie die USHMM-Seite eine bloß emotionale Lektüre der Passage historisch schärft."
-    ],
-    writingFrame:
-      "Mit dem USHMM-Dossier gelesen, erscheint die Passage als Teil einer politisch vorbereiteten Krise, weil ..."
-  },
-  {
-    id: "gerda-blachmann",
-    title: "Gerda Blachmann: Videostimme vom Schiff",
-    shortTitle: "Gerda Video",
-    sourceTitle: "USHMM · Oral History",
-    mediaType: "html",
-    openUrl: gerdaBlachmannVideoUrl,
-    embedUrl: gerdaBlachmannDossier,
-    summary:
-      "Gerda Blachmann Wilchfort erinnert als junge Passagierin Depression, Suizidversuch, Newsletter an Bord, die Lichter von Miami und die Angst vor der Rückkehr. Das Video gibt der St.-Louis-Krise eine dichte Binnenstimme und verbindet Havanna mit späterer Verfolgung.",
-    keyIdeas: ["Gerda Blachmann", "Video", "Suizidversuch", "Miami-Lichter", "Newsletter an Bord", "Belgien und Schweiz"],
-    questions: [
-      "Benenne präzise zwei Beobachtungen, die Gerdas Aussage über die Stimmung an Bord macht.",
-      "Erkläre, warum die Miami-Lichter in ihrer Erinnerung mehr als ein Detail der Reise sind.",
-      "Zeige, wie Gerdas Videostimme deine Passage gegen eine zu abstrakte historische Lektüre absichert."
-    ],
-    transferPrompts: [
-      "Verbinde ein Detail aus Gerdas Aussage ausdrücklich mit einem Wort, Bild oder Bühnenmoment deiner Passage.",
-      "Prüfe, ob Gerda vor allem Angst, Hoffnung oder politisches Warten sichtbar macht.",
-      "Erkläre, wie die Oral History den Weg von Havanna zur europäischen Nachgeschichte eröffnet."
-    ],
-    writingFrame:
-      "Gerdas Aussage schärft die Passage, weil ihre Erinnerung zeigt, dass ..."
-  },
-  {
-    id: "ushmm-return-europe",
-    title: "USHMM-Dossier: Rückkehr nach Europa und Verteilung",
-    shortTitle: "Rückkehr Europa",
-    sourceTitle: "USHMM · Return to Europe",
-    mediaType: "html",
-    openUrl: ushmmReturnUrl,
-    embedUrl: ushmmReturnDossier,
-    summary:
-      "Dieses Dossier macht die Rückkehr nach Europa präzise: 287 Passagiere gingen nach Großbritannien, 224 nach Frankreich, 214 nach Belgien, 181 in die Niederlande. Die Aufnahme blieb provisorisch, an Fragebögen und Lager gekoppelt und ausdrücklich ohne Präzedenzwirkung.",
-    keyIdeas: ["287 Großbritannien", "224 Frankreich", "214 Belgien", "181 Niederlande", "provisorisches Asyl", "kein Präzedenzfall"],
-    questions: [
-      "Ordne die Verteilung der Passagiere auf die vier Aufnahmeländer korrekt zu.",
-      "Erkläre klar, warum die Rückkehr nach Europa keine Rettung im starken Sinn ist.",
-      "Zeige an deiner Passage, wie das Drama Übergang, Verteilung oder vorläufige Sicherheit inszeniert."
-    ],
-    transferPrompts: [
-      "Verbinde die Passage ausdrücklich mit einem der vier Aufnahmeländer oder mit der Verteilungslogik.",
-      "Prüfe, wo die Szene vorläufige Aufnahme statt wirklicher Sicherheit sichtbar macht.",
-      "Erkläre, wie aus Verwaltung, Fragebögen und Transporten eine neue Form der Unsicherheit entsteht."
-    ],
-    writingFrame:
-      "Das USHMM-Dossier zeigt, dass die Passage nicht in Rettung mündet, sondern in eine provisorische und gefährdete Verteilung, weil ..."
-  },
-  {
-    id: "ushmm-wartime-fate",
-    title: "USHMM-Dossier: Kriegsschicksale der Passagiere",
-    shortTitle: "Kriegsschicksale",
-    sourceTitle: "USHMM · Wartime Fate",
-    mediaType: "html",
-    openUrl: ushmmFateUrl,
-    embedUrl: ushmmFateDossier,
-    summary:
-      "Das Dossier verfolgt die Nachgeschichte bis in Internierung, Fluchtwege und Deportation. Von den 620 Passagieren, die auf den Kontinent zurückkehrten, saßen 532 später im besetzten Westeuropa fest; 278 überlebten, 254 starben. Die Familien Seligmann und Hermanns zeigen, wie ungleich die Schicksale verliefen.",
-    keyIdeas: ["532 festgesetzt", "278 überlebt", "254 ermordet", "Seligmann", "Hermanns", "1942 versiegende Fluchtwege"],
-    questions: [
-      "Benenne die drei entscheidenden Zahlen des USHMM-Dossiers korrekt und erkläre ihre Aussagekraft.",
-      "Erkläre präzise, was die Gegenüberstellung von Seligmann und Hermanns historisch sichtbar macht.",
-      "Zeige an deiner Passage, wie das Drama ein Ende verweigert, weil die Nachgeschichte weiterläuft."
-    ],
-    transferPrompts: [
-      "Verbinde die Passage ausdrücklich mit Internierung, Deportation, untergetauchtem Überleben oder blockierten Fluchtwegen.",
-      "Prüfe, ob deine Szene eher Vorausdeutung, Nachgeschichte oder offene Bedrohung trägt.",
-      "Erkläre, wie die USHMM-Seite die moralische Schärfe des Schlusses erhöht."
-    ],
-    writingFrame:
-      "Mit dem USHMM-Dossier zu den Kriegsschicksalen gelesen, erhält die Passage ihre volle Härte, weil ..."
-  },
-  {
-    id: "werkueberblick",
-    title: "Werküberblick und Dramengang",
-    shortTitle: "Werk",
-    sourceTitle: "Die Reise der Verlorenen to go",
+    id: "inputvideo-2",
+    title: "YouTube-Impuls 2 aus dem Auftrag",
+    shortTitle: "Video 2",
+    sourceTitle: "Verlinkter YouTube-Input",
     mediaType: "video",
-    openUrl: verlorenenVideo,
-    embedUrl: asRaw(verlorenenVideo),
+    openUrl: youtubeTwo,
+    embedUrl: youtubeEmbed(youtubeTwo),
     summary:
-      "Nutze diese Linse, um den Gesamtverlauf des Stücks im Blick zu behalten: Abfahrt, Zwischenraum Schiff, Havanna, diplomatisches Ringen, Rückweg und Nachgeschichte.",
-    keyIdeas: ["Dramengang", "Montage", "Mehrstimmigkeit", "Zwischenraum Schiff", "Schlussbild"],
+      "Auch dieser Videoimpuls wird hier als Kontrastfolie eingesetzt. Entscheidend ist, ob deine Textbeobachtung dem externen Zugriff standhält oder ihn korrigieren muss.",
+    keyIdeas: ["Kontrastfolie", "Textprüfung", "Figurenblick", "Akzentverschiebung"],
     questions: [
-      "Wo verdichtet das Stück den Stoff besonders stark und warum?",
-      "Wie wechseln persönliche Szenen und politische Ebenen einander ab?",
-      "Welche Funktion hat der Schluss mit den späteren Lebenswegen?"
+      "Welche Lesart bietet das Video an, die du am Text überprüfen musst?",
+      "An welcher Stelle macht der Videozugriff den Roman pointierter als der Text selbst?",
+      "Wie kannst du aus dem Video eine Rückfrage an deine Passage formulieren?"
     ],
     transferPrompts: [
-      "Ordne die Passage in den Gesamtverlauf des Stücks ein.",
-      "Zeige, was die Szene für die spätere Entwicklung vorbereitet oder verschiebt.",
-      "Erkläre, ob die Passage eher zuspitzt, verzögert oder kommentiert."
+      "Vergleiche einen Schwerpunkt des Videos mit einem genauen Textsignal deiner Passage.",
+      "Erkläre, ob das Video eher Figurenpsychologie, Handlung oder Motivik in den Vordergrund rückt.",
+      "Prüfe, wo deine Passage widerständig gegen eine glatte Lesart bleibt."
     ],
     writingFrame:
-      "Im Gesamtaufbau ist die Passage wichtig, weil sie den Übergang von ... zu ... markiert und dadurch ..."
+      "Im Vergleich mit dem Video wird deutlich, dass meine Passage nicht nur ..., sondern vor allem ..."
   },
   {
-    id: "gute-geschichte",
-    title: "Erzählen, Verdichtung und Verantwortung",
-    shortTitle: "Geschichte",
-    sourceTitle: "Daniel Kehlmann: Was ist eine gute Geschichte?",
+    id: "inputvideo-3",
+    title: "YouTube-Impuls 3 aus dem Auftrag",
+    shortTitle: "Video 3",
+    sourceTitle: "Verlinkter YouTube-Input",
     mediaType: "video",
-    openUrl: geschichteVideo,
-    embedUrl: asRaw(geschichteVideo),
+    openUrl: youtubeThree,
+    embedUrl: youtubeEmbed(youtubeThree),
     summary:
-      "Diese Linse hilft dabei zu untersuchen, wie Kehlmann historische Wirklichkeit in erzählerische Form, Bühnenrhythmus und erinnerbare Szenen übersetzt, ohne die Verantwortung des Stoffs zu verlieren.",
-    keyIdeas: ["Verdichtung", "Szenenbau", "Spannung", "Stimmenführung", "narrative Verantwortung"],
+      "Der dritte Videoimpuls eignet sich besonders, um Schlussbewegungen, Gesamtwirkung und offene Zukunftsbilder gegen eine fremde Lektüre zu spiegeln.",
+    keyIdeas: ["Gesamtdeutung", "Schluss", "Offenheit", "Abgleich"],
     questions: [
-      "Wie macht Kehlmann einen historischen Stoff dramatisch, ohne ihn bloß nachzuerzählen?",
-      "Welche Szenen sind so gebaut, dass sie zugleich informieren und Spannung erzeugen?",
-      "Wo zeigt sich, dass gute Geschichte auch Auswahl, Verdichtung und Perspektivierung bedeutet?"
+      "Welche Gesamtaussage zum Roman scheint in diesem Video angelegt zu sein?",
+      "Passt diese Gesamtaussage wirklich zu deiner Passage oder bleibt sie zu eindeutig?",
+      "Wie verändert der Videoimpuls deinen Blick auf das Ende oder auf Viktors Rolle?"
     ],
     transferPrompts: [
-      "Suche in der Passage nach erzählerischer Verdichtung statt bloßer Faktensammlung.",
-      "Beschreibe, wie Figurenrede und Szenenwechsel den Stoff rhythmisch organisieren.",
-      "Prüfe, wie die Passage Zuschauer*innen zugleich verstehen lässt und emotional bindet."
+      "Vergleiche deine Passage mit der Gesamttendenz des Videos.",
+      "Prüfe, ob das Video dem offenen Ende des Romans gerecht wird.",
+      "Erkläre, welche Ambivalenz des Textes du gegen die Außenperspektive verteidigen würdest."
     ],
     writingFrame:
-      "Die Szene ist dramaturgisch stark gebaut, weil Kehlmann hier ... verdichtet und dadurch ..."
-  },
-  {
-    id: "dokumentartheater",
-    title: "Dokumentartheater",
-    shortTitle: "Dokumentarisch",
-    sourceTitle: "Dokumentartheater | Deutsch Dramatik",
-    mediaType: "video",
-    openUrl: dokumentartheaterVideo,
-    embedUrl: asRaw(dokumentartheaterVideo),
-    summary:
-      "Mit dieser Linse prüfst du, wie das Stück mit dokumentarischen Verfahren arbeitet: reale Personen, historische Vorgänge, protokollnahe Redeweisen und offengelegte Faktizität.",
-    keyIdeas: ["Dokument", "Authentizität", "historische Quelle", "Protokollnähe", "Faktenbühne"],
-    questions: [
-      "Welche Momente wirken fast wie Akten, Berichte oder Zeugenaussagen?",
-      "Wo macht das Stück seine historische Faktengrundlage sichtbar?",
-      "Wie verändert die dokumentarische Form die Wirkung im Vergleich zu rein fiktivem Drama?"
-    ],
-    transferPrompts: [
-      "Zeige, welche Elemente der Passage dokumentarisch wirken.",
-      "Prüfe, ob Figuren eher individuell gezeichnet oder als Träger historischer Aussagen eingesetzt werden.",
-      "Erkläre, wie Faktizität und Bühneneffekt hier zusammenarbeiten."
-    ],
-    writingFrame:
-      "Dokumentartheaterartig wirkt die Passage, weil sie ... nicht nur erzählt, sondern als historisch belegbare Wirklichkeit ausstellt."
-  },
-  {
-    id: "episches-theater",
-    title: "Episches Theater",
-    shortTitle: "Episch",
-    sourceTitle: "Episches Theater",
-    mediaType: "video",
-    openUrl: epischesTheaterVideo,
-    embedUrl: asRaw(epischesTheaterVideo),
-    summary:
-      "Diese Linse fokussiert Verfremdung, Zuschaueransprache, kommentierende Szenen und die politische Lesbarkeit des Geschehens statt bloßer Einfühlung.",
-    keyIdeas: ["Verfremdung", "Zuschaueransprache", "Kommentar", "Montage", "politische Distanz"],
-    questions: [
-      "Wo spricht das Stück direkt zum Publikum oder unterbricht illusionistisches Spielen?",
-      "Wie entsteht Distanz, die zum Nachdenken statt zum bloßen Mitleiden zwingt?",
-      "Welche Szenen funktionieren eher als gesellschaftlicher Kommentar denn als private Psychologie?"
-    ],
-    transferPrompts: [
-      "Untersuche, wie die Passage Zuschauer*innen adressiert oder mit Distanz arbeiten lässt.",
-      "Prüfe, ob die Szene eher miterleben lässt oder analytisch rahmt.",
-      "Zeige, wie Montage und Perspektivwechsel politische Wirkung erzeugen."
-    ],
-    writingFrame:
-      "Episch wirkt die Szene, weil sie das Geschehen nicht nur erleben lässt, sondern das Publikum dazu bringt, über ... nachzudenken."
-  },
-  {
-    id: "im-steinbruch",
-    title: "Sekundärtext: Kehlmanns Rede „Im Steinbruch“",
-    shortTitle: "Steinbruch",
-    sourceTitle: "Festrede Brucknerfest Linz 2018",
-    mediaType: "pdf",
-    openUrl: steinbruchPdf,
-    embedUrl: steinbruchPdf,
-    summary:
-      "Der Sekundärtext verbindet Kunst, Erinnerung, Mauthausen und gegenwärtige Flüchtlingspolitik. Er hilft, Kehlmanns Haltung zu Erinnerung, Tradition und politischer Gegenwart mitzulesen.",
-    keyIdeas: ["Erinnerungskultur", "Mauthausen", "Kunst und Barbarei", "Gegenwartsbezug", "ethische Verantwortung"],
-    questions: [
-      "Welche Verbindung stellt Kehlmann zwischen Kunst, Gedenken und politischer Gegenwart her?",
-      "Wie spricht die Rede über Orte, die sich nicht ästhetisch neutralisieren lassen?",
-      "Was bedeutet dieser Text für die Lektüre von Die Reise der Verlorenen?"
-    ],
-    transferPrompts: [
-      "Vergleiche die Passage mit Kehlmanns Aussagen über Gedenken und politische Verantwortung.",
-      "Prüfe, ob die Szene Erinnerung eher ritualisiert oder schmerzhaft offen hält.",
-      "Zeige, wie Kunst hier nicht entlastet, sondern Verantwortung zuspitzt."
-    ],
-    writingFrame:
-      "Mit dem Sekundärtext gelesen, gewinnt die Passage zusätzlich Gewicht, weil Kehlmann darin ... ausdrücklich als Gegenwartsfrage markiert."
+      "Im Abgleich mit dem Video bleibt für mich entscheidend, dass der Roman am Schluss ..."
   }
 ];
 
 export const readerModules = [
   {
-    id: "abfahrt",
-    title: "Auftakt, Täterrede und Abfahrt",
-    lens: "Täterstimme, Exposition, Fluchtlage",
+    id: "routine",
+    title: "Alltag, Disziplin und 22 Bahnen",
+    lens: "Routine, Kontrolle, Selbststeuerung",
     briefing:
-      "Arbeite die Eröffnung als bewusste Setzung heraus: Das Stück startet mit Täterperspektive, institutioneller Sprache und konkreten Fluchtgeschichten statt mit rein privater Einfühlung.",
+      "Untersuche, wie Tilda ihren Alltag durchlisten, takten und zählen muss. Gerade diese Ordnung verrät früh, wie groß die innere Belastung bereits ist.",
     task:
-      "Zeige, wie der dramatische Auftakt historische Gewalt, institutionelle Verantwortung und individuelle Bedrohung zugleich exponiert.",
-    relatedTheoryIds: ["dokumentartheater", "episches-theater", "historischer-kontext", "gute-geschichte"],
+      "Arbeite heraus, wie Einkauf, Studium, Schwimmen und Beobachtung bei Tilda nicht bloß Gewohnheiten, sondern Überlebensformen sind.",
+    relatedTheoryIds: ["perspektive", "wasser-motivik", "sprache-koerper"],
     entries: [
       {
-        id: "abfahrt-1",
-        title: "Schiendick eröffnet als Tätersprecher",
-        pageHint: "S. 4",
-        pageNumber: 4,
-        passageLabel: "Direkte Täteransprache",
-        context:
-          "Kehlmann lässt nicht zuerst ein Opfer sprechen, sondern einen offen auftretenden Nationalsozialisten. Dadurch wird der Zuschauerblick sofort politisch und unangenehm gerahmt.",
-        signalWords: ["ich bin ein Nazi", "vorstellen", "Publikum", "Schiendick"],
-        prompts: [
-          "Welche Wirkung hat es, dass das Stück mit einer Täterstimme beginnt?",
-          "Wie arbeitet diese Passage mit direkter Zuschaueradressierung?",
-          "Inwiefern ist dieser Einstieg eher episch oder dokumentarisch als psychologisch?"
-        ],
-        writingFrame:
-          "Die Eröffnung irritiert gezielt, weil sie ... nicht verbirgt, sondern frontal ausstellt.",
-        relatedTheoryIds: ["episches-theater", "dokumentartheater"]
-      },
-      {
-        id: "abfahrt-2",
-        title: "Holthusen und Schröder vor der Reise",
-        pageHint: "S. 5-6",
-        pageNumber: 5,
-        passageLabel: "Spezialfahrt statt Kreuzfahrt",
-        context:
-          "Schon vor dem Ablegen prallen Pflichterfüllung, Unternehmensinteresse und politische Einflussnahme aufeinander. Die Reise erscheint von Anfang an als belastete Ausnahmefahrt.",
-        signalWords: ["spezielle Fahrt", "ausgebucht", "Macht", "Schiff"],
-        prompts: [
-          "Wie wird die Reise sprachlich als Sonderfall markiert?",
-          "Welche Gegensätze zwischen Schröders Berufsethos und Holthusens Kalkül entstehen?",
-          "Wie wird institutionelle Verantwortung verteilt oder abgeschoben?"
-        ],
-        writingFrame:
-          "Die Passage zeigt, dass die Reise kein neutraler Transport ist, weil ...",
-        relatedTheoryIds: ["historischer-kontext", "gute-geschichte"]
-      },
-      {
-        id: "abfahrt-3",
-        title: "Pozners Bericht von Verfolgung und Flucht",
-        pageHint: "S. 7",
-        pageNumber: 7,
-        passageLabel: "Biografie unter Zwang",
-        context:
-          "Mit Pozners Rede kommt die Gewalt des nationalsozialistischen Alltags auf die Bühne. Das Stück konkretisiert Geschichte durch individuelle, knappe und belastete Zeugenschaft.",
-        signalWords: ["Dachau", "geschlagen", "versteckt", "Hebräischlehrer"],
-        prompts: [
-          "Wie verdichtet Pozners Sprache biografische Zerstörung?",
-          "Warum wirkt die Szene eher wie Zeugenschaft als wie lange Vorgeschichte?",
-          "Welche Funktion hat diese frühe Opferrede im Gesamtaufbau?"
-        ],
-        writingFrame:
-          "Pozners Bericht wirkt so stark, weil er in knapper Form sichtbar macht, dass ...",
-        relatedTheoryIds: ["dokumentartheater", "historischer-kontext"]
-      },
-      {
-        id: "abfahrt-4",
-        title: "Familienbilder und Überlebenshoffnung",
-        pageHint: "S. 8",
+        id: "routine-1",
+        title: "Der Kassenauftakt als Selbststeuerung",
+        pageHint: "S. 8-9",
         pageNumber: 8,
-        passageLabel: "Private Hoffnung im Ausnahmezustand",
+        passageLabel: "Listen, Raten, Kontrolle",
         context:
-          "Die frühen Familienmomente setzen keinen ruhigen Gegenraum, sondern zeigen verletzliche Hoffnung unter extremem politischem Druck.",
-        signalWords: ["Fotoapparat", "überleben", "Kinder", "Hoffnung"],
+          "Der Roman beginnt mit Warenlisten, Preisraten und knapper Beobachtung. Schon im Auftakt zeigt sich, dass Tilda die Welt nur im Modus strenger Selbststeuerung bewältigt.",
+        signalWords: ["Hafermilch", "Levi's-Shirt", "30,72 Euro", "hochschauen", "Höhepunkt"],
         prompts: [
-          "Wie verbindet die Passage privates Sprechen mit drohender Katastrophe?",
-          "Welche Rolle spielt der Bild- oder Erinnerungscharakter dieser Szene?",
-          "Wie baut Kehlmann emotionale Nähe auf, ohne die politische Ebene zu verlieren?"
+          "Welche Wirkung hat der Listenauftakt auf Tildas Figur?",
+          "Wie zeigt die Szene, dass Beobachtung für Tilda ein Kontrollinstrument ist?",
+          "Warum ist dieser Einstieg zugleich komisch und erschöpfend?"
         ],
         writingFrame:
-          "Die Szene ist nicht bloß privat, weil in ihr ... und ... zugleich präsent bleiben.",
-        relatedTheoryIds: ["gute-geschichte", "werkueberblick"]
-      }
-    ]
-  },
-  {
-    id: "zwischenraum",
-    title: "Das Schiff als Zwischenraum",
-    lens: "Paradoxe Sicherheit, Bürokratie, Ambivalenz",
-    briefing:
-      "Untersuche das Schiff als scheinbaren Schutzraum: serviceorientiert, geordnet und zugleich von Gewalt, Kontrolle und Abschiebelogik durchzogen.",
-    task:
-      "Arbeite heraus, wie die St. Louis als widersprüchlicher Raum zwischen Rettung, Illusion und fortgesetzter Bedrohung erscheint.",
-    relatedTheoryIds: ["historischer-kontext", "dokumentartheater", "gute-geschichte"],
-    entries: [
-      {
-        id: "zwischenraum-1",
-        title: "Ankunft an Bord als falsche Normalität",
-        pageHint: "S. 9",
-        pageNumber: 9,
-        passageLabel: "Komfort unter Fluchtbedingungen",
-        context:
-          "Pozner erlebt an Bord etwas wie Würde und Normalität, doch gerade diese Zivilität macht die Gewaltgeschichte dahinter umso spürbarer.",
-        signalWords: ["Kabine", "Fiebertraum", "wohlfühlen", "Kinder"],
-        prompts: [
-          "Warum wirkt der Bordkomfort zugleich erleichternd und verstörend?",
-          "Wie zeigt die Szene, dass Sicherheit nur provisorisch ist?",
-          "Welche Spannung entsteht zwischen äußerer Höflichkeit und innerer Angst?"
-        ],
-        writingFrame:
-          "Die Szene wirkt paradox, weil das Schiff einerseits ... und andererseits ...",
-        relatedTheoryIds: ["historischer-kontext", "gute-geschichte"]
+          "Der Auftakt ist stark, weil er Tildas Alltag nicht erklärt, sondern sofort als ... erfahrbar macht.",
+        relatedTheoryIds: ["perspektive", "sprache-koerper"]
       },
       {
-        id: "zwischenraum-2",
-        title: "Holthusen erklärt das Geschäft mit der Flucht",
-        pageHint: "S. 9-12",
+        id: "routine-2",
+        title: "Zeitplan, Papierstau und aufgestaute Wut",
+        pageHint: "S. 10-11",
         pageNumber: 10,
-        passageLabel: "Bürokratie und Zynismus",
+        passageLabel: "Taktung statt Leichtigkeit",
         context:
-          "Die Zuschauer erfahren, wie Bürokratie, Profit und antisemitische Politik zusammenarbeiten. Die Passage entlarvt Systemlogik statt einzelne Bosheit.",
-        signalWords: ["Bürokratie", "Rückfahrt", "Coup", "korrekte Buchhaltung"],
+          "Straßenbahn, Uni, Kopierer, Aufgaben: Der Roman verdichtet Tildas Tag über Abfolge und Takt. Der kleine Defekt des Kopierers zeigt, wie wenig Spielraum sie sich leisten kann.",
+        signalWords: ["strikter Zeitplan", "Papierstau", "Zerstörungswut", "Straßenbahn"],
         prompts: [
-          "Wie wird ökonomisches Denken hier mit Verfolgung verknüpft?",
-          "Welche Wirkung hat die offen zynische Sprache Holthusens?",
-          "Warum ist diese Szene für dokumentarisches Theater besonders ergiebig?"
+          "Wie macht der Text Zeitdruck sprachlich sichtbar?",
+          "Was verrät Tildas Reaktion auf den Kopierer über ihren Zustand?",
+          "Warum ist die scheinbar banale Alltagsszene für die Figurenzeichnung wichtig?"
         ],
         writingFrame:
-          "Die Passage entlarvt das System, weil sie zeigt, wie ... als normale Verwaltungslogik erscheint.",
-        relatedTheoryIds: ["dokumentartheater", "historischer-kontext"]
+          "An der Kopierer-Szene wird sichtbar, dass Tildas Kontrolle nur funktioniert, solange ...",
+        relatedTheoryIds: ["sprache-koerper", "perspektive"]
       },
       {
-        id: "zwischenraum-3",
-        title: "Gerüchte, Hilfsorganisationen, erste Gegenkräfte",
-        pageHint: "S. 11-13",
-        pageNumber: 13,
-        passageLabel: "Hilfe im Netzwerk der Abhängigkeiten",
+        id: "routine-3",
+        title: "Tauchen, zählen, sich bestrafen",
+        pageHint: "S. 12-15",
+        pageNumber: 14,
+        passageLabel: "22 Bahnen als Ritual",
         context:
-          "Zwischen HAPAG, Hilfsorganisationen und Gerüchten entsteht ein Geflecht aus Hoffnung, Information und Ohnmacht.",
-        signalWords: ["Gerüchte", "Anwalt", "helfen", "gleichen Strang"],
+          "Im Wasser wird Tildas Tag erstmals geordnet und körperlich übersetzt. Dass sie bei Unsicherheit fünf Bahnen zur Strafe anhängt, macht aus dem Schwimmen ein strenges Ritual.",
+        signalWords: ["Grund", "22 Bahnen", "20 oder 22", "Bestrafung", "zusätzliche Bahnen"],
         prompts: [
-          "Wie zeigt die Passage, dass Hilfe immer schon von Machtverhältnissen abhängt?",
-          "Welche Rolle spielen Informationslücken für die Spannung?",
-          "Wie montiert das Stück private und institutionelle Stimmen?"
+          "Welche Funktion hat das Schwimmen in dieser frühen Passage?",
+          "Wie verbindet der Text Körperdisziplin mit psychischer Anspannung?",
+          "Warum ist die Selbstbestrafung nach dem Zählfehler so aufschlussreich?"
         ],
         writingFrame:
-          "Die Szene macht Hoffnung sichtbar, aber sie bleibt unsicher, weil ...",
-        relatedTheoryIds: ["werkueberblick", "gute-geschichte"]
+          "Das Schwimmen bedeutet hier mehr als Sport, weil es Tildas Bedürfnis nach ... sichtbar macht.",
+        relatedTheoryIds: ["wasser-motivik", "sprache-koerper"]
       },
       {
-        id: "zwischenraum-4",
-        title: "Jockl, Schröder und Schiendick",
-        pageHint: "S. 14-16",
-        pageNumber: 15,
-        passageLabel: "Moralische Linien an Bord",
-        context:
-          "Zwischen Crewmitgliedern und Kapitän entstehen unterschiedliche Haltungen: Mitgefühl, Pflicht, Angst und politische Durchdringung des Schiffsraums.",
-        signalWords: ["Gerüchte", "sicher", "Gericht", "Seerecht"],
-        prompts: [
-          "Wie werden Schröder, Jockl und Schiendick kontrastiv gezeichnet?",
-          "Welche Handlungsspielräume zeigen sich und wo enden sie?",
-          "Wie organisiert das Stück moralische Differenzen nicht nur über Worte, sondern über Funktionsrollen?"
-        ],
-        writingFrame:
-          "Die Passage zeigt unterschiedliche Haltungen, indem ... einander scharf gegenübergestellt werden.",
-        relatedTheoryIds: ["episches-theater", "historischer-kontext"]
-      }
-    ]
-  },
-  {
-    id: "havanna",
-    title: "Havanna: Korruption, Politik und Warteschleife",
-    lens: "Machtlogik, Willkür, inszenierte Hoffnung",
-    briefing:
-      "Arbeite die Kuba-Sequenz als politische Bühne heraus: Bestechung, Dekrete, Spielräume und private Verzweiflung greifen hier ständig ineinander.",
-    task:
-      "Zeige, wie das Stück den verweigerten Landgang zugleich als politische Farce und als existentielle Katastrophe gestaltet.",
-    relatedTheoryIds: ["historischer-kontext", "dokumentartheater", "episches-theater"],
-    entries: [
-      {
-        id: "havanna-1",
-        title: "Benitez und die erfundene Genehmigung",
-        pageHint: "S. 17-19",
-        pageNumber: 17,
-        passageLabel: "Korruption als System",
-        context:
-          "Benitez erklärt offen seine Bestechlichkeit und macht sichtbar, dass rechtliche Verfahren hier bewusst in Grauzonen verwandelt werden.",
-        signalWords: ["bestechlich", "Landegenehmigungen", "erfunden", "Stempel"],
-        prompts: [
-          "Wie wirkt Benitez' offene Selbstentlarvung auf das Publikum?",
-          "Was zeigt die Passage über Recht, Willkür und politische Sprache?",
-          "Warum passt diese Szene besonders gut zur Linse Dokumentartheater?"
-        ],
-        writingFrame:
-          "Die Szene zeigt Willkür nicht als Ausnahme, sondern als ...",
-        relatedTheoryIds: ["dokumentartheater", "historischer-kontext"]
-      },
-      {
-        id: "havanna-2",
-        title: "Bru und das politische Kalkül",
-        pageHint: "S. 20-22",
+        id: "routine-4",
+        title: "Ursula, Stille und der erste Blick auf Viktor",
+        pageHint: "S. 16-22",
         pageNumber: 20,
-        passageLabel: "Das Land ist voll",
+        passageLabel: "Beobachten statt sprechen",
         context:
-          "Bru formuliert genau jene Abwehrlogik, die bis heute als politische Formel wiederkehrt: Aufnahmegrenzen, nationale Interessen und öffentliche Wirkung.",
-        signalWords: ["überfüllt", "letzte", "nein sagen", "Schiff"],
+          "Mit Ursula zeigt der Roman eine Form stiller Verlässlichkeit. Zugleich kippt die Beckenbeobachtung in Schock, als Viktor Tildas Erinnerung an Ivan aktiviert.",
+        signalWords: ["schweigen", "Ursula", "Blickkontakt", "Ivan", "großer Bruder"],
         prompts: [
-          "Wie wird politische Verantwortung in Sachzwangsprache übersetzt?",
-          "Welche Aktualität gewinnt die Passage gerade durch diese Formulierungen?",
-          "Wie baut Kehlmann Distanz auf, damit man die Logik analysiert statt nur mitzuleiden?"
+          "Wie funktioniert die stille Beziehung zwischen Tilda und Ursula?",
+          "Wodurch kippt die Sommerleichtigkeit der Szene in Bedrohung oder Übelkeit?",
+          "Wie arbeitet der Text mit Blicken, Distanz und plötzlicher Erinnerung?"
         ],
         writingFrame:
-          "Die Passage wirkt politisch scharf, weil sie Ausgrenzung in scheinbar vernünftige Sprache kleidet: ...",
-        relatedTheoryIds: ["episches-theater", "historischer-kontext"]
-      },
-      {
-        id: "havanna-3",
-        title: "Max Aber und die zerschnittene Familie",
-        pageHint: "S. 23-24",
-        pageNumber: 23,
-        passageLabel: "Privates Schicksal unter politischen Entscheidungen",
-        context:
-          "Die Geschichte Max Abers zeigt exemplarisch, wie politische Grenzentscheidungen Familien zerteilen und individuelle Lebenswege zerstören.",
-        signalWords: ["Kinderheim", "Mädchen", "wiedersehen", "Angst"],
-        prompts: [
-          "Wie verbindet die Passage Einzelschicksal und Systemgewalt?",
-          "Wodurch wirkt Max Abers Stimme exemplarisch und zugleich individuell?",
-          "Welche dramaturgische Funktion hat diese Verschiebung ins Private?"
-        ],
-        writingFrame:
-          "Gerade durch die konkrete Familiengeschichte zeigt die Passage, dass ...",
-        relatedTheoryIds: ["historischer-kontext", "gute-geschichte"]
-      },
-      {
-        id: "havanna-4",
-        title: "Jockl und Pozner über zivilisierte Vertreibung",
-        pageHint: "S. 25-28",
-        pageNumber: 25,
-        passageLabel: "Höflichkeit im Unrecht",
-        context:
-          "Die Szene macht die zynische Form des Unrechts sichtbar: gepflegte Versorgung, gutes Essen und höflicher Service ändern nichts an Enteignung, Vertreibung und Gewalt.",
-        signalWords: ["Komödie", "Hauptgerichte", "anständiger Mensch", "falsche Seite"],
-        prompts: [
-          "Wie arbeitet die Passage mit dem Kontrast zwischen Service und Verfolgung?",
-          "Warum ist gerade Höflichkeit hier moralisch verstörend?",
-          "Welche Rolle spielt Jockl als Figur zwischen Mitgefühl und Systemzugehörigkeit?"
-        ],
-        writingFrame:
-          "Die Szene entlarvt scheinbare Menschlichkeit, weil ... nicht aufhebt, dass ...",
-        relatedTheoryIds: ["historischer-kontext", "gute-geschichte"]
+          "Die Passage kippt, weil aus einer Beobachtungsszene plötzlich ... wird.",
+        relatedTheoryIds: ["perspektive", "wasser-motivik"]
       }
     ]
   },
   {
-    id: "hafenkrise",
-    title: "Hafenkrise und zerfallende Hoffnung",
-    lens: "Warten, Gewalt, Sichtbarkeit, Familie",
+    id: "familie",
+    title: "Zuhause, Fürsorge und kleine Gegenräume",
+    lens: "Parentifizierung, Zärtlichkeit, Überlebensalltag",
     briefing:
-      "Lies diese Passagen als Verdichtung des Stillstands: Hoffnungsschübe, Gewaltmomente und einzelne Bilder von Nähe oder Trennung wechseln sich rasch ab.",
+      "Lies die Familienszenen nicht bloß als Hintergrund. Hier zeigt der Roman, dass Tilda längst Funktionen übernommen hat, die eigentlich Erwachsene tragen müssten.",
     task:
-      "Arbeite heraus, wie das Stück aus Warten, Gerücht und Blickszenen eine immer größere Spannung erzeugt.",
-    relatedTheoryIds: ["werkueberblick", "gute-geschichte", "episches-theater"],
+      "Arbeite heraus, wie Wahl Fürsorge, Scham, Humor und Erschöpfung innerhalb derselben häuslichen Welt zusammenführt.",
+    relatedTheoryIds: ["familienrollen", "sprache-koerper", "perspektive"],
     entries: [
       {
-        id: "hafenkrise-1",
-        title: "Komitee, Telegramm und Rückkehrangst",
-        pageHint: "S. 29-30",
-        pageNumber: 29,
-        passageLabel: "Organisierte Hoffnung",
+        id: "familie-1",
+        title: "Die Wohnung als Krisenraum",
+        pageHint: "S. 23-28",
+        pageNumber: 26,
+        passageLabel: "Mama hat wieder gekocht",
         context:
-          "Mit dem Komitee wird Handlungsfähigkeit behauptet, doch die Szene macht zugleich klar, wie prekär und fremdbestimmt diese Hoffnung ist.",
-        signalWords: ["Komitee", "Wort", "Telegramm", "Deutschland"],
+          "Das Heimkommen enthüllt sofort die instabile Familienlage. Die Küche, die beschlagenen Fenster und die schlafende Mutter machen die Wohnung zum Bild gelebter Verwahrlosung und Scham.",
+        signalWords: ["beschlagene Scheiben", "verbrannt", "Welcome", "dummes Huhn", "gekocht"],
         prompts: [
-          "Wie versucht die Szene, Ordnung in die Krise zu bringen?",
-          "Welche Rolle spielt Schröders Versprechen?",
-          "Wodurch bleibt die Hoffnung trotz Organisation brüchig?"
+          "Wie zeichnet der Roman die Wohnung als Spiegel der familiären Lage?",
+          "Warum ist der Satz `Mama hat wieder gekocht` so vielsagend?",
+          "Wie mischt die Passage Ekel, Mitleid und Routine?"
         ],
         writingFrame:
-          "Die Passage zeigt organisierte Hoffnung, aber sie bleibt fragil, weil ...",
-        relatedTheoryIds: ["werkueberblick", "historischer-kontext"]
+          "Die Wohnung wirkt nicht einfach chaotisch, sondern als Raum, in dem ... alltäglich geworden ist.",
+        relatedTheoryIds: ["familienrollen", "sprache-koerper"]
       },
       {
-        id: "hafenkrise-2",
-        title: "Hakenkreuz, Einschüchterung, Alltagsgewalt",
-        pageHint: "S. 31-32",
-        pageNumber: 32,
-        passageLabel: "Nazigewalt an Bord",
+        id: "familie-2",
+        title: "Mirácoli, Lüge und Zärtlichkeit mit Ida",
+        pageHint: "S. 29-33",
+        pageNumber: 31,
+        passageLabel: "Versorgen, ohne viel zu reden",
         context:
-          "Die nationalsozialistische Gewalt ist nicht bloß Hintergrund, sondern dringt in den Bordalltag selbst ein und zerstört jeden Rest von Sicherheit.",
-        signalWords: ["Hakenkreuz", "Judensau", "Arm", "festhalten"],
+          "Zwischen billigem Essen, Müdigkeit und kleinem Trost zeigt sich Tildas Bindung an Ida. Die Lüge `Mirácoli` schützt weniger vor der Wahrheit als vor zusätzlicher Härte.",
+        signalWords: ["Mirácoli", "Gut&Günstig", "Hab dich lieb", "Ich dich auch"],
         prompts: [
-          "Wie macht die Szene die Grenze zwischen Schiff und Verfolgungsraum porös?",
-          "Welche Wirkung hat die direkte körperliche Aggression?",
-          "Wie verändert sich dein Bild des Schiffsraums durch diese Passage?"
+          "Wie zeigt die Passage Fürsorge ohne große Sentimentalität?",
+          "Welche Funktion hat die kleine Lüge rund um das Essen?",
+          "Wodurch wird Ida als Gegenüber für Tilda so zentral?"
         ],
         writingFrame:
-          "Die Szene zeigt, dass das Schiff kein Schutzraum mehr ist, weil ...",
-        relatedTheoryIds: ["historischer-kontext", "episches-theater"]
+          "Die Szene trägt, weil Fürsorge hier nicht groß inszeniert, sondern ... wird.",
+        relatedTheoryIds: ["familienrollen", "perspektive"]
       },
       {
-        id: "hafenkrise-3",
-        title: "Havanna als Bild aus der Distanz",
-        pageHint: "S. 33-36",
-        pageNumber: 35,
-        passageLabel: "Stadt in Sicht, Landgang verwehrt",
+        id: "familie-3",
+        title: "Sommernachtsbrise und Krieg da draußen",
+        pageHint: "S. 34-38",
+        pageNumber: 36,
+        passageLabel: "Ein eigener Atemraum",
         context:
-          "Die Passagiere sehen Kuba, aber sie erreichen es nicht. Die Nähe des ersehnten Landes steigert die Qual des Wartens.",
-        signalWords: ["Reling", "Hafen", "niemand", "unklar"],
+          "Auf der Matratze erlebt Tilda einen kurzen Gegenraum. Der Roman verbindet Wind, Geruch und Ruhe mit der Erkenntnis, dass sie tagsüber in einen Krieg zurückkehrt.",
+        signalWords: ["Sommernachtsbrise", "leicht", "Krieg da draußen", "für Ida"],
         prompts: [
-          "Welche Funktion hat das Motiv des Sehens ohne Ankommen?",
-          "Wie arbeitet die Szene mit räumlicher Nähe und politischer Unerreichbarkeit?",
-          "Warum ist dieses Bühnenbild besonders wirkungsvoll?"
+          "Wie wird aus der nächtlichen Ruhe mehr als bloße Erholung?",
+          "Was bedeutet die Kriegsmetapher im Zusammenhang mit Familie und Kleinstadt?",
+          "Wie arbeitet die Passage mit Atem, Körper und Naturwahrnehmung?"
         ],
         writingFrame:
-          "Die Passage verschärft die Krise, weil ... sichtbar und zugleich unerreichbar bleibt.",
-        relatedTheoryIds: ["gute-geschichte", "werkueberblick"]
+          "Die Passage zeigt Erleichterung, aber sie bleibt prekär, weil ...",
+        relatedTheoryIds: ["sprache-koerper", "familienrollen"]
       },
       {
-        id: "hafenkrise-4",
-        title: "Max Aber sieht seine Töchter",
-        pageHint: "S. 37-40",
-        pageNumber: 37,
-        passageLabel: "Blickszene und familiale Trennung",
+        id: "familie-4",
+        title: "Regenweg, Kleinstadt und Idas Auftreten",
+        pageHint: "S. 39-46",
+        pageNumber: 43,
+        passageLabel: "Zwischen Vorstadt und Schwimmbad",
         context:
-          "Die Szene verbindet politisches Drama mit einem fast unerträglich konkreten Augenblick der familialen Distanz.",
-        signalWords: ["Reling", "Kinder", "Visa", "auf Wiedersehen"],
+          "Der Roman führt die räumliche Enge der Kleinstadt gegen Idas überraschend farbige Selbstinszenierung. Gerade in Tildas Beobachtungen zeigt sich, wie sie Ida liest und schützt.",
+        signalWords: ["Felder", "Kleinstadt", "Snoopy-Rucksack", "Fashionista", "flüstert"],
         prompts: [
-          "Warum ist gerade die Blickszene so stark?",
-          "Wie verdichtet das Stück hier Politik in ein einzelnes Bild?",
-          "Welche Rolle spielt Sprache unter Bedingungen von Panik, Distanz und Zeitdruck?"
+          "Wie kontrastiert der Roman Stadt, Vorstadt und Kleinstadt?",
+          "Warum beobachtet Tilda Idas Kleidung und Auftreten so genau?",
+          "Wie entstehen in dieser Passage gleichzeitig Enge und Lebendigkeit?"
         ],
         writingFrame:
-          "Die Szene wirkt so intensiv, weil der politische Konflikt in einem einzigen Bild von ... konzentriert wird.",
-        relatedTheoryIds: ["gute-geschichte", "historischer-kontext", "im-steinbruch"]
+          "Die Passage macht Kleinstadt nicht nur als Ort, sondern als ... erfahrbar.",
+        relatedTheoryIds: ["perspektive", "familienrollen"]
       }
     ]
   },
   {
-    id: "diplomatie",
-    title: "Diplomatie, Presse und Grenzen des Handelns",
-    lens: "Verhandlung, Öffentlichkeit, Ohnmacht",
+    id: "viktor",
+    title: "Viktor, Erinnerung und die Rückkehr der Vergangenheit",
+    lens: "Begehren, Trauma, Blickregie",
     briefing:
-      "Untersuche, wie das Stück politische Macht nicht als abstraktes System, sondern als Abfolge von Gesprächen, Erpressungen, Pressebildern und unterlassenen Entscheidungen zeigt.",
+      "Lies Viktors Auftauchen nicht als bloße Liebesgeschichte. Er zieht Ivan, Schuld, Erinnerung und Zukunft gleichzeitig in den Roman hinein.",
     task:
-      "Zeige, wie Verhandlungsszenen politische Verantwortung zugleich konkretisieren und zerstreuen.",
-    relatedTheoryIds: ["dokumentartheater", "episches-theater", "im-steinbruch"],
+      "Zeige, wie Wahl Viktors Präsenz über Blicke, Körperwahrnehmung und nachträgliche Erinnerung auflädt.",
+    relatedTheoryIds: ["perspektive", "wasser-motivik", "familienrollen"],
     entries: [
       {
-        id: "diplomatie-1",
-        title: "Gesicht wahren, Akten führen, Intrigen spinnen",
-        pageHint: "S. 41-48",
-        pageNumber: 41,
-        passageLabel: "Politik als Bühne",
+        id: "viktor-1",
+        title: "Der leere Regenbad-Moment",
+        pageHint: "S. 47-52",
+        pageNumber: 48,
+        passageLabel: "23 Bahnen und ein fremder Rhythmus",
         context:
-          "Die Akteure verhandeln nicht nur Inhalte, sondern Ansehen, Pressewirkung und Machtpositionen. Politik erscheint als strategische Inszenierung.",
-        signalWords: ["Gesicht wahren", "Bericht", "Telegramme", "Wahlen"],
+          "Im fast leeren Becken wird Viktors Schwimmen zu einem Gegenbild von Kontrolle, Eleganz und Irritation. Tilda kann sich seinem Rhythmus kaum entziehen.",
+        signalWords: ["fast leer", "23 Bahnen", "grinst", "22 Bahnen", "schneller als du"],
         prompts: [
-          "Wie zeigt die Passage Politik als Mischung aus Information, Image und Macht?",
-          "Welche Wirkung haben die schnellen Szenenwechsel auf dein Verständnis?",
-          "Warum eignet sich diese Passage für die Linse des epischen Theaters?"
+          "Wie verändert sich die Atmosphäre des Schwimmbads durch Viktors Auftreten?",
+          "Warum ist Tildas Beobachtung seines Schwimmstils so ausführlich?",
+          "Welche Rolle spielt Ida als kommentierende Gegenstimme in dieser Szene?"
         ],
         writingFrame:
-          "Die Szene macht Politik als Inszenierung sichtbar, weil ... nicht weniger wichtig ist als ...",
-        relatedTheoryIds: ["episches-theater", "dokumentartheater"]
+          "Viktor erscheint hier weniger als Person mit Vorgeschichte, sondern zuerst als ...",
+        relatedTheoryIds: ["wasser-motivik", "perspektive"]
       },
       {
-        id: "diplomatie-2",
-        title: "Suizidversuche und Patrouillen",
-        pageHint: "S. 49-53",
-        pageNumber: 49,
-        passageLabel: "Verzweiflung als Kollektivzustand",
+        id: "viktor-2",
+        title: "Der Name und die Legende Viktor",
+        pageHint: "S. 53-59",
+        pageNumber: 56,
+        passageLabel: "Mythos und Projektion",
         context:
-          "Die psychische Belastung an Bord wird so groß, dass das Stück nicht mehr nur politisch argumentiert, sondern existentielle Zerbrechlichkeit zeigt.",
-        signalWords: ["Pulsader", "springen", "Patrouillen", "inständig"],
+          "Als Tilda sich an Viktors Namen erinnert, breitet der Roman eine Schullegende aus. Begehrlichkeit und Erzählung greifen ineinander, ohne dass Viktor dadurch einfacher würde.",
+        signalWords: ["Viktor", "Darknet", "hochbegabt", "sagenumwoben", "russischer Kampfschwimmer"],
         prompts: [
-          "Wie verändert sich die Stimmung des Stücks in diesen Szenen?",
-          "Welche Grenzen von Schröders Verantwortung werden sichtbar?",
-          "Wie verbindet Kehlmann individuelles Leid mit strukturellem Versagen?"
+          "Wie wird Viktor über Erzählgerüchte aufgeladen?",
+          "Was verrät Tildas Erinnerung an Schule und Gerüchte über ihren Blick auf Viktor?",
+          "Warum ist die Figur gerade durch diese Legendenbildung nicht wirklich durchschaubar?"
         ],
         writingFrame:
-          "Die Passage zeigt Verzweiflung nicht als Einzelfall, sondern als Folge davon, dass ...",
-        relatedTheoryIds: ["historischer-kontext", "gute-geschichte"]
+          "Der Roman macht aus Viktor bewusst keine einfache Liebesfigur, weil er ihn als ... einführt.",
+        relatedTheoryIds: ["perspektive", "sprache-koerper"]
       },
       {
-        id: "diplomatie-3",
-        title: "Berenson, Bru, Batista und das Geschäft mit den Flüchtlingen",
-        pageHint: "S. 50-60",
-        pageNumber: 57,
-        passageLabel: "Humanität im Modus des Deals",
+        id: "viktor-3",
+        title: "Ivan, Einladung und das Nicht-Einsteigen",
+        pageHint: "S. 60-68",
+        pageNumber: 64,
+        passageLabel: "Erinnerung als offener Schmerz",
         context:
-          "Die Rettung der Flüchtlinge hängt an Summen, Garantien, Bildern und politischem Kalkül. Humanität erscheint als verhandelbare Größe.",
-        signalWords: ["halbe Million", "Garantie", "Fotograf", "Gefängnisinsel"],
+          "In der Rückblende auf Ivan verdichten sich Panik, Rettung, Nähe und Schuld. Besonders wichtig bleibt die verpasste Abfahrt: Tilda ist nicht eingestiegen, aber die Frage nach einer anderen Kette von Ereignissen bleibt offen.",
+        signalWords: ["Mein Herz", "Russland", "nicht eingestiegen", "Sorry", "ist schon okay"],
         prompts: [
-          "Wie entlarvt die Passage den Warencharakter politischer Rettung?",
-          "Welche Rolle spielen Bilder, Öffentlichkeit und Inszenierung?",
-          "Wie wird aus humanitärer Hilfe ein zähes Tauschgeschäft?"
+          "Wie inszeniert der Roman die Erinnerung an Ivan als körperlich überformten Schock?",
+          "Warum ist das Motiv des Nicht-Einsteigens für Tilda so belastet?",
+          "Wie entsteht hier Schuld, ohne dass der Text sie eindeutig verteilt?"
         ],
         writingFrame:
-          "Die Passage ist so bitter, weil sie Rettung an ... bindet und dadurch ... sichtbar macht.",
-        relatedTheoryIds: ["dokumentartheater", "im-steinbruch", "historischer-kontext"]
+          "Die Rückblende ist so stark, weil sie Erinnerung nicht ordnet, sondern als ... erfahrbar macht.",
+        relatedTheoryIds: ["perspektive", "sprache-koerper"]
       },
       {
-        id: "diplomatie-4",
-        title: "USA, Großbritannien und das Nicht-Handeln",
-        pageHint: "S. 61-71",
-        pageNumber: 65,
-        passageLabel: "Verantwortung wird weitergereicht",
+        id: "viktor-4",
+        title: "Im Haus der Vergangenheit",
+        pageHint: "S. 69-76",
+        pageNumber: 72,
+        passageLabel: "Gegenwart mit altem Echo",
         context:
-          "Die Gespräche zwischen Ministerien und Botschaften machen sichtbar, wie Verantwortung durch Zuständigkeiten, Verzögerung und politische Rücksichtnahme verdünnt wird.",
-        signalWords: ["Spielraum", "Virgin Islands", "nichts tun", "Frieden mit Hitler"],
+          "Dass Viktor im Haus lebt, vor dem sich Tilda vor Jahren von Ivan verabschiedet hat, verschränkt Gegenwart und Vergangenheit dauerhaft. Die Nähe zu Viktor ist dadurch nie unbelastet.",
+        signalWords: ["Haus", "vor fünf Jahren", "verabschiedet", "erzählen", "falsch"],
         prompts: [
-          "Wie zeigt die Passage Unterlassung als politische Handlung?",
-          "Welche sprachlichen Formen des Ausweichens fallen auf?",
-          "Warum ist gerade das unspektakuläre Nicht-Handeln dramatisch so wichtig?"
+          "Wie wird der Ort selbst zum Träger von Erinnerung?",
+          "Warum ist Tildas Schweigen gegenüber Viktor so bedeutsam?",
+          "Wie bindet die Passage neue Nähe an alte Schuld?"
         ],
         writingFrame:
-          "Die Szene zeigt politische Schuld als Unterlassung, weil ... immer wieder verschoben wird.",
-        relatedTheoryIds: ["historischer-kontext", "episches-theater", "im-steinbruch"]
+          "Der Ort ist hier nicht bloß Kulisse, sondern speichert ...",
+        relatedTheoryIds: ["perspektive", "familienrollen"]
       }
     ]
   },
   {
-    id: "rueckweg",
-    title: "Rückweg, letzte Optionen und Nachgeschichte",
-    lens: "Handlungsspielraum, Montage, Erinnerung",
+    id: "belastung",
+    title: "Überforderung, Konflikt und Wunsch nach Aufbruch",
+    lens: "Rollenlast, Körperstress, Emanzipation",
     briefing:
-      "Im letzten Abschnitt verschiebt sich das Stück von der unmittelbaren Krise zur Frage, was überhaupt noch getan werden kann und wie sich die Geschichte nach 1939 fortsetzt.",
+      "Verfolge, wie Tildas Belastung nicht aus einer einzigen Krise stammt. Studium, Arbeit, Sorge, Begehren und Zukunftsfragen überlagern sich permanent.",
     task:
-      "Arbeite heraus, wie das Ende zwischen verpasster Rettung, begrenztem Glück und bitterer historischer Bilanz gebaut ist.",
-    relatedTheoryIds: ["episches-theater", "werkueberblick", "im-steinbruch", "gute-geschichte"],
+      "Arbeite heraus, wie der Roman Überforderung über Körper, Dialog und Eskalation in Familiengesprächen sichtbar macht.",
+    relatedTheoryIds: ["sprache-koerper", "familienrollen", "perspektive"],
     entries: [
       {
-        id: "rueckweg-1",
-        title: "Propaganda, Geheimdienst, britische Grenzen",
-        pageHint: "S. 67-72",
-        pageNumber: 67,
-        passageLabel: "Die Welt reagiert und reagiert doch nicht",
+        id: "belastung-1",
+        title: "Panik auf der Party",
+        pageHint: "S. 77-85",
+        pageNumber: 80,
+        passageLabel: "Herz, Hitze, Kontrollverlust",
         context:
-          "Goebbels' Propaganda, britische Zurückhaltung und Schiendicks Rolle zeigen, wie eng ideologische Deutung, staatliche Interessen und konkrete Lebensgefahr zusammenhängen.",
-        signalWords: ["Goebbels", "Abwehr", "Telegramm", "England"],
+          "Die Party-Rückblende zerlegt Tildas Körperempfinden. Hitze, Beats, fluoreszierende Gesichter und Wasserbilder machen sichtbar, wie schnell Kontrolle in Panik kippt.",
+        signalWords: ["Mein Herz", "Kaulquappen", "zu heiß", "Wasseroberfläche", "Blitze"],
         prompts: [
-          "Wie verbindet das Stück Propaganda und politische Realentscheidung?",
-          "Welche Funktion hat Schiendick im letzten Drittel des Dramas?",
-          "Wie entsteht hier eine besonders epische, kommentierende Struktur?"
+          "Wie arbeitet die Passage mit Halluzination und Körperauflösung?",
+          "Warum sind Wasserbilder gerade im Panikmoment so präsent?",
+          "Welche Funktion hat die direkte Rede in der Darstellung des Kontrollverlusts?"
         ],
         writingFrame:
-          "Die Passage verschärft die historische Anklage, weil ... und ... gleichzeitig sichtbar werden.",
-        relatedTheoryIds: ["episches-theater", "historischer-kontext"]
+          "Die Panik wird nicht erklärt, sondern über ... unmittelbar erfahrbar gemacht.",
+        relatedTheoryIds: ["sprache-koerper", "wasser-motivik"]
       },
       {
-        id: "rueckweg-2",
-        title: "Pozners Plan und Schröders Grenze",
-        pageHint: "S. 72-74",
-        pageNumber: 73,
-        passageLabel: "Meuterei oder Pflicht",
+        id: "belastung-2",
+        title: "Leistungsdruck und Erwachsenenroutine",
+        pageHint: "S. 86-94",
+        pageNumber: 90,
+        passageLabel: "Alles läuft gleichzeitig",
         context:
-          "Die Szene stellt noch einmal radikal die Frage nach Handlungsspielraum. Schröders Berufsethos erscheint zugleich ehrenhaft, tragisch begrenzt und historisch unzureichend.",
-        signalWords: ["Manövrierfehler", "Küstenwache", "ich kann das nicht", "Kapitän"],
+          "Zwischen Uni, Kasse, Schwimmbad und Haushalt wird deutlich, dass Tilda in mehreren Systemen gleichzeitig funktionieren muss. Der Roman zeigt diese Rollenlast ohne Pathos.",
+        signalWords: ["Masterkolloquium", "stehen müssen", "verschwende Zeit", "Hühnersuppe", "Hausaufgaben"],
         prompts: [
-          "Wie wird Schröders innere Grenze sprachlich sichtbar?",
-          "Warum ist Pozners Vorschlag dramaturgisch so stark?",
-          "Wie lässt sich die Szene zwischen moralischer Größe und historischem Versagen lesen?"
+          "Wie macht der Roman Mehrfachbelastung über Alltagsdetails sichtbar?",
+          "Warum wirkt die Erzählung trotz der Schwere oft lakonisch statt klagend?",
+          "Wie verändert sich dein Blick auf Tilda, wenn du Studium und Sorgearbeit zusammendenkst?"
         ],
         writingFrame:
-          "Die Szene ist zentral, weil sie zeigt, dass Schröders Haltung ... und ... zugleich ist.",
-        relatedTheoryIds: ["gute-geschichte", "historischer-kontext", "episches-theater"]
+          "Die Passage zeigt Überforderung, weil Tilda hier zugleich ... und ... leisten muss.",
+        relatedTheoryIds: ["sprache-koerper", "familienrollen"]
       },
       {
-        id: "rueckweg-3",
-        title: "Belgien als verspäteter Ausweg",
-        pageHint: "S. 74-76",
-        pageNumber: 75,
-        passageLabel: "Erleichterung unter Vorbehalt",
+        id: "belastung-3",
+        title: "Die Mutter in der depressiven Phase",
+        pageHint: "S. 95-103",
+        pageNumber: 98,
+        passageLabel: "Brot, Leere und Angst",
         context:
-          "Die Nachricht aus Belgien bringt keine Auflösung im klassischen Sinn, sondern nur begrenzte Rettung unter historischem Vorbehalt.",
-        signalWords: ["Belgien", "anlächeln", "Erleichterung", "Broschüre"],
+          "Die Tischszenen machen deutlich, dass die Mutter nicht nur trinkt, sondern in eine apathische Leere kippt. Tildas Angst gilt gerade der scheinbaren Ruhe.",
+        signalWords: ["resigniert", "leer", "Scheibe Brot", "alles gut", "Termine"],
         prompts: [
-          "Warum ist diese Erleichterung nicht wirklich entlastend?",
-          "Wie setzt das Stück Hoffnung und spätere Bedrohung gleichzeitig in den Raum?",
-          "Welche Funktion hat diese Übergangsstimmung vor dem Schluss?"
+          "Wie zeigt der Roman Depression über kleine Routinen statt über große Erklärungen?",
+          "Warum ist die Mutter gerade in ihrer Apathie so bedrohlich?",
+          "Wie reagieren Ida und Tilda unterschiedlich auf diese Phase?"
         ],
         writingFrame:
-          "Die Passage wirkt doppeldeutig, weil sie Rettung andeutet, aber zugleich ... mitschwingen lässt.",
-        relatedTheoryIds: ["werkueberblick", "historischer-kontext"]
+          "Die Passage wirkt beklemmend, weil die scheinbare Ruhe hier ... bedeutet.",
+        relatedTheoryIds: ["familienrollen", "sprache-koerper"]
       },
       {
-        id: "rueckweg-4",
-        title: "Epilog der Überlebenden und Schiendicks Karriere",
-        pageHint: "S. 77-80",
-        pageNumber: 77,
-        passageLabel: "Nachgeschichte statt Katharsis",
+        id: "belastung-4",
+        title: "Berlin als Konfliktlinie",
+        pageHint: "S. 104-113",
+        pageNumber: 108,
+        passageLabel: "Weggehen oder bleiben",
         context:
-          "Der Schluss verweigert einen versöhnlichen Ausklang. Stattdessen montiert das Stück Überlebenswege, Lagererfahrungen, spätere Rettung und Täterkarriere zu einer bitteren historischen Bilanz.",
-        signalWords: ["Westerborg", "London", "überlebt", "Karriere gemacht"],
+          "Die Berlin-Frage legt den Rollenkonflikt offen: Tilda will Zukunft, kann Ida aber nicht allein lassen. Die Mutter reagiert mit Abwehr, Kränkung und Zynismus.",
+        signalWords: ["Berlin", "alt genug", "Wunschkonzert", "du hast sie nur bekommen", "abhauen"],
         prompts: [
-          "Warum endet das Stück mit Nachgeschichten statt mit einem einzelnen Schlussbild?",
-          "Wie verändert Schiendicks Schlussrede deine Deutung des gesamten Dramas?",
-          "Inwiefern ist dieses Ende episch, dokumentarisch und erinnerungspolitisch zugleich?"
+          "Wie verdichtet das Gespräch Tildas Emanzipationsproblem?",
+          "Was zeigt die Passage über die Rolle der Mutter im Familiengefüge?",
+          "Warum ist Ida in diesem Konflikt zugleich Grund zum Bleiben und Motor für Veränderung?"
         ],
         writingFrame:
-          "Der Schluss verweigert Katharsis, weil er ... nicht abschließt, sondern in die Geschichte hinein offen hält.",
-        relatedTheoryIds: ["episches-theater", "dokumentartheater", "im-steinbruch"]
+          "An der Berlin-Szene wird sichtbar, dass Zukunft für Tilda immer durch ... blockiert bleibt.",
+        relatedTheoryIds: ["familienrollen", "perspektive"]
+      }
+    ]
+  },
+  {
+    id: "krise",
+    title: "Überdosis, Fieber und Rettungsbilder",
+    lens: "Notfall, Traumlogik, Rettung",
+    briefing:
+      "Arbeite die Krisenpassagen nicht nur als Handlungshöhepunkt heraus. Sie bündeln die ganze Vorgeschichte aus Rollenverschiebung, Verlust und Wasser-Motivik in verdichteter Form.",
+    task:
+      "Zeige, wie sich in Überdosis, Fieber und Rettung psychische, familiäre und symbolische Ebenen überlagern.",
+    relatedTheoryIds: ["wasser-motivik", "familienrollen", "sprache-koerper"],
+    entries: [
+      {
+        id: "krise-1",
+        title: "Die entdeckte Überdosis",
+        pageHint: "S. 124-131",
+        pageNumber: 126,
+        passageLabel: "Stillstand und sofortiges Handeln",
+        context:
+          "Der Roman schaltet vom Pizzagluck in einen Schockmoment. Gegen die Starre setzt Tilda eine fast protokollarische Notfalllogik.",
+        signalWords: ["Wodkaflasche", "Xanax", "SORRY", "jetzt", "Atmung kontrollieren"],
+        prompts: [
+          "Wie organisiert der Roman den abrupten Umschlag von Alltag in Notfall?",
+          "Welche Wirkung hat die genaue Notfallprozedur auf die Szene?",
+          "Warum ist Ida in diesem Moment nicht bloß Nebenfigur?"
+        ],
+        writingFrame:
+          "Die Szene ist so eindringlich, weil Wahl Schock und Handlungszwang gleichzeitig zeigt: ...",
+        relatedTheoryIds: ["sprache-koerper", "familienrollen"]
+      },
+      {
+        id: "krise-2",
+        title: "Zwei Kinder, ein Rettungsprotokoll",
+        pageHint: "S. 132-137",
+        pageNumber: 134,
+        passageLabel: "Professionalisierte Fürsorge",
+        context:
+          "Mit den `Jetzt:`-Schritten und Idas Notruf wird sichtbar, wie vorbereitet die Schwestern für einen Katastrophenfall längst sind. Genau darin liegt die Härte der Szene.",
+        signalWords: ["112", "stabile Seitenlage", "Ida Schmitt", "Betroffene", "Sirenen"],
+        prompts: [
+          "Was zeigt die protokollhafte Sprache über Tildas und Idas Lebenswirklichkeit?",
+          "Wie wird aus Fürsorge hier eine erschreckende Professionalität?",
+          "Warum ist der Märchenvergleich mit Schneewittchen zugleich entlastend und grausam?"
+        ],
+        writingFrame:
+          "Die Protokollsprache wirkt so stark, weil sie verrät, dass ... längst eingeübt ist.",
+        relatedTheoryIds: ["familienrollen", "sprache-koerper"]
+      },
+      {
+        id: "krise-3",
+        title: "Fiebertraum mit Vater und offenem Meer",
+        pageHint: "S. 138-151",
+        pageNumber: 146,
+        passageLabel: "Verlassenwerden als Wasserbild",
+        context:
+          "Im Fieber formt der Roman Kindheit, Vaterverlust und Lebensangst zu einem Meeresbild um. Tilda und Ida treiben allein, während der Vater wegfährt.",
+        signalWords: ["Pferd", "Papa", "offenes Meer", "wir schaffen alles", "Schiff am Horizont"],
+        prompts: [
+          "Wie verbindet der Fiebertraum Familiengeschichte und Bedrohungsbild?",
+          "Welche Funktion hat das Meer in dieser Passage?",
+          "Wie wird Idas Rettungsbedürftigkeit zum Zentrum von Tildas Traum?"
+        ],
+        writingFrame:
+          "Im Fieber wird das Verlassenwerden als ... inszeniert und dadurch besonders radikal.",
+        relatedTheoryIds: ["wasser-motivik", "familienrollen"]
+      },
+      {
+        id: "krise-4",
+        title: "Viktor als Seemann und Pflegender",
+        pageHint: "S. 152-164",
+        pageNumber: 158,
+        passageLabel: "Rettung wird konkret",
+        context:
+          "Viktor erscheint im Traum als Seemann und in der Realität als derjenige, der Tilda versorgt. Damit wird Rettung nicht kitschig, sondern körperlich und praktisch greifbar.",
+        signalWords: ["Seemann", "Wickel", "Tilda, ich bin da", "tapfer", "neu bezogene Decke"],
+        prompts: [
+          "Wie verschränkt der Roman Traum- und Wirklichkeitsebene in dieser Passage?",
+          "Warum ist Viktors Fürsorge gerade durch ihre Praktikabilität so bedeutsam?",
+          "Wie verändert sich Tildas Wahrnehmung von Viktor hier?"
+        ],
+        writingFrame:
+          "Viktor wird hier wichtig, weil Rettung bei ihm nicht behauptet, sondern ... wird.",
+        relatedTheoryIds: ["wasser-motivik", "perspektive"]
+      }
+    ]
+  },
+  {
+    id: "aufbruch",
+    title: "Nach der Krise: Entlastung, Liebe und offenes Ende",
+    lens: "Veränderung, Offenheit, neue Bewegung",
+    briefing:
+      "Lies die späten Passagen nicht als einfache Heilung. Der Roman zeigt Entlastung und Nähe, ohne die Instabilität der Lebenslage ganz aufzulösen.",
+    task:
+      "Arbeite heraus, wie `22 Bahnen` gegen Ende offen bleibt und gerade dadurch glaubwürdig wirkt.",
+    relatedTheoryIds: ["perspektive", "wasser-motivik", "familienrollen", "sprache-koerper"],
+    entries: [
+      {
+        id: "aufbruch-1",
+        title: "Krankenhaus, Verweigerung und Idas Rede",
+        pageHint: "S. 165-176",
+        pageNumber: 170,
+        passageLabel: "Hilfe annehmen oder ablehnen",
+        context:
+          "Im Krankenhaus prallen Wahrheit und Verdrängung frontal aufeinander. Ida übernimmt für einen Moment die klarste, erwachsenste Position im Raum.",
+        signalWords: ["Entgiftung", "Klinik", "wir schaffen es ohne dich und mit dir", "na, meine Mäuschen"],
+        prompts: [
+          "Wie zeigt die Passage, dass sich die Familienrollen weiter verschieben?",
+          "Warum ist Idas vorbereitete Ansprache so stark?",
+          "Wie reagiert die Mutter sprachlich auf Verantwortung und Wahrheit?"
+        ],
+        writingFrame:
+          "Die Szene ist zentral, weil sie Hilfe nicht als Geschenk, sondern als ... verhandelt.",
+        relatedTheoryIds: ["familienrollen", "sprache-koerper"]
+      },
+      {
+        id: "aufbruch-2",
+        title: "Wohnung regeneriert, Herbstluft, neues Gewicht",
+        pageHint: "S. 177-186",
+        pageNumber: 182,
+        passageLabel: "Erleichterung ohne Erlösung",
+        context:
+          "Nach dem Fieber und der Reinigung beschreibt Tilda ein neues Körpergefühl. Die Wohnung, der Herbst und Viktors Anwesenheit lassen etwas leichter werden, ohne die Lage zu verharmlosen.",
+        signalWords: ["regeneriert", "Altweibersommer", "Magie", "mehr Platz", "frische Bettwäsche"],
+        prompts: [
+          "Wie stellt der Roman Erleichterung körperlich und atmosphärisch dar?",
+          "Warum bleibt die Passage trotz des leichteren Tons vorsichtig?",
+          "Welche Rolle spielt der Herbst als Gegenbild zur vorherigen Hitze und Überforderung?"
+        ],
+        writingFrame:
+          "Die Passage zeigt Entlastung, aber keine einfache Lösung, weil ...",
+        relatedTheoryIds: ["sprache-koerper", "wasser-motivik"]
+      },
+      {
+        id: "aufbruch-3",
+        title: "Libellenwissen und neue Gefühle",
+        pageHint: "S. 187-198",
+        pageNumber: 192,
+        passageLabel: "Naturwissen als Liebessprache",
+        context:
+          "Das Libellenwissen wirkt zunächst schräg und komisch, wird dann aber zum Bild für Tildas eigene Veränderung. Die Passage verbindet Naturbeobachtung mit dem Zulassen von Nähe.",
+        signalWords: ["Libelle", "Jäger", "95%", "Opsine", "keine Angst"],
+        prompts: [
+          "Warum ist die Libellenpassage mehr als eine schrullige Wissensszene?",
+          "Wie wird das Naturwissen in Beziehungssprache übersetzt?",
+          "Worin liegt die Verbindung zwischen Libellen, Jagd, Bewegung und Tildas Gefühlen?"
+        ],
+        writingFrame:
+          "Die Libelle wird zum Leitbild, weil sie Tildas neue Bewegung zwischen ... und ... spiegelt.",
+        relatedTheoryIds: ["wasser-motivik", "sprache-koerper"]
+      },
+      {
+        id: "aufbruch-4",
+        title: "Das Bild, das Schiff und das offene Wiederkommen",
+        pageHint: "S. 199-208",
+        pageNumber: 204,
+        passageLabel: "Kein Schlussstrich",
+        context:
+          "Idas Bild vom Schiff und der Ritterin bringt das Ende symbolisch auf den Punkt: Hilfe, Lotsenrolle, Abschied und Wiederkehr bleiben offen. Dass der Roman mit `Schwimmbad?` schließt, bindet alles an die Bewegung zurück.",
+        signalWords: ["Schiff", "Lotsen", "Ich brauche Hilfe", "Bis bald", "Schwimmbad"],
+        prompts: [
+          "Wie bündelt Idas Bild die offenen Zukunftsfragen des Romans?",
+          "Warum ist Viktors Abschied kein klassischer Schluss?",
+          "Welche Wirkung hat es, dass der Roman in eine neue Schwimmbadbewegung zurückführt?"
+        ],
+        writingFrame:
+          "Das Ende überzeugt, weil es Offenheit nicht als Mangel, sondern als ... gestaltet.",
+        relatedTheoryIds: ["wasser-motivik", "perspektive", "familienrollen"]
       }
     ]
   }
@@ -969,909 +716,374 @@ export const readerModules = [
 
 export const lessonSets = [
   {
-    id: "lesson-01-auftakt",
-    title: "Lektion 1 · Täterauftakt und Spezialfahrt",
+    id: "lesson-01-alltag-und-kasse",
+    title: "Lektion 1 · Listen, Preise, Taktung",
     summary:
-      "Schiendicks Auftaktrede und die institutionelle Exposition der Fahrt als belastete Ausnahme.",
+      "Der Romanauftakt macht Tildas Alltag als kontrollierte Hochleistungsroutine sichtbar.",
     chapterMedia: [
       {
-        src: stLouisHavanaImg,
-        alt: "Die St. Louis im Hafen.",
-        title: "Das Schiff als politische Ausnahmefahrt",
+        src: coverImg,
+        alt: "Cover von 22 Bahnen",
+        title: "Auftakt zwischen Leichtigkeit und Druck",
         caption:
-          "Dieses Bild eröffnet die erste Lektion, weil die St. Louis hier nicht als neutrales Verkehrsmittel, sondern als historisch aufgeladener Raum sichtbar wird. Die Fahrt ist von Beginn an Sonderfall, Bühne und Krisenraum zugleich.",
+          "Das Cover passt hier als Startbild, weil der Roman früh zwischen sommerlicher Oberfläche und innerer Anspannung arbeitet.",
         focusPrompt:
-          "Nimm das Schiffsbild als Auftakt: Wie hilft es dir, die Spezialfahrt nicht technisch, sondern als politisch belastete Ausnahme zu deuten?"
-      },
-      {
-        src: gustavSchroederImg,
-        alt: "Porträt von Gustav Schröder in Kapitänsuniform.",
-        title: "Schröder als Gegenfigur zum Täterauftakt",
-        caption:
-          "Neben Schiendicks Täterrede steht in dieser Lektion sofort die Frage nach Verantwortung und Berufsethos. Schröders Porträt schärft diese Gegenlinie von Anfang an.",
-        focusPrompt:
-          "Setze Schröders Bild ausdrücklich neben den Täterauftakt: Welche Gegenfigur zur offenen Gewalt beginnt hier schon sichtbar zu werden?"
+          "Wie viel Leichtigkeit trägt der Auftakt wirklich, und wo wird der Druck schon im ersten Kapitel spürbar?"
       }
     ],
-    entryIds: ["abfahrt-1", "abfahrt-2"],
-    moduleIds: ["abfahrt"],
-    reviewFocus: "Achte auf Täterrede, Publikumseffekt, institutionelle Sprache und die frühe politische Rahmung der Fahrt.",
+    entryIds: ["routine-1", "routine-2"],
+    moduleIds: ["routine"],
+    reviewFocus: "Achte auf Listenstil, Taktung, Kontrolle und erste Signale von Überforderung.",
     sebPrompt:
-      "Analysiere die Eröffnung und die Vorbereitung der Fahrt. Zeige am Wortlaut, wie Täteransprache, Unternehmenslogik und politische Bedrohung von Beginn an zusammenwirken."
+      "Analysiere den Auftakt des Romans. Zeige am Wortlaut, wie Tildas Selbststeuerung früh als notwendige Überlebensstrategie erscheint."
   },
   {
-    id: "lesson-02-fluchtstimmen",
-    title: "Lektion 2 · Fluchtstimmen und fragile Hoffnung",
+    id: "lesson-02-schwimmen-und-blicke",
+    title: "Lektion 2 · 22 Bahnen, Stille und Schock",
     summary:
-      "Pozners Zeugenschaft, private Hoffnungsbilder und erste provisorische Sicherheit an Bord.",
+      "Das Schwimmbad wird als Ordnungsraum eingeführt und kippt dann in Erinnerung, Beobachtung und Irritation.",
     chapterMedia: [
       {
-        src: fritzSpanierImg,
-        alt: "Fritz Spanier mit zwei Kindern in Bullaugen der St. Louis.",
-        title: "Fritz Spanier und Kinder an Bord",
+        src: coverImg,
+        alt: "Cover von 22 Bahnen",
+        title: "Das Wasser als Ordnungsraum",
         caption:
-          "Dieses Foto gehört an den Beginn der Lektion, weil es die frühen Fluchtstimmen sofort auf Familie, Kindheit und verletzliche Zukunft zurückbindet. Die St. Louis erscheint hier nicht als abstrakter Fall, sondern als Raum konkreter Schutzsuche.",
+          "Schon in der Titelformel steckt das Versprechen von Ordnung. Die Passage zeigt, wie brüchig diese Ordnung zugleich bleibt.",
         focusPrompt:
-          "Arbeite mit dem Bild in deine erste Deutung hinein: Welche Form von Hoffnung, Bedrohung oder familiärer Verletzlichkeit wird sichtbar, die auch deine Passage trägt?"
+          "Arbeite heraus, wie die 22 Bahnen Halt geben und zugleich etwas Zwanghaftes haben."
       }
     ],
-    entryIds: ["abfahrt-3", "abfahrt-4", "zwischenraum-1"],
-    moduleIds: ["abfahrt", "zwischenraum"],
-    reviewFocus: "Arbeite genau an Zeugenschaft, Familienmotiven und der paradoxen Normalität an Bord.",
+    entryIds: ["routine-3", "routine-4"],
+    moduleIds: ["routine"],
+    reviewFocus: "Arbeite am Wasser-Motiv, an Blickregie und am Umschlag von Ruhe in Erinnerungsschock.",
     sebPrompt:
-      "Zeige, wie Kehlmann frühe Opferstimmen und private Hoffnungsbilder gestaltet, ohne die politische Bedrohung aus dem Blick zu verlieren.",
-    recommendedTheoryIds: ["bilddossier-reise", "historischer-kontext", "gute-geschichte"],
+      "Zeige, wie das Schwimmbad in den frühen Passagen zugleich Schutzraum, Beobachtungsraum und Auslöser der Vergangenheit wird.",
+    recommendedTheoryIds: ["wasser-motivik", "perspektive"],
     resourceAssignments: [
       {
-        resourceId: "bilddossier-reise",
-        title: "Bildauftrag: Schiff, Passagiere und Bordraum konkret sehen",
+        resourceId: "wasser-motivik",
+        title: "Motivauftrag: Was leisten die 22 Bahnen?",
         summary:
-          "Die Bilder der St. Louis, Schröders und der Passagiere helfen, das frühe Bordgeschehen nicht nur sprachlich, sondern räumlich und menschlich zu konkretisieren.",
+          "Das Dossier hilft, Schwimmen, Zählen, Tauchen und spätere Meeresbilder als zusammenhängendes Motivfeld zu lesen.",
         task:
-          "Nutze das Bilddossier, um die frühen Passagen genauer zu lesen. Zeige, wie Schiff, Blick und Passagiernähe die Hoffnungs- und Bedrohungslage sichtbar machen.",
+          "Nutze das Wasser-Dossier und zeige, wie die frühen Schwimmbadpassagen bereits die spätere Krisen- und Rettungsmotivik vorbereiten.",
         questions: [
-          "Welches Bild passt am besten zu den frühen Hoffnungs- und Fluchtszenen?",
-          "Wie schärft das Bild dein Verständnis des Bordraums?",
-          "Was wird durch das Bild deutlicher als durch eine bloß abstrakte Beschreibung?"
+          "Welche Funktion hat das Zählen der Bahnen genau?",
+          "Wo ist Wasser schon früh mehr als Entspannung?",
+          "Wie kündigt sich die spätere Ambivalenz des Wassers hier bereits an?"
         ]
       }
     ]
   },
   {
-    id: "lesson-03-schiffssystem",
-    title: "Lektion 3 · Das Schiff als Systemraum",
+    id: "lesson-03-zuhause-und-ida",
+    title: "Lektion 3 · Zuhause, Scham und Fürsorge",
     summary:
-      "Bürokratie, Gerüchte und moralische Linien an Bord zwischen Service, Zynismus und Mitgefühl.",
+      "Die Wohnung und das abendliche Essen zeigen, wie sehr Tilda längst Verantwortung übernommen hat.",
     chapterMedia: [
       {
-        src: gustavSchroederImg,
-        alt: "Porträt von Gustav Schröder in Kapitänsuniform.",
-        title: "Gustav Schröder als Verantwortungsfigur",
+        src: authorImg,
+        alt: "Autorinnenfoto Caroline Wahl",
+        title: "Nüchterne Nähe",
         caption:
-          "Schröders Porträt eröffnet diese Lektion, weil hier das Schiff als geordneter, aber belasteter Systemraum lesbar wird. Sein Gesicht und seine Uniform helfen, Verantwortung, Autorität und Begrenzung seiner Rolle genauer zu fassen.",
+          "Für diese Lektion ist die Autorinnenpräsenz hilfreich, weil der Roman Schwere sehr knapp, aber nie kalt erzählt.",
         focusPrompt:
-          "Beziehe das Porträt gezielt auf deine Passage: Was zeigt Schröders Auftreten über Pflicht, Handlungsspielraum und moralische Spannung an Bord?"
+          "Woran merkt man in diesen Passagen, dass knappe Sprache gerade Nähe und nicht Distanz erzeugen kann?"
       }
     ],
-    entryIds: ["zwischenraum-2", "zwischenraum-3", "zwischenraum-4"],
-    moduleIds: ["zwischenraum"],
-    reviewFocus: "Analysiere das Schiff als widersprüchlichen Raum aus Ordnung, Gerücht und fortgesetzter Gewalt.",
+    entryIds: ["familie-1", "familie-2"],
+    moduleIds: ["familie"],
+    reviewFocus: "Achte auf Parentifizierung, Scham, Zärtlichkeit und die unspektakuläre Form von Fürsorge.",
     sebPrompt:
-      "Untersuche, wie das Stück auf dem Schiff ökonomische, moralische und politische Konfliktlinien gleichzeitig sichtbar macht."
+      "Arbeite heraus, wie die Familienszenen Verantwortung, Verwahrlosung und Schwesterntreue zusammenführen, ohne sentimental zu werden."
   },
   {
-    id: "lesson-04-havanna-macht",
-    title: "Lektion 4 · Havanna als Machtbühne",
+    id: "lesson-04-krieg-da-draussen",
+    title: "Lektion 4 · Nacht, Kleinstadt und Gegenräume",
     summary:
-      "Korruption, Scheinlegalität und politische Abwehrformeln in den ersten Kuba-Szenen.",
+      "Tilda sucht Atemräume, aber jeder Gegenraum bleibt durch Familie und Enge bedroht.",
     chapterMedia: [
       {
-        src: stLouisHavanaImg,
-        alt: "Die St. Louis im Hafen vor Havanna.",
-        title: "Die St. Louis vor Havanna",
+        src: authorImg,
+        alt: "Autorinnenfoto Caroline Wahl",
+        title: "Beobachten als Schutz",
         caption:
-          "Das Foto führt die Grundspannung der Kuba-Kapitel unmittelbar ein: Das Schiff ist da, das Ziel ist sichtbar, doch die Grenze bleibt bestehen. Sichtbarkeit wird nicht zu Aufnahme.",
+          "Die Lektion eignet sich, um Tildas genaue Wahrnehmung als Form des Selbstschutzes zu lesen.",
         focusPrompt:
-          "Nutze das Hafenbild als Lesemodell: Wo arbeitet deine Passage ebenfalls mit Nähe ohne Ankunft und mit politisch erzeugter Distanz?"
-      },
-      {
-        src: federicoLaredoBruImg,
-        alt: "Porträt von Federico Laredo Brú.",
-        title: "Federico Laredo Brú als Staatsfigur",
-        caption:
-          "Brús Porträt macht deutlich, dass die Havanna-Szenen nicht in anonymer Verwaltung spielen, sondern in einer staatlichen Entscheidungskonstellation. Das Bild schärft die Frage, wie Regierungsmacht im Drama auftritt.",
-        focusPrompt:
-          "Ordne deine Passage ausdrücklich einer staatlichen Entscheidungsebene zu: Was wird hier als Regierungshandeln, was als Verwaltungsakt und was als politisches Kalkül sichtbar?"
-      },
-      {
-        src: fulgencioBatistaImg,
-        alt: "Späteres Porträt von Fulgencio Batista in Uniform.",
-        title: "Batista als Machtfaktor im kubanischen Hintergrund",
-        caption:
-          "Dieses spätere Porträt ist hier nicht bloß illustrativ, sondern verweist auf die Machtkonstellationen im kubanischen Hintergrund. Die Lektion soll zeigen, dass die St.-Louis-Krise in innere Machtkämpfe eingebettet ist.",
-        focusPrompt:
-          "Lies das Bild als Hinweis auf Macht hinter der sichtbaren Szene: Wo spürst du in deiner Passage Kräfte, Interessen oder Druck, die über die einzelne Verhandlung hinausreichen?"
+          "Wie macht der Roman Gegenräume erfahrbar, ohne die strukturelle Enge der Lebenslage auszublenden?"
       }
     ],
-    entryIds: ["havanna-1", "havanna-2"],
-    moduleIds: ["havanna"],
-    reviewFocus: "Achte auf politische Sprache, offene Selbstentlarvung und Willkür im Gewand von Verfahren.",
+    entryIds: ["familie-3", "familie-4"],
+    moduleIds: ["familie"],
+    reviewFocus: "Arbeite an Perspektive, Kriegsmetapher, Raumdarstellung und Idas Figur.",
     sebPrompt:
-      "Zeige an zwei Passagen, wie Havanna als Bühne von Bestechung, Machtkalkül und verweigerter Aufnahme aufgebaut wird.",
-    recommendedTheoryIds: ["bilddossier-akteure", "historischer-kontext", "dokumentartheater"],
+      "Untersuche, wie Wahl Nacht, Regen, Kleinstadt und Geschwisteralltag dazu nutzt, Tildas Lebenslage räumlich und körperlich lesbar zu machen.",
+    recommendedTheoryIds: ["perspektive", "familienrollen"],
     resourceAssignments: [
       {
-        resourceId: "bilddossier-akteure",
-        title: "Bildauftrag: Havanna, Bru und die Gesichter politischer Entscheidung",
+        resourceId: "perspektive",
+        title: "Perspektivauftrag: Wie filtert Tilda die Welt?",
         summary:
-          "Die Porträts von Laredo Brú und Batista ziehen die Kuba-Szenen weg von abstrakter Staatsmacht hin zu konkreten politischen Akteuren und Machtfeldern.",
+          "Das Dossier zeigt, wie Tildas Ich-Erzählung Nähe ermöglicht und zugleich Schutzmechanismen aktiviert.",
         task:
-          "Nutze das Bilddossier, um die Havanna-Szenen politisch zu präzisieren. Zeige, wie Korruption, Abwehr und staatliche Entscheidungsmacht im Drama personell greifbar werden.",
+          "Nutze das Perspektiv-Dossier, um eine der beiden Passagen als gefilterte Wahrnehmung zu lesen. Zeige, was Tilda sehr genau sieht und was sie sprachlich eher wegdrückt.",
         questions: [
-          "Welches Porträt schärft die Havanna-Szenen am stärksten?",
-          "Wie hilft dir das Bild, Staatsmacht konkreter zu denken?",
-          "Welche Machtfigur oder welches Machtfeld steht hinter der Passage?"
+          "Wo ist Tilda besonders präzise?",
+          "Wo weicht sie aus oder verkürzt?",
+          "Wie prägt dieser Filter deine Deutung?"
         ]
       }
     ]
   },
   {
-    id: "lesson-05-havanna-menschen",
-    title: "Lektion 5 · Havanna und die zerschnittenen Familien",
+    id: "lesson-05-viktor-erscheint",
+    title: "Lektion 5 · Viktor im Wasser",
     summary:
-      "Einzelschicksale, Höflichkeit im Unrecht und menschliche Katastrophe unter politischen Entscheidungen.",
+      "Viktors Auftauchen macht aus dem Schwimmbad einen Raum von Irritation, Anziehung und Vergleich.",
     chapterMedia: [
       {
-        src: fritzSpanierImg,
-        alt: "Fritz Spanier mit Kindern in Bullaugen der St. Louis.",
-        title: "Familienblick statt abstrakter Krise",
+        src: coverImg,
+        alt: "Cover von 22 Bahnen",
+        title: "Bewegung und Gegenbewegung",
         caption:
-          "Diese Lektion beginnt bewusst mit einem Bild von Erwachsenen und Kindern an Bord. So wird klar, dass die Havanna-Blockade nicht nur ein diplomatischer Vorgang, sondern eine Zerstörung konkreter Familienbeziehungen ist.",
+          "Die Lektion zeigt, wie ein einziger anderer Körperrhythmus Tildas Innenwelt destabilisieren kann.",
         focusPrompt:
-          "Nutze das Bild, um deine Passage von Anfang an auf Familie, Trennung und verletzliche Zukunft hin zu lesen."
+          "Welche Rolle spielt Viktors Bewegung für Tildas Wahrnehmung und Begehren?"
       }
     ],
-    entryIds: ["havanna-3", "havanna-4"],
-    moduleIds: ["havanna"],
-    reviewFocus: "Arbeite heraus, wie das Stück Einzelschicksale gegen die kalte politische Logik stellt.",
+    entryIds: ["viktor-1", "viktor-2"],
+    moduleIds: ["viktor"],
+    reviewFocus: "Achte auf Blickregie, Projektionsflächen und die langsame Aufladung von Viktors Figur.",
     sebPrompt:
-      "Untersuche, wie private Verluste und höflich organisierte Vertreibung die politische Katastrophe noch schärfer sichtbar machen."
+      "Zeige, wie der Roman Viktors Auftreten weniger über direkte Erklärung als über Beobachtung, Gerücht und Körperrhythmus gestaltet."
   },
   {
-    id: "lesson-06-hafen-hoffnung",
-    title: "Lektion 6 · Organisierte Hoffnung und offene Gewalt",
+    id: "lesson-06-vergangenheit-und-schuld",
+    title: "Lektion 6 · Ivan, Erinnerung und verschobene Nähe",
     summary:
-      "Komitee, Telegramme und zugleich die Eskalation der Gewalt an Bord.",
+      "Mit Ivan kehrt die Vergangenheit zurück und bindet jede neue Nähe an Schuld und Schweigen.",
     chapterMedia: [
       {
-        src: gustavSchroederImg,
-        alt: "Porträt von Gustav Schröder.",
-        title: "Schröder zwischen Hoffnung und Kontrollverlust",
+        src: authorImg,
+        alt: "Autorinnenfoto Caroline Wahl",
+        title: "Erinnerung als offener Riss",
         caption:
-          "Das Porträt passt hier, weil sich in dieser Lektion Hoffnung nicht abstrakt organisiert, sondern immer an Schröders Versprechen, Autorität und Grenzen seines Handelns bindet.",
+          "Die Lektion rückt ins Zentrum, dass die Liebesgeschichte nie unbelastet erzählt wird.",
         focusPrompt:
-          "Beziehe Schröders Bild auf Komitee, Telegramme und Gewalt: Wo trägt er Hoffnung, und wo zeigt die Passage die Grenze seiner Macht?"
-      },
-      {
-        src: stLouisHavanaImg,
-        alt: "Die St. Louis vor Havanna.",
-        title: "Das Schiff als wartender Krisenraum",
-        caption:
-          "Das Hafenbild macht die paradoxe Lage der Lektion sichtbar: Bewegung ist zu Stillstand geworden, und jeder Hoffnungsschub steht unter dem Druck fortgesetzter Gewalt.",
-        focusPrompt:
-          "Arbeite mit dem Hafenbild: Wie macht deine Passage das Warten selbst zur Krise?"
+          "Wie hält der Roman neue Nähe und alte Verletzung gleichzeitig offen?"
       }
     ],
-    entryIds: ["hafenkrise-1", "hafenkrise-2"],
-    moduleIds: ["hafenkrise"],
-    reviewFocus: "Verbinde Hoffnungstechniken, Gerüchte, Gewalt und Raumerfahrung präzise mit dem Wortlaut.",
+    entryIds: ["viktor-3", "viktor-4"],
+    moduleIds: ["viktor"],
+    reviewFocus: "Arbeite an Schuld, Erinnerung, Ortsbedeutung und Tildas Schweigen gegenüber Viktor.",
     sebPrompt:
-      "Zeige, wie Kehlmann in der Hafenkrise Hoffnung organisiert und im selben Zug wieder zerstört."
-  },
-  {
-    id: "lesson-07-hafen-blickszenen",
-    title: "Lektion 7 · Blickszenen, Distanz und Trennung",
-    summary:
-      "Havanna bleibt sichtbar und unerreichbar; politische Krise verdichtet sich zu Familienbildern und Distanzszenen.",
-    chapterMedia: [
-      {
-        src: stLouisHavanaImg,
-        alt: "Die St. Louis vor Havanna, umgeben von Hafenverkehr.",
-        title: "Hafenbild als Distanzszene",
-        caption:
-          "Dieses Bild steht am Beginn der Lektion, weil es genau die Wahrnehmungsstruktur der Blickszenen enthält: Stadt und Hafen liegen vor Augen, aber die Grenze bleibt unangreifbar. Das macht Nähe und Trennung zugleich sichtbar.",
-        focusPrompt:
-          "Verbinde das Bild direkt mit deiner Passage: Wie werden räumliche Nähe, politische Unerreichbarkeit und familiäre Trennung zusammengeführt?"
-      }
-    ],
-    entryIds: ["hafenkrise-3", "hafenkrise-4"],
-    moduleIds: ["hafenkrise"],
-    reviewFocus: "Achte auf Blickregie, Distanz, Bühnenraum und die Übersetzung von Politik in einzelne Bilder.",
-    sebPrompt:
-      "Analysiere, wie das Drama mit Sichtbarkeit ohne Ankunft arbeitet und dadurch die Unmenschlichkeit der Situation steigert."
-  },
-  {
-    id: "lesson-08-diplomatie-inszenierung",
-    title: "Lektion 8 · Politik als Inszenierung",
-    summary:
-      "Gesichtswahrung, Presse, Verhandlungen und kollektive Verzweiflung als zweite große Zuspitzung.",
-    chapterMedia: [
-      {
-        src: jButlerWrightImg,
-        alt: "Porträt von J. Butler Wright.",
-        title: "Diplomatie als sichtbare Figur",
-        caption:
-          "Die Lektion beginnt mit Wright, damit Verhandlungen nicht als leere Bühne wirken. Hier bekommt Diplomatie ein Gesicht und damit auch eine präzisere Verantwortung.",
-        focusPrompt:
-          "Nutze Wrights Bild, um deine Passage als Inszenierung politischer Vermittlung zu lesen: Wer handelt, wer beobachtet, wer verschiebt?"
-      },
-      {
-        src: cordellHullImg,
-        alt: "Porträt von Cordell Hull.",
-        title: "Staatliche Außenpolitik im Hintergrund der Szene",
-        caption:
-          "Hull schärft die übergeordnete Ebene der Lektion: Die Szene spielt nicht nur zwischen Einzelpersonen, sondern unter dem Druck staatlicher Außenpolitik und strategischer Interessen.",
-        focusPrompt:
-          "Öffne die Passage mit Hull auf die größere politische Ebene: Wo erscheint das Geschehen als Bühne staatlicher Interessen?"
-      }
-    ],
-    entryIds: ["diplomatie-1", "diplomatie-2"],
-    moduleIds: ["diplomatie"],
-    reviewFocus: "Untersuche Politik als Bühne und frage, wie öffentliches Handeln und psychische Zerstörung zusammenhängen.",
-    sebPrompt:
-      "Zeige an zwei Passagen, wie das Stück Verhandlungsszenen und Verzweiflung montiert, um politische Ohnmacht sichtbar zu machen."
-  },
-  {
-    id: "lesson-09-diplomatie-blockade",
-    title: "Lektion 9 · Deals, Unterlassung und Blockade",
-    summary:
-      "Humanität als Deal und Verantwortung als Kette des Nicht-Handelns.",
-    chapterMedia: [
-      {
-        src: jButlerWrightImg,
-        alt: "Porträt von J. Butler Wright.",
-        title: "J. Butler Wright und die diplomatische Schnittstelle",
-        caption:
-          "Wrights Porträt verankert die Verhandlungsszenen in einem konkreten diplomatischen Feld. So wird sichtbar, dass Blockade im Drama nicht bloß Stimmung, sondern internationale Politik ist.",
-        focusPrompt:
-          "Beziehe deine Passage ausdrücklich auf diplomatische Vermittlung: Wo zeigt sich Verzögerung, Verhandlung oder Unterlassung als politische Praxis?"
-      },
-      {
-        src: cordellHullImg,
-        alt: "Porträt von Cordell Hull.",
-        title: "Cordell Hull und die Ebene staatlicher Außenpolitik",
-        caption:
-          "Mit Hull wird die Blockade als außenpolitische Entscheidungsebene greifbar. Das Bild hilft, die Szene als staatlich organisierte Nicht-Aufnahme statt als bloßes Misslingen zu lesen.",
-        focusPrompt:
-          "Öffne die Passage in Richtung Außenpolitik: Welche Form von staatlicher Verantwortung oder Unterlassung wird mit Hulls Ebene sichtbarer?"
-      },
-      {
-        src: henryMorgenthauImg,
-        alt: "Porträt von Henry Morgenthau Jr.",
-        title: "Henry Morgenthau Jr. und begrenzte Gegenkräfte",
-        caption:
-          "Morgenthau steht hier für die Frage, welche Gegenkräfte innerhalb des politischen Apparats überhaupt noch handlungsfähig sind. Dadurch werden die Diplomatieszenen differenzierter als reine Totalblockade lesbar.",
-        focusPrompt:
-          "Prüfe an deiner Passage, ob sie nur Blockade zeigt oder auch begrenzte Gegenkräfte sichtbar macht, die dennoch nicht ausreichen."
-      }
-    ],
-    entryIds: ["diplomatie-3", "diplomatie-4", "rueckweg-1"],
-    moduleIds: ["diplomatie", "rueckweg"],
-    reviewFocus: "Arbeite an den Sprachformen der Verzögerung, des Dealens und der politischen Schuld durch Unterlassung.",
-    sebPrompt:
-      "Analysiere die politische Blockade im letzten Drittel des Dramas und zeige, wie Verantwortung immer weiter verschoben wird.",
-    recommendedTheoryIds: ["evian-konferenz", "evian-deutschlandfunk", "ushmm-voyage", "ndr-st-louis", "bilddossier-akteure", "historischer-kontext"],
+      "Analysiere, wie Ivan in den Roman hineinragt und warum Viktors Nähe deshalb immer auch eine Konfrontation mit der Vergangenheit bleibt.",
+    recommendedTheoryIds: ["familienrollen", "inputvideo-1"],
     resourceAssignments: [
       {
-        resourceId: "ushmm-voyage",
-        title: "USHMM-Auftrag: Die Krise war politisch längst bekannt",
+        resourceId: "inputvideo-1",
+        title: "Vergleichsauftrag: Externe Lesart gegen den Text prüfen",
         summary:
-          "Die USHMM-Seite zeigt die Reise nicht als plötzliches Missgeschick, sondern als bereits vorbereitete Krise: ungültige Papiere, informierte Behörden, kubanische Machtkämpfe und eine Reise, deren Risiko vor Havanna sichtbar war.",
+          "Der erste Videoimpuls dient hier als Außenperspektive auf Figurendynamik und Romanzugang.",
         task:
-          "Verbinde die diplomatischen Passagen mit dem USHMM-Dossier. Zeige, wie das Drama eine Krise verdichtet, die politisch schon vor der sichtbaren Blockade angelegt war.",
+          "Vergleiche eine Deutung aus dem Video mit den Ivan-Viktor-Passagen. Arbeite heraus, was der Text komplexer macht als eine glatte Außenlesart.",
         questions: [
-          "Welche Vorentscheidung des Dossiers schärft die Passage am stärksten?",
-          "Wo zeigt das Drama, dass Wissen und Handeln auseinanderfallen?",
-          "Wie macht die Szene aus politischer Kenntnis trotzdem unterlassene Rettung?"
-        ]
-      },
-      {
-        resourceId: "evian-konferenz",
-        title: "Historischer Tiefenauftrag: Évian als Vorstruktur der St. Louis",
-        summary:
-          "Das Dossier zu Évian dient hier als direkte Vergleichsfolie für Havanna, Florida und den Rückweg: internationale Beratung, aber keine belastbare Aufnahmebereitschaft.",
-        task:
-          "Zeige an den Passagen, wie das Drama dieselbe Struktur sichtbar macht wie Évian 1938: beraten, verschieben, nicht retten.",
-        questions: [
-          "Welche Parallele zwischen Évian und den diplomatischen Szenen ist am klarsten?",
-          "Warum liest du die Blockade mit Évian stärker als System denn als Ausnahme?",
-          "Wo zeigt das Drama politisch organisierte Aufnahmeverweigerung?"
-        ]
-      },
-      {
-        resourceId: "evian-deutschlandfunk",
-        title: "Quellenauftrag: Die Sprache der verweigerten Hilfe",
-        summary:
-          "Die Deutschlandfunk-Rezension lenkt den Blick auf die Sprache von Entlastung, Arbeitsmarktargumenten und diplomatischem Ausweichen.",
-        task:
-          "Vergleiche die Wortlogik des DLF-Beitrags mit den Passagen der Lektion. Zeige, wie Untätigkeit über Sachzwangssprache legitimiert wird.",
-        questions: [
-          "Welche Ausweichformel erkennst du im Beitrag und im Drama?",
-          "Warum ist die Wortwahl 'Flüchtlinge' historisch und sprachkritisch brisant?",
-          "Liest du Unterlassung nach der Quelle noch als Zufall oder als politisch codierte Entscheidung?"
-        ]
-      },
-      {
-        resourceId: "ndr-st-louis",
-        title: "Chronologie-Auftrag: Die Irrfahrt als historische Sequenz",
-        summary:
-          "Die NDR-Chronologie bindet die diplomatischen und maritimen Szenen an einen klaren historischen Ablauf von Hamburg über Havanna und Florida bis Antwerpen zurück.",
-        task:
-          "Nutze den NDR-Beitrag, um die Lektion als Folge realer Wendepunkte zu lesen. Zeige, wie aus Stationen eine Blockadekette wird.",
-        questions: [
-          "Welche Station der Chronologie wird hier verdichtet?",
-          "Wie trennt der Artikel Schröders Rolle von staatlicher Untätigkeit?",
-          "Wo wird aus Chronologie im Drama moralische Eskalation?"
-        ]
-      },
-      {
-        resourceId: "bilddossier-akteure",
-        title: "Bildauftrag: Diplomatie und politische Verantwortung bekommen Gesichter",
-        summary:
-          "Die Porträts von Wright, Hull, Morgenthau, Brú und Batista helfen, die Verhandlungsszenen als konkrete Machtkonstellation zu lesen.",
-        task:
-          "Nutze das Bilddossier, um die Diplomatieszenen politisch zu konkretisieren. Ordne die Passage einem Machtzentrum oder Akteur zu und zeige, wie dadurch Unterlassung und Verantwortungsverschiebung greifbarer werden.",
-        questions: [
-          "Welcher Akteur passt am ehesten zur Passage?",
-          "Wie verändert das Porträt deine Deutung der Verhandlungsszene?",
-          "Welche Form von Macht oder Verantwortung wird dadurch sichtbarer?"
+          "Welchen Schwerpunkt setzt das Video?",
+          "Passt dieser Schwerpunkt zur Passage?",
+          "Wo würdest du aus Textgründen widersprechen?"
         ]
       }
     ]
   },
   {
-    id: "lesson-10-rueckweg-erinnerung",
-    title: "Lektion 10 · Rückweg, Epilog und Erinnerung",
+    id: "lesson-07-koerper-unter-druck",
+    title: "Lektion 7 · Panik und Rollenlast",
     summary:
-      "Grenzen des Handelns, begrenzte Rettung und ein Schluss ohne Katharsis.",
+      "Körperlicher Kontrollverlust und Alltagsüberforderung zeigen dieselbe Grundspannung in zwei verschiedenen Formen.",
     chapterMedia: [
       {
-        src: stLouisHavanaImg,
-        alt: "Die St. Louis im Hafen.",
-        title: "Die Fahrt als offener Schlussraum",
+        src: coverImg,
+        alt: "Cover von 22 Bahnen",
+        title: "Druck, bevor er explodiert",
         caption:
-          "Das Bild kehrt hier wieder, weil die Rückweg- und Epilog-Lektion die ganze Fahrt noch einmal unter einem neuen Vorzeichen liest: nicht als abgeschlossene Reise, sondern als offengehaltene Geschichte.",
+          "Die Lektion verbindet akute Panik mit dauerhafter Rollenbelastung.",
         focusPrompt:
-          "Lies das Schiffsbild im Modus des Schlusses: Warum lässt sich diese Fahrt trotz Antwerpen nicht als abgeschlossene Rettung verstehen?"
-      },
-      {
-        src: fritzSpanierImg,
-        alt: "Fritz Spanier mit Kindern auf der St. Louis.",
-        title: "Konkrete Menschen gegen ein falsches Happy End",
-        caption:
-          "Dieses Bild verhindert, dass der Schluss in abstrakter Nachgeschichte verschwindet. Die offenen Enden des Dramas betreffen konkrete Familien, Kinder und künftige Lebenswege.",
-        focusPrompt:
-          "Arbeite den Schluss gegen ein Happy End: Wie hilft dir das Bild, die Nachgeschichte von Menschen her statt nur von Stationen her zu lesen?"
+          "Zeige, wie der Roman denselben Druck einmal als Ausnahmezustand und einmal als Alltag organisiert."
       }
     ],
-    entryIds: ["rueckweg-2", "rueckweg-3", "rueckweg-4"],
-    moduleIds: ["rueckweg"],
-    reviewFocus: "Begründe am Schlusswort und an den Nachgeschichten, wie das Stück Erinnerung politisch offen hält.",
+    entryIds: ["belastung-1", "belastung-2"],
+    moduleIds: ["belastung"],
+    reviewFocus: "Achte auf Körperbilder, Hitze, Wasser, Lakonie und Mehrfachbelastung.",
     sebPrompt:
-      "Formuliere eine belastbare Deutung des Endes und verbinde sie mit epischem Theater, dokumentarischer Form oder Kehlmanns Rede „Im Steinbruch“.",
-    recommendedTheoryIds: ["im-steinbruch", "episches-theater", "dokumentartheater", "susanne-heim-grenzen", "ndr-st-louis", "fritz-buff-reisebericht", "ushmm-return-europe", "ushmm-wartime-fate"],
+      "Untersuche, wie Wahl Kontrollverlust und Dauerüberforderung sprachlich so gestaltet, dass beide als Varianten derselben Lebenslage erscheinen."
+  },
+  {
+    id: "lesson-08-berlin-oder-bleiben",
+    title: "Lektion 8 · Depression, Zukunft und Abwehr",
+    summary:
+      "Die Tischszenen und die Berlin-Debatte bündeln Tildas Wunsch nach Aufbruch mit ihrer Bindung an Ida.",
+    chapterMedia: [
+      {
+        src: authorImg,
+        alt: "Autorinnenfoto Caroline Wahl",
+        title: "Konflikt ohne melodramatische Kulisse",
+        caption:
+          "Die Härte dieser Lektion liegt gerade darin, dass alles in alltäglichen Gesten und Sätzen verhandelt wird.",
+        focusPrompt:
+          "Wie arbeitet der Roman mit scheinbar kleinen Sätzen, die enorme familiäre Folgen tragen?"
+      }
+    ],
+    entryIds: ["belastung-3", "belastung-4"],
+    moduleIds: ["belastung"],
+    reviewFocus: "Arbeite an depressiver Leere, Rollenverschiebung und Tildas blockierter Zukunft.",
+    sebPrompt:
+      "Zeige, wie die späten Familienszenen Depression, Schuldzuweisung und Tildas Emanzipationswunsch ineinander schieben.",
+    recommendedTheoryIds: ["familienrollen", "sprache-koerper"],
     resourceAssignments: [
       {
-        resourceId: "ushmm-return-europe",
-        title: "USHMM-Auftrag: Rückkehr nach Europa ist nur vorläufige Aufnahme",
+        resourceId: "sprache-koerper",
+        title: "Sprachauftrag: Wie schreibt Wahl Belastung?",
         summary:
-          "Das USHMM-Dossier legt offen, wie die Passagiere auf vier Länder verteilt wurden und dort nur befristeten Schutz erhielten. Gerade diese Vorläufigkeit macht den Schluss historisch scharf.",
+          "Das Dossier fokussiert Lakonie, Körpernähe und die genaue Dosierung von Witz und Schmerz.",
         task:
-          "Arbeite den Schluss mit dem USHMM-Dossier durch. Zeige, warum Antwerpen und die Verteilung auf vier Länder keine Rettung abschließen, sondern nur eine neue prekäre Phase eröffnen.",
+          "Nutze das Sprach-Dossier, um zu zeigen, wie in einer der beiden Passagen gerade knappe, nüchterne Formulierungen die Belastung steigern.",
         questions: [
-          "Welche Zahl oder Verteilungsinformation musst du im Blick behalten, um die Schlusssequenz richtig zu lesen?",
-          "Wo zeigt das Drama Sicherheit nur als Übergang?",
-          "Wie verändert das Dossier deine Bewertung des Wortes Rettung?"
-        ]
-      },
-      {
-        resourceId: "ushmm-wartime-fate",
-        title: "USHMM-Auftrag: Nachgeschichte gegen falsche Entlastung",
-        summary:
-          "Die USHMM-Seite zu den Kriegsschicksalen verfolgt, was nach 1939 geschieht: Internierung, blockierte Fluchtwege, Deportation, Überleben und Ermordung. Damit wird der Schluss des Dramas radikal entlastungsresistent.",
-        task:
-          "Verbinde den Epilog und die Rückwegspassagen mit dem USHMM-Dossier. Zeige, wie das Drama bewusst kein beruhigendes Ende zulässt, weil die eigentliche Gefährdung erst weitergeht.",
-        questions: [
-          "Welche der Zahlen 532, 278 und 254 schärft den Schluss am stärksten, und warum?",
-          "Wo macht das Drama Nachgeschichte als offene Bedrohung sichtbar?",
-          "Wie verhindern die Fälle Seligmann und Hermanns ein pauschales Urteil über die Rückkehr?"
-        ]
-      },
-      {
-        resourceId: "im-steinbruch",
-        title: "Sekundärtext-Auftrag: Erinnerung als Gegenwartsfrage",
-        summary:
-          "Lies Kehlmanns Rede parallel zum Schluss des Dramas und prüfe, wie Erinnerung dort nicht beruhigt, sondern politisch offen gehalten wird.",
-        task:
-          "Verbinde die letzten Szenen des Dramas mit Kehlmanns Überlegungen aus „Im Steinbruch“. Zeige, wie aus Nachgeschichte, Namen und Überlebensspuren eine Form von Erinnerung entsteht, die Verantwortung nicht abschließt.",
-        questions: [
-          "Welche Aussagen aus „Im Steinbruch“ helfen dir, den offenen Schluss als bewusste ethische Form zu verstehen?",
-          "Wo widersetzt sich das Drama einer versöhnlichen Abrundung und hält stattdessen historische Unruhe fest?",
-          "Wie verändert der Sekundärtext deine Deutung der letzten Passagen im Hinblick auf Gegenwart und Verantwortung?"
-        ]
-      },
-      {
-        resourceId: "susanne-heim-grenzen",
-        title: "Historischer Vertiefungsauftrag: Zwischenräume, Grenzen, Rückweg",
-        summary:
-          "Der Republik-Text von Susanne Heim verschärft den historischen Blick auf Transit, Grenzregime und das Hin- und Hergeschobensein zwischen Staaten.",
-        task:
-          "Lies den Schluss des Dramas zusammen mit Susanne Heim. Zeige, wie Rückweg und Verteilung Teil eines Grenzregimes bleiben.",
-        questions: [
-          "Wie macht die Quelle den Rückweg zur Grenz- und Zuständigkeitskrise?",
-          "Wo zeigt das Drama strukturelles Feststecken statt bloßer Verzweiflung?",
-          "Wie verändert diese Perspektive deine Deutung der scheinbaren Rettung?"
-        ]
-      },
-      {
-        resourceId: "ndr-st-louis",
-        title: "Chronologie-Auftrag: Antwerpen und die begrenzte Rettung",
-        summary:
-          "Der NDR-Beitrag macht sichtbar, wie die Ankunft in Antwerpen nicht das Ende der Gefahr, sondern nur eine späte und brüchige Verteilung markiert.",
-        task:
-          "Arbeite mit dem NDR-Beitrag, um den Schluss historisch genau einzuordnen. Zeige, wie das Stück Erleichterung und fortgesetzte Gefährdung zusammenhält.",
-        questions: [
-          "Was ändert Antwerpen tatsächlich und was bleibt offen?",
-          "Warum verhindert die Chronologie ein Happy-End-Lesen des Schlusses?",
-          "Welche Nachgeschichte wird dadurch im Drama besonders scharf?"
-        ]
-      },
-      {
-        resourceId: "fritz-buff-reisebericht",
-        title: "Primärquellen-Auftrag: Hoffnung, Angst und Erleichterung von innen",
-        summary:
-          "Fritz Buffs Bericht zeigt den Rückweg und die Nachricht von Antwerpen aus einer Passagierperspektive, die die letzten Szenen des Dramas historisch und emotional verdichtet.",
-        task:
-          "Vergleiche den Schluss des Dramas mit Fritz Buffs Bericht. Arbeite die Spannung zwischen Erleichterung, Unsicherheit und späterer Bedrohung heraus.",
-        questions: [
-          "Welche Formulierung des Berichts schärft das Ende des Dramas am stärksten?",
-          "Wo unterscheidet sich Buffs Binnenperspektive von der epischen Anlage des Dramas?",
-          "Wie verändert die Primärquelle deine Bewertung des Schlusses?"
+          "Welches sprachliche Muster fällt auf?",
+          "Wie verbindet der Roman Körper und Psyche?",
+          "Wodurch wirkt die Szene härter als eine pathetische Klage?"
         ]
       }
     ]
   },
   {
-    id: "lesson-11-kehlmann-haltung",
-    title: "Lektion 11 · Kehlmanns Haltung und persönliche Involvierung",
+    id: "lesson-09-notfall",
+    title: "Lektion 9 · Überdosis und Notfallwissen",
     summary:
-      "Kehlmann als Autor des Stoffs: Verdichtung, Verantwortung, Erinnerungskultur und Gegenwartsbezug mit Podcast und „Im Steinbruch“.",
+      "Die Mutterkrise macht sichtbar, wie vorbereitet die beiden Schwestern auf den Ausnahmefall längst sind.",
     chapterMedia: [
       {
-        src: stLouisHavanaImg,
-        alt: "Die St. Louis vor Havanna.",
-        title: "Der historische Stoff, den Kehlmann formt",
+        src: coverImg,
+        alt: "Cover von 22 Bahnen",
+        title: "Stillstand im Wohnzimmer",
         caption:
-          "Diese Lektion hat kein Autorenporträt als Auftakt, sondern bewusst ein Bild des historischen Materials selbst. So steht im Zentrum, wie Kehlmann einen realen Stoff auswählt, verdichtet und erinnerungspolitisch zuspitzt.",
+          "Die Lektion lebt vom Bruch: Aus Pizza und Kälte wird sofort medizinischer Ernst.",
         focusPrompt:
-          "Nutze das Bild, um über Kehlmanns Haltung nachzudenken: Was bedeutet es, einen solchen historischen Stoff so zu formen, dass er Gegenwartsverantwortung erzeugt?"
-      },
-      {
-        src: fritzSpanierImg,
-        alt: "Fritz Spanier mit Kindern auf der St. Louis.",
-        title: "Kehlmanns Stoff ist immer menschlich konkret",
-        caption:
-          "Die Lektion zur Autorhaltung braucht auch die Rückbindung an konkrete Menschen. Das Bild erinnert daran, dass Kehlmanns Formentscheidungen nie vom Einzelschicksal getrennt gelesen werden dürfen.",
-        focusPrompt:
-          "Arbeite mit dem Bild gegen eine rein abstrakte Poetologie: Wie verbindet Kehlmann Formbewusstsein und konkrete menschliche Verletzbarkeit?"
+          "Wie organisiert der Roman diesen Bruch, ohne an Genauigkeit zu verlieren?"
       }
     ],
-    entryIds: ["havanna-3", "diplomatie-3", "diplomatie-4", "rueckweg-4"],
-    moduleIds: ["havanna", "diplomatie", "rueckweg"],
-    reviewFocus: "Arbeite daran, wie Kehlmann historische Stoffbearbeitung, ethische Verantwortung und persönliche Haltung im Drama lesbar macht.",
+    entryIds: ["krise-1", "krise-2"],
+    moduleIds: ["krise"],
+    reviewFocus: "Achte auf Protokollsprache, Kindheit im Notfall und die Härte routinierter Fürsorge.",
     sebPrompt:
-      "Beziehe die Passagen ausdrücklich auf Kehlmanns Aussagen aus dem Interview und aus „Im Steinbruch“. Zeige, wie sein Zugang zu Geschichte, Kunst und Gegenwart das Drama prägt.",
-    recommendedTheoryIds: ["gute-geschichte", "im-steinbruch", "werkueberblick"],
+      "Analysiere die Überdosis-Szenen. Zeige, wie Wahl Schock über präzise Abläufe, Rollenwissen und Geschwisterkoordination schreibt."
+  },
+  {
+    id: "lesson-10-fieber-und-rettung",
+    title: "Lektion 10 · Fieber, Meer und Seemann",
+    summary:
+      "Im Fieber bündeln sich Vaterverlust, Wasserangst und Rettungssehnsucht, bis Viktor diese Bilder real unterläuft.",
+    chapterMedia: [
+      {
+        src: authorImg,
+        alt: "Autorinnenfoto Caroline Wahl",
+        title: "Traum und Wirklichkeit verschränken sich",
+        caption:
+          "Die Lektion zeigt, wie stark der Roman symbolisch werden kann, ohne seine Körpernähe zu verlieren.",
+        focusPrompt:
+          "Welche Bilder aus dem Fiebertraum kehren in der realen Pflege durch Viktor verändert wieder?"
+      }
+    ],
+    entryIds: ["krise-3", "krise-4"],
+    moduleIds: ["krise"],
+    reviewFocus: "Arbeite am Meer-Motiv, an Vaterverlust und an Viktors Rettungsfunktion.",
+    sebPrompt:
+      "Untersuche, wie Fiebertraum und reale Fürsorge ineinandergreifen und warum Wasser- und Rettungsbilder hier den inneren Roman-Kern freilegen.",
+    recommendedTheoryIds: ["wasser-motivik", "inputvideo-2"],
     resourceAssignments: [
       {
-        resourceId: "gute-geschichte",
-        title: "Podcast-Auftrag: Verdichtung und Verantwortung",
+        resourceId: "inputvideo-2",
+        title: "Vergleichsauftrag: Gesamtdeutung gegen Traumlogik prüfen",
         summary:
-          "Der Podcast wird hier nicht ergänzend, sondern als Deutungsschlüssel genutzt: Wie spricht Kehlmann über Erzählen, Auswahl und Formung von Wirklichkeit?",
+          "Der zweite Videoimpuls dient als Außenblick auf Symbolik und Figurenbeziehungen.",
         task:
-          "Arbeite mit dem Podcast wie mit einem Sekundärtext zur Werkpoetik. Zeige an den ausgewählten Szenen, wie Kehlmann historische Wirklichkeit dramatisch verdichtet, ohne sie in bloße Nacherzählung oder Sensation zu verwandeln.",
+          "Vergleiche die Fieber- und Rettungspassagen mit einer Deutungsbewegung aus dem Video. Prüfe, ob der Text komplexer oder offener bleibt als die Außenlesart.",
         questions: [
-          "Welche Aussagen Kehlmanns über gute Geschichten helfen dir, den Szenenbau des Dramas genauer zu verstehen?",
-          "Wo wird sichtbar, dass das Drama auswählt, rhythmisiert und zuspitzt, um Verantwortung lesbar zu machen?",
-          "Wie verhindert die Form des Stücks, dass der historische Stoff bloß illustriert oder emotional konsumierbar wird?"
-        ]
-      },
-      {
-        resourceId: "im-steinbruch",
-        title: "Sekundärtext-Auftrag: Haltung, Erinnerung und Gegenwart",
-        summary:
-          "„Im Steinbruch“ macht Kehlmanns persönliche Position zu Kunst, Gedenken und politischer Gegenwart sichtbar und soll direkt mitgelesen werden.",
-        task:
-          "Vergleiche die Rede mit den Passagen der Lektion. Arbeite heraus, wie Kehlmann Erinnerung nicht museal denkt, sondern als gegenwärtige Zumutung und ethische Verpflichtung.",
-        questions: [
-          "Welche Begriffe oder Gedanken aus „Im Steinbruch“ kehren im Drama als Haltung des Autors wieder?",
-          "Wie verbinden sich im Stück historische Fakten, poetische Form und gegenwärtige Verantwortung?",
-          "An welchen Stellen wird deutlich, dass Kehlmann persönliche Involvierung nicht sentimental, sondern analytisch und politisch gestaltet?"
-        ]
-      },
-      {
-        resourceId: "evian-deutschlandfunk",
-        title: "Kontextauftrag: Historische Analyse als Werkhintergrund",
-        summary:
-          "Die Deutschlandfunk-Rezension zu Jochen Thies schärft die Frage, welche historischen Sprach- und Verantwortungsmuster Kehlmann im Drama sichtbar macht.",
-        task:
-          "Nutze die Quelle als historischen Resonanzraum für Kehlmanns Autorhaltung. Zeige, wie das Drama nicht nur Geschichte erzählt, sondern Mechanismen internationaler Verweigerung, Sprachverharmlosung und politischer Untätigkeit aufdeckt.",
-        questions: [
-          "Welche Punkte aus dem DLF-Beitrag kehren im Drama als strukturelle Kritik wieder?",
-          "Wie passt Kehlmanns ästhetische Verdichtung zu einer historischen Analyse, die auf Protokolle, Reden und Sprachformen blickt?",
-          "Wo wird sichtbar, dass persönliche Involvierung bei Kehlmann nicht vom historischen Befund getrennt ist?"
+          "Welche Lesart legt das Video nahe?",
+          "Stützt der Text diese Lesart wirklich?",
+          "Wo bleibt der Roman widerständig?"
         ]
       }
     ]
   },
   {
-    id: "lesson-12-theaterformen",
-    title: "Lektion 12 · Episches Theater und Dokumentartheater",
+    id: "lesson-11-nach-der-krise",
+    title: "Lektion 11 · Hilfe, Herbst und Entlastung",
     summary:
-      "Theorieeinheit zu den beiden zentralen Theaterformen des Dramas mit gezielten Vergleichspassagen über das ganze Werk.",
+      "Ida gewinnt Handlungsmacht, die Mutter verweigert Hilfe, und Tilda erlebt dennoch erstmals echte Entlastung.",
     chapterMedia: [
       {
-        src: stLouisHavanaImg,
-        alt: "Die St. Louis vor Havanna.",
-        title: "Historisches Material als dokumentarische Basis",
+        src: coverImg,
+        alt: "Cover von 22 Bahnen",
+        title: "Leichter, aber nicht erledigt",
         caption:
-          "Dieses Bild passt an den Beginn der Theorieeinheit, weil es historisches Material sichtbar macht, das im Drama nicht erfunden, sondern geformt und auf die Bühne gebracht wird.",
+          "Die Lektion markiert keinen Happy End-Punkt, sondern eine glaubwürdige Verschiebung von Gewicht.",
         focusPrompt:
-          "Arbeite mit dem Bild als dokumentarischem Ausgangspunkt: Wie wird aus historischem Material theatrale Form?"
-      },
-      {
-        src: fritzSpanierImg,
-        alt: "Fritz Spanier mit Kindern an Bord der St. Louis.",
-        title: "Menschenbild zwischen Dokument und Theaterform",
-        caption:
-          "Das Bild eignet sich hier, weil sich an ihm fragen lässt, wie ein konkretes historisches Motiv im Drama dokumentarisch gestützt und zugleich episch gerahmt werden kann.",
-        focusPrompt:
-          "Prüfe mit diesem Bild, wie das Drama zwischen dokumentarischer Konkretion und epischer Formgebung arbeitet."
+          "Woran merkt man, dass etwas leichter wird, ohne dass die Probleme damit verschwinden?"
       }
     ],
-    entryIds: ["abfahrt-1", "zwischenraum-2", "havanna-1", "diplomatie-1", "rueckweg-4"],
-    moduleIds: ["abfahrt", "zwischenraum", "havanna", "diplomatie", "rueckweg"],
-    reviewFocus: "Vergleiche genau, wo das Stück dokumentarisch arbeitet und wo es epische Distanz, Kommentar und Verfremdung erzeugt.",
+    entryIds: ["aufbruch-1", "aufbruch-2"],
+    moduleIds: ["aufbruch"],
+    reviewFocus: "Achte auf Hilfeverweigerung, Idas neue Stimme, Atmosphäre und vorsichtige Entlastung.",
     sebPrompt:
-      "Ordne die ausgewählten Passagen systematisch epischem Theater und Dokumentartheater zu. Zeige am Wortlaut, an der Figurenführung und an der Zuschaueradressierung, welche Verfahren dominieren.",
-    recommendedTheoryIds: ["dokumentartheater", "episches-theater", "im-steinbruch"],
-    resourceAssignments: [
-      {
-        resourceId: "dokumentartheater",
-        title: "Theorie-Auftrag: Dokumentartheater",
-        summary:
-          "Das Video dient hier als Analysefolie dafür, wie historische Faktizität, reale Personen und protokollnahe Sprache auf der Bühne wirksam werden.",
-        task:
-          "Ordne die ausgewählten Passagen gezielt dokumentarischen Verfahren zu. Zeige, wo das Stück historische Realität ausstellt, statt sie in rein private Fiktion aufzulösen.",
-        questions: [
-          "Welche Szenen wirken wie historisch belegte Konstellationen, Berichte oder Akten auf der Bühne?",
-          "Wie arbeitet das Drama mit Authentizität, ohne bloß dokumentarisch trocken zu werden?",
-          "Wo wird sichtbar, dass Figuren auch Träger historischer Aussagen und Strukturen sind?"
-        ]
-      },
-      {
-        resourceId: "episches-theater",
-        title: "Theorie-Auftrag: Episches Theater",
-        summary:
-          "Das Video wird hier als konkrete Vergleichsfolie für Verfremdung, Kommentar und politische Zuschaueradressierung verwendet.",
-        task:
-          "Prüfe an denselben Passagen, wo das Drama episch arbeitet: also Distanz erzeugt, kommentiert, montiert und das Publikum zum Urteil zwingt.",
-        questions: [
-          "Welche Verfahren verhindern bloßes Mitleiden und verschieben die Wahrnehmung in Richtung Analyse?",
-          "Wo erzeugt das Stück Distanz statt psychologischer Verschmelzung?",
-          "Wie helfen Montage, direkte Redeformen oder Perspektivwechsel dabei, politische Strukturen sichtbar zu machen?"
-        ]
-      },
-      {
-        resourceId: "im-steinbruch",
-        title: "Transfer-Auftrag: Warum diese Form politisch notwendig ist",
-        summary:
-          "Mit Kehlmanns Rede lässt sich fragen, warum gerade dokumentarische und epische Mittel für diesen Stoff angemessen sind.",
-        task:
-          "Verbinde die beiden Theatermodelle mit Kehlmanns Rede. Zeige, weshalb diese Form des Erinnerns und Darstellens für einen Stoff wie die St. Louis nicht ästhetisch neutral sein kann.",
-        questions: [
-          "Wie stützt „Im Steinbruch“ die Wahl einer Form, die Distanz, Schärfe und politische Offenheit erzeugt?",
-          "Warum wäre ein rein geschlossenes, versöhnliches Drama für diesen Stoff problematisch?",
-          "Wie hängen Theaterform und ethischer Anspruch des Stücks zusammen?"
-        ]
-      }
-    ]
+      "Zeige, wie der Roman nach der Krise zwischen realistischer Härte und neuer Leichtigkeit balanciert, ohne seine Ambivalenzen zu verlieren."
   },
   {
-    id: "lesson-13-evian-grenzen-verantwortung",
-    title: "Lektion 13 · Évian, Grenzen und internationale Verantwortung",
+    id: "lesson-12-libellen-und-offenes-ende",
+    title: "Lektion 12 · Libellen, Schiff und Wiederkommen",
     summary:
-      "Historische Vertiefung zu Konferenzlogik, Grenzregime und politischer Unterlassung als Unterbau des Dramas.",
+      "Das Ende bindet neue Gefühle, offene Zukunft und das Bewegungsmotiv der 22 Bahnen zusammen.",
     chapterMedia: [
       {
-        src: cordellHullImg,
-        alt: "Porträt von Cordell Hull.",
-        title: "Internationale Verantwortung hat Gesichter",
+        src: authorImg,
+        alt: "Autorinnenfoto Caroline Wahl",
+        title: "Offenheit als Schlussform",
         caption:
-          "Die Évian- und Grenzlogik soll hier nicht abstrakt bleiben. Hull steht exemplarisch für internationale Verantwortung auf staatlicher Ebene und hilft, Unterlassung als politische Struktur zu lesen.",
+          "Die letzte Lektion zeigt, dass `22 Bahnen` seinen Schluss bewusst offen und beweglich hält.",
         focusPrompt:
-          "Beziehe das Porträt ausdrücklich auf Évian und die Verweigerungslogik: Wo wird aus internationaler Verantwortung politische Unterlassung?"
-      },
-      {
-        src: federicoLaredoBruImg,
-        alt: "Porträt von Federico Laredo Brú.",
-        title: "Brú als Figur konkreter Grenzpolitik",
-        caption:
-          "Brú ergänzt die internationale Ebene um die konkrete kubanische Grenz- und Aufnahmeentscheidung. So lässt sich die Lektion zwischen Konferenzlogik und realer Grenzpolitik aufspannen.",
-        focusPrompt:
-          "Arbeite mit Brús Bild, um die Passage zwischen abstrakter Konferenzstruktur und konkreter staatlicher Abwehr zu verorten."
+          "Warum passt Offenheit besser zu diesem Roman als ein sauber verriegelter Abschluss?"
       }
     ],
-    entryIds: ["havanna-2", "havanna-3", "diplomatie-3", "rueckweg-1", "rueckweg-4"],
-    moduleIds: ["havanna", "diplomatie", "rueckweg"],
-    reviewFocus: "Arbeite historisch präzise heraus, wie das Drama internationale Verweigerung, Grenzpolitik und Zuständigkeitsverschiebung sichtbar macht.",
+    entryIds: ["aufbruch-3", "aufbruch-4"],
+    moduleIds: ["aufbruch"],
+    reviewFocus: "Arbeite an Libellenmotiv, Symbolik des Schiffs und der offenen Schlussbewegung.",
     sebPrompt:
-      "Verbinde die ausgewählten Passagen ausdrücklich mit Évian 1938, mit der Sprache des politischen Ausweichens und mit historischen Grenzregimen. Zeige, wie das Drama diese Zusammenhänge verdichtet.",
-    recommendedTheoryIds: ["evian-konferenz", "evian-deutschlandfunk", "ushmm-voyage", "ushmm-return-europe", "susanne-heim-grenzen", "ndr-st-louis", "fritz-buff-reisebericht", "historischer-kontext"],
+      "Analysiere, wie das Ende von `22 Bahnen` Naturwissen, Liebe, Lotsenbild und erneute Schwimmbewegung zu einer offenen, aber tragfähigen Schlussform verbindet.",
+    recommendedTheoryIds: ["wasser-motivik", "inputvideo-3", "materialpool"],
     resourceAssignments: [
       {
-        resourceId: "evian-konferenz",
-        title: "Historisches Dossier: Évian 1938 als Vorentscheidung",
+        resourceId: "inputvideo-3",
+        title: "Vergleichsauftrag: Schlussdeutung spiegeln",
         summary:
-          "Die Konferenz von Évian wird hier als Vorkonstellation des Dramas gelesen: internationale Beratung, fast keine Aufnahmebereitschaft und institutionalisierte Ohnmacht.",
+          "Der dritte Videoimpuls eignet sich, um das offene Ende gegen eine fremde Gesamtdeutung zu prüfen.",
         task:
-          "Zeige an den Passagen der Lektion, dass die St. Louis nicht an einem Einzelfall scheitert, sondern an einer etablierten Politik verweigerter Aufnahme.",
+          "Nutze das Video, um deine Lesart des Schlusses zu schärfen. Halte fest, ob die Außenperspektive dem Romanende gerecht wird oder es zu eindeutig festlegt.",
         questions: [
-          "Welches Detail aus Évian hilft dir am stärksten, Havanna historisch vorzuprägen?",
-          "Warum ist die Ergebnislosigkeit der Konferenz für das Drama zentral?",
-          "Wie macht das Stück aus dieser Struktur eine Bühnensituation?"
+          "Welche Schlussdeutung bietet das Video an?",
+          "Bleibt der Roman im Text offener als das Video?",
+          "Was würdest du am Ende ausdrücklich ambivalent lassen?"
         ]
       },
       {
-        resourceId: "evian-deutschlandfunk",
-        title: "Audio- und Quellenauftrag: Sprache des Verrats",
+        resourceId: "materialpool",
+        title: "Abschlussauftrag: Externe Inputs bündeln",
         summary:
-          "Der Deutschlandfunk-Beitrag schärft die sprachkritische Dimension: Antisemitismus, Beschönigung, Nicht-Benennung und Arbeitsmarktargumente prägen die Verweigerung.",
+          "Zum Schluss sollen die verlinkten Zusatzmaterialien nicht nebeneinander stehen bleiben, sondern bewusst gegen den Roman gelesen werden.",
         task:
-          "Arbeite heraus, wie das Drama dieselbe Sprache des Ausweichens und Nicht-Benennens inszeniert wie der Deutschlandfunk-Beitrag.",
+          "Wähle aus dem Materialpool ein Zusatzmedium und vergleiche es mit dem Ende des Romans. Zeige, wie deine eigene Lektüre dadurch klarer, nuancierter oder auch widerständiger wird.",
         questions: [
-          "Welche Formulierung im Drama entspricht dem Muster des Nicht-Offen-Sprechens?",
-          "Wie wird Unterlassung sprachlich kaschiert oder sachlich verkleidet?",
-          "Warum ist diese Sprache historisch so wichtig wie die Entscheidung selbst?"
-        ]
-      },
-      {
-        resourceId: "susanne-heim-grenzen",
-        title: "Grenzregime-Auftrag: Transit, Warten, Feststecken",
-        summary:
-          "Mit Susanne Heim wird die Erfahrung vertieft, zwischen Grenzen, Zuständigkeiten und politischen Räumen hin- und hergeschoben zu werden.",
-        task:
-          "Verbinde den Republik-Text mit den ausgewählten Szenen. Zeige, wie Transit, Warten und Rückweg als Grenzregime erscheinen.",
-        questions: [
-          "Wo zeigt das Drama Feststecken zwischen politischen Räumen besonders deutlich?",
-          "Wie verändert die Quelle dein Verständnis von Grenze?",
-          "Welche Passage zeigt am klarsten, dass Sichtbarkeit und Aufnahme nicht identisch sind?"
-        ]
-      },
-      {
-        resourceId: "ndr-st-louis",
-        title: "Chronologie-Auftrag: Die historische Sequenz der Verweigerung",
-        summary:
-          "Die NDR-Chronologie verbindet die Reisephasen zu einer zusammenhängenden Struktur internationaler Verantwortungslosigkeit.",
-        task:
-          "Arbeite die ausgewählten Passagen entlang der realen Reisebewegung durch. Zeige, wie aus Hamburg, Havanna, Florida und Antwerpen eine Dramaturgie der verweigerten Aufnahme entsteht.",
-        questions: [
-          "Welche Stationen des NDR-Artikels ruft die Lektion auf?",
-          "Wie macht die Chronologie Unterlassung als Prozess sichtbar?",
-          "Wo wird aus geografischer Bewegung moralische Sackgasse?"
-        ]
-      },
-      {
-        resourceId: "ushmm-voyage",
-        title: "USHMM-Auftrag: Politisch bekannte Krise statt Einzelfall",
-        summary:
-          "Das USHMM-Dossier zeigt, dass die Reise schon vor Havanna von Machtkampf, ungültigen Papieren und informierten Behörden geprägt war. Damit wirkt die St. Louis als Strukturfall, nicht als überraschender Unfall.",
-        task:
-          "Prüfe die Lektion mit dem USHMM-Dossier gegen ein Einzelfall-Lesen. Arbeite heraus, wie das Drama politische Vorstruktur und sichtbare Blockade zusammenführt.",
-        questions: [
-          "Welche historische Vorentscheidung musst du nennen, um die Passage präzise zu verorten?",
-          "Wo wird aus einer Verwaltungsentscheidung eine existenzielle Krise?",
-          "Wie macht das Stück aus bekannter Gefahr trotzdem öffentliches Wegsehen?"
-        ]
-      },
-      {
-        resourceId: "ushmm-return-europe",
-        title: "USHMM-Auftrag: Verteilung statt Lösung",
-        summary:
-          "Die Rückkehr nach Europa zeigt, dass auch die spätere Aufnahme in vier Ländern nur vorläufig, kontrolliert und ohne Präzedenzwirkung erfolgt.",
-        task:
-          "Nutze das USHMM-Dossier, um die Lektion nicht nur als Hafen- oder Diplomatieszene, sondern als Beginn einer prekären europäischen Verteilung zu lesen.",
-        questions: [
-          "Wie verändert die Verteilungslogik deine Sicht auf die diplomatischen Szenen?",
-          "Warum ist vorläufiges Asyl nicht mit Sicherheit gleichzusetzen?",
-          "Wo deutet das Drama schon an, dass nach der Rückkehr keine Ruhe eintritt?"
-        ]
-      },
-      {
-        resourceId: "fritz-buff-reisebericht",
-        title: "Primärquellen-Auftrag: Passagierstimme gegen Abstraktion",
-        summary:
-          "Fritz Buffs Reisebericht gibt der historischen Analyse eine unmittelbare Stimme und verhindert, dass Grenz- und Konferenzpolitik zu abstrakt gelesen wird.",
-        task:
-          "Verbinde die Lektion mit Fritz Buffs Bericht. Zeige, wie politische Entscheidungen als konkrete Erfahrung an Bord sichtbar werden.",
-        questions: [
-          "Welche Stelle des Berichts macht politische Entscheidung als Erfahrung sichtbar?",
-          "Wo arbeitet das Drama stärker verdichtend oder montierend als die Primärquelle?",
-          "Wie verändert Buffs Perspektive deine historische Deutung der Lektion?"
-        ]
-      }
-    ]
-  },
-  {
-    id: "lesson-14-fritz-buff-primärquelle",
-    title: "Lektion 14 · Fritz Buff, NDR-Chronologie und historische Nahperspektive",
-    summary:
-      "Primärquellen-Einheit mit Reisebericht, Bilddokumenten, Soundfile und historischer Chronologie zur St. Louis. Fritz Buff war dabei erst 17 und allein unterwegs.",
-    chapterMedia: [
-      {
-        src: fritzSpanierImg,
-        alt: "Fritz Spanier mit zwei Kindern in Bullaugen der St. Louis.",
-        title: "Passagierbild als Auftakt der Primärquellenarbeit",
-        caption:
-          "Das Foto eröffnet diese Lektion, weil es wie Fritz Buffs Bericht eine Binnenperspektive der Passagiere trägt. Familie, Enge, Blick und Schutzsuche werden hier nicht erklärt, sondern sichtbar.",
-        focusPrompt:
-          "Verbinde Bild und Primärquelle ausdrücklich: Welche Erfahrungsebene teilen das Foto, Fritz Buffs Bericht und deine Passage?"
-      },
-      {
-        src: gustavSchroederImg,
-        alt: "Porträt von Gustav Schröder.",
-        title: "Schröder im Zusammenspiel mit der Passagierperspektive",
-        caption:
-          "Auch in der Primärquellenarbeit bleibt Schröder wichtig. Das Porträt hält die zweite Blickachse offen: nicht nur Passagiererfahrung, sondern auch die Frage nach Verantwortung und begrenzter Handlungsmacht.",
-        focusPrompt:
-          "Prüfe, wie sich deine Passage verändert, wenn du Passagierwahrnehmung und Schröders Rolle gleichzeitig mitdenkst."
-      }
-    ],
-    entryIds: ["abfahrt-1", "havanna-3", "rueckweg-2", "rueckweg-4"],
-    moduleIds: ["abfahrt", "havanna", "rueckweg"],
-    reviewFocus: "Arbeite präzise mit Primärquelle, Chronologie und Dramentext zusammen und zeige, wie das Stück historische Erfahrung zugleich verdichtet und erweitert. Behalte dabei im Blick, dass Fritz Buff als 17-Jähriger allein reiste und damit jünger war als manche Lerngruppenmitglieder.",
-    sebPrompt:
-      "Verbinde die ausgewählten Passagen ausdrücklich mit Fritz Buffs Reisebericht, mit den Bildseiten und mit der NDR-Chronologie. Zeige, wie das Drama Binnenperspektive und historische Gesamtbewegung zusammenführt, und arbeite ausdrücklich heraus, welche Wirkung es hat, dass Buff erst 17 war und allein reiste.",
-    recommendedTheoryIds: ["fritz-buff-reisebericht", "gerda-blachmann", "bilddossier-reise", "ndr-st-louis", "historischer-kontext"],
-    resourceAssignments: [
-      {
-        resourceId: "fritz-buff-reisebericht",
-        title: "Primärquellenauftrag: Reisebericht, Bildseiten und Soundfile",
-        summary:
-          "Der Reisebericht von Fritz Buff führt in die Binnenperspektive der Passagiere und lässt sich direkt mit ausgewählten Szenen des Dramas vergleichen. Entscheidend ist dabei, dass Buff erst 17 war und allein reiste.",
-        task:
-          "Nutze Bildseiten, Bericht und Soundfile, um die Passagen historisch und perspektivisch zu schärfen. Zeige, wie Hoffen, Warten, Gerüchte und Erleichterung verdichtet werden, und arbeite ausdrücklich mit dem Umstand, dass Fritz Buff als 17-Jähriger allein unterwegs war.",
-        questions: [
-          "Welche Stimmungslagen der Quelle kehren im Drama wieder?",
-          "Wie verändert es deine Lektüre, dass Fritz Buff erst 17 war und ohne Familie reiste?",
-          "Wo übernimmt das Stück die Passagierperspektive, wo formt es sie um?",
-          "Welche Bild- oder Tonspur schärft die Passage am stärksten?"
-        ]
-      },
-      {
-        resourceId: "gerda-blachmann",
-        title: "Videostimmen-Auftrag: Gerda Blachmann und die Erfahrung des Wartens",
-        summary:
-          "Gerda Blachmanns Video bringt Depression, Hoffnung, Suizidversuch, Newsletter an Bord und die Lichter von Miami in eine knappe, eindringliche Binnenperspektive. Dadurch lässt sich die St.-Louis-Erfahrung noch enger an die Passagierwahrnehmung binden.",
-        task:
-          "Öffne ausdrücklich das Gerda-Blachmann-Video und verbinde ihre Erinnerung mit den ausgewählten Passagen. Zeige, wie Angst, Hoffnung und politische Blockade aus Passagiersicht erlebt werden.",
-        questions: [
-          "Welches Detail aus Gerdas Erinnerung schärft deine Passage am stärksten?",
-          "Wie verändert die Videostimme deinen Blick auf das Warten an Bord?",
-          "Wo stimmen Gerda und Fritz Buff überein, wo setzen sie andere Akzente?"
-        ]
-      },
-      {
-        resourceId: "ndr-st-louis",
-        title: "Chronologieauftrag: Historische Orientierung",
-        summary:
-          "Die NDR-Chronologie ordnet die Binnenperspektive Fritz Buffs in den größeren Bewegungsverlauf der Irrfahrt ein.",
-        task:
-          "Verbinde den Reisebericht mit der NDR-Chronologie. Zeige, wie persönliche Erfahrung und politische Ereignisfolge ineinandergreifen.",
-        questions: [
-          "Welche Station der Irrfahrt steht hinter den ausgewählten Passagen?",
-          "Wie verhindert die Chronologie ein isoliertes Lesen von Buffs Bericht?",
-          "Wo macht das Drama aus historischer Abfolge politische Zuspitzung?"
-        ]
-      },
-      {
-        resourceId: "bilddossier-reise",
-        title: "Bildauftrag: Schiff, Passagiere und Kapitän noch einmal zusammendenken",
-        summary:
-          "Die Bilder der St. Louis, der Passagiere und Schröders bündeln Raum, Verantwortung und Ausgeliefertsein in einer eigenen visuellen Spur.",
-        task:
-          "Verbinde die Schluss- und Rückwegspassagen mit dem Bilddossier. Zeige, wie sich in den Bildern Bordraum, Blickbeziehung und Verantwortungsfigur noch einmal zuspitzen.",
-        questions: [
-          "Welches Bild schärft die Schluss- oder Rückwegspassage am stärksten?",
-          "Wie verändert sich dein Blick auf Schröder, wenn du sein Porträt mit der Passage zusammendenkst?",
-          "Wie machen die Bilder Passagierperspektive und Ausgeliefertsein sichtbarer?"
-        ]
-      }
-    ]
-  },
-  {
-    id: "lesson-15-ushmm-nachgeschichte",
-    title: "Lektion 15 · USHMM, Gerda Blachmann und die Nachgeschichte der Passagiere",
-    summary:
-      "USHMM-Schlusseinheit zur gesamten St.-Louis-Bewegung: politische Vorstruktur, Gerda Blachmanns Videostimme, die Verteilung nach Europa und die ungleichen Kriegsschicksale der Passagiere.",
-    chapterMedia: [
-      {
-        src: fritzSpanierImg,
-        alt: "Fritz Spanier und Kinder aus Bullaugen der St. Louis.",
-        title: "Gesichter gegen abstrakte Nachgeschichte",
-        caption:
-          "Am Beginn der USHMM-Schlusseinheit steht dieses Bild, damit Verteilung, Deportation und Überlebenszahlen nicht abstrakt bleiben. Die Nachgeschichte betrifft konkrete Gesichter, Kinder und Familien.",
-        focusPrompt:
-          "Nimm das Bild als Auftakt deiner Schlussdeutung: Wie verändert es deine Sicht auf Nachgeschichte, wenn du von konkreten Menschen statt nur von Zahlen ausgehst?"
-      }
-    ],
-    entryIds: ["havanna-3", "diplomatie-4", "rueckweg-2", "rueckweg-4"],
-    moduleIds: ["havanna", "diplomatie", "rueckweg"],
-    reviewFocus: "Verbinde die dramatische Krise mit ihrer Nachgeschichte: Gerda Blachmann, Verteilung auf vier Länder, blockierte Fluchtwege, ungleiche Überlebenschancen und die offene Verantwortung des Schlusses.",
-    sebPrompt:
-      "Arbeite die ausgewählten Passagen zusammen mit den USHMM-Dossiers durch. Zeige präzise, wie Havanna, Rückkehr nach Europa, provisorische Aufnahme, spätere Besatzung und Kriegsschicksale ineinandergreifen. Nutze ausdrücklich Gerdas Videostimme und mindestens eine der zentralen Zahlen zur Nachgeschichte.",
-    recommendedTheoryIds: ["ushmm-voyage", "gerda-blachmann", "ushmm-return-europe", "ushmm-wartime-fate", "fritz-buff-reisebericht", "ndr-st-louis"],
-    resourceAssignments: [
-      {
-        resourceId: "ushmm-voyage",
-        title: "USHMM-Auftrag: Die St. Louis als vorbereitete Krise",
-        summary:
-          "Die Reise beginnt nicht erst mit der sichtbaren Blockade in Havanna. Das Dossier macht deutlich, wie ungültige Papiere, kubanischer Machtkampf und informierte Behörden den Verlauf vorprägen.",
-        task:
-          "Arbeite mit dem USHMM-Dossier zur Reise und zeige, wie das Drama aus bekannter politischer Vorstruktur eine Bühnensituation der späten Erkenntnis macht.",
-        questions: [
-          "Welche historische Vorentscheidung musst du nennen, um die Passage präzise zu rahmen?",
-          "Wie macht das Drama sichtbar, dass Wissen vorhanden ist, Rettung aber ausbleibt?",
-          "Wo wird aus Reiseorganisation politische Falle?"
-        ]
-      },
-      {
-        resourceId: "gerda-blachmann",
-        title: "Videostimmen-Auftrag: Gerda Blachmann als Binnenperspektive",
-        summary:
-          "Gerda Blachmann verdichtet Angst, Hoffnung, Depression, den Suizidversuch an Bord, die Newsletter und die Lichter von Miami zu einer Erinnerung, die den politischen Stoff von innen her lesbar macht.",
-        task:
-          "Nutze Gerdas Video als zentrale Quelle der Lektion. Zeige, wie ihre Erinnerung die ausgewählten Passagen auflädt und wie sie den Weg von Havanna zur europäischen Nachgeschichte öffnet.",
-        questions: [
-          "Welches Detail aus Gerdas Aussage musst du in deine Deutung aufnehmen?",
-          "Wie verändert der Blick auf die Lichter von Miami deine Lesart der Passage?",
-          "Warum ist die Videostimme analytisch mehr als bloße Illustration?"
-        ]
-      },
-      {
-        resourceId: "ushmm-return-europe",
-        title: "USHMM-Auftrag: Verteilung auf vier Länder",
-        summary:
-          "Die Rückkehr nach Europa wird hier als administrative, prekäre und ungleiche Verteilung lesbar: Großbritannien, Frankreich, Belgien und die Niederlande nehmen auf, aber nur vorläufig und ausdrücklich ohne Präzedenzfall.",
-        task:
-          "Arbeite die Passage mit der Verteilungslogik des USHMM-Dossiers durch. Benenne die vier Länder und erkläre, warum diese Verteilung historisch keine Entwarnung bedeutet.",
-        questions: [
-          "Welche vier Länder musst du nennen, um die Nachgeschichte korrekt zu erfassen?",
-          "Wie macht die Quelle die Aufnahme als provisorische Lösung sichtbar?",
-          "Wo trägt die Passage schon die spätere Gefährdung in sich?"
-        ]
-      },
-      {
-        resourceId: "ushmm-wartime-fate",
-        title: "USHMM-Auftrag: 532, 278, 254 und die ungleichen Schicksale",
-        summary:
-          "Das Dossier verfolgt, wie sich die scheinbare Rettung in sehr unterschiedliche Kriegsschicksale auflöst. Die Zahlen und die Fälle Seligmann und Hermanns schärfen das Ende des Dramas historisch radikal nach.",
-        task:
-          "Binde mindestens eine Zahl und einen Fallvergleich aus dem USHMM-Dossier in deine Deutung ein. Zeige, wie das Drama aus offener Form und Nachgeschichte eine besonders harte politische Erinnerung macht.",
-        questions: [
-          "Welche der Zahlen 532, 278 und 254 musst du in deiner Antwort erklären?",
-          "Was zeigt der Vergleich von Seligmann und Hermanns über Zuflucht, Bürokratie und Gefahr?",
-          "Warum verhindert diese Nachgeschichte ein beruhigendes Schlusslesen des Dramas?"
+          "Welches Zusatzmaterial passt am besten zum Ende?",
+          "Welche Deutung bestätigt sich?",
+          "Welche Ambivalenz des Romans verteidigst du gegen zu glatte Außenlesarten?"
         ]
       }
     ]
@@ -1881,13 +1093,13 @@ export const lessonSets = [
 export const starterPrompt = {
   title: "Arbeitsauftrag",
   items: [
-    "Arbeite das Drama entlang von fünfzehn eng geführten Lektionen im eingebetteten PDF durch und notiere Beobachtungen immer szenennah.",
-    "Sichere zuerst Wortlaut, Rollenrede, Regieanweisung oder Bühnenkonstellation, bevor du deutest.",
-    "Nutze pro Passage mindestens eine Linse: historischer Kontext, Dokumentartheater, episches Theater, Dramengang oder Kehlmanns Sekundärtext.",
-    "Ziehe in den erweiterten Theorie-Lektionen ausdrücklich die Dropbox-Ressourcen zu Kehlmann, Dokumentartheater und epischem Theater heran.",
-    "Nutze für die historische Vertiefung zusätzlich die Dossiers zu Évian, den Deutschlandfunk-Beitrag samt Audio-Link, den NDR-Überblick, Fritz Buffs Reisebericht mit Bildseiten und Soundfile, die USHMM-Dossiers zur Reise, zur Rückkehr nach Europa und zu den Kriegsschicksalen sowie Gerdas Blachmanns Videostimme und den Text von Susanne Heim.",
-    "Halte im Revisionsfeld fest, welche Deutung du nach erneuter Lektüre schärfen oder gegenlesen willst."
+    "Arbeite den Roman entlang von zwölf eng geführten Lektionen im eingebetteten PDF durch und notiere Beobachtungen immer passagennah.",
+    "Sichere zuerst ein Textsignal: Wortlaut, Bild, Blick, Liste, Dialogzeile, Körperreaktion oder Motivbewegung.",
+    "Nutze pro Passage mindestens eine Linse: Perspektive, Wasser-Motivik, Familienrollen, Sprache/Körper oder die externen Vergleichsmaterialien.",
+    "Verwende die drei YouTube-Impulse und den Dropbox-Materialpool nicht als Musterlösung, sondern als Vergleichsfolie für deine eigene Deutung.",
+    "Halte im Revisionsfeld fest, was du nach erneuter Lektüre, nach Feedback oder nach einem Materialvergleich noch präzisieren würdest.",
+    "Achte besonders auf Tilda, Ida, Mutter, Viktor, Ivan, die 22 Bahnen, Wasserbilder, Fürsorge und offene Zukunftsbewegungen."
   ]
 };
 
-export const pdfSource = "/reader/assets/die-reise-der-verlorenen.pdf";
+export const pdfSource = pdfPath;

@@ -5,5 +5,5 @@ const host = process.env.HOST || (process.env.RENDER ? "0.0.0.0" : "127.0.0.1");
 const app = createApp();
 
 app.listen(port, host, () => {
-  console.log(`reise_der_verlorenen läuft auf http://${host}:${port}`);
+  console.log(`wahl_22bahnen läuft auf http://${host}:${port}`);
 });

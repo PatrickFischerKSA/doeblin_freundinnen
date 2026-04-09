@@ -225,7 +225,7 @@ function render() {
         <div>
           <div class="eyebrow">Lehrer*innen-Dashboard</div>
           <h1>Klassen, Codes, Fortschritt und Peer Review</h1>
-          <p>Hier steuerst du Klassen-Codes, das aktive SEB-Arbeitsset, Peer-Review-Zuweisungen und den Lernstand der einzelnen Schüler*innen für die Kehlmann-Einheit.</p>
+          <p>Hier steuerst du Klassen-Codes, das aktive SEB-Arbeitsset, Peer-Review-Zuweisungen und den Lernstand der einzelnen Schüler*innen für die 22-Bahnen-Einheit.</p>
         </div>
         <div class="hero-actions">
           <a class="button secondary" href="${escapeHtml(config.teacherEntryUrl || "/teacher-entry")}">Lehrer*inneneingang</a>

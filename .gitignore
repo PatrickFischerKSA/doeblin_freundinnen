@@ -1,3 +1,4 @@
 data/store.json
 data/reader-store.json
 data/kehlmann-reader-store.json
+node_modules/

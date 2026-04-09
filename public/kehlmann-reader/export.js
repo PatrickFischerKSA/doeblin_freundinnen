@@ -29,7 +29,7 @@ export function buildParcoursMarkdown({
   lessons
 }) {
   const lines = [
-    "# Die Reise der Verlorenen - Parcoursdokumentation",
+    "# 22 Bahnen - Parcoursdokumentation",
     "",
     `Modus: ${modeLabel}`,
     `Klasse: ${classroomName || "-"}`,
