@@ -287,16 +287,17 @@ function renderTaskField({ task, value, dataset, label }) {
   const dataAttributes = Object.entries(dataset)
     .map(([key, fieldValue]) => `data-${key}="${escapeHtml(String(fieldValue))}"`)
     .join(" ");
+  const inputLabel = String(label || "");
 
   return `
-    <label class="question-answer-block">
-      ${escapeHtml(label)}
+    <article class="question-answer-block">
+      <strong class="question-answer-label">${escapeHtml(inputLabel)}</strong>
       <span class="field-prompt">${escapeHtml(taskPrompt(task))}</span>
       <span class="task-instruction">${escapeHtml(task.instruction || responsePlaceholder(taskPrompt(task)))}</span>
       <ul class="task-checklist">
         ${(task.checklist || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
       </ul>
-      <textarea ${dataAttributes} placeholder="${escapeHtml(task.instruction || responsePlaceholder(taskPrompt(task)))}">${escapeHtml(value || "")}</textarea>
+      <textarea ${dataAttributes} aria-label="${escapeHtml(inputLabel)}" placeholder="${escapeHtml(task.instruction || responsePlaceholder(taskPrompt(task)))}">${escapeHtml(value || "")}</textarea>
       <div class="task-feedback task-feedback--${feedback.level}" data-task-feedback aria-live="polite">
         ${renderTaskFeedbackMarkup(task, feedback)}
       </div>
@@ -304,7 +305,7 @@ function renderTaskField({ task, value, dataset, label }) {
         <summary>Musterlösung einblenden</summary>
         <p>${escapeHtml(task.modelAnswer || "")}</p>
       </details>
-    </label>
+    </article>
   `;
 }
 
