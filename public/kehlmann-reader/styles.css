@@ -36,7 +36,7 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(244, 240, 230, 0.74) 0%, rgba(236, 228, 210, 0.72) 100%);
+    linear-gradient(180deg, rgba(226, 219, 205, 0.56) 0%, rgba(213, 205, 191, 0.54) 100%);
 }
 
 .site-background::before {
@@ -44,11 +44,11 @@ body {
   position: absolute;
   inset: -24px;
   background:
-    linear-gradient(180deg, rgba(245, 239, 228, 0.1) 0%, rgba(236, 229, 214, 0.16) 100%),
+    linear-gradient(180deg, rgba(56, 50, 45, 0.18) 0%, rgba(34, 31, 28, 0.24) 100%),
     url("/reader/assets/doeblin-background-scene.png") 54% 14% / 116% auto no-repeat;
-  filter: blur(10px) saturate(0.92) contrast(1.04);
-  transform: scale(1.03);
-  opacity: 0.98;
+  filter: blur(6px) saturate(0.94) contrast(1.14) brightness(0.74);
+  transform: scale(1.02);
+  opacity: 1;
 }
 
 .site-background::after {
@@ -56,10 +56,10 @@ body {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(255, 250, 242, 0.34) 0%, rgba(255, 250, 242, 0.12) 28%, rgba(255, 250, 242, 0.08) 72%, rgba(31, 41, 35, 0.14) 100%),
-    radial-gradient(circle at 54% 18%, rgba(255, 248, 238, 0.02), rgba(255, 248, 238, 0.02) 16%, rgba(255, 248, 238, 0.2) 46%, rgba(244, 240, 230, 0.36) 100%),
-    radial-gradient(circle at 22% 18%, rgba(180, 92, 57, 0.1), transparent 0 18%),
-    radial-gradient(circle at 84% 14%, rgba(49, 67, 53, 0.08), transparent 0 20%);
+    linear-gradient(90deg, rgba(247, 240, 230, 0.24) 0%, rgba(247, 240, 230, 0.08) 24%, rgba(38, 34, 31, 0.12) 70%, rgba(24, 28, 25, 0.24) 100%),
+    radial-gradient(circle at 54% 18%, rgba(255, 248, 238, 0.01), rgba(255, 248, 238, 0.01) 14%, rgba(255, 248, 238, 0.12) 42%, rgba(214, 206, 192, 0.22) 100%),
+    radial-gradient(circle at 22% 18%, rgba(180, 92, 57, 0.08), transparent 0 18%),
+    radial-gradient(circle at 84% 14%, rgba(49, 67, 53, 0.12), transparent 0 20%);
 }
 
 button,

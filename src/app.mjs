@@ -80,28 +80,28 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             z-index: 0;
             pointer-events: none;
             background:
-              linear-gradient(180deg, rgba(244, 240, 230, 0.74) 0%, rgba(236, 230, 215, 0.72) 100%);
+              linear-gradient(180deg, rgba(226, 219, 205, 0.56) 0%, rgba(213, 205, 191, 0.54) 100%);
           }
           .site-background::before {
             content: "";
             position: absolute;
             inset: -24px;
             background:
-              linear-gradient(180deg, rgba(245, 239, 228, 0.1) 0%, rgba(236, 229, 214, 0.16) 100%),
+              linear-gradient(180deg, rgba(56, 50, 45, 0.18) 0%, rgba(34, 31, 28, 0.24) 100%),
               url("${assetUrl(BACKGROUND_IMAGE)}") 54% 14% / 116% auto no-repeat;
-            filter: blur(10px) saturate(0.92) contrast(1.04);
-            transform: scale(1.03);
-            opacity: 0.98;
+            filter: blur(6px) saturate(0.94) contrast(1.14) brightness(0.74);
+            transform: scale(1.02);
+            opacity: 1;
           }
           .site-background::after {
             content: "";
             position: absolute;
             inset: 0;
             background:
-              linear-gradient(90deg, rgba(255, 250, 242, 0.34) 0%, rgba(255, 250, 242, 0.12) 28%, rgba(255, 250, 242, 0.08) 72%, rgba(31, 41, 35, 0.14) 100%),
-              radial-gradient(circle at 54% 18%, rgba(255, 248, 238, 0.02), rgba(255, 248, 238, 0.02) 16%, rgba(255, 248, 238, 0.2) 46%, rgba(244, 240, 230, 0.36) 100%),
-              radial-gradient(circle at 22% 18%, rgba(180, 92, 57, 0.1), transparent 0 18%),
-              radial-gradient(circle at 80% 14%, rgba(49, 67, 53, 0.08), transparent 0 20%);
+              linear-gradient(90deg, rgba(247, 240, 230, 0.24) 0%, rgba(247, 240, 230, 0.08) 24%, rgba(38, 34, 31, 0.12) 70%, rgba(24, 28, 25, 0.24) 100%),
+              radial-gradient(circle at 54% 18%, rgba(255, 248, 238, 0.01), rgba(255, 248, 238, 0.01) 14%, rgba(255, 248, 238, 0.12) 42%, rgba(214, 206, 192, 0.22) 100%),
+              radial-gradient(circle at 22% 18%, rgba(180, 92, 57, 0.08), transparent 0 18%),
+              radial-gradient(circle at 80% 14%, rgba(49, 67, 53, 0.12), transparent 0 20%);
           }
           .page {
             max-width: 1120px;
@@ -124,16 +124,16 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             background: #edf0ea;
           }
           body.teacher-entry-page .site-background {
-            background: linear-gradient(180deg, rgba(237, 240, 234, 0.72) 0%, rgba(229, 233, 225, 0.72) 100%);
+            background: linear-gradient(180deg, rgba(223, 227, 219, 0.58) 0%, rgba(215, 220, 210, 0.56) 100%);
           }
           body.teacher-entry-page .site-background::before {
-            opacity: 0.9;
-            filter: blur(12px) saturate(0.84) contrast(1.02);
+            opacity: 0.96;
+            filter: blur(7px) saturate(0.88) contrast(1.1) brightness(0.78);
           }
           body.teacher-entry-page .site-background::after {
             background:
-              linear-gradient(180deg, rgba(243, 246, 240, 0.58) 0%, rgba(231, 236, 227, 0.56) 100%),
-              radial-gradient(circle at 18% 20%, rgba(180, 92, 57, 0.06), transparent 0 16%);
+              linear-gradient(180deg, rgba(241, 244, 238, 0.42) 0%, rgba(229, 234, 225, 0.4) 100%),
+              radial-gradient(circle at 18% 20%, rgba(180, 92, 57, 0.05), transparent 0 16%);
           }
           body.teacher-entry-page .page {
             max-width: 1320px;
