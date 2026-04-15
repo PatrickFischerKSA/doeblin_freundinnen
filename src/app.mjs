@@ -230,6 +230,13 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             margin: 0;
             padding-left: 18px;
           }
+          .small-list li {
+            color: #233028;
+            font-weight: 520;
+          }
+          .small-list li::marker {
+            color: rgba(49, 67, 53, 0.7);
+          }
           .teacher-entry-layout {
             display: grid;
             gap: 20px;
