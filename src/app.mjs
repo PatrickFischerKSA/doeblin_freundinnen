@@ -57,8 +57,8 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             --bg: #f3efe7;
             --surface: rgba(255,255,255,0.12);
             --border: rgba(48,66,55,0.16);
-            --text: #213026;
-            --muted: #66736b;
+            --text: #172119;
+            --muted: #46514a;
             --accent: #b45c39;
             --forest: #314335;
             --shadow: 0 20px 60px rgba(30, 42, 36, 0.12);
@@ -164,6 +164,10 @@ function renderShellPage({ title, body, bodyClass = "" }) {
           p, li {
             line-height: 1.6;
             color: var(--muted);
+          }
+          strong,
+          b {
+            color: var(--text);
           }
           .row {
             display: flex;
