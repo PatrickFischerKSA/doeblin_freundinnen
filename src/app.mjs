@@ -249,6 +249,19 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             background: rgba(255,255,255,0.05);
             backdrop-filter: blur(12px);
           }
+          .compact-task-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+          }
+          .compact-task-card {
+            display: grid;
+            gap: 6px;
+            border-left: 4px solid var(--accent);
+            padding: 12px 14px;
+            border-radius: 0 16px 16px 0;
+            background: rgba(180,92,57,0.08);
+          }
           .resource-panel {
             display: grid;
             gap: 14px;
@@ -557,21 +570,24 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
               `).join("")}
             </div>
 
-              <div class="prompt-panel">
+            <div class="prompt-panel">
               <div class="eyebrow">Aktuelle Passage</div>
               <h2>${currentEntry.title}</h2>
               <p><strong>${currentEntry.pageHint}</strong> · ${currentEntry.passageLabel}</p>
               <p>${currentEntry.context}</p>
-              ${(currentEntry.focusTasks || []).map((task, index) => `
-                <div class="lesson-media-task">
-                  <strong>Fokusauftrag ${index + 1}</strong>
-                  <p>${task.prompt}</p>
-                  <p>${task.instruction}</p>
-                  <ul class="small-list">
-                    ${(task.checklist || []).map((item) => `<li>${item}</li>`).join("")}
-                  </ul>
-                </div>
-              `).join("")}
+              <div class="notice">Im Lehrer*inneneingang erscheint nur der knappe Aufgabenüberblick. Die interaktiven Textfelder mit Sofortfeedback liegen ausschließlich im Reader.</div>
+              <div class="row">
+                <a class="button secondary" href="/open/lesson/${currentLesson.id}" target="_blank" rel="noreferrer">Diese Lektion im Reader öffnen</a>
+                <a class="button secondary" href="/seb/lesson/${currentLesson.id}" target="_blank" rel="noreferrer">SEB-Ansicht öffnen</a>
+              </div>
+              <div class="compact-task-list">
+                ${(currentEntry.focusTasks || []).map((task, index) => `
+                  <article class="compact-task-card">
+                    <strong>Fokusauftrag ${index + 1}</strong>
+                    <p>${task.prompt}</p>
+                  </article>
+                `).join("")}
+              </div>
             </div>
 
             <div class="iframe-shell">

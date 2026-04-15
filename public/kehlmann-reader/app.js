@@ -208,12 +208,33 @@ function conceptMatches(answer, concept) {
   });
 }
 
+function conceptMatchDetails(answer, concept) {
+  const text = String(answer || "").toLowerCase();
+  const concepts = conceptSet(text);
+  const matches = [];
+
+  for (const alias of concept?.aliases || []) {
+    const normalized = String(alias || "").toLowerCase().trim();
+    if (!normalized || normalized.length < 4) {
+      continue;
+    }
+    if (text.includes(normalized) || concepts.has(canonicalToken(normalized))) {
+      matches.push(normalized);
+    }
+  }
+
+  return [...new Set(matches)].sort((left, right) => right.length - left.length).slice(0, 2);
+}
+
 function evaluateAnswer(answer, task, { minTokens = 12 } = {}) {
   const plain = String(answer || "").trim();
   const tokens = tokenizeText(plain);
   const analysisTerms = ["zeigt", "verdeutlicht", "macht sichtbar", "deutet", "wirkt", "funktion", "bedeutet", "deshalb", "dadurch", "zugleich"];
   const concepts = Array.isArray(task?.concepts) ? task.concepts : [];
-  const matchedConcepts = concepts.filter((concept) => conceptMatches(plain, concept)).map((concept) => concept.label);
+  const matchedConceptDetails = concepts
+    .map((concept) => ({ label: concept.label, aliases: conceptMatchDetails(plain, concept) }))
+    .filter((concept) => concept.aliases.length);
+  const matchedConcepts = matchedConceptDetails.map((concept) => concept.label);
   const missingConcepts = concepts.filter((concept) => !conceptMatches(plain, concept)).map((concept) => concept.label);
   const hasAnalysis = hasSemanticSignal(plain, analysisTerms);
   const hasEvidence = matchedConcepts.includes("Textsignal") || /["„‚]/.test(plain);
@@ -224,6 +245,7 @@ function evaluateAnswer(answer, task, { minTokens = 12 } = {}) {
       heading: "Noch keine Antwort eingetragen",
       summary: "Schreibe jetzt 2-4 Sätze. Die Antwort soll Textsignal, Deutung und Wirkung verbinden.",
       recognized: [],
+      recognizedDetails: [],
       missing: concepts.slice(0, 3).map((concept) => concept.label)
     };
   }
@@ -234,6 +256,7 @@ function evaluateAnswer(answer, task, { minTokens = 12 } = {}) {
       heading: "Tragfähige Antwort",
       summary: "Die Antwort ist textnah und bereits analytisch angebunden. Jetzt kannst du vor allem noch präziser formulieren.",
       recognized: matchedConcepts,
+      recognizedDetails: matchedConceptDetails,
       missing: missingConcepts.slice(0, 2)
     };
   }
@@ -244,6 +267,7 @@ function evaluateAnswer(answer, task, { minTokens = 12 } = {}) {
       heading: "Gute Richtung, aber noch zu knapp",
       summary: "Ein Ansatz ist erkennbar. Es fehlen aber noch mehr Wortlaut, klarere Deutung oder ein expliziter Theoriebezug.",
       recognized: matchedConcepts,
+      recognizedDetails: matchedConceptDetails,
       missing: missingConcepts.slice(0, 3)
     };
   }
@@ -253,8 +277,44 @@ function evaluateAnswer(answer, task, { minTokens = 12 } = {}) {
     heading: "Noch zu allgemein",
     summary: "Im Moment klingt die Antwort eher nach Eindruck oder Nacherzählung. Benenne ein konkretes Signal und leite daraus eine Wirkung ab.",
     recognized: matchedConcepts,
+    recognizedDetails: matchedConceptDetails,
     missing: missingConcepts.slice(0, 3)
   };
+}
+
+function responseMask(task) {
+  const prompt = taskPrompt(task);
+  const operator = task.operatorLabel || promptOperator(prompt);
+  const theoryTargets = (task?.concepts || [])
+    .map((concept) => concept.label)
+    .filter((label) => label && label !== "Textsignal" && label !== "Fragekern")
+    .slice(0, 2);
+
+  const closing = theoryTargets.length
+    ? `Fachbezug: Das lässt sich mit ${theoryTargets.join(" und ")} verbinden, weil ...`
+    : "Deutung: Dadurch wird sichtbar, dass ...";
+
+  if (operator === "Benennen") {
+    return [
+      "Beobachtung: In der Passage fällt auf, dass ...",
+      "Textsignal: Das zeigt sich am Wort/Detail \"...\".",
+      closing
+    ];
+  }
+
+  if (operator === "Prüfen") {
+    return [
+      "These: Zunächst spricht dafür/dagegen, dass ...",
+      "Textsignal: Das sieht man an \"...\".",
+      closing
+    ];
+  }
+
+  return [
+    "Beobachtung: Döblin zeigt hier, dass ...",
+    "Textsignal: Das erkennt man an \"...\".",
+    closing
+  ];
 }
 
 function renderTaskPreview(task, index, baseLabel = "Aufgabe") {
@@ -273,12 +333,18 @@ function renderTaskPreview(task, index, baseLabel = "Aufgabe") {
 }
 
 function renderTaskFeedbackMarkup(task, feedback) {
+  const synonymExplanation = feedback.recognizedDetails?.length
+    ? feedback.recognizedDetails
+      .map((concept) => `„${concept.aliases.join(" / ")}“ → ${concept.label}`)
+      .join("; ")
+    : (task.synonymHints || []).slice(0, 6).map((hint) => `„${hint}“`).join(", ");
+
   return `
     <strong>${escapeHtml(feedback.heading)}</strong>
     <p>${escapeHtml(feedback.summary)}</p>
     ${feedback.recognized.length ? `<p><strong>Erkannt:</strong> ${escapeHtml(feedback.recognized.join(", "))}</p>` : ""}
     ${feedback.missing.length ? `<p><strong>Noch absichern:</strong> ${escapeHtml(feedback.missing.join(", "))}</p>` : ""}
-    <p><strong>Synonymerkennung:</strong> ${escapeHtml((task.synonymHints || []).slice(0, 8).join(", "))}</p>
+    <p><strong>Synonymerklärung:</strong> ${escapeHtml(synonymExplanation || "Sobald du Fachwörter oder Varianten nutzt, wird hier das Mapping sichtbar.")}</p>
   `;
 }
 
@@ -290,6 +356,7 @@ function renderTaskField({ task, value, dataset, label }) {
   const inputLabel = String(label || "");
   const prompt = taskPrompt(task);
   const instruction = task.instruction || responsePlaceholder(prompt);
+  const maskLines = responseMask(task);
 
   return `
     <article class="question-answer-block">
@@ -297,13 +364,19 @@ function renderTaskField({ task, value, dataset, label }) {
         <strong class="question-answer-label">${escapeHtml(inputLabel)}</strong>
         <span class="status-badge">${escapeHtml(task.operatorLabel || promptOperator(prompt))}</span>
       </div>
-      <span class="field-prompt">${escapeHtml(prompt)}</span>
+      <p class="field-prompt">${escapeHtml(prompt)}</p>
+      <div class="answer-mask" aria-hidden="true">
+        <strong>Eingabemaske</strong>
+        <ol class="answer-mask-list">
+          ${maskLines.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}
+        </ol>
+      </div>
       <textarea ${dataAttributes} aria-label="${escapeHtml(inputLabel)}" placeholder="${escapeHtml(instruction)}">${escapeHtml(value || "")}</textarea>
       <div class="task-feedback task-feedback--${feedback.level}" data-task-feedback aria-live="polite">
         ${renderTaskFeedbackMarkup(task, feedback)}
       </div>
       <details class="task-guidance">
-        <summary>Hinweise und Musterlösung</summary>
+        <summary>Hilfen aufklappen</summary>
         <p class="task-instruction">${escapeHtml(instruction)}</p>
         <ul class="task-checklist">
           ${(task.checklist || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
