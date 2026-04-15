@@ -117,6 +117,27 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             padding: 24px;
             backdrop-filter: blur(14px);
           }
+          body.teacher-entry-page {
+            background: #edf0ea;
+          }
+          body.teacher-entry-page .site-background {
+            background: linear-gradient(180deg, rgba(237, 240, 234, 0.98) 0%, rgba(229, 233, 225, 0.98) 100%);
+          }
+          body.teacher-entry-page .site-background::before,
+          body.teacher-entry-page .site-background::after {
+            display: none;
+          }
+          body.teacher-entry-page .page {
+            max-width: 1320px;
+            gap: 16px;
+          }
+          body.teacher-entry-page .panel {
+            border-radius: 16px;
+            box-shadow: none;
+            padding: 20px;
+            background: rgba(248, 249, 245, 0.96);
+            backdrop-filter: none;
+          }
           .eyebrow {
             text-transform: uppercase;
             letter-spacing: 0.12em;
@@ -158,6 +179,16 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             background: rgba(49,67,53,0.1);
             color: var(--forest);
           }
+          body.teacher-entry-page .button,
+          body.teacher-entry-page button {
+            border-radius: 12px;
+            padding: 10px 14px;
+          }
+          body.teacher-entry-page .button.secondary,
+          body.teacher-entry-page button.secondary {
+            background: #e2e6dd;
+            color: var(--text);
+          }
           input, select {
             width: 100%;
             border: 1px solid var(--border);
@@ -173,6 +204,11 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             background: rgba(180,92,57,0.09);
             border-radius: 0 14px 14px 0;
             color: #62463d;
+          }
+          body.teacher-entry-page .notice {
+            border-left-width: 5px;
+            border-radius: 8px;
+            background: #efe3d8;
           }
           .form-grid {
             display: grid;
@@ -211,11 +247,33 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             text-decoration: none;
             color: var(--text);
           }
+          body.teacher-entry-page .teacher-entry-layout {
+            gap: 16px;
+            grid-template-columns: 320px minmax(0, 1fr);
+            align-items: start;
+          }
+          body.teacher-entry-page .teacher-entry-sidebar {
+            position: sticky;
+            top: 18px;
+          }
+          body.teacher-entry-page .lesson-nav-card,
+          body.teacher-entry-page .passage-nav-card,
+          body.teacher-entry-page .resource-nav-card {
+            border-radius: 10px;
+            padding: 12px 14px;
+            background: #ffffff;
+            backdrop-filter: none;
+          }
           .lesson-nav-card.is-active,
           .passage-nav-card.is-active,
           .resource-nav-card.is-active {
             border-color: rgba(180, 92, 57, 0.45);
             background: rgba(180, 92, 57, 0.14);
+          }
+          body.teacher-entry-page .lesson-nav-card.is-active,
+          body.teacher-entry-page .passage-nav-card.is-active,
+          body.teacher-entry-page .resource-nav-card.is-active {
+            background: #f0e3d7;
           }
           .meta-grid {
             display: grid;
@@ -229,6 +287,11 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             background: rgba(255,255,255,0.06);
             backdrop-filter: blur(12px);
           }
+          body.teacher-entry-page .meta-card {
+            border-radius: 10px;
+            background: #ffffff;
+            backdrop-filter: none;
+          }
           .iframe-shell {
             min-height: 72vh;
             border: 1px solid var(--border);
@@ -236,6 +299,11 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             overflow: hidden;
             background: rgba(255,255,255,0.03);
             backdrop-filter: blur(10px);
+          }
+          body.teacher-entry-page .iframe-shell {
+            border-radius: 12px;
+            background: #ffffff;
+            backdrop-filter: none;
           }
           .iframe-shell iframe {
             width: 100%;
@@ -249,6 +317,16 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             background: rgba(255,255,255,0.05);
             backdrop-filter: blur(12px);
           }
+          body.teacher-entry-page .prompt-panel {
+            display: grid;
+            gap: 12px;
+            border-radius: 10px;
+            border: 1px solid #d5dbd0;
+            border-left: 6px solid var(--forest);
+            padding: 18px;
+            background: #ffffff;
+            backdrop-filter: none;
+          }
           .compact-task-list {
             display: grid;
             gap: 10px;
@@ -261,6 +339,25 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             padding: 12px 14px;
             border-radius: 0 16px 16px 0;
             background: rgba(180,92,57,0.08);
+          }
+          body.teacher-entry-page .compact-task-list {
+            gap: 8px;
+            margin-top: 4px;
+          }
+          body.teacher-entry-page .compact-task-card {
+            grid-template-columns: 140px minmax(0, 1fr);
+            align-items: start;
+            gap: 10px;
+            border-left: none;
+            border-radius: 8px;
+            padding: 10px 12px;
+            background: #f4f6f1;
+          }
+          body.teacher-entry-page .compact-task-card strong {
+            color: var(--forest);
+          }
+          body.teacher-entry-page .compact-task-card p {
+            margin: 0;
           }
           .resource-panel {
             display: grid;
@@ -435,11 +532,12 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
 
   return renderShellPage({
     title: "Lehrer*inneneingang · Döblin",
+    bodyClass: "teacher-entry-page",
     body: `
       <main class="page">
         <section class="panel">
           <div class="eyebrow">Lehrer*inneneingang</div>
-          <h1>Alle Aufgaben direkt sehen</h1>
+          <h1>Steueransicht für Unterricht und Prüfung</h1>
           <p>
             Diese Übersicht ist mit demselben Passwort wie das Lehrer*innen-Dashboard geschützt. Sie zeigt alle Lektionen,
             die zugehörigen Passagen, Fokusfragen, Seitenkorridore und Arbeitsaufträge direkt, ohne dass zuerst ein
