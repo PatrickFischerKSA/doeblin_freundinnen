@@ -26,6 +26,7 @@ const CLASS_COOKIE = "kehlmann_reader_class";
 const TEACHER_COOKIE = "kehlmann_teacher_access";
 const SEB_CONFIG_KEY_HASH = process.env.SEB_CONFIG_KEY_HASH || process.env.KEHLMANN_SEB_CONFIG_KEY_HASH || "";
 const READER_PDF_SOURCE = "/reader/assets/doeblin-freundinnen.pdf";
+const BACKGROUND_IMAGE = "/reader/assets/doeblin-background-scene.png";
 const ASSET_VERSION = process.env.RENDER_GIT_COMMIT || String(Date.now());
 
 function teacherRuntimeConfig() {
@@ -79,26 +80,27 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             z-index: 0;
             pointer-events: none;
             background:
-              radial-gradient(circle at top left, rgba(125, 74, 58, 0.15), transparent 26%),
-              radial-gradient(circle at top right, rgba(61, 48, 43, 0.08), transparent 32%),
-              linear-gradient(180deg, rgba(244, 240, 230, 0.96) 0%, rgba(236, 230, 215, 0.94) 100%);
+              linear-gradient(180deg, rgba(244, 240, 230, 0.9) 0%, rgba(236, 230, 215, 0.88) 100%);
           }
           .site-background::before {
             content: "";
             position: absolute;
-            inset: 0;
+            inset: -40px;
             background:
-              linear-gradient(90deg, transparent 0, transparent 7%, rgba(71, 54, 47, 0.06) 7.2%, transparent 7.5%, transparent 100%),
-              linear-gradient(180deg, transparent 0, transparent 72%, rgba(122, 87, 72, 0.05) 72.2%, transparent 72.5%, transparent 100%);
-            opacity: 0.8;
+              linear-gradient(180deg, rgba(245, 239, 228, 0.28) 0%, rgba(236, 229, 214, 0.42) 100%),
+              url("${assetUrl(BACKGROUND_IMAGE)}") center/cover no-repeat;
+            filter: blur(22px) saturate(0.8);
+            transform: scale(1.08);
+            opacity: 0.92;
           }
           .site-background::after {
             content: "";
             position: absolute;
             inset: 0;
             background:
-              radial-gradient(circle at 18% 18%, rgba(180, 92, 57, 0.12), transparent 0 18%),
-              radial-gradient(circle at 82% 14%, rgba(49, 67, 53, 0.08), transparent 0 20%);
+              linear-gradient(90deg, rgba(255, 250, 242, 0.18) 0%, rgba(255, 250, 242, 0.06) 38%, rgba(31, 41, 35, 0.08) 100%),
+              radial-gradient(circle at 22% 18%, rgba(180, 92, 57, 0.16), transparent 0 18%),
+              radial-gradient(circle at 80% 14%, rgba(49, 67, 53, 0.1), transparent 0 20%);
           }
           .page {
             max-width: 1120px;
@@ -121,11 +123,16 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             background: #edf0ea;
           }
           body.teacher-entry-page .site-background {
-            background: linear-gradient(180deg, rgba(237, 240, 234, 0.98) 0%, rgba(229, 233, 225, 0.98) 100%);
+            background: linear-gradient(180deg, rgba(237, 240, 234, 0.9) 0%, rgba(229, 233, 225, 0.9) 100%);
           }
-          body.teacher-entry-page .site-background::before,
+          body.teacher-entry-page .site-background::before {
+            opacity: 0.78;
+            filter: blur(24px) saturate(0.72);
+          }
           body.teacher-entry-page .site-background::after {
-            display: none;
+            background:
+              linear-gradient(180deg, rgba(243, 246, 240, 0.78) 0%, rgba(231, 236, 227, 0.72) 100%),
+              radial-gradient(circle at 18% 20%, rgba(180, 92, 57, 0.08), transparent 0 16%);
           }
           body.teacher-entry-page .page {
             max-width: 1320px;
@@ -440,8 +447,10 @@ function renderLandingPage() {
             Autonome Lernlandschaft mit integriertem PDF, Registrierung, offenen und
             SEB-geschützten Zugängen, Lehrer*innen-Dashboard, Klassen-Codes, Peer Review und
             differenziertem Fachfeedback. Die Einheit verbindet Literatur bewusst mit
-            Forensik, Chemie/Toxikologie, Rechtswissenschaft und Geschichte und erweitert das
-            Nachwort um eigene Materialmodule sowie eine Gerichtsprozesssimulation.
+            Forensik, Chemie/Toxikologie, Rechtswissenschaft, Geschichte, queerer
+            Weimar-Forschung und Gattungsdebatten. Die neuen Quellen sitzen nicht als
+            Zusatzblock hinten an, sondern sind in die bestehenden Lektionen, Nachwort-
+            Module und die erweiterte Gerichtsprozesssimulation eingearbeitet.
           </p>
           <div class="row">
             <a class="button" href="/open">Offene Version</a>

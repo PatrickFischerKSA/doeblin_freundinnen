@@ -79,6 +79,22 @@ const theoryProfiles = {
     label: "Geschichte",
     aliases: ["geschichte", "weimar", "weimarer republik", "medien", "geschlechterordnung", "sexualwissenschaft", "1923", "zeitung", "moderne"]
   },
+  "queere-weimar": {
+    label: "Queere Weimarer Republik",
+    aliases: ["queer", "trans", "transgender", "transvestiten", "hirschfeld", "toni simon", "rechte", "demokratie", "pressefreiheit", "die freundin"]
+  },
+  "giftmord-diskurs": {
+    label: "Giftmorddiskurs und Weiblichkeit",
+    aliases: ["giftmordwissen", "giftmischerin", "giftmischerinnen", "weiblichkeit", "kriminologie", "stereotyp", "wulffen", "arsenik", "frau als mörderin", "domäne des weibes"]
+  },
+  "rezeption-gattung": {
+    label: "Rezeption, Gattung, Fakt/Fiktion",
+    aliases: ["rezeption", "gattung", "faktualität", "faktualitaet", "fiktionalität", "fiktionalitaet", "halbfiktional", "reportage", "neue sachlichkeit", "textgewebe"]
+  },
+  "doeblin-archiv": {
+    label: "Archiv und Forschung",
+    aliases: ["archiv", "forschung", "doeblin gesellschaft", "doeblin portal", "werkverzeichnis", "edition", "bibliographie", "quellenband", "materialien"]
+  },
   "graphologie-handschrift": {
     label: "Handschrift und Graphologie",
     aliases: ["handschrift", "graphologie", "schriftprobe", "schriftgutachten", "schriftlage", "linien", "klages", "rand", "schriftbild"]
@@ -493,6 +509,102 @@ export const theoryResources = [
     ],
     writingFrame:
       "Historisch gewinnt die Passage Schärfe, weil sie nicht nur einen Mordfall, sondern auch ..."
+  },
+  {
+    id: "queere-weimar",
+    title: "Dossier: Queere Weimarer Republik, Transgeschichte und Öffentlichkeit",
+    shortTitle: "Queere Weimar",
+    sourceTitle: "Lokales Dossier mit bpb-Artikel und Inforadio-Hörstück",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-queere-weimar-und-transgeschichte.html",
+    embedUrl: "/reader/assets/doeblin-queere-weimar-und-transgeschichte.html",
+    summary:
+      "Die Döblin-Lektüre lässt sich stärker in die queere und geschlechtergeschichtliche Weimarer Republik einbetten: Pressefreiheit, Hirschfeld, queere Subkulturen und prekäre Rechte verändern den Blick auf Öffentlichkeit, Norm und Abweichung.",
+    keyIdeas: ["Weimar", "queer", "trans", "Hirschfeld", "Öffentlichkeit"],
+    questions: [
+      "Wie verändert die queere und geschlechtergeschichtliche Weimar-Perspektive deinen Blick auf den Fall?",
+      "Welche Rolle spielen Öffentlichkeit, Rechte und Presse für die Wahrnehmung von Geschlecht und Abweichung?",
+      "Wo zeigt sich, dass Döblins Roman in ein größeres Feld von Demokratie, Sichtbarkeit und Gefährdung gehört?"
+    ],
+    transferPrompts: [
+      "Lies die Passage mit Blick auf queere Weimar-Kontexte und benenne ein historisches Signal dazu.",
+      "Erkläre, wie Geschlecht, Öffentlichkeit und demokratische Rechte die Lesart der Szene mitprägen.",
+      "Prüfe, ob die Passage eher stigmatisiert, sichtbar macht oder gerade beides zugleich leistet."
+    ],
+    writingFrame:
+      "Mit der queeren Weimar-Perspektive wird sichtbar, dass die Passage nicht nur Beziehungsdrama, sondern auch ..."
+  },
+  {
+    id: "giftmord-diskurs",
+    title: "Dossier: Giftmordwissen, Weiblichkeit und Kriminologie",
+    shortTitle: "Giftmorddiskurs",
+    sourceTitle: "Lokales Dossier mit Weiler, Dertinger, Koos und Jasper",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-giftmordwissen-und-weibliche-kriminalitaet.html",
+    embedUrl: "/reader/assets/doeblin-giftmordwissen-und-weibliche-kriminalitaet.html",
+    summary:
+      "Die Forschung zeigt, wie stark der Fall von Stereotypen über weibliche Giftmörderinnen, kriminologischen Deutungsmustern und justizpolitischen Rahmungen geprägt ist. Dadurch wird Döblins Gegenbewegung noch schärfer lesbar.",
+    keyIdeas: ["Giftmord", "Weiblichkeit", "Kriminologie", "Stereotyp", "Justiz"],
+    questions: [
+      "Welche Stereotype über weibliche Kriminalität greifen in deiner Passage besonders stark?",
+      "Wie verschränken sich Giftmordwissen, Kriminologie und Justizsprache im Blick auf Elli und Grete?",
+      "Wo arbeitet Döblin gegen vorgefertigte Täterinnenbilder, und wo nutzt er sie zugleich mit?"
+    ],
+    transferPrompts: [
+      "Lies die Passage als Teil eines Giftmorddiskurses und benenne mindestens ein Täterinnenstereotyp.",
+      "Erkläre, wie die Szene rechtliche, psychologische und geschlechterbezogene Zuschreibungen mischt.",
+      "Prüfe, ob Döblin das Stereotyp der Giftmischerin bestätigt, verschiebt oder unterläuft."
+    ],
+    writingFrame:
+      "Im Giftmorddiskurs erscheint die Passage besonders aufschlussreich, weil sie Weiblichkeit und Kriminalität über ... verknüpft."
+  },
+  {
+    id: "rezeption-gattung",
+    title: "Dossier: Rezeption, Gattung und Fakt/Fiktion",
+    shortTitle: "Gattung",
+    sourceTitle: "Lokales Dossier mit Silveira und Lector in fabula",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-fakt-und-fiktion-gattung-und-rezeption.html",
+    embedUrl: "/reader/assets/doeblin-fakt-und-fiktion-gattung-und-rezeption.html",
+    summary:
+      "Neuere Rezeption und Forschung lesen Döblins Text als gattungsoffenen Grenzfall zwischen Reportage, Pitaval, Fallgeschichte, Neuer Sachlichkeit und literarischer Tatsachenphantasie.",
+    keyIdeas: ["Gattung", "Fakt", "Fiktion", "Reportage", "Neue Sachlichkeit"],
+    questions: [
+      "Warum lässt sich der Text nicht sauber einer einzigen Gattung zuordnen?",
+      "Wie hilft die Unterscheidung von Faktualität und Fiktionalität für die Lektüre des Falls?",
+      "Welche Akzente setzt die spätere Rezeption auf Prozess, Milieu und Döblins Stil?"
+    ],
+    transferPrompts: [
+      "Lies die Passage als Grenzfall zwischen Reportage und Literatur und sichere das am Text.",
+      "Erkläre, wie faktuale Materialien und literarische Form in deiner Szene zusammenarbeiten.",
+      "Prüfe, ob gerade die Gattungsunstetigkeit den Erkenntnisgewinn des Textes ausmacht."
+    ],
+    writingFrame:
+      "Gattungspoetisch ist die Passage wichtig, weil sie Faktenmaterial und literarische Form zu ..."
+  },
+  {
+    id: "doeblin-archiv",
+    title: "Dossier: Alfred-Döblin-Portal, Archiv und Forschungspfade",
+    shortTitle: "Archiv",
+    sourceTitle: "Lokales Dossier mit Alfred-Döblin-Seite und PDF-Quellenpaket",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-archiv-und-forschungsportal.html",
+    embedUrl: "/reader/assets/doeblin-archiv-und-forschungsportal.html",
+    summary:
+      "Die Plattform öffnet nun einen eigenen Forschungspfad: Dissertationen, Aufsätze und die Alfred-Döblin-Seite machen sichtbar, wie der Roman heute wissenschaftlich gelesen, archiviert und weiterrecherchiert werden kann.",
+    keyIdeas: ["Archiv", "Forschung", "Edition", "Portal", "Quellen"],
+    questions: [
+      "Welche Forschungsfrage trägt deine Passage am stärksten: Geschlecht, Recht, Materialität oder Gattung?",
+      "Wie hilft ein Archiv- oder Portallink dabei, die Lektüre aus dem Einzeltext heraus zu erweitern?",
+      "Welche Quelle würdest du für eine eigene Mini-Forschung zuerst aufschlagen und warum?"
+    ],
+    transferPrompts: [
+      "Ordne deine Passage einem Forschungspfad zu und begründe diese Wahl textnah.",
+      "Erkläre, wie Archivmaterialien oder Sekundärtexte deine Deutung schärfen würden.",
+      "Prüfe, welche Quelle den nächsten Erkenntnissprung für deine Lesart verspricht."
+    ],
+    writingFrame:
+      "Als Forschungseinstieg ist die Passage ergiebig, weil sie sich über Archiv, Sekundärtext und ..."
   },
   {
     id: "schuld-zusammenhang",
@@ -1366,6 +1478,126 @@ export const readerModules = [
         relatedTheoryIds: ["prozesssimulation", "fallarchiv", "pitaval-textmontage", "schuld-zusammenhang"]
       }
     ]
+  },
+  {
+    id: "forschungskontexte",
+    title: "Vertiefungsschleife: Forschung, Geschlechtergeschichte und Rezeption",
+    lens: "Bereits eingearbeitete Materialien bündeln, rückkoppeln und forschend zuspitzen",
+    briefing:
+      "Diese Vertiefung baut auf den bereits in den Kernlektionen integrierten Quellen auf. Sie hängt nichts bloß an, sondern führt die im Parcours verteilten Forschungsachsen noch einmal gezielt zusammen.",
+    task:
+      "Arbeite heraus, wie die bereits eingearbeiteten Webquellen, Forschungspdfs und Portale den Roman historisch, diskursanalytisch und gattungspoetisch vertiefen.",
+    relatedTheoryIds: ["queere-weimar", "giftmord-diskurs", "rezeption-gattung", "doeblin-archiv"],
+    entries: [
+      {
+        id: "material-9",
+        title: "Rückkopplung I: Queere Weimar-Kontexte im ganzen Fall",
+        pageHint: "Vertiefung zu Lektion 3 und 10",
+        pageNumber: 123,
+        passageLabel: "Sichtbarkeit, Öffentlichkeit, prekäre Rechte",
+        context:
+          "Die bpb-Perspektive und das Inforadio-Hörstück sind im Parcours bereits angelegt. Diese Station bündelt sie noch einmal ausdrücklich, um Geschlechtergeschichte, Öffentlichkeit und prekäre Freiheit über mehrere Lektionen hinweg zusammenzulesen.",
+        signalWords: ["Demokratie", "Pressefreiheit", "Hirschfeld", "Sichtbarkeit", "prekäre Freiheit"],
+        prompts: [
+          "Welche Lektionen des Parcours verändern sich am stärksten, wenn du sie mit queeren Weimar-Kontexten rückkoppelst?",
+          "Wie arbeiten Öffentlichkeit, Rechte und Gefährdung nicht nur im Prozess, sondern schon in Beziehung und Briefwelt mit?",
+          "Welche bisherige Deutung musst du nach dieser historischen Bündelung korrigieren?"
+        ],
+        writingFrame:
+          "In der Rückkopplung zeigt sich, dass queere Weimar-Kontexte nicht Zusatzwissen bleiben, sondern ... strukturieren.",
+        relatedTheoryIds: ["queere-weimar", "geschichte-weimar"]
+      },
+      {
+        id: "material-10",
+        title: "Rückkopplung II: Berlin März 1923 als Resonanzraum",
+        pageHint: "Vertiefung zu Lektion 9",
+        pageNumber: 124,
+        passageLabel: "Chronik, Stadt, Prozessmonat",
+        context:
+          "Was in Lektion 9 als Hörstück in den Prozessblock eingegangen ist, wird hier als historischer Resonanzraum gebündelt: März 1923, Berlin, Sensation und Gericht greifen als urbane Zeitkonstellation zusammen.",
+        signalWords: ["März 1923", "Berlin", "Chronik", "Prozessmonat", "Medienereignis"],
+        prompts: [
+          "Warum ist der Fall als Berliner März-1923-Ereignis präziser lesbar als nur als allgemeiner Mordprozess?",
+          "Welche Rolle spielt die Stadt als Medium der Verdichtung?",
+          "Wie verändert dieser Resonanzraum deinen Blick auf Döblins Montage?"
+        ],
+        writingFrame:
+          "Die März-1923-Bündelung zeigt, dass Berlin im Roman nicht Kulisse, sondern ... ist.",
+        relatedTheoryIds: ["geschichte-weimar", "fallarchiv", "queere-weimar"]
+      },
+      {
+        id: "material-11",
+        title: "Rückkopplung III: Die Giftmischerin als Diskursfigur",
+        pageHint: "Vertiefung zu Lektion 5 und 9",
+        pageNumber: 125,
+        passageLabel: "Stereotyp, Kriminologie, Täterinnenbild",
+        context:
+          "Die in Lektion 5 und 9 eingespielten Diskursachsen zu Giftmordwissen werden hier über mehrere Quellen hinweg gebündelt. So wird sichtbar, wie stark sich das Täterinnenbild zwischen Alltag, Prozess und Nachgeschichte stabilisiert oder verschiebt.",
+        signalWords: ["Giftmischerin", "Weiblichkeit", "Kriminologie", "Stereotyp", "Domäne des Weibes"],
+        prompts: [
+          "Wie verändert sich das Bild der Giftmischerin zwischen Küchenalltag, Gericht und späterer Forschung?",
+          "Welche Quelle schärft die stereotype Logik am deutlichsten?",
+          "Wo arbeitet Döblin am stärksten gegen diese Diskursfigur?"
+        ],
+        writingFrame:
+          "In der gebündelten Diskurslektüre wird deutlich, dass die Figur der Giftmischerin über ... erzeugt wird.",
+        relatedTheoryIds: ["giftmord-diskurs", "rechtswissenschaft", "prozess-gutachten"]
+      },
+      {
+        id: "material-12",
+        title: "Rückkopplung IV: Justiz, Politik und Urteilssprache",
+        pageHint: "Vertiefung zu Lektion 9 und 10",
+        pageNumber: 126,
+        passageLabel: "Gericht als politische Ordnung",
+        context:
+          "Jaspers Justizgeschichte war in den Prozesslektionen bereits mitgedacht. Hier wird sie noch einmal systematisch gegen Anklage, Urteil und öffentliche Gegenrede gehalten.",
+        signalWords: ["Justiz", "Politik", "Richter", "Urteil", "gerichtliche Legalisierung"],
+        prompts: [
+          "Wie politisch erscheint das Gericht, wenn du die Prozesslektionen zusammenliest?",
+          "Welche Spannung zwischen Recht, Öffentlichkeit und Ordnung tritt nun deutlicher hervor?",
+          "Wo reicht die bloß juristische Beschreibung des Urteils nicht mehr aus?"
+        ],
+        writingFrame:
+          "In der Rückkopplung wird das Gericht als Instanz sichtbar, die nicht nur urteilt, sondern auch ... ordnet.",
+        relatedTheoryIds: ["rechtswissenschaft", "geschichte-weimar", "prozess-gutachten"]
+      },
+      {
+        id: "material-13",
+        title: "Rückkopplung V: Fakt/Fiktion nach dem ganzen Parcours",
+        pageHint: "Vertiefung zu Lektion 12 und 16",
+        pageNumber: 127,
+        passageLabel: "Grenzfall nach der Volllektüre",
+        context:
+          "Silveira und die heutige Rezeption waren bereits in Fallpoetik und Textmontage eingearbeitet. Nach dem gesamten Parcours lässt sich nun präziser fragen, wie Faktualität und literarische Form miteinander arbeiten.",
+        signalWords: ["Faktualität", "Fiktionalität", "halbfiktional", "Neue Sachlichkeit", "Gattungsgrenze"],
+        prompts: [
+          "Welche Gattungsfrage stellt sich nach der Volllektüre anders als am Anfang?",
+          "Wo ist der Text am deutlichsten Dokument, wo am deutlichsten Literatur?",
+          "Warum ist gerade diese Schwebe für den Erkenntnisgewinn entscheidend?"
+        ],
+        writingFrame:
+          "Nach dem gesamten Parcours wirkt die Gattungsgrenze produktiv, weil der Text zugleich ... bleibt.",
+        relatedTheoryIds: ["rezeption-gattung", "pitaval-textmontage", "schuld-zusammenhang"]
+      },
+      {
+        id: "material-14",
+        title: "Rückkopplung VI: Forschungsportal und eigener Anschluss",
+        pageHint: "Vertiefung zu Lektion 12 und 15",
+        pageNumber: 128,
+        passageLabel: "Vom Reader zum Forschungsweg",
+        context:
+          "Die Alfred-Döblin-Seite und die eingebauten PDFs sind bereits in die Schluss- und Archivlektionen eingearbeitet. Diese Station macht daraus den bewussten Übergang in eigene kleine Forschungsvorhaben.",
+        signalWords: ["Forschungsportal", "Archiv", "Quellen", "Sekundärtext", "Weiterarbeit"],
+        prompts: [
+          "Welche Quelle aus dem Parcours würdest du für eine eigene kleine Forschung zuerst vertiefen?",
+          "Welche Frage wäre damit am besten zu verfolgen?",
+          "Wie zeigt sich darin, dass die Plattform mehr als ein Reader geworden ist?"
+        ],
+        writingFrame:
+          "Als Forschungsanschluss ist diese Station stark, weil sie vom Parcours aus auf ... weiterführt.",
+        relatedTheoryIds: ["doeblin-archiv", "rezeption-gattung", "fallarchiv"]
+      }
+    ]
   }
 ];
 
@@ -1456,6 +1688,18 @@ export const lessonSets = [
           "Die Briefdynamik ist hier nicht Beiwerk, sondern eine eigene Handlungskraft.",
         focusPrompt:
           "Warum braucht diese Beziehung Schreiben, obwohl die beiden Frauen sich dauernd sehen?"
+      },
+      {
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        mediaLabel: "Kontextquelle",
+        title: "Queere Weimar-Kontexte mitdenken",
+        caption:
+          "Die historische Linse auf Weimar, Sichtbarkeit und prekäre Freiheiten hilft, die Gegenwelt der Briefe nicht nur privat, sondern auch öffentlich und geschlechtergeschichtlich zu lesen.",
+        openUrl: "https://www.bpb.de/shop/zeitschriften/apuz/queer-2025/562121/die-weimarer-republik-als-erste-transgenderrepublik/",
+        openLabel: "bpb-Artikel öffnen",
+        focusPrompt:
+          "Prüfe, wie sich deine Sicht auf Heimlichkeit, Geschlecht und soziale Sichtbarkeit verändert, wenn du die Szene historisch in die Weimarer Republik einzeichnest."
       }
     ],
     entryIds: ["freundinnen-1", "freundinnen-2"],
@@ -1463,7 +1707,7 @@ export const lessonSets = [
     reviewFocus: "Achte auf Briefe, Heimlichkeit, juristische Trennung und neue Abhängigkeiten.",
     sebPrompt:
       "Untersuche, wie Döblin den Briefwechsel und die Trennungsschritte so erzählt, dass Trost, Komplott und neue Verstrickung gleichzeitig sichtbar werden.",
-    recommendedTheoryIds: ["briefe-rausch"],
+    recommendedTheoryIds: ["briefe-rausch", "queere-weimar"],
     resourceAssignments: [
       {
         resourceId: "briefe-rausch",
@@ -1476,6 +1720,19 @@ export const lessonSets = [
           "Welche Stimmung erzeugen die Briefe?",
           "Wo wird aus Trost Komplott?",
           "Wie verändert der Briefmodus die Beziehung?"
+        ]
+      },
+      {
+        resourceId: "queere-weimar",
+        title: "Kontextauftrag: Wie historisch ist diese Gegenwelt?",
+        summary:
+          "Das Dossier zieht die Briefe und die Beziehung aus dem bloß Privaten in einen größeren Weimar-Kontext von Sichtbarkeit, Norm und Gefährdung.",
+        task:
+          "Nutze das Dossier zur queeren Weimarer Republik und zeige, wie Heimlichkeit, soziale Sichtbarkeit und Geschlechternormen die Freundinnenpassagen historisch mitprägen.",
+        questions: [
+          "Was bleibt privat, was wird öffentlich mitgedacht?",
+          "Welche Rolle spielen Norm und Abweichung?",
+          "Wie verändert die historische Linse deine Deutung der Brief-Gegenwelt?"
         ]
       }
     ]
@@ -1539,7 +1796,7 @@ export const lessonSets = [
     reviewFocus: "Achte auf Giftkauf, Pflegegesten, Zynismus und Alltagsroutine.",
     sebPrompt:
       "Zeige, wie Döblin den Giftmord nicht als spektakulären Ausbruch, sondern als tödliche Alltagsroutine erzählt und forensisch lesbare Spuren vorbereitet.",
-    recommendedTheoryIds: ["forensik", "chemie-toxikologie"],
+    recommendedTheoryIds: ["forensik", "chemie-toxikologie", "giftmord-diskurs"],
     resourceAssignments: [
       {
         resourceId: "forensik",
@@ -1565,6 +1822,19 @@ export const lessonSets = [
           "Welches Detail verrät am meisten über Stoff oder Dosis?",
           "Wie verändert die chemische Perspektive deinen Blick auf Quetschkartoffeln, Tropfen oder Krankenmehl?",
           "Wo wird die Tat als materielle Reaktionskette statt als bloßer Entschluss sichtbar?"
+        ]
+      },
+      {
+        resourceId: "giftmord-diskurs",
+        title: "Diskursauftrag: Wann beginnt aus Arsen die Figur der Giftmischerin zu werden?",
+        summary:
+          "Das Dossier verbindet die materielle Tat mit dem historischen Bild der weiblichen Giftmörderin und schärft so den Blick für Täterinnenstereotype.",
+        task:
+          "Nutze das Dossier zu Giftmordwissen und Weiblichkeit und prüfe, wie aus Küchenalltag, Arsen und Heimlichkeit bereits das Stereotyp der `Giftmischerin` mitgelesen werden kann.",
+        questions: [
+          "Welches Detail lädt die Passage besonders stark diskursiv auf?",
+          "Wie greift der Text auf typische Bilder des Giftmords zurück?",
+          "Wo bleibt Döblins Darstellung genauer als das Stereotyp?"
         ]
       }
     ]
@@ -1707,6 +1977,18 @@ export const lessonSets = [
           "Diese Lektion rückt ins Zentrum, dass der Prozess den Fall nicht nur verhandelt, sondern formatiert.",
         focusPrompt:
           "Welche Deutungslogiken dominieren den Fall, sobald er vor Gericht und in der Presse erscheint?"
+      },
+      {
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        mediaLabel: "Hörstück",
+        title: "Berlin März 1923 als Prozessmonat",
+        caption:
+          "Das Inforadio-Hörstück verankert den Fall im Berliner Prozessmonat und macht die Großstadt als Medienraum mitlesbar.",
+        openUrl: "https://www.inforadio.de/rubriken/heute-minus-100/2023/heute-minus-hundert-es-geschah-in-berlin-maerz-1923-giftmischerinnen.html",
+        openLabel: "Inforadio-Hörstück öffnen",
+        focusPrompt:
+          "Halte fest, wie sich dein Blick auf Prozess, Sensation und Öffentlichkeit verändert, wenn du den Fall ausdrücklich als Berliner Medienereignis vom März 1923 hörst."
       }
     ],
     entryIds: ["prozess-1", "prozess-2"],
@@ -1714,7 +1996,7 @@ export const lessonSets = [
     reviewFocus: "Achte auf Anklagesprache, Sensationslogik, Gutachten und Briefdeutung.",
     sebPrompt:
       "Untersuche, wie Döblin Gerichtsrede, Presse und Gutachten so montiert, dass der Fall als Kampf konkurrierender Deutungen erscheint.",
-    recommendedTheoryIds: ["prozess-gutachten", "rechtswissenschaft"],
+    recommendedTheoryIds: ["prozess-gutachten", "rechtswissenschaft", "geschichte-weimar", "giftmord-diskurs"],
     resourceAssignments: [
       {
         resourceId: "prozess-gutachten",
@@ -1741,6 +2023,19 @@ export const lessonSets = [
           "Wie wird Verantwortung juristisch verteilt?",
           "Wo kollidiert die Straflogik mit anderen Deutungen des Falls?"
         ]
+      },
+      {
+        resourceId: "giftmord-diskurs",
+        title: "Diskursauftrag: Wie macht der Prozess aus Angeklagten Giftmischerinnen?",
+        summary:
+          "Das Dossier macht sichtbar, wie Presse, Kriminologie und Anklagesprache das Täterinnenbild im Gerichtssaal verdichten.",
+        task:
+          "Nutze das Dossier zu Giftmordwissen und Weiblichkeit und arbeite heraus, welche Täterinnenbilder in Gerichtsrede und Presse schon mitlaufen, bevor geurteilt wird.",
+        questions: [
+          "Welche Formel stigmatisiert am stärksten?",
+          "Wie verbindet sie Geschlecht und Verbrechen?",
+          "Wo setzt Döblins Text dieser Typisierung etwas entgegen?"
+        ]
       }
     ]
   },
@@ -1762,10 +2057,10 @@ export const lessonSets = [
     ],
     entryIds: ["prozess-3", "prozess-4"],
     moduleIds: ["prozess"],
-    reviewFocus: "Arbeite an Zusammenhangsdenken, öffentlicher Moral, Sexualdiskurs und Urteilskritik.",
+    reviewFocus: "Arbeite an Zusammenhangsdenken, öffentlicher Moral, Sexualdiskurs, Geschlechtergeschichte und Urteilskritik.",
     sebPrompt:
       "Analysiere, wie Döblin im Prozess- und Nachurteilsblock einfache moralische Zuschreibungen unterläuft und stattdessen auf unsichere Zusammenhänge, Rechtsfragen und historische Diskurse verweist.",
-    recommendedTheoryIds: ["rechtswissenschaft", "geschichte-weimar", "schuld-zusammenhang"],
+    recommendedTheoryIds: ["rechtswissenschaft", "geschichte-weimar", "schuld-zusammenhang", "queere-weimar", "giftmord-diskurs"],
     resourceAssignments: [
       {
         resourceId: "rechtswissenschaft",
@@ -1791,6 +2086,32 @@ export const lessonSets = [
           "Welches historische Deutungsmuster tritt hervor?",
           "Wie wirken Geschlechter- und Moralvorstellungen mit?",
           "Was macht die Passage dadurch zum Text der Weimarer Moderne?"
+        ]
+      },
+      {
+        resourceId: "queere-weimar",
+        title: "Kontextauftrag: Wie wirken Geschlecht, Sichtbarkeit und historische Stigmatisierung mit?",
+        summary:
+          "Das Dossier erweitert den Sexualdiskurs der Lektion um queere Weimar-Kontexte, demokratische Öffentlichkeit und prekäre Anerkennung.",
+        task:
+          "Nutze das Dossier zur queeren Weimarer Republik und prüfe, wie Sichtbarkeit, Normabweichung und historische Rechte die Urteils- und Gegenpressepassagen mitbestimmen.",
+        questions: [
+          "Welche Form von Sichtbarkeit wird hier erzeugt?",
+          "Wie kippt Öffentlichkeit in Stigmatisierung?",
+          "Was ändert diese Linse an deiner Deutung des Sexualdiskurses?"
+        ]
+      },
+      {
+        resourceId: "giftmord-diskurs",
+        title: "Diskursauftrag: Welches Täterinnenbild überlebt das Urteil?",
+        summary:
+          "Das Dossier verbindet Urteil, Gegenpresse und historische Deutungsschablonen weiblicher Kriminalität.",
+        task:
+          "Nutze das Dossier zu Giftmordwissen und Weiblichkeit und untersuche, welches Bild der weiblichen Giftmörderin in den Nachurteilsdebatten weitergetragen oder korrigiert wird.",
+        questions: [
+          "Welches Stereotyp kehrt nach dem Urteil wieder?",
+          "Wie spricht die Öffentlichkeit darüber?",
+          "Wo bleibt Döblins Text genauer als die öffentliche Zuschreibung?"
         ]
       }
     ]
@@ -1847,6 +2168,30 @@ export const lessonSets = [
           "Diese Lektion bündelt Realfall, Fallpoetik und moderne Offenheit des Textes.",
         focusPrompt:
           "Warum bleibt Döblins Text gerade dadurch modern, dass er keine monokausale Lösung liefert?"
+      },
+      {
+        src: coverImg,
+        alt: "Grafische Karte zu Döblins Giftmord-Erzählung",
+        mediaLabel: "Rezeptionsquelle",
+        title: "Lector in fabula als heutige Lektürestimme",
+        caption:
+          "Die Blogrezension akzentuiert Mordprozess, halbfiktionale Reportage und den Weg zu Berlin Alexanderplatz und eignet sich als moderne Gegenlektüre.",
+        openUrl: "https://www.lectorinfabula.de/2019/12/13/doeblin_freundinnen/",
+        openLabel: "Lector in fabula öffnen",
+        focusPrompt:
+          "Vergleiche, welche Aspekte der Text heute besonders lesbar macht: Prozess, Milieu, Gewalt, Sprachskepsis oder Gattungsgrenze."
+      },
+      {
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        mediaLabel: "Forschungsportal",
+        title: "Alfred-Döblin-Seite als Recherchepfad",
+        caption:
+          "Die Alfred-Döblin-Seite öffnet den Schritt vom Reader in Werk-, Editions- und Forschungskontexte.",
+        openUrl: "http://www.alfred-doeblin.de/",
+        openLabel: "Alfred-Döblin-Seite öffnen",
+        focusPrompt:
+          "Überlege, welche Forschungsfrage aus deiner Lektüre sich mit einem Portal- oder Archivblick sinnvoll weiterverfolgen ließe."
       }
     ],
     entryIds: ["poetik-3", "poetik-4"],
@@ -1854,7 +2199,7 @@ export const lessonSets = [
     reviewFocus: "Arbeite an Realfallbezug, Fallkonstruktion, Patriarchatskritik und offener Erkenntnisform.",
     sebPrompt:
       "Analysiere, wie Nachwort und Fallpoetik den Text zugleich historisch verankern und gegen einfache Erklärungen offenhalten.",
-    recommendedTheoryIds: ["prozess-gutachten", "rechtswissenschaft", "geschichte-weimar", "forensik", "chemie-toxikologie", "schuld-zusammenhang", "milieu-symbiose"],
+    recommendedTheoryIds: ["prozess-gutachten", "rechtswissenschaft", "geschichte-weimar", "forensik", "chemie-toxikologie", "schuld-zusammenhang", "milieu-symbiose", "rezeption-gattung", "doeblin-archiv"],
     resourceAssignments: [
       {
         resourceId: "geschichte-weimar",
@@ -1919,6 +2264,32 @@ export const lessonSets = [
           "Welche Erklärung überzeugt dich am ehesten?",
           "Wo bleibt der Text absichtlich unsicher?",
           "Welche Vereinfachung würdest du nach dieser Lektüre ausdrücklich zurückweisen?"
+        ]
+      },
+      {
+        resourceId: "rezeption-gattung",
+        title: "Rezeptionsauftrag: Warum wirkt der Text heute als Grenzfall so produktiv?",
+        summary:
+          "Das Dossier verbindet Silveiras Gattungsdebatte mit einer heutigen Lektürestimme und macht die Fallpoetik als offene Form sichtbar.",
+        task:
+          "Nutze das Dossier zu Fakt/Fiktion und Gattung und prüfe, warum Döblins Text gerade als Grenzfall zwischen Reportage, Fallgeschichte und Literatur modern bleibt.",
+        questions: [
+          "Welche Gattungsgrenze ist für dich am wichtigsten?",
+          "Wie hilft die heutige Rezeption bei deiner Deutung?",
+          "Warum ist die Offenheit des Textes eher Stärke als Problem?"
+        ]
+      },
+      {
+        resourceId: "doeblin-archiv",
+        title: "Forschungsauftrag: Welcher Weg führt aus dem Reader weiter?",
+        summary:
+          "Das Dossier macht aus der Schlusslektion einen Übergang in selbstständige Recherche und kleine Forschungsvorhaben.",
+        task:
+          "Nutze das Archiv-Dossier und begründe, welche der eingebauten Quellen oder Portale du für eine eigene Vertiefung zuerst aufschlagen würdest.",
+        questions: [
+          "Welche Quelle ist für deine Frage am ergiebigsten?",
+          "Was würdest du dort gezielt nachsehen?",
+          "Wie verändert das die Einheit in Richtung Forschungsplattform?"
         ]
       }
     ]
@@ -2020,7 +2391,7 @@ export const lessonSets = [
     reviewFocus: "Achte auf Realfall, Pressemappen, Geschlechterdiskurs, Zurechnung und Medienphasen.",
     sebPrompt:
       "Analysiere, wie das Nachwort den Fall Klein/Nebbe als Archiv von Briefen, Anklage, Gutachten und Presseberichten rekonstruiert und warum gerade der Medienprozess die Wahrnehmung der Täterinnen formt.",
-    recommendedTheoryIds: ["fallarchiv", "geschichte-weimar", "rechtswissenschaft", "prozess-gutachten"],
+    recommendedTheoryIds: ["fallarchiv", "geschichte-weimar", "rechtswissenschaft", "prozess-gutachten", "doeblin-archiv"],
     resourceAssignments: [
       {
         resourceId: "fallarchiv",
@@ -2047,6 +2418,19 @@ export const lessonSets = [
           "Wie spricht die Presse über Geschlecht und Abnormität?",
           "Was bedeutet das für Döblins literarische Gegenbewegung?"
         ]
+      },
+      {
+        resourceId: "doeblin-archiv",
+        title: "Archivauftrag: Wie arbeitet die Forschung mit dem Realfall weiter?",
+        summary:
+          "Das Dossier verbindet Koos, Alfred-Döblin-Seite und die Materiallage des Fallarchivs.",
+        task:
+          "Nutze das Archiv-Dossier und prüfe, wie Forschung und Portalzugänge den Realfall Klein/Nebbe als Quellenfeld weiter erschließen.",
+        questions: [
+          "Welche Quelle vertieft das Archiv am stärksten?",
+          "Welche Materiallücke bleibt dennoch bestehen?",
+          "Wie hilft das Archivdenken deiner Lektüre des Nachworts?"
+        ]
       }
     ]
   },
@@ -2071,7 +2455,7 @@ export const lessonSets = [
     reviewFocus: "Arbeite an Reihenkontext, Pitaval-Tradition, Montage und poetologischer Selbstreflexion.",
     sebPrompt:
       "Zeige, wie das Nachwort Döblins Text in die Tradition des Pitaval stellt und warum die Montage aus Fallgeschichte, Epilog, Handschriften und Schaubildern als `Tatsachenphantasie` lesbar wird.",
-    recommendedTheoryIds: ["pitaval-textmontage", "prozess-gutachten", "schuld-zusammenhang"],
+    recommendedTheoryIds: ["pitaval-textmontage", "prozess-gutachten", "schuld-zusammenhang", "rezeption-gattung"],
     resourceAssignments: [
       {
         resourceId: "pitaval-textmontage",
@@ -2085,6 +2469,19 @@ export const lessonSets = [
           "Welche Elemente montiert Döblin sichtbar zusammen?",
           "Wie hilft `Tatsachenphantasie`, diese Form zu verstehen?"
         ]
+      },
+      {
+        resourceId: "rezeption-gattung",
+        title: "Gattungsauftrag: Warum ist diese Montage kein Nebeneffekt, sondern das Zentrum?",
+        summary:
+          "Das Dossier schärft die Lesart des Textgewebes als bewussten Grenzfall zwischen Fakt und Fiktion.",
+        task:
+          "Nutze das Dossier zu Fakt/Fiktion und Gattung und erkläre, warum die Textmontage hier gerade den Erkenntnisgewinn des Romans ausmacht.",
+        questions: [
+          "Was bleibt faktual lesbar?",
+          "Wo beginnt die literarische Form zu arbeiten?",
+          "Warum ist die Gattungsunschärfe hier produktiv?"
+        ]
       }
     ]
   },
@@ -2092,7 +2489,7 @@ export const lessonSets = [
     id: "lesson-17-gerichtsprozesssimulation",
     title: "Lektion 17 · Interaktive Gerichtsprozesssimulation",
     summary:
-      "Zum Abschluss werden Nachwort, Schaubilder, Gutachten, Briefe und Prozesssprache in einer eigenen Schwurgerichts-Simulation gegeneinandergelesen.",
+      "Zum Abschluss werden Nachwort, Schaubilder, Gutachten, Briefe, neue Forschungsdossiers und Prozesssprache in einer eigenen Schwurgerichts-Simulation gegeneinandergelesen.",
     chapterMedia: [
       {
         src: authorImg,
@@ -2106,10 +2503,10 @@ export const lessonSets = [
     ],
     entryIds: ["simulation-1", "simulation-2", "simulation-3"],
     moduleIds: ["nachwort-diskurse"],
-    reviewFocus: "Achte auf Rollenlogik, Materialgebrauch, Beweisstärke, Gutachtenkonflikt und Urteilssprache.",
+    reviewFocus: "Achte auf Rollenlogik, Materialgebrauch, Beweisstärke, Gutachtenkonflikt, Geschlechtergeschichte und Urteilssprache.",
     sebPrompt:
-      "Führe die Gerichtsprozesssimulation durch. Entwickle aus deiner Rolle ein Eröffnungsplädoyer, erschüttere ein gegnerisches Material im Kreuzverhör und begründe am Ende Urteil und Minderheitsvotum.",
-    recommendedTheoryIds: ["prozesssimulation", "fallarchiv", "rechtswissenschaft", "forensik", "prozess-gutachten", "schuld-zusammenhang"],
+      "Führe die Gerichtsprozesssimulation durch. Entwickle aus deiner Rolle ein Eröffnungsplädoyer, erschüttere ein gegnerisches Material im Kreuzverhör und begründe am Ende Urteil, Minderheitsvotum und die historische Rahmung des Falls.",
+    recommendedTheoryIds: ["prozesssimulation", "fallarchiv", "rechtswissenschaft", "forensik", "prozess-gutachten", "schuld-zusammenhang", "queere-weimar", "giftmord-diskurs", "rezeption-gattung"],
     resourceAssignments: [
       {
         resourceId: "prozesssimulation",
@@ -2148,6 +2545,146 @@ export const lessonSets = [
           "Welche Rechtsfigur wählst du?",
           "Welche Rolle spielen Zurechnung und mildernde Umstände?",
           "Wo beginnt die literarische und historische Restunsicherheit jenseits des Urteils?"
+        ]
+      },
+      {
+        resourceId: "queere-weimar",
+        title: "Kontextauftrag: Welche Geschlechtergeschichte sitzt mit im Gerichtssaal?",
+        summary:
+          "Das Dossier bringt queere Weimar-Kontexte, Pressefreiheit und prekäre Rechte in die Schlussdebatte ein.",
+        task:
+          "Nutze das Dossier zur queeren Weimarer Republik und prüfe, wie Fragen von Geschlecht, Sichtbarkeit und historischer Öffentlichkeit die Prozessdeutung mitsteuern.",
+        questions: [
+          "Welche Rolle spielt Geschlechtergeschichte im Fall?",
+          "Wie verändert diese Perspektive dein Urteil?",
+          "Wo droht historische Stigmatisierung die Rechtsfrage zu überformen?"
+        ]
+      },
+      {
+        resourceId: "giftmord-diskurs",
+        title: "Diskursauftrag: Welche Täterinnenbilder müssen im Prozess mitgedacht werden?",
+        summary:
+          "Das Dossier öffnet die Verhandlung für weibliche Giftmordstereotype und kriminologische Zuschreibung.",
+        task:
+          "Nutze das Dossier zu Giftmordwissen und Weiblichkeit, um im Prozess zu prüfen, welche Bilder von `weiblicher` Kriminalität als stilles Vorurteil mitlaufen.",
+        questions: [
+          "Welches Täterinnenbild wirkt am stärksten?",
+          "Wie würdest du es im Prozess stützen oder zerlegen?",
+          "Wo arbeitet Döblin gegen dieses Bild?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-18-queere-weimar-und-mediengeschichte",
+    title: "Lektion 18 · Vertiefung: Queere Weimar-Kontexte und Berliner Mediengeschichte",
+    summary:
+      "Diese Vertiefungslektion bündelt die bereits in Lektion 3, 9 und 10 eingearbeiteten historischen Materialien noch einmal systematisch.",
+    chapterMedia: [
+      {
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        title: "Historische Rückkopplung",
+        caption:
+          "Hier werden die schon eingeführten Kontexte nicht neu angehängt, sondern quer durch den Parcours zusammengezogen.",
+        focusPrompt:
+          "Welche Deutung des Romans wird tragfähiger, wenn du die historischen Materialien aus mehreren Lektionen zusammenliest?"
+      }
+    ],
+    entryIds: ["material-9", "material-10"],
+    moduleIds: ["forschungskontexte"],
+    reviewFocus: "Achte auf Rückkopplung, Öffentlichkeit, Sichtbarkeit, Berlin und historische Tiefenschärfe.",
+    sebPrompt:
+      "Bündle die bereits im Parcours angelegten queeren und mediengeschichtlichen Kontexte. Zeige, welche bisherigen Lektüren dadurch genauer oder korrigierbar werden.",
+    recommendedTheoryIds: ["queere-weimar", "geschichte-weimar", "fallarchiv"],
+    resourceAssignments: [
+      {
+        resourceId: "queere-weimar",
+        title: "Vertiefungsauftrag: Welche Rolle spielt Weimar durch den ganzen Parcours hindurch?",
+        summary:
+          "Das Dossier führt die historisch bereits eingespielten Materialien auf einer eigenen Reflexionsstufe zusammen.",
+        task:
+          "Nutze das Dossier zur queeren Weimarer Republik und arbeite heraus, wie sich Beziehung, Prozess und Öffentlichkeit erst im Rückblick als zusammenhängende historische Matrix lesen lassen.",
+        questions: [
+          "Welche Lektion liest du jetzt anders?",
+          "Wo wird Sichtbarkeit besonders wichtig?",
+          "Welche historische Pointe bleibt am stärksten hängen?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-19-giftmordwissen-und-weibliche-kriminalitaet",
+    title: "Lektion 19 · Vertiefung: Giftmordwissen, Weiblichkeit und Justiz",
+    summary:
+      "Diese Vertiefung bündelt die bereits in Gift-, Prozess- und Urteilspassagen eingearbeiteten Diskursachsen zu Täterinnenbild, Kriminologie und Justiz.",
+    chapterMedia: [
+      {
+        src: coverImg,
+        alt: "Grafische Karte zu Döblins Giftmord-Erzählung",
+        title: "Diskurse zusammenziehen",
+        caption:
+          "Die Lektion verdichtet, was in Lektion 5, 9 und 10 bereits angelegt wurde.",
+        focusPrompt:
+          "Was wird am Fall deutlicher, wenn du Giftmordwissen, Täterinnenstereotyp und Justizgeschichte zusammenliest?"
+      }
+    ],
+    entryIds: ["material-11", "material-12"],
+    moduleIds: ["forschungskontexte"],
+    reviewFocus: "Arbeite an Diskursverdichtung, Täterinnenbild, Justizgeschichte und literarischer Gegenbewegung.",
+    sebPrompt:
+      "Bündle die bereits eingearbeiteten Diskurse zu Giftmordwissen und Justiz. Zeige, wie Döblins Text im Rückblick gegen stereotype und rein juristische Reduktionen arbeitet.",
+    recommendedTheoryIds: ["giftmord-diskurs", "rechtswissenschaft", "prozess-gutachten", "geschichte-weimar"],
+    resourceAssignments: [
+      {
+        resourceId: "giftmord-diskurs",
+        title: "Vertiefungsauftrag: Welche Diskursfigur trägt den Fall, welche zerbricht?",
+        summary:
+          "Das Dossier führt die vorher eingestreuten Täterinnenbilder in einer expliziten Synthese zusammen.",
+        task:
+          "Nutze das Dossier zu Giftmordwissen und Weiblichkeit und zeige, welche Bilder der `Giftmischerin` über den Parcours hinweg stabil bleiben und wo Döblins Text sie auflöst.",
+        questions: [
+          "Welches Stereotyp bleibt am hartnäckigsten?",
+          "Welche Lektion widerspricht ihm am stärksten?",
+          "Was folgt daraus für deine Gesamtsicht?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-20-fakt-fiktion-und-forschungspfade",
+    title: "Lektion 20 · Vertiefung: Fakt/Fiktion und eigene Forschungspfade",
+    summary:
+      "Die letzte Vertiefung bündelt die bereits eingearbeiteten Rezeptions- und Archivwege und macht aus dem Parcours eine kleine Forschungsplattform.",
+    chapterMedia: [
+      {
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        title: "Vom integrierten Material zur eigenen Frage",
+        caption:
+          "Die Schlusslektion nimmt die schon benutzten Recherchen, PDFs und Portale auf und führt sie in einen offenen Forschungsausblick.",
+        focusPrompt:
+          "Welche deiner bisherigen Deutungen würdest du jetzt mit einer gezielten Forschungsfrage weiterverfolgen?"
+      }
+    ],
+    entryIds: ["material-13", "material-14"],
+    moduleIds: ["forschungskontexte"],
+    reviewFocus: "Achte auf Synthese, Gattungsfrage, Rezeption, Archiv und Anschlussfähigkeit.",
+    sebPrompt:
+      "Bündle die bereits in Fallpoetik, Textmontage und Archivlektionen eingearbeiteten Forschungswege. Zeige, welche eigene Frage sich aus dem Parcours jetzt seriös weiterentwickeln lässt.",
+    recommendedTheoryIds: ["rezeption-gattung", "doeblin-archiv", "pitaval-textmontage", "schuld-zusammenhang"],
+    resourceAssignments: [
+      {
+        resourceId: "doeblin-archiv",
+        title: "Forschungsauftrag: Welche Quelle wird dein nächster Schritt?",
+        summary:
+          "Das Dossier macht aus der integrierten Materiallandschaft einen gezielten Anschluss in Richtung eigener Weiterarbeit.",
+        task:
+          "Nutze das Archiv-Dossier und begründe, welche Quelle, welches PDF oder welches Portal du nach dem Parcours für eine eigene kurze Vertiefung zuerst einsetzen würdest.",
+        questions: [
+          "Welche Quelle ist dein nächster Schritt?",
+          "Welche Frage würdest du daran testen?",
+          "Wie zeigt sich daran, dass die Materialien im Parcours wirklich gearbeitet haben?"
         ]
       }
     ]
@@ -2230,12 +2767,12 @@ decorateLessonSets();
 export const starterPrompt = {
   title: "Autonomer Lernparcours",
   items: [
-    "Arbeite die Einheit selbstgesteuert entlang von siebzehn eng geführten Lektionen im eingebetteten PDF und in den Nachwort-Materialien durch und sichere jede Beobachtung passagennah.",
+    "Arbeite die Einheit selbstgesteuert entlang von zwanzig eng geführten Lektionen im eingebetteten PDF, in den Nachwort-Materialien und in den in den Parcours integrierten Forschungsdossiers durch und sichere jede Beobachtung passagennah.",
     "Beginne immer mit einem Textsignal: Wortlaut, Bild, Raumdetail, Briefformel, Körperreaktion, juristische Formel, Gutachterbegriff, chemischer Stoffhinweis oder forensische Spur.",
-    "Nutze pro Passage mindestens eine literarische und wenn möglich eine interdisziplinäre Linse: Forensik, Chemie/Toxikologie, Rechtswissenschaft, Geschichte der Weimarer Republik, Milieu/Symbiose, Briefe/Rausch oder Schuld/Zusammenhang.",
-    "Arbeite vergleichend: Was klären Literatur, Forensik, Chemie, Strafrecht und Geschichtswissenschaft jeweils gut, und wo bleiben ihre Erklärungen unvollständig?",
+    "Nutze pro Passage mindestens eine literarische und wenn möglich eine interdisziplinäre Linse: Forensik, Chemie/Toxikologie, Rechtswissenschaft, Geschichte der Weimarer Republik, queere Weimar-Kontexte, Giftmorddiskurs, Rezeption/Gattung, Milieu/Symbiose, Briefe/Rausch oder Schuld/Zusammenhang.",
+    "Arbeite vergleichend: Was klären Literatur, Forensik, Chemie, Strafrecht, Geschichtswissenschaft, Gendergeschichte und Gattungsdebatte jeweils gut, und wo bleiben ihre Erklärungen unvollständig?",
     "Halte im Revisionsfeld fest, was du nach neuer Lektüre, nach Feedback oder nach einem Dossiervergleich noch präzisieren würdest.",
-    "Behalte besonders Elli Link, Karl Link, Grete Bende, die Mutterfiguren, Briefe, Arsen, Dosis, Symptome, Haarprobe, Mageninhalt, Gewalt, Prozesssprache, Weimarer Öffentlichkeit, historische Zuschreibungen und den Epilog im Blick."
+    "Behalte besonders Elli Link, Karl Link, Grete Bende, die Mutterfiguren, Briefe, Arsen, Dosis, Symptome, Haarprobe, Mageninhalt, Gewalt, Prozesssprache, queere und geschlechtergeschichtliche Weimar-Kontexte, historische Zuschreibungen, Rezeption und den Epilog im Blick."
   ]
 };
 

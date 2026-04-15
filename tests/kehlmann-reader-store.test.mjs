@@ -24,11 +24,12 @@ test("createClassroom generates a DOEB code and all current lesson ids", () => {
   assert.equal(store.classes.length, 1);
   assert.equal(classroom.name, "Klasse 10B");
   assert.match(classroom.code, /^DOEB-[A-Z0-9]{6}$/);
-  assert.equal(classroom.lessonIds.length, 17);
+  assert.equal(classroom.lessonIds.length, 20);
   assert.ok(classroom.lessonIds.includes("lesson-09-der-fall-vor-gericht"));
   assert.ok(classroom.lessonIds.includes("lesson-10-urteil-und-diskurs"));
   assert.ok(classroom.lessonIds.includes("lesson-12-fallpoetik-und-nachwort"));
   assert.ok(classroom.lessonIds.includes("lesson-17-gerichtsprozesssimulation"));
+  assert.ok(classroom.lessonIds.includes("lesson-20-fakt-fiktion-und-forschungspfade"));
 });
 
 test("regenerateClassroomCode replaces the existing class code", () => {

@@ -10,11 +10,13 @@ Die App bietet:
 - Lehrer*innen-Dashboard mit Fortschrittsübersicht
 - Peer Review
 - sofortiges Arbeitsfeedback und SEB-Fachfeedback
-- siebzehn eng geführte Lektionen mit passagennahen Aufgaben
+- zwanzig eng geführte Lektionen mit passagennahen Aufgaben
 - zusätzliche Dossiers zu Milieu, Briefdynamik, Körper/Gewalt, Prozess und Zusammenhang
 - explizite interdisziplinäre Linsen zu Forensik, Chemie/Toxikologie, Rechtswissenschaft und Geschichte
 - vertiefende Nachwort-Module zu Handschrift, Graphologie, Schaubild, Fallarchiv und Textmontage
-- abschließende interaktive Gerichtsprozesssimulation mit Rollen und zugespielten Materialien
+- neue Forschungsdossiers zu queerer Weimarer Republik, Giftmorddiskurs, Gattungsfrage und Archivarbeit, eingearbeitet in die bestehenden Lektionen
+- eingebundene PDF-Materialien zu Koos, Weiler, Jasper, Dertinger und Silveira
+- erweiterte Gerichtsprozesssimulation mit zusätzlichen Kontext- und Diskursmaterialien
 
 ## Render
 

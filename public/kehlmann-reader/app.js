@@ -894,7 +894,7 @@ function feedbackFor(note, module, entry) {
 
   if (hasSemanticSignal(combined, contextualSignals)) {
     positives.push("Die Antwort bindet die Passage schon an zentrale Figuren, Motive oder Konfliktlinien des Romans zurück.");
-  } else if (relatedTheories.some((resource) => ["milieu-symbiose", "briefe-rausch", "koerper-gewalt", "prozess-gutachten", "schuld-zusammenhang", "forensik", "rechtswissenschaft", "geschichte-weimar"].includes(resource.id))) {
+  } else if (relatedTheories.some((resource) => ["milieu-symbiose", "briefe-rausch", "koerper-gewalt", "prozess-gutachten", "schuld-zusammenhang", "forensik", "rechtswissenschaft", "geschichte-weimar", "queere-weimar", "giftmord-diskurs", "rezeption-gattung", "doeblin-archiv"].includes(resource.id))) {
     steps.push("Schärfe den Roman-Kontext ausdrücklich: Benenne die Figur, das Motiv oder die Beziehung, die diese Passage strukturiert.");
   }
 
@@ -951,6 +951,34 @@ function feedbackFor(note, module, entry) {
     const historyTerms = ["weimar", "republik", "1920", "zeitung", "medien", "großstadt", "grossstadt", "berlin", "geschichte"];
     if (historyTerms.some((term) => theory.includes(term))) {
       positives.push("Die Antwort bindet die Passage bereits sinnvoll an historische Kontexte der Weimarer Republik zurück.");
+    }
+  }
+
+  if (entry.relatedTheoryIds?.includes("queere-weimar")) {
+    const queerTerms = ["queer", "trans", "transgender", "hirschfeld", "rechte", "sichtbarkeit", "pressefreiheit", "demokratie"];
+    if (queerTerms.some((term) => theory.includes(term))) {
+      positives.push("Du bindest die Passage bereits produktiv an queere Weimar-Kontexte, Rechte oder Sichtbarkeit zurück.");
+    }
+  }
+
+  if (entry.relatedTheoryIds?.includes("giftmord-diskurs")) {
+    const diskursTerms = ["giftmord", "giftmischerin", "giftmischerinnen", "weiblichkeit", "kriminologie", "stereotyp", "wulffen"];
+    if (diskursTerms.some((term) => theory.includes(term))) {
+      positives.push("Du arbeitest schon diskurshistorisch und machst Täterinnenbild, Weiblichkeit oder Kriminologie als Deutungshilfe stark.");
+    }
+  }
+
+  if (entry.relatedTheoryIds?.includes("rezeption-gattung")) {
+    const genreTerms = ["gattung", "fakt", "fiktion", "reportage", "neue sachlichkeit", "halbfiktional", "rezeption"];
+    if (genreTerms.some((term) => theory.includes(term))) {
+      positives.push("Du nutzt die Gattungs- und Rezeptionslinse bereits produktiv und hältst Fakt/Fiktion nicht vorschnell auseinander.");
+    }
+  }
+
+  if (entry.relatedTheoryIds?.includes("doeblin-archiv")) {
+    const archiveTerms = ["archiv", "forschung", "portal", "edition", "quelle", "sekundärtext", "sekundaertext"];
+    if (archiveTerms.some((term) => theory.includes(term))) {
+      positives.push("Du behandelst die Passage bereits als Forschungseinstieg und nicht nur als isolierte Einzelszene.");
     }
   }
 
@@ -1814,8 +1842,8 @@ function render() {
           <h1>Autonome Lernlandschaft für einen interdisziplinären Falltext</h1>
           <p>
             ${mode === "seb"
-              ? "Diese SEB-Fassung führt dich durch siebzehn selbstständig bearbeitbare Lektionen mit eingebettetem PDF, sofortigem Arbeitsfeedback, Nachwort-Modulen und einer abschließenden Gerichtsprozesssimulation."
-              : "Die Einheit ist als autonomer Lernparcours gebaut. Links steuerst du Lektionen und Linsen, in der Mitte arbeitest du direkt im PDF, rechts verbindest du Textbeobachtung, Nachwort-Materialien, interdisziplinäre Dossiers, Überarbeitung und Peer Review."}
+              ? "Diese SEB-Fassung führt dich durch zwanzig selbstständig bearbeitbare Lektionen mit eingebettetem PDF, sofortigem Arbeitsfeedback, ausgebauten Nachwort-Modulen, integrierten Forschungsquellen und einer erweiterten Gerichtsprozesssimulation."
+              : "Die Einheit ist als autonomer Lernparcours gebaut. Links steuerst du Lektionen und Linsen, in der Mitte arbeitest du direkt im PDF, rechts verbindest du Textbeobachtung, Nachwort-Materialien, in den Parcours eingearbeitete Forschungsquellen, interdisziplinäre Dossiers, Überarbeitung und Peer Review."}
           </p>
         </div>
         <div class="hero-actions">
