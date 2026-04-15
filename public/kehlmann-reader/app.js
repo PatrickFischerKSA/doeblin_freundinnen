@@ -45,7 +45,8 @@ const semanticGroups = {
   link: ["link", "karl", "ehemann", "mann"],
   grete: ["grete", "bende", "margarete", "frau bende", "freundin"],
   mutter: ["mutter", "muttchen", "schwiegermutter", "frau schnürer"],
-  gift: ["gift", "arsen", "rattenkuchen", "tropfen", "vergiften", "quetschkartoffeln"],
+  gift: ["gift", "arsen", "arsenik", "rattenkuchen", "tropfen", "vergiften", "quetschkartoffeln", "krankenmehl", "giftdosis"],
+  chemie: ["chemie", "toxikologie", "chemiker", "obduktion", "mageninhalt", "haarprobe", "haare", "nachweis", "reaktion", "dosis", "methylalkohol"],
   briefe: ["brief", "briefe", "schreiben", "schreibdrang", "heimlichkeit", "komplott", "selbstberauschung"],
   koerper: ["körper", "koerper", "ekel", "schlag", "schläge", "schlaege", "berührung", "beruehrung", "gewalt", "wildheit"],
   prozess: ["prozess", "prozeß", "gericht", "anklage", "geschworene", "gutachten", "urteil", "öffentlichkeit"],
@@ -845,9 +846,16 @@ function feedbackFor(note, module, entry) {
   }
 
   if (entry.relatedTheoryIds?.includes("forensik")) {
-    const forensicTerms = ["arsen", "gift", "toxikologie", "spur", "spuren", "haare", "nachweis", "obduktion", "chemiker"];
+    const forensicTerms = ["arsen", "gift", "toxikologie", "spur", "spuren", "haare", "nachweis", "obduktion", "chemiker", "mageninhalt", "haarprobe"];
     if (forensicTerms.some((term) => theory.includes(term))) {
       positives.push("Du nutzt die forensische Perspektive bereits, um Textbeobachtung mit Spur, Nachweis oder Giftwissen zu verbinden.");
+    }
+  }
+
+  if (entry.relatedTheoryIds?.includes("chemie-toxikologie")) {
+    const chemistryTerms = ["chemie", "toxikologie", "arsen", "arsenik", "dosis", "giftdosis", "reaktion", "mageninhalt", "haarprobe", "methylalkohol"];
+    if (chemistryTerms.some((term) => theory.includes(term))) {
+      positives.push("Du arbeitest bereits chemisch-toxikologisch und machst Stoff, Dosis oder Reaktion als Analysekategorie fruchtbar.");
     }
   }
 
@@ -868,6 +876,11 @@ function feedbackFor(note, module, entry) {
   if (lesson?.id === "lesson-06-schwanken-und-entdeckung" && !hasSemanticSignal(combined, ["arsen", "briefe", "erlöst", "witwe", "methylalkohol", "polizei"])) {
     cautions.push("Für diese Lektion bleibt der Umschlag von privatem Rausch zu öffentlicher Entdeckung noch zu blass.");
     steps.push("Verbinde die Passage ausdrücklich mit Arsen, Brief-Fund, Witwenphantasie, Methylalkohol oder Ermittlung.");
+  }
+
+  if ((lesson?.id === "lesson-05-arsen-und-alltag" || lesson?.id === "lesson-06-schwanken-und-entdeckung") && !hasSemanticSignal(combined, ["dosis", "giftdosis", "reaktion", "mageninhalt", "haarprobe", "obduktion", "toxikologie"])) {
+    cautions.push("Der forensisch-chemische Zugriff bleibt noch etwas allgemein. Stoff, Dosis, Reaktion oder Nachweis werden noch nicht deutlich genug benannt.");
+    steps.push("Arbeite mit Begriffen wie Dosis, Reaktion, Mageninhalt, Haarprobe, Obduktion oder toxikologischer Nachweis.");
   }
 
   if (lesson?.id === "lesson-12-fallpoetik-und-nachwort" && !hasSemanticSignal(combined, ["klein", "nebbe", "patriarchatskritik", "monokausal", "zusammenhang", "unsicher"])) {
@@ -1714,8 +1727,8 @@ function render() {
           <h1>Autonome Lernlandschaft für einen interdisziplinären Falltext</h1>
           <p>
             ${mode === "seb"
-              ? "Diese SEB-Fassung führt dich durch zwölf selbstständig bearbeitbare Lektionen mit eingebettetem PDF, sofortigem Arbeitsfeedback und interdisziplinären Dossiers zu Forensik, Rechtswissenschaft, Geschichte, Milieu, Briefdynamik und Zusammenhang."
-              : "Die Einheit ist als autonomer Lernparcours gebaut. Links steuerst du Lektionen und Linsen, in der Mitte arbeitest du direkt im PDF, rechts verbindest du Textbeobachtung, interdisziplinäre Dossiers, Überarbeitung und Peer Review."}
+              ? "Diese SEB-Fassung führt dich durch zwölf selbstständig bearbeitbare Lektionen mit eingebettetem PDF, sofortigem Arbeitsfeedback und interdisziplinären Dossiers zu Forensik, Chemie/Toxikologie, Rechtswissenschaft, Geschichte, Milieu, Briefdynamik und Zusammenhang."
+              : "Die Einheit ist als autonomer Lernparcours gebaut. Links steuerst du Lektionen und Linsen, in der Mitte arbeitest du direkt im PDF, rechts verbindest du Textbeobachtung, forensisch-chemische Dossiers, Überarbeitung und Peer Review."}
           </p>
         </div>
         <div class="hero-actions">

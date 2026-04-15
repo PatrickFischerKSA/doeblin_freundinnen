@@ -136,7 +136,7 @@ export function evaluateReaderSebFeedback({ lessonId, moduleId, entryId, theoryI
   const contextualFitScore = Math.min(1, (
     ratio(expectedHits, Math.max(expectedTerms.length, 1)) * 0.6 +
     (hasSignal(combined, tokenize(module.lens)) ? 0.2 : 0) +
-    (hasSignal(combined, ["elli", "link", "grete", "bende", "arsen", "brief", "briefe", "prozeß", "prozess", "gericht", "milieu", "symbiose"]) ? 0.2 : 0)
+    (hasSignal(combined, ["elli", "link", "grete", "bende", "arsen", "arsenik", "brief", "briefe", "prozeß", "prozess", "gericht", "milieu", "symbiose", "obduktion", "mageninhalt", "haarprobe", "toxikologie", "methylalkohol"]) ? 0.2 : 0)
   ));
 
   const revisionScore = Math.min(1, (
@@ -193,6 +193,11 @@ export function evaluateReaderSebFeedback({ lessonId, moduleId, entryId, theoryI
   if (lesson.id === "lesson-06-schwanken-und-entdeckung" && !hasSignal(combined, ["arsen", "briefe", "erlöst", "witwe", "methylalkohol", "polizei"])) {
     cautions.push("Für diese Lektion fehlen noch klare Signale zu Arsen, Erlösungsrausch oder der öffentlichen Entdeckung des Falls.");
     nextMoves.push("Nenne ausdrücklich Arsen, Briefe, Witwenphantasie, Methylalkohol oder den Umschlag zur Ermittlung.");
+  }
+
+  if ((lesson.id === "lesson-05-arsen-und-alltag" || lesson.id === "lesson-06-schwanken-und-entdeckung") && !hasSignal(combined, ["dosis", "giftdosis", "reaktion", "mageninhalt", "haarprobe", "obduktion", "toxikologie"])) {
+    cautions.push("Im forensisch-chemischen Bereich bleibt die Antwort noch zu allgemein. Stoff, Dosis, Reaktion oder Nachweis könnten präziser benannt werden.");
+    nextMoves.push("Arbeite mit Begriffen wie Dosis, Reaktion, Mageninhalt, Haarprobe, Obduktion oder toxikologischer Nachweis.");
   }
 
   if (lesson.id === "lesson-12-fallpoetik-und-nachwort" && !hasSignal(combined, ["klein", "nebbe", "patriarchatskritik", "monokausal", "zusammenhang", "unsicher"])) {

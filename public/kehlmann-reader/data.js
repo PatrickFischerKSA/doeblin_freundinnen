@@ -67,6 +67,10 @@ const theoryProfiles = {
     label: "Forensik",
     aliases: ["forensik", "arsen", "gift", "toxikologie", "obduktion", "chemiker", "haare", "methylalkohol", "spuren"]
   },
+  "chemie-toxikologie": {
+    label: "Chemie und Toxikologie",
+    aliases: ["chemie", "toxikologie", "arsen", "arsenik", "giftstoff", "dosis", "giftdosis", "reaktion", "mageninhalt", "haarprobe", "nachweis", "methylalkohol", "chemiker"]
+  },
   rechtswissenschaft: {
     label: "Rechtswissenschaft",
     aliases: ["recht", "rechtswissenschaft", "mord", "beihilfe", "zurechnungsfähigkeit", "zurechnungsfaehigkeit", "anklage", "urteil", "strafrecht"]
@@ -399,6 +403,30 @@ export const theoryResources = [
       "Forensisch wird die Passage besonders lesbar, weil sie aus Symptomen, Stoffen und Spuren ..."
   },
   {
+    id: "chemie-toxikologie",
+    title: "Dossier: Chemie, Toxikologie und Gift im Alltag",
+    shortTitle: "Chemie",
+    sourceTitle: "Lokales Dossier zu Arsen, Dosis, Reaktion und Nachweis",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-chemie-und-toxikologie.html",
+    embedUrl: "/reader/assets/doeblin-chemie-und-toxikologie.html",
+    summary:
+      "Die Giftmord-Passagen lassen sich chemisch lesen: Arsen als Stoff, Dosis und Verabreichung, körperliche Reaktion, Mageninhalt, Haarprobe und toxikologischer Nachweis zeigen, wie eng Alltag und Naturwissenschaft im Fall verschränkt sind.",
+    keyIdeas: ["Arsen", "Dosis", "Mageninhalt", "Haarprobe", "Nachweis"],
+    questions: [
+      "Welche chemischen oder toxikologischen Details prägen deine Passage besonders stark?",
+      "Wie arbeitet der Text mit Dosis, Verabreichung und körperlicher Reaktion statt nur mit dem abstrakten Wort `Gift`?",
+      "Wo wird sichtbar, dass chemisches Wissen den Fall präzisiert, aber nicht vollständig erklärt?"
+    ],
+    transferPrompts: [
+      "Lies die Passage chemisch und benenne Stoff, Dosis oder Verabreichungsform möglichst genau.",
+      "Erkläre, wie Arsen, Mageninhalt, Haarprobe oder Nachweisreaktion die Szene neu lesbar machen.",
+      "Prüfe, was die toxikologische Perspektive klärt und was weiterhin eine Deutungsfrage bleibt."
+    ],
+    writingFrame:
+      "Chemisch-toxikologisch gewinnt die Passage an Schärfe, weil hier Stoff, Dosis und Reaktion ..."
+  },
+  {
     id: "rechtswissenschaft",
     title: "Dossier: Rechtswissenschaft, Strafrecht und Zurechnung",
     shortTitle: "Recht",
@@ -649,7 +677,7 @@ export const readerModules = [
       "Die Tat wird nicht als einmaliger Ausbruch erzählt, sondern als Serie von Dosen, Zweifeln, Briefen und häuslichen Handgriffen. Genau darin liegt ihre Kälte.",
     task:
       "Arbeite heraus, wie Döblin den Giftmord zwischen Alltagsroutine, Rauschformeln und innerem Schwanken entfaltet.",
-    relatedTheoryIds: ["koerper-gewalt", "briefe-rausch", "schuld-zusammenhang"],
+    relatedTheoryIds: ["forensik", "chemie-toxikologie", "koerper-gewalt", "briefe-rausch", "schuld-zusammenhang"],
     entries: [
       {
         id: "giftmord-1",
@@ -667,7 +695,7 @@ export const readerModules = [
         ],
         writingFrame:
           "Die Szene wirkt so hart, weil der Mord hier in die Form von ... eintritt.",
-        relatedTheoryIds: ["koerper-gewalt", "schuld-zusammenhang"]
+        relatedTheoryIds: ["forensik", "chemie-toxikologie", "koerper-gewalt", "schuld-zusammenhang"]
       },
       {
         id: "giftmord-2",
@@ -685,7 +713,7 @@ export const readerModules = [
         ],
         writingFrame:
           "Die Passage ist so eindringlich, weil dieselbe Handlung hier zugleich ... und ... bedeutet.",
-        relatedTheoryIds: ["koerper-gewalt", "briefe-rausch"]
+        relatedTheoryIds: ["forensik", "chemie-toxikologie", "koerper-gewalt", "briefe-rausch"]
       },
       {
         id: "giftmord-3",
@@ -703,7 +731,7 @@ export const readerModules = [
         ],
         writingFrame:
           "Gerade das Schwanken macht die Passage aufschlussreich, weil es ... sichtbar macht.",
-        relatedTheoryIds: ["schuld-zusammenhang", "briefe-rausch"]
+        relatedTheoryIds: ["forensik", "chemie-toxikologie", "schuld-zusammenhang", "briefe-rausch"]
       },
       {
         id: "giftmord-4",
@@ -721,7 +749,7 @@ export const readerModules = [
         ],
         writingFrame:
           "Die Passage kippt radikal, weil aus privater Erlösung schlagartig ... wird.",
-        relatedTheoryIds: ["prozess-gutachten", "briefe-rausch"]
+        relatedTheoryIds: ["forensik", "chemie-toxikologie", "prozess-gutachten", "briefe-rausch"]
       }
     ]
   },
@@ -1137,7 +1165,7 @@ export const lessonSets = [
     reviewFocus: "Achte auf Giftkauf, Pflegegesten, Zynismus und Alltagsroutine.",
     sebPrompt:
       "Zeige, wie Döblin den Giftmord nicht als spektakulären Ausbruch, sondern als tödliche Alltagsroutine erzählt und forensisch lesbare Spuren vorbereitet.",
-    recommendedTheoryIds: ["forensik"],
+    recommendedTheoryIds: ["forensik", "chemie-toxikologie"],
     resourceAssignments: [
       {
         resourceId: "forensik",
@@ -1150,6 +1178,19 @@ export const lessonSets = [
           "Welche Spur oder welches Symptom ist besonders wichtig?",
           "Wie hängt der Stoff Arsen mit dem Küchenalltag zusammen?",
           "Was zeigt die forensische Linse, was eine rein psychologische Deutung übersehen würde?"
+        ]
+      },
+      {
+        resourceId: "chemie-toxikologie",
+        title: "Chemieauftrag: Wie arbeitet die Passage mit Stoff, Dosis und Reaktion?",
+        summary:
+          "Das Dossier schärft den Blick für Giftstoff, Verabreichungsform, körperliche Reaktion und toxikologische Präzision.",
+        task:
+          "Nutze das Chemie-Dossier und analysiere, wie Döblin den Giftmord über Arsen, Dosis, Essensform, Körperreaktion und chemisch lesbare Details konkretisiert.",
+        questions: [
+          "Welches Detail verrät am meisten über Stoff oder Dosis?",
+          "Wie verändert die chemische Perspektive deinen Blick auf Quetschkartoffeln, Tropfen oder Krankenmehl?",
+          "Wo wird die Tat als materielle Reaktionskette statt als bloßer Entschluss sichtbar?"
         ]
       }
     ]
@@ -1175,7 +1216,7 @@ export const lessonSets = [
     reviewFocus: "Arbeite an Schwanken, Briefdynamik, Witwenphantasie und Ermittlungsbeginn.",
     sebPrompt:
       "Untersuche, wie Döblin aus innerem Schwanken, Todesfall und Brief-Fund einen Umschlag vom privaten Rausch zur öffentlichen Katastrophe formt.",
-    recommendedTheoryIds: ["briefe-rausch", "prozess-gutachten", "forensik"],
+    recommendedTheoryIds: ["briefe-rausch", "prozess-gutachten", "forensik", "chemie-toxikologie"],
     resourceAssignments: [
       {
         resourceId: "forensik",
@@ -1188,6 +1229,19 @@ export const lessonSets = [
           "Welche forensische Erkenntnis kippt die Situation?",
           "Wie verändert der Arsenbefund die Deutung des Todes?",
           "Was bleibt trotz naturwissenschaftlicher Klärung offen?"
+        ]
+      },
+      {
+        resourceId: "chemie-toxikologie",
+        title: "Chemieauftrag: Welche Rolle spielen Nachweis, Substanz und Befund?",
+        summary:
+          "Das Dossier öffnet den Blick auf Methylalkohol, Arsenbefund, Mageninhalt, Haarprobe und die Logik toxikologischer Sicherung.",
+        task:
+          "Nutze das Chemie-Dossier und zeige, wie die Passage aus unklaren Symptomen einen chemisch lesbaren Fall macht.",
+        questions: [
+          "Welche chemische Information verändert die Lage entscheidend?",
+          "Warum sind Methylalkohol, Arsen oder Haarspuren mehr als bloße Sachdetails?",
+          "Wie kippt die Szene, sobald aus Körperreaktion ein Befund wird?"
         ]
       },
       {
@@ -1426,7 +1480,7 @@ export const lessonSets = [
     reviewFocus: "Arbeite an Realfallbezug, Fallkonstruktion, Patriarchatskritik und offener Erkenntnisform.",
     sebPrompt:
       "Analysiere, wie Nachwort und Fallpoetik den Text zugleich historisch verankern und gegen einfache Erklärungen offenhalten.",
-    recommendedTheoryIds: ["prozess-gutachten", "rechtswissenschaft", "geschichte-weimar", "forensik", "schuld-zusammenhang", "milieu-symbiose"],
+    recommendedTheoryIds: ["prozess-gutachten", "rechtswissenschaft", "geschichte-weimar", "forensik", "chemie-toxikologie", "schuld-zusammenhang", "milieu-symbiose"],
     resourceAssignments: [
       {
         resourceId: "geschichte-weimar",
@@ -1465,6 +1519,19 @@ export const lessonSets = [
           "Welche Spuren sind eindeutig?",
           "Welche Deutungsfragen bleiben trotz Obduktion und Analyse offen?",
           "Wie ergänzt die literarische Form die forensische Rekonstruktion?"
+        ]
+      },
+      {
+        resourceId: "chemie-toxikologie",
+        title: "Chemieauftrag: Wie weit trägt die toxikologische Wahrheit?",
+        summary:
+          "Das Dossier erlaubt einen Schlussvergleich zwischen chemischer Eindeutigkeit und literarischer Offenheit des Falls.",
+        task:
+          "Nutze das Chemie-Dossier und prüfe, was chemische Analyse und toxikologischer Nachweis am Fall endgültig klären und was nur die literarische Form sichtbar macht.",
+        questions: [
+          "Welche chemische Feststellung ist im Fall eindeutig?",
+          "Wo bleibt trotz Stoffanalyse und Nachweis eine Interpretationslücke?",
+          "Warum reicht die toxikologische Wahrheit allein nicht für Döblins Gesamtsicht?"
         ]
       },
       {
@@ -1561,11 +1628,11 @@ export const starterPrompt = {
   title: "Autonomer Lernparcours",
   items: [
     "Arbeite die Einheit selbstgesteuert entlang von zwölf eng geführten Lektionen im eingebetteten PDF durch und sichere jede Beobachtung passagennah.",
-    "Beginne immer mit einem Textsignal: Wortlaut, Bild, Raumdetail, Briefformel, Körperreaktion, juristische Formel, Gutachterbegriff oder forensische Spur.",
-    "Nutze pro Passage mindestens eine literarische und wenn möglich eine interdisziplinäre Linse: Forensik, Rechtswissenschaft, Geschichte der Weimarer Republik, Milieu/Symbiose, Briefe/Rausch oder Schuld/Zusammenhang.",
-    "Arbeite vergleichend: Was klären Literatur, Forensik, Strafrecht und Geschichtswissenschaft jeweils gut, und wo bleiben ihre Erklärungen unvollständig?",
+    "Beginne immer mit einem Textsignal: Wortlaut, Bild, Raumdetail, Briefformel, Körperreaktion, juristische Formel, Gutachterbegriff, chemischer Stoffhinweis oder forensische Spur.",
+    "Nutze pro Passage mindestens eine literarische und wenn möglich eine interdisziplinäre Linse: Forensik, Chemie/Toxikologie, Rechtswissenschaft, Geschichte der Weimarer Republik, Milieu/Symbiose, Briefe/Rausch oder Schuld/Zusammenhang.",
+    "Arbeite vergleichend: Was klären Literatur, Forensik, Chemie, Strafrecht und Geschichtswissenschaft jeweils gut, und wo bleiben ihre Erklärungen unvollständig?",
     "Halte im Revisionsfeld fest, was du nach neuer Lektüre, nach Feedback oder nach einem Dossiervergleich noch präzisieren würdest.",
-    "Behalte besonders Elli Link, Karl Link, Grete Bende, die Mutterfiguren, Briefe, Arsen, Gewalt, Prozesssprache, Weimarer Öffentlichkeit, historische Zuschreibungen und den Epilog im Blick."
+    "Behalte besonders Elli Link, Karl Link, Grete Bende, die Mutterfiguren, Briefe, Arsen, Dosis, Symptome, Haarprobe, Mageninhalt, Gewalt, Prozesssprache, Weimarer Öffentlichkeit, historische Zuschreibungen und den Epilog im Blick."
   ]
 };
 
