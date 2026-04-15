@@ -26,6 +26,7 @@ const CLASS_COOKIE = "kehlmann_reader_class";
 const TEACHER_COOKIE = "kehlmann_teacher_access";
 const SEB_CONFIG_KEY_HASH = process.env.SEB_CONFIG_KEY_HASH || process.env.KEHLMANN_SEB_CONFIG_KEY_HASH || "";
 const READER_PDF_SOURCE = "/reader/assets/doeblin-freundinnen.pdf";
+const ASSET_VERSION = process.env.RENDER_GIT_COMMIT || String(Date.now());
 
 function teacherRuntimeConfig() {
   return {
@@ -36,6 +37,10 @@ function teacherRuntimeConfig() {
     teacherEntryUrl: "/teacher-entry",
     hasSebConfigKeyHash: Boolean(SEB_CONFIG_KEY_HASH)
   };
+}
+
+function assetUrl(pathname) {
+  return `${pathname}?v=${encodeURIComponent(ASSET_VERSION)}`;
 }
 
 function renderShellPage({ title, body, bodyClass = "" }) {
@@ -726,14 +731,14 @@ function renderTeacherPage() {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Lehrer*innen-Dashboard · Döblin Lernlandschaft</title>
-        <link rel="stylesheet" href="/kehlmann-teacher/styles.css">
+        <link rel="stylesheet" href="${assetUrl("/kehlmann-teacher/styles.css")}">
       </head>
       <body>
         <div class="site-background" aria-hidden="true"></div>
         <script>
           window.KEHLMANN_TEACHER_CONFIG = ${JSON.stringify(config)};
         </script>
-        <script type="module" src="/kehlmann-teacher/app.js"></script>
+        <script type="module" src="${assetUrl("/kehlmann-teacher/app.js")}"></script>
       </body>
     </html>
   `;
@@ -748,7 +753,7 @@ function renderReaderPage(mode, lessonId) {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Döblin Lernlandschaft</title>
-        <link rel="stylesheet" href="/reader/styles.css">
+        <link rel="stylesheet" href="${assetUrl("/reader/styles.css")}">
       </head>
       <body>
         <div class="site-background" aria-hidden="true"></div>
@@ -757,7 +762,7 @@ function renderReaderPage(mode, lessonId) {
           window.KEHLMANN_READER_MODE_LABEL = "${modeLabel}";
           window.KEHLMANN_READER_CONFIG = ${JSON.stringify({ forcedLessonId: lessonId || null })};
         </script>
-        <script type="module" src="/reader/app.js"></script>
+        <script type="module" src="${assetUrl("/reader/app.js")}"></script>
       </body>
     </html>
   `;
