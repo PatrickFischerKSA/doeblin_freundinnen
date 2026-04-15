@@ -1069,7 +1069,7 @@ function renderLessonMediaPanel(lesson = currentLesson()) {
   return `
     <section class="lesson-media-panel">
       <div class="section-head">
-        <strong>Bildauftakt dieser Lektion</strong>
+        <strong>Medienauftakt dieser Lektion</strong>
         <span class="status-badge">${escapeHtml(`${media.length} Quelle${media.length === 1 ? "" : "n"}`)}</span>
       </div>
       <div class="lesson-media-grid">
@@ -1079,9 +1079,15 @@ function renderLessonMediaPanel(lesson = currentLesson()) {
               <img src="${escapeHtml(item.src)}" alt="${escapeHtml(item.alt || item.title || "Historische Bildquelle")}">
             </div>
             <div class="lesson-media-copy">
-              <div class="eyebrow">Kapitelauftakt</div>
+              <div class="eyebrow">${escapeHtml(item.mediaLabel || "Kapitelauftakt")}</div>
               <h3>${escapeHtml(item.title)}</h3>
               <p>${escapeHtml(item.caption)}</p>
+              ${item.openUrl || item.audioUrl ? `
+                <div class="chip-row lesson-media-actions">
+                  ${item.openUrl ? `<a class="button secondary" href="${escapeHtml(item.openUrl)}" target="_blank" rel="noreferrer">${escapeHtml(item.openLabel || "Medium öffnen")}</a>` : ""}
+                  ${item.audioUrl ? `<a class="button secondary" href="${escapeHtml(item.audioUrl)}" target="_blank" rel="noreferrer">${escapeHtml(item.audioLabel || "Audio öffnen")}</a>` : ""}
+                </div>
+              ` : ""}
             </div>
             <div class="lesson-media-task">
               <strong>Arbeitsimpuls</strong>

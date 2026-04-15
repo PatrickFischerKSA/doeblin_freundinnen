@@ -638,7 +638,7 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
 
             ${lessonMedia.length ? `
               <section class="lesson-media-panel">
-                <div class="eyebrow">Bildauftakt dieser Lektion</div>
+                <div class="eyebrow">Medienauftakt dieser Lektion</div>
                 <div class="lesson-media-grid">
                   ${lessonMedia.map((item) => `
                     <article class="lesson-media-card">
@@ -646,8 +646,15 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
                         <img src="${item.src}" alt="${item.alt || item.title}">
                       </div>
                       <div>
+                        <div class="eyebrow">${item.mediaLabel || "Kapitelauftakt"}</div>
                         <strong>${item.title}</strong>
                         <p>${item.caption}</p>
+                        ${item.openUrl || item.audioUrl ? `
+                          <div class="row">
+                            ${item.openUrl ? `<a class="button secondary" href="${item.openUrl}" target="_blank" rel="noreferrer">${item.openLabel || "Medium öffnen"}</a>` : ""}
+                            ${item.audioUrl ? `<a class="button secondary" href="${item.audioUrl}" target="_blank" rel="noreferrer">${item.audioLabel || "Audio öffnen"}</a>` : ""}
+                          </div>
+                        ` : ""}
                       </div>
                       <div class="lesson-media-task">
                         <strong>Arbeitsimpuls</strong>

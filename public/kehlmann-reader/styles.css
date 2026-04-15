@@ -377,6 +377,10 @@ button {
   gap: 10px;
 }
 
+.lesson-media-actions {
+  margin-top: 4px;
+}
+
 .lesson-media-task {
   border-left: 4px solid var(--accent);
   padding: 14px;

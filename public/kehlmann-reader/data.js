@@ -1384,6 +1384,18 @@ export const lessonSets = [
           "Der Beginn wirkt leicht und sozial plausibel, trägt aber die spätere Verformung schon in sich.",
         focusPrompt:
           "Arbeite heraus, wie Döblin aus einer scheinbar passenden Verbindung früh eine schiefe Ordnung macht."
+      },
+      {
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        mediaLabel: "Hörbuchauftakt",
+        title: "Hörbuch zum Einstieg in Lektion 1",
+        caption:
+          "Das externe Hörbuchmaterial kann gleich zu Beginn parallel zum ersten Lektionsblock genutzt werden, um Tonfall, Figurenkonstellation und erste Spannungen auditiv aufzunehmen.",
+        openUrl: "https://www.dropbox.com/scl/fo/t2ehz41v70c9f9vbbcbl2/AG2Bs0Ih9jbfpmgmWgpySsI?rlkey=hy8xtqdvhiafxkg43wafr9ref&st=ltmcs0sc&dl=0",
+        openLabel: "Hörbuch auf Dropbox öffnen",
+        focusPrompt:
+          "Höre den Beginn an und halte fest, wie Stimme, Tempo und Tonfall Elli, Link und die frühe Schieflage zusätzlich profilieren."
       }
     ],
     entryIds: ["auftakt-1", "auftakt-2"],
