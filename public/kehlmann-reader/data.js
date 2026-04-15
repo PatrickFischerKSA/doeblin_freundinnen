@@ -99,6 +99,39 @@ function unique(items) {
   return [...new Set(items.filter(Boolean))];
 }
 
+function aliasVariants(value = "") {
+  const plain = normalizeText(value);
+  if (!plain) {
+    return [];
+  }
+
+  const variants = new Set([plain]);
+  if (plain.includes("ä")) {
+    variants.add(plain.replaceAll("ä", "ae"));
+  }
+  if (plain.includes("ö")) {
+    variants.add(plain.replaceAll("ö", "oe"));
+  }
+  if (plain.includes("ü")) {
+    variants.add(plain.replaceAll("ü", "ue"));
+  }
+  if (plain.includes("ß")) {
+    variants.add(plain.replaceAll("ß", "ss"));
+  }
+
+  for (const item of [...variants]) {
+    if (item.length > 5) {
+      for (const suffix of ["en", "er", "e", "n", "s"]) {
+        if (item.endsWith(suffix) && item.length - suffix.length >= 4) {
+          variants.add(item.slice(0, -suffix.length));
+        }
+      }
+    }
+  }
+
+  return [...variants];
+}
+
 function firstSentence(value = "") {
   const text = String(value || "").trim();
   if (!text) {
@@ -141,11 +174,7 @@ function focusTerms(prompt = "", context = "", extras = []) {
 function conceptFromAliases(label, aliases = []) {
   const normalizedAliases = unique(
     aliases.flatMap((alias) => {
-      const plain = normalizeText(alias);
-      if (!plain) {
-        return [];
-      }
-      return unique([plain, ...plain.split(" ").filter((part) => part.length > 2)]);
+      return aliasVariants(alias).flatMap((variant) => unique([variant, ...variant.split(" ").filter((part) => part.length > 2)]));
     })
   );
 

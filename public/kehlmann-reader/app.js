@@ -271,6 +271,16 @@ function renderTaskPreview(task, index, baseLabel = "Aufgabe") {
   `;
 }
 
+function renderTaskFeedbackMarkup(task, feedback) {
+  return `
+    <strong>${escapeHtml(feedback.heading)}</strong>
+    <p>${escapeHtml(feedback.summary)}</p>
+    ${feedback.recognized.length ? `<p><strong>Erkannt:</strong> ${escapeHtml(feedback.recognized.join(", "))}</p>` : ""}
+    ${feedback.missing.length ? `<p><strong>Noch absichern:</strong> ${escapeHtml(feedback.missing.join(", "))}</p>` : ""}
+    <p><strong>Synonymerkennung:</strong> ${escapeHtml((task.synonymHints || []).slice(0, 8).join(", "))}</p>
+  `;
+}
+
 function renderTaskField({ task, value, dataset, label }) {
   const feedback = evaluateAnswer(value, task);
   const dataAttributes = Object.entries(dataset)
@@ -286,12 +296,8 @@ function renderTaskField({ task, value, dataset, label }) {
         ${(task.checklist || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
       </ul>
       <textarea ${dataAttributes} placeholder="${escapeHtml(task.instruction || responsePlaceholder(taskPrompt(task)))}">${escapeHtml(value || "")}</textarea>
-      <div class="task-feedback task-feedback--${feedback.level}">
-        <strong>${escapeHtml(feedback.heading)}</strong>
-        <p>${escapeHtml(feedback.summary)}</p>
-        ${feedback.recognized.length ? `<p><strong>Erkannt:</strong> ${escapeHtml(feedback.recognized.join(", "))}</p>` : ""}
-        ${feedback.missing.length ? `<p><strong>Noch absichern:</strong> ${escapeHtml(feedback.missing.join(", "))}</p>` : ""}
-        <p><strong>Synonymerkennung:</strong> ${escapeHtml((task.synonymHints || []).slice(0, 8).join(", "))}</p>
+      <div class="task-feedback task-feedback--${feedback.level}" data-task-feedback aria-live="polite">
+        ${renderTaskFeedbackMarkup(task, feedback)}
       </div>
       <details class="model-answer">
         <summary>Musterlösung einblenden</summary>
@@ -995,19 +1001,41 @@ function renderLessonMediaPanel(lesson = currentLesson()) {
 }
 
 function renderFocusQuestions(entry) {
-  return focusTasksFor(entry).map((task, index) => renderTaskPreview(task, index, "Fokusauftrag")).join("");
+  const focusAnswers = focusAnswersFor(entry);
+  return focusTasksFor(entry).map((task, index) => renderTaskField({
+    task,
+    value: focusAnswers[index],
+    dataset: { "note-array": "focusAnswers", index },
+    label: responseLabel("Fokusauftrag", index, taskPrompt(task))
+  })).join("");
+}
+
+function renderNotebookFeedbackMarkup(note, module, entry) {
+  const feedback = feedbackFor(note, module, entry);
+  return `
+    <h3>Arbeitsfeedback</h3>
+    <p class="feedback-summary">${escapeHtml(feedback.summary)}</p>
+    <div class="feedback-columns">
+      <div>
+        <strong>Stärken</strong>
+        <ul>${feedback.positives.length ? feedback.positives.map((item) => `<li>${escapeHtml(item)}</li>`).join("") : "<li>Noch keine textnahe Stärke sichtbar.</li>"}</ul>
+      </div>
+      <div>
+        <strong>Diagnose</strong>
+        <ul>${feedback.cautions.length ? feedback.cautions.map((item) => `<li>${escapeHtml(item)}</li>`).join("") : "<li>Keine akute Schwachstelle sichtbar; jetzt vor allem noch präziser absichern.</li>"}</ul>
+      </div>
+      <div>
+        <strong>Nächste Schritte</strong>
+        <ul>${feedback.steps.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+      </div>
+    </div>
+  `;
 }
 
 function renderNotebook(entry) {
   const note = noteForEntry(entry.id);
-  const feedback = feedbackFor(note, currentModule(), entry);
   const theory = currentTheory();
-  const focusAnswers = focusAnswersFor(entry);
-  const theoryResponses = theoryResponseFor(entry, theory);
   const documentation = documentationStatusForEntry(entry, theory);
-  const focusTasks = focusTasksFor(entry);
-  const guidingTasks = guidingTasksFor(theory);
-  const transferTasks = transferTasksFor(entry, theory);
 
   return `
     <section class="panel notebook">
@@ -1048,65 +1076,11 @@ function renderNotebook(entry) {
           Revision / nächster Schritt
           <textarea name="revision" placeholder="Was würdest du nach Feedback oder erneuter Lektüre noch schärfen?">${escapeHtml(note.revision)}</textarea>
         </label>
-
-        <section class="structured-section">
-          <div class="section-head">
-            <strong>Fokusfragen schriftlich beantworten</strong>
-            <span class="status-badge" data-doc-count="focus">${escapeHtml(`${focusAnswers.filter((value) => trimmed(value)).length}/${focusTasks.length}`)}</span>
-          </div>
-          ${focusTasks.map((task, index) => renderTaskField({
-            task,
-            value: focusAnswers[index],
-            dataset: { "note-array": "focusAnswers", index },
-            label: responseLabel("Fokusfrage", index, taskPrompt(task))
-          })).join("")}
-        </section>
-
-        <section class="structured-section">
-          <div class="section-head">
-            <strong>${escapeHtml(`Leitfragen zu ${theory.shortTitle}`)}</strong>
-            <span class="status-badge" data-doc-count="guiding">${escapeHtml(`${theoryResponses.guidingAnswers.filter((value) => trimmed(value)).length}/${guidingTasks.length}`)}</span>
-          </div>
-          ${guidingTasks.map((task, index) => renderTaskField({
-            task,
-            value: theoryResponses.guidingAnswers[index],
-            dataset: { "note-theory-section": "guidingAnswers", index },
-            label: responseLabel("Leitfrage", index, taskPrompt(task))
-          })).join("")}
-        </section>
-
-        <section class="structured-section">
-          <div class="section-head">
-            <strong>Transfer zur Passage schriftlich festhalten</strong>
-            <span class="status-badge" data-doc-count="transfer">${escapeHtml(`${theoryResponses.transferAnswers.filter((value) => trimmed(value)).length}/${transferTasks.length}`)}</span>
-          </div>
-          ${transferTasks.map((task, index) => renderTaskField({
-            task,
-            value: theoryResponses.transferAnswers[index],
-            dataset: { "note-theory-section": "transferAnswers", index },
-            label: responseLabel("Transfer", index, taskPrompt(task))
-          })).join("")}
-        </section>
       </form>
 
       ${mode === "seb" ? "" : `
-        <div class="feedback-box">
-          <h3>Arbeitsfeedback</h3>
-          <p class="feedback-summary">${escapeHtml(feedback.summary)}</p>
-          <div class="feedback-columns">
-            <div>
-              <strong>Stärken</strong>
-              <ul>${feedback.positives.length ? feedback.positives.map((item) => `<li>${escapeHtml(item)}</li>`).join("") : "<li>Noch keine textnahe Stärke sichtbar.</li>"}</ul>
-            </div>
-            <div>
-              <strong>Diagnose</strong>
-              <ul>${feedback.cautions.length ? feedback.cautions.map((item) => `<li>${escapeHtml(item)}</li>`).join("") : "<li>Keine akute Schwachstelle sichtbar; jetzt vor allem noch präziser absichern.</li>"}</ul>
-            </div>
-            <div>
-              <strong>Nächste Schritte</strong>
-              <ul>${feedback.steps.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-            </div>
-          </div>
+        <div class="feedback-box" data-live-note-feedback aria-live="polite">
+          ${renderNotebookFeedbackMarkup(note, currentModule(), entry)}
         </div>
       `}
     </section>
@@ -1269,6 +1243,7 @@ function renderTheoryPanel(module, entry) {
   const theory = currentTheory();
   const guidingTasks = guidingTasksFor(theory);
   const transferTasks = transferTasksFor(entry, theory);
+  const theoryResponses = theoryResponseFor(entry, theory);
   const mediaMarkup = theory.mediaType === "pdf"
     ? `
       <div class="pdf-frame-wrap">
@@ -1319,15 +1294,31 @@ function renderTheoryPanel(module, entry) {
 
       <div class="theory-grid">
         <div class="theory-card">
-          <strong>Verbindliche Leitaufträge</strong>
+          <div class="section-head">
+            <strong>Verbindliche Leitaufträge</strong>
+            <span class="status-badge" data-doc-count="guiding">${escapeHtml(`${theoryResponses.guidingAnswers.filter((value) => trimmed(value)).length}/${guidingTasks.length}`)}</span>
+          </div>
           <div class="question-task-list">
-            ${guidingTasks.map((task, index) => renderTaskPreview(task, index, "Leitauftrag")).join("")}
+            ${guidingTasks.map((task, index) => renderTaskField({
+              task,
+              value: theoryResponses.guidingAnswers[index],
+              dataset: { "note-theory-section": "guidingAnswers", index },
+              label: responseLabel("Leitauftrag", index, taskPrompt(task))
+            })).join("")}
           </div>
         </div>
         <div class="theory-card">
-          <strong>Transfer zur Passage</strong>
+          <div class="section-head">
+            <strong>Transfer zur Passage</strong>
+            <span class="status-badge" data-doc-count="transfer">${escapeHtml(`${theoryResponses.transferAnswers.filter((value) => trimmed(value)).length}/${transferTasks.length}`)}</span>
+          </div>
           <div class="question-task-list">
-            ${transferTasks.map((task, index) => renderTaskPreview(task, index, "Transferauftrag")).join("")}
+            ${transferTasks.map((task, index) => renderTaskField({
+              task,
+              value: theoryResponses.transferAnswers[index],
+              dataset: { "note-theory-section": "transferAnswers", index },
+              label: responseLabel("Transferauftrag", index, taskPrompt(task))
+            })).join("")}
           </div>
         </div>
       </div>
@@ -1795,7 +1786,10 @@ function render() {
               <p>${escapeHtml(entry.context)}</p>
               <div class="signal-grid">${renderSignalWords(entry)}</div>
               <div class="prompt-box">
-                <strong>Verbindliche Fokusaufträge</strong>
+                <div class="section-head">
+                  <strong>Verbindliche Fokusaufträge</strong>
+                  <span class="status-badge" data-doc-count="focus">${escapeHtml(`${focusAnswersFor(entry).filter((value) => trimmed(value)).length}/${focusTasksFor(entry).length}`)}</span>
+                </div>
                 ${renderFocusQuestions(entry)}
               </div>
               <div class="writing-frame-box">
@@ -1953,6 +1947,74 @@ function updateLiveDocumentation() {
       count.textContent = `${response.questionAnswers.filter((value) => trimmed(value)).length}/${resourceQuestionTasksFor(assignment).length}`;
     }
   }
+}
+
+function updateNotebookFeedbackLive() {
+  if (mode === "seb") {
+    return;
+  }
+
+  const entry = currentEntry();
+  const module = currentModule();
+  const feedbackBox = document.querySelector("[data-live-note-feedback]");
+  if (!entry || !module || !feedbackBox) {
+    return;
+  }
+
+  feedbackBox.innerHTML = renderNotebookFeedbackMarkup(noteForEntry(entry.id), module, entry);
+}
+
+function taskForInputElement(element) {
+  const index = Number(element.dataset.index || 0);
+
+  if (element.dataset.noteArray === "focusAnswers") {
+    return focusTasksFor(currentEntry())[index] || null;
+  }
+
+  if (element.dataset.noteTheorySection === "guidingAnswers") {
+    return guidingTasksFor(currentTheory())[index] || null;
+  }
+
+  if (element.dataset.noteTheorySection === "transferAnswers") {
+    return transferTasksFor(currentEntry(), currentTheory())[index] || null;
+  }
+
+  if (element.dataset.resourceId) {
+    const assignment = resourceAssignmentsForLesson().find((item) => item.resourceId === element.dataset.resourceId);
+    if (!assignment) {
+      return null;
+    }
+
+    if (element.dataset.resourceField === "taskResponse") {
+      return assignment.taskCard || buildTask(assignment.task, {
+        context: `${assignment.summary} ${assignment.resource.summary}`,
+        relatedTheoryIds: [assignment.resourceId],
+        keyIdeas: assignment.resource.keyIdeas,
+        writingFrame: assignment.resource.writingFrame,
+        kind: "resource",
+        taskTitle: assignment.title
+      });
+    }
+
+    if (element.dataset.resourceField === "questionAnswers") {
+      return resourceQuestionTasksFor(assignment)[index] || null;
+    }
+  }
+
+  return null;
+}
+
+function updateTaskFeedbackForElement(element) {
+  const wrapper = element.closest(".question-answer-block");
+  const feedbackBox = wrapper?.querySelector("[data-task-feedback]");
+  const task = taskForInputElement(element);
+  if (!wrapper || !feedbackBox || !task) {
+    return;
+  }
+
+  const feedback = evaluateAnswer(element.value, task);
+  feedbackBox.className = `task-feedback task-feedback--${feedback.level}`;
+  feedbackBox.innerHTML = renderTaskFeedbackMarkup(task, feedback);
 }
 
 function updateReviewField(field, value) {
@@ -2191,18 +2253,31 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("input", (event) => {
-  const noteForm = event.target.closest("#note-form");
-  if (noteForm) {
-    if (event.target.dataset.noteArray) {
-      updateNoteArrayField(event.target.dataset.noteArray, Number(event.target.dataset.index || 0), event.target.value);
-    } else if (event.target.dataset.noteTheorySection) {
-      updateTheoryAnswer(event.target.dataset.noteTheorySection, Number(event.target.dataset.index || 0), event.target.value);
-    } else {
-      updateNoteField(event.target.name, event.target.value);
-    }
+  if (event.target.dataset.noteArray) {
+    updateNoteArrayField(event.target.dataset.noteArray, Number(event.target.dataset.index || 0), event.target.value);
+    updateTaskFeedbackForElement(event.target);
     queueSave();
     queueSebFeedback();
     updateLiveDocumentation();
+    return;
+  }
+
+  if (event.target.dataset.noteTheorySection) {
+    updateTheoryAnswer(event.target.dataset.noteTheorySection, Number(event.target.dataset.index || 0), event.target.value);
+    updateTaskFeedbackForElement(event.target);
+    queueSave();
+    queueSebFeedback();
+    updateLiveDocumentation();
+    return;
+  }
+
+  const noteForm = event.target.closest("#note-form");
+  if (noteForm) {
+    updateNoteField(event.target.name, event.target.value);
+    queueSave();
+    queueSebFeedback();
+    updateLiveDocumentation();
+    updateNotebookFeedbackLive();
     return;
   }
 
@@ -2213,6 +2288,7 @@ document.addEventListener("input", (event) => {
       Number(event.target.dataset.index || 0),
       event.target.value
     );
+    updateTaskFeedbackForElement(event.target);
     queueSave();
     updateLiveDocumentation();
     return;
