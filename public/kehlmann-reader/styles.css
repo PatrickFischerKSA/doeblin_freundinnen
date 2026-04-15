@@ -36,19 +36,19 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(244, 240, 230, 0.9) 0%, rgba(236, 228, 210, 0.88) 100%);
+    linear-gradient(180deg, rgba(244, 240, 230, 0.74) 0%, rgba(236, 228, 210, 0.72) 100%);
 }
 
 .site-background::before {
   content: "";
   position: absolute;
-  inset: -40px;
+  inset: -24px;
   background:
-    linear-gradient(180deg, rgba(245, 239, 228, 0.26) 0%, rgba(236, 229, 214, 0.4) 100%),
-    url("/reader/assets/doeblin-background-scene.png") center/cover no-repeat;
-  filter: blur(22px) saturate(0.8);
-  transform: scale(1.08);
-  opacity: 0.92;
+    linear-gradient(180deg, rgba(245, 239, 228, 0.1) 0%, rgba(236, 229, 214, 0.16) 100%),
+    url("/reader/assets/doeblin-background-scene.png") 54% 14% / 116% auto no-repeat;
+  filter: blur(10px) saturate(0.92) contrast(1.04);
+  transform: scale(1.03);
+  opacity: 0.98;
 }
 
 .site-background::after {
@@ -56,8 +56,9 @@ body {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(255, 250, 242, 0.16) 0%, rgba(255, 250, 242, 0.06) 38%, rgba(31, 41, 35, 0.08) 100%),
-    radial-gradient(circle at 22% 18%, rgba(180, 92, 57, 0.14), transparent 0 18%),
+    linear-gradient(90deg, rgba(255, 250, 242, 0.34) 0%, rgba(255, 250, 242, 0.12) 28%, rgba(255, 250, 242, 0.08) 72%, rgba(31, 41, 35, 0.14) 100%),
+    radial-gradient(circle at 54% 18%, rgba(255, 248, 238, 0.02), rgba(255, 248, 238, 0.02) 16%, rgba(255, 248, 238, 0.2) 46%, rgba(244, 240, 230, 0.36) 100%),
+    radial-gradient(circle at 22% 18%, rgba(180, 92, 57, 0.1), transparent 0 18%),
     radial-gradient(circle at 84% 14%, rgba(49, 67, 53, 0.08), transparent 0 20%);
 }
 
