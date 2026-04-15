@@ -288,22 +288,29 @@ function renderTaskField({ task, value, dataset, label }) {
     .map(([key, fieldValue]) => `data-${key}="${escapeHtml(String(fieldValue))}"`)
     .join(" ");
   const inputLabel = String(label || "");
+  const prompt = taskPrompt(task);
+  const instruction = task.instruction || responsePlaceholder(prompt);
 
   return `
     <article class="question-answer-block">
-      <strong class="question-answer-label">${escapeHtml(inputLabel)}</strong>
-      <span class="field-prompt">${escapeHtml(taskPrompt(task))}</span>
-      <span class="task-instruction">${escapeHtml(task.instruction || responsePlaceholder(taskPrompt(task)))}</span>
-      <ul class="task-checklist">
-        ${(task.checklist || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
-      </ul>
-      <textarea ${dataAttributes} aria-label="${escapeHtml(inputLabel)}" placeholder="${escapeHtml(task.instruction || responsePlaceholder(taskPrompt(task)))}">${escapeHtml(value || "")}</textarea>
+      <div class="section-head">
+        <strong class="question-answer-label">${escapeHtml(inputLabel)}</strong>
+        <span class="status-badge">${escapeHtml(task.operatorLabel || promptOperator(prompt))}</span>
+      </div>
+      <span class="field-prompt">${escapeHtml(prompt)}</span>
+      <textarea ${dataAttributes} aria-label="${escapeHtml(inputLabel)}" placeholder="${escapeHtml(instruction)}">${escapeHtml(value || "")}</textarea>
       <div class="task-feedback task-feedback--${feedback.level}" data-task-feedback aria-live="polite">
         ${renderTaskFeedbackMarkup(task, feedback)}
       </div>
-      <details class="model-answer">
-        <summary>Musterlösung einblenden</summary>
-        <p>${escapeHtml(task.modelAnswer || "")}</p>
+      <details class="task-guidance">
+        <summary>Hinweise und Musterlösung</summary>
+        <p class="task-instruction">${escapeHtml(instruction)}</p>
+        <ul class="task-checklist">
+          ${(task.checklist || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+        </ul>
+        <div class="model-answer">
+          <p><strong>Musterlösung:</strong> ${escapeHtml(task.modelAnswer || "")}</p>
+        </div>
       </details>
     </article>
   `;
