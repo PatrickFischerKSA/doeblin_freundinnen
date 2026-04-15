@@ -18,14 +18,14 @@ const publicDir = path.resolve(__dirname, "../public");
 const readerDir = path.join(publicDir, "kehlmann-reader");
 const teacherDir = path.join(publicDir, "kehlmann-teacher");
 const readerAssetDir = path.join(publicDir, "reader/assets");
-const OPEN_PASSWORD = process.env.OPEN_VERSION_PASSWORD || process.env.KEHLMANN_OPEN_VERSION_PASSWORD || "22bahnen";
-const TEACHER_PASSWORD = process.env.TEACHER_DASHBOARD_PASSWORD || "caroline_wahl";
+const OPEN_PASSWORD = process.env.OPEN_VERSION_PASSWORD || process.env.KEHLMANN_OPEN_VERSION_PASSWORD || "giftmord";
+const TEACHER_PASSWORD = process.env.TEACHER_DASHBOARD_PASSWORD || "doeblin_berlin";
 const OPEN_COOKIE = "kehlmann_open_access";
 const STUDENT_COOKIE = "kehlmann_reader_student";
 const CLASS_COOKIE = "kehlmann_reader_class";
 const TEACHER_COOKIE = "kehlmann_teacher_access";
 const SEB_CONFIG_KEY_HASH = process.env.SEB_CONFIG_KEY_HASH || process.env.KEHLMANN_SEB_CONFIG_KEY_HASH || "";
-const READER_PDF_SOURCE = "/reader/assets/22-bahnen.pdf";
+const READER_PDF_SOURCE = "/reader/assets/doeblin-freundinnen.pdf";
 const BACKGROUND_VIDEO_SOURCE = "/reader/assets/22-bahnen-background.mp4";
 
 function teacherRuntimeConfig() {
@@ -317,16 +317,17 @@ function lessonMeta(lessonId) {
 function renderLandingPage() {
   const lessons = getLessonSetsWithCounts();
   return renderShellPage({
-    title: "22 Bahnen Lesetool",
+    title: "Döblin Lernlandschaft",
     body: `
       <main class="page">
         <section class="panel">
-          <div class="eyebrow">Caroline Wahl</div>
-          <h1>22 Bahnen</h1>
+          <div class="eyebrow">Alfred Döblin</div>
+          <h1>Die beiden Freundinnen und ihr Giftmord</h1>
           <p>
-            Vollständige Unterrichtseinheit mit integriertem PDF, Registrierung, offenen und
+            Autonome Lernlandschaft mit integriertem PDF, Registrierung, offenen und
             SEB-geschützten Zugängen, Lehrer*innen-Dashboard, Klassen-Codes, Peer Review und
-            differenziertem Fachfeedback.
+            differenziertem Fachfeedback. Die Einheit verbindet Literatur bewusst mit
+            Forensik, Rechtswissenschaft und Geschichte.
           </p>
           <div class="row">
             <a class="button" href="/open">Offene Version</a>
@@ -336,7 +337,7 @@ function renderLandingPage() {
           </div>
         </section>
         <section class="panel">
-          <div class="eyebrow">Lektionssets</div>
+          <div class="eyebrow">Autonome Lernpfade</div>
           <ul class="small-list">
             ${lessons.map((lesson) => `<li><strong>${lesson.title}:</strong> ${lesson.summary}</li>`).join("")}
           </ul>
@@ -417,7 +418,7 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
     : "";
 
   return renderShellPage({
-    title: "Lehrer*inneneingang · 22 Bahnen",
+    title: "Lehrer*inneneingang · Döblin",
     body: `
       <main class="page">
         <section class="panel">
@@ -571,7 +572,7 @@ function renderTeacherEntryPage({ lessonId, entryId } = {}) {
             </div>
 
             <div class="iframe-shell">
-              <iframe src="${pdfUrl}" title="22 Bahnen PDF"></iframe>
+              <iframe src="${pdfUrl}" title="Döblin PDF"></iframe>
             </div>
 
             ${lessonResources.length ? `
@@ -616,7 +617,7 @@ function renderStudentAccessPage({ mode, lessonId, errorText = "" }) {
   const isOpen = mode === "open";
   const lesson = lessonMeta(lessonId);
   const formAction = isOpen ? "/auth/open" : "/auth/seb";
-  const title = isOpen ? "22 Bahnen entsperren" : "SEB-Version öffnen";
+  const title = isOpen ? "Döblin entsperren" : "SEB-Version öffnen";
   const heading = isOpen ? "Roman-Reader entsperren" : "SEB-Reader starten";
 
   return renderShellPage({
@@ -643,7 +644,7 @@ function renderStudentAccessPage({ mode, lessonId, errorText = "" }) {
           <form method="post" action="${formAction}" class="form-grid">
             <input type="hidden" name="lessonId" value="${lessonId || ""}">
             <label for="classCode">Klassen-Code</label>
-            <input id="classCode" name="classCode" type="text" autocomplete="off" placeholder="z. B. WAHL-10A">
+            <input id="classCode" name="classCode" type="text" autocomplete="off" placeholder="z. B. DOEB-10A">
             <label for="displayName">Name / Kürzel</label>
             <input id="displayName" name="displayName" type="text" autocomplete="name" placeholder="z. B. Nora S.">
             ${isOpen ? `
@@ -669,7 +670,7 @@ function renderTeacherLoginPage(errorText = "", redirectTo = "/teacher") {
   const safeRedirect = normalizeTeacherRedirect(redirectTo);
   const isTeacherEntry = safeRedirect === "/teacher-entry";
   return renderShellPage({
-    title: `${isTeacherEntry ? "Lehrer*inneneingang" : "Lehrer*innen-Dashboard"} · 22 Bahnen`,
+    title: `${isTeacherEntry ? "Lehrer*inneneingang" : "Lehrer*innen-Dashboard"} · Döblin`,
     body: `
       <main class="page">
         <section class="panel">
@@ -726,7 +727,7 @@ function renderTeacherPage() {
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Lehrer*innen-Dashboard · 22 Bahnen</title>
+        <title>Lehrer*innen-Dashboard · Döblin Lernlandschaft</title>
         <link rel="stylesheet" href="/kehlmann-teacher/styles.css">
       </head>
       <body>
@@ -752,7 +753,7 @@ function renderReaderPage(mode, lessonId) {
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>22 Bahnen Lesetool</title>
+        <title>Döblin Lernlandschaft</title>
         <link rel="stylesheet" href="/reader/styles.css">
       </head>
       <body>

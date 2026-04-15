@@ -41,37 +41,18 @@ let feedbackTimer = null;
 let sebFeedbackRequestId = 0;
 const entryIndex = new Map();
 const semanticGroups = {
-  tilda: ["tilda", "ich-erzählerin", "ich-erzaehlerin", "erzählerin", "erzaehlerin"],
-  ida: ["ida", "schwester", "kleine schwester"],
-  mutter: ["mutter", "mama", "mam"],
-  viktor: ["viktor"],
-  ivan: ["ivan", "bruder"],
-  wasser: ["wasser", "schwimmen", "bahn", "bahnen", "becken", "meer", "tauchen", "rettung"],
-  kontrolle: ["kontrolle", "ordnen", "ordnung", "ritual", "zählen", "zaehlen", "disziplin", "selbststeuerung"],
-  belastung: ["belastung", "überforderung", "ueberforderung", "druck", "erschöpfung", "erschoepfung", "stress", "panik"],
-  fuersorge: ["fürsorge", "fuersorge", "versorgen", "verantwortung", "parentifizierung", "kümmern", "kuemmern"],
-  perspektive_roman: ["blick", "perspektive", "wahrnehmung", "sicht", "nähe", "naehe", "distanz", "filter", "selbstschutz"],
-  sprache_roman: ["liste", "lakonie", "sprache", "wortwahl", "rhythmus", "satz", "dialog", "körper", "koerper", "geruch", "temperatur"],
-  familie_roman: ["familie", "mutter", "ida", "schwester", "wohnung", "zuhause", "scham"],
-  erinnerung_roman: ["erinnerung", "schuld", "ivan", "vergangenheit", "trauma", "schock"],
-  ambivalenz: ["ambivalenz", "zugleich", "gleichzeitig", "widerspruch", "offen", "offenheit", "doppelt"],
-  historisch: ["historisch", "geschichte", "geschichtlich", "1938", "1939", "vergangenheit"],
-  havanna: ["havanna", "kuba"],
-  florida: ["florida", "miami", "usa", "amerika"],
-  antwerpen: ["antwerpen", "belgien", "großbritannien", "grossbritannien", "england", "frankreich", "niederlande", "holland"],
-  evian: ["évian", "evian", "konferenz", "delegation"],
-  grenze: ["grenze", "grenzen", "grenzregime", "grenzordnung", "transit", "zwischenraum", "zwischenräume"],
-  verweigerung: ["verweigerung", "abwehr", "abweisung", "zurückweisung", "nichtaufnahme", "unterlassung", "untätigkeit"],
-  verhandlung: ["verhandlung", "verhandeln", "diplomatie", "beratung", "telegramm", "gespräch"],
-  buerokratie: ["bürokratie", "buerokratie", "verwaltung", "amt", "akte", "stempel", "genehmigung", "dekret", "formular", "protokoll"],
-  korruption: ["korruption", "bestechung", "bestechlich", "schmiergeld", "gekauft"],
-  dokumentartheater: ["dokumentartheater", "dokumentarisch", "protokollnah", "faktizität", "faktizitaet", "quelle", "zeugenschaft"],
-  episches_theater: ["episch", "episches", "verfremdung", "kommentar", "montage", "distanz", "zuschaueradressierung"],
-  erinnerung: ["erinnerung", "gedenken", "nachgeschichte", "gegenwart", "steinbruch", "mauthausen", "deportation", "deportiert", "auschwitz", "drancy", "gurs", "les milles"],
-  perspektive: ["perspektive", "blick", "sicht", "binnenperspektive", "ich-perspektive", "innenperspektive"],
-  buff: ["buff", "fritz", "17", "siebzehn", "allein", "jugendlich", "jugendlicher", "jugendliche"],
-  gerda: ["gerda", "blachmann", "wilchfort", "miami-lichter", "newsletter", "suizidversuch", "küstenwache", "coast", "guard"],
-  schicksal: ["schicksal", "überlebt", "ueberlebt", "ermordet", "überleben", "ueberleben", "internierung", "lager", "drancy", "auschwitz", "fluchtweg", "visa", "vichy"]
+  elli: ["elli", "ella", "link", "frau link", "ellis"],
+  link: ["link", "karl", "ehemann", "mann"],
+  grete: ["grete", "bende", "margarete", "frau bende", "freundin"],
+  mutter: ["mutter", "muttchen", "schwiegermutter", "frau schnürer"],
+  gift: ["gift", "arsen", "rattenkuchen", "tropfen", "vergiften", "quetschkartoffeln"],
+  briefe: ["brief", "briefe", "schreiben", "schreibdrang", "heimlichkeit", "komplott", "selbstberauschung"],
+  koerper: ["körper", "koerper", "ekel", "schlag", "schläge", "schlaege", "berührung", "beruehrung", "gewalt", "wildheit"],
+  prozess: ["prozess", "prozeß", "gericht", "anklage", "geschworene", "gutachten", "urteil", "öffentlichkeit"],
+  milieu: ["milieu", "wohnung", "haus", "straße", "strasse", "berlin", "friedrichsfelde", "symbiose"],
+  schuld: ["schuld", "zusammenhang", "kausalität", "kausalitaet", "unsicher", "unvermeidlich", "schuldfrage"],
+  sprache: ["wort", "formulierung", "begriff", "romandichtung", "romandichtungen", "satz", "bild"],
+  ambivalenz: ["zugleich", "gleichzeitig", "widerspruch", "ambivalenz", "offen", "unsicher"]
 };
 const semanticLookup = new Map(
   Object.entries(semanticGroups).flatMap(([canonical, variants]) => variants.map((variant) => [variant, canonical]))
@@ -825,7 +806,7 @@ function feedbackFor(note, module, entry) {
 
   if (hasSemanticSignal(combined, contextualSignals)) {
     positives.push("Die Antwort bindet die Passage schon an zentrale Figuren, Motive oder Konfliktlinien des Romans zurück.");
-  } else if (relatedTheories.some((resource) => ["wasser-motivik", "familienrollen", "perspektive", "sprache-koerper"].includes(resource.id))) {
+  } else if (relatedTheories.some((resource) => ["milieu-symbiose", "briefe-rausch", "koerper-gewalt", "prozess-gutachten", "schuld-zusammenhang", "forensik", "rechtswissenschaft", "geschichte-weimar"].includes(resource.id))) {
     steps.push("Schärfe den Roman-Kontext ausdrücklich: Benenne die Figur, das Motiv oder die Beziehung, die diese Passage strukturiert.");
   }
 
@@ -836,35 +817,56 @@ function feedbackFor(note, module, entry) {
     steps.push("Arbeite nicht nur mit Wertungen. Benenne genauer Wortwahl, Liste, Perspektive, Kontrast, Geruch, Temperatur oder Körperreaktion.");
   }
 
-  if (entry.relatedTheoryIds?.includes("perspektive")) {
-    const perspectiveTerms = ["erzähler", "perspektive", "nähe", "distanz", "wahrnehmung"];
-    if (perspectiveTerms.some((term) => theory.includes(term))) {
-      positives.push("Du achtest bereits darauf, wie die Erzählperspektive die Deutung lenkt.");
+  if (entry.relatedTheoryIds?.includes("briefe-rausch")) {
+    const letterTerms = ["brief", "briefe", "heimlichkeit", "komplott", "rausch", "schreiben"];
+    if (letterTerms.some((term) => theory.includes(term))) {
+      positives.push("Du bindest die Passage bereits sinnvoll an die Brief- und Rauschdynamik zurück.");
     }
   }
 
-  if (entry.relatedTheoryIds?.includes("wasser-motivik")) {
-    const waterTerms = ["wasser", "schwimmen", "meer", "tauchen", "bahnen", "rettung"];
-    if (waterTerms.some((term) => theory.includes(term))) {
-      positives.push("Du bindest die Passage bereits überzeugend an die Wasser- und Bewegungsmotivik zurück.");
+  if (entry.relatedTheoryIds?.includes("koerper-gewalt")) {
+    const bodyTerms = ["körper", "koerper", "ekel", "gewalt", "schlag", "berührung", "beruehrung"];
+    if (bodyTerms.some((term) => theory.includes(term))) {
+      positives.push("Du arbeitest bereits heraus, wie stark Körper und Gewalt die Passage strukturieren.");
     }
   }
 
-  if (entry.relatedTheoryIds?.includes("familienrollen")) {
-    const familyTerms = ["fürsorge", "rolle", "mutter", "ida", "schwester", "verantwortung", "familie"];
-    if (familyTerms.some((term) => theory.includes(term))) {
-      positives.push("Du arbeitest bereits heraus, wie stark die Familienrollen in die Passage hineinwirken.");
+  if (entry.relatedTheoryIds?.includes("prozess-gutachten")) {
+    const processTerms = ["prozess", "gericht", "gutachten", "urteil", "anklage"];
+    if (processTerms.some((term) => theory.includes(term))) {
+      positives.push("Du nutzt die Prozess-Linse bereits produktiv, statt nur den Inhalt nachzuerzählen.");
     }
   }
 
-  if (lesson?.id === "lesson-10-fieber-und-rettung" && !hasSemanticSignal(combined, ["meer", "wasser", "vater", "rettung", "seemann", "ida"])) {
-    cautions.push("Für die Fieberlektion bleibt der Zusammenhang von Vaterverlust, Meer und Rettung noch zu blass.");
-    steps.push("Verbinde die Passage ausdrücklich mit Meer, Verlassenwerden, Ida oder Viktors Rettungsfunktion.");
+  if (entry.relatedTheoryIds?.includes("forensik")) {
+    const forensicTerms = ["arsen", "gift", "toxikologie", "spur", "spuren", "haare", "nachweis", "obduktion", "chemiker"];
+    if (forensicTerms.some((term) => theory.includes(term))) {
+      positives.push("Du nutzt die forensische Perspektive bereits, um Textbeobachtung mit Spur, Nachweis oder Giftwissen zu verbinden.");
+    }
   }
 
-  if (lesson?.id === "lesson-12-libellen-und-offenes-ende" && !hasSemanticSignal(combined, ["libelle", "schiff", "lotsen", "wiederkommen", "offen", "schwimmbad"])) {
-    cautions.push("Für die Schlusslektion fehlt noch ein klares Signal für Libellenmotiv, Schiffsbild oder offene Wiederkehr.");
-    steps.push("Nenne ausdrücklich Libelle, Schiff, Lotsenfunktion, Wiederkommen oder den Rücksprung zum Schwimmbad.");
+  if (entry.relatedTheoryIds?.includes("rechtswissenschaft")) {
+    const legalTerms = ["mord", "beihilfe", "zurechnung", "zurechnungsfähigkeit", "zurechnungsfaehigkeit", "schuld", "urteil", "strafrecht"];
+    if (legalTerms.some((term) => theory.includes(term))) {
+      positives.push("Du arbeitest schon mit rechtswissenschaftlichen Kategorien und trennst rechtliche Bewertung von bloßer Moral.");
+    }
+  }
+
+  if (entry.relatedTheoryIds?.includes("geschichte-weimar")) {
+    const historyTerms = ["weimar", "republik", "1920", "zeitung", "medien", "großstadt", "grossstadt", "berlin", "geschichte"];
+    if (historyTerms.some((term) => theory.includes(term))) {
+      positives.push("Die Antwort bindet die Passage bereits sinnvoll an historische Kontexte der Weimarer Republik zurück.");
+    }
+  }
+
+  if (lesson?.id === "lesson-06-schwanken-und-entdeckung" && !hasSemanticSignal(combined, ["arsen", "briefe", "erlöst", "witwe", "methylalkohol", "polizei"])) {
+    cautions.push("Für diese Lektion bleibt der Umschlag von privatem Rausch zu öffentlicher Entdeckung noch zu blass.");
+    steps.push("Verbinde die Passage ausdrücklich mit Arsen, Brief-Fund, Witwenphantasie, Methylalkohol oder Ermittlung.");
+  }
+
+  if (lesson?.id === "lesson-12-fallpoetik-und-nachwort" && !hasSemanticSignal(combined, ["klein", "nebbe", "patriarchatskritik", "monokausal", "zusammenhang", "unsicher"])) {
+    cautions.push("Für die Schlusslektion fehlt noch ein klares Signal zu Fallpoetik, Realfallbezug oder Döblins Kritik an einfachen Erklärungen.");
+    steps.push("Nenne ausdrücklich Klein/Nebbe, Zusammenhang, monokausale Lesart, Patriarchatskritik oder die Unsicherheit der Schuldfrage.");
   }
 
   if (!note.observation.trim() || !note.interpretation.trim()) {
@@ -1040,7 +1042,7 @@ function renderNotebook(entry) {
         </label>
         <label>
           Theoriebezug
-          <textarea name="theory" placeholder="Verbinde die Passage mit Novelle, Naturalismus oder Erzählperspektive.">${escapeHtml(note.theory)}</textarea>
+          <textarea name="theory" placeholder="Verbinde die Passage mit Milieu, Briefdynamik, Körper/Gewalt, Prozess oder Zusammenhang.">${escapeHtml(note.theory)}</textarea>
         </label>
         <label>
           Revision / nächster Schritt
@@ -1257,7 +1259,7 @@ function renderPdfPanel(entry, module) {
       </div>
 
       <div class="pdf-frame-wrap">
-        <iframe class="pdf-frame" src="${pdfUrlForEntry(entry)}" title="22 Bahnen PDF"></iframe>
+        <iframe class="pdf-frame" src="${pdfUrlForEntry(entry)}" title="Döblin PDF"></iframe>
       </div>
     </article>
   `;
@@ -1296,7 +1298,7 @@ function renderTheoryPanel(module, entry) {
     <article class="panel theory-panel">
       <div class="panel-head">
         <div>
-          <div class="eyebrow">Theorie-Linse</div>
+          <div class="eyebrow">Interdisziplinäre Linse</div>
           <h2>${escapeHtml(theory.title)}</h2>
         </div>
         <div class="chip-row">
@@ -1717,12 +1719,12 @@ function render() {
     <main class="reader-shell">
       <section class="hero">
         <div>
-          <div class="eyebrow">Caroline Wahl · 22 Bahnen · ${escapeHtml(modeLabel)}</div>
-          <h1>Engmaschiges PDF-Lesetool für den gesamten Roman</h1>
+          <div class="eyebrow">Alfred Döblin · Die beiden Freundinnen und ihr Giftmord · ${escapeHtml(modeLabel)}</div>
+          <h1>Autonome Lernlandschaft für einen interdisziplinären Falltext</h1>
           <p>
             ${mode === "seb"
-              ? "Diese SEB-Fassung arbeitet mit zwölf eng geführten Lektionen, einem eingebetteten PDF, sofortigem Arbeitsfeedback, Theorie-Dossiers zu Perspektive, Wasser-Motivik, Familienrollen und Sprache sowie mit den externen Video- und Dropbox-Impulsen aus dem Auftrag."
-              : "Der Roman ist vollständig integriert. Links steuerst du zwölf eng geführte Lektionssets und Theorie-Linsen, in der Mitte springst du direkt zu den relevanten PDF-Passagen, rechts verbindest du Textbeobachtung, Theoriebezug, Überarbeitung, Peer Review und die externen Zusatzmaterialien aus dem Auftrag."}
+              ? "Diese SEB-Fassung führt dich durch zwölf selbstständig bearbeitbare Lektionen mit eingebettetem PDF, sofortigem Arbeitsfeedback und interdisziplinären Dossiers zu Forensik, Rechtswissenschaft, Geschichte, Milieu, Briefdynamik und Zusammenhang."
+              : "Die Einheit ist als autonomer Lernparcours gebaut. Links steuerst du Lektionen und Linsen, in der Mitte arbeitest du direkt im PDF, rechts verbindest du Textbeobachtung, interdisziplinäre Dossiers, Überarbeitung und Peer Review."}
           </p>
         </div>
         <div class="hero-actions">
@@ -1742,13 +1744,13 @@ function render() {
           <div class="panel-head">
             <div>
               <div class="eyebrow">${escapeHtml(starterPrompt.title)}</div>
-              <h2>Textpfad</h2>
+              <h2>Lernpfad</h2>
             </div>
           </div>
           <ul class="prompt-list">${renderPromptList()}</ul>
 
           <section class="lesson-box">
-            <div class="eyebrow">Lektionssets</div>
+            <div class="eyebrow">Lernstationen</div>
             <div class="lesson-list">
               ${renderLessonRail()}
             </div>
@@ -1768,7 +1770,7 @@ function render() {
           </div>
 
           <section class="theory-sidebar">
-            <div class="eyebrow">Theorie-Ressourcen</div>
+            <div class="eyebrow">Interdisziplinäre Linsen</div>
             <div class="theory-pill-list">
               ${renderTheorySelector(module, entry)}
             </div>

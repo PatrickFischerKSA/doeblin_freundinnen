@@ -17,17 +17,17 @@ function emptyStore() {
   };
 }
 
-test("createClassroom generates a WAHL code and all current lesson ids", () => {
+test("createClassroom generates a DOEB code and all current lesson ids", () => {
   const store = emptyStore();
   const classroom = createClassroom(store, { name: "Klasse 10B" });
 
   assert.equal(store.classes.length, 1);
   assert.equal(classroom.name, "Klasse 10B");
-  assert.match(classroom.code, /^WAHL-[A-Z0-9]{6}$/);
+  assert.match(classroom.code, /^DOEB-[A-Z0-9]{6}$/);
   assert.equal(classroom.lessonIds.length, 12);
-  assert.ok(classroom.lessonIds.includes("lesson-08-berlin-oder-bleiben"));
-  assert.ok(classroom.lessonIds.includes("lesson-10-fieber-und-rettung"));
-  assert.ok(classroom.lessonIds.includes("lesson-12-libellen-und-offenes-ende"));
+  assert.ok(classroom.lessonIds.includes("lesson-09-der-fall-vor-gericht"));
+  assert.ok(classroom.lessonIds.includes("lesson-10-urteil-und-diskurs"));
+  assert.ok(classroom.lessonIds.includes("lesson-12-fallpoetik-und-nachwort"));
 });
 
 test("regenerateClassroomCode replaces the existing class code", () => {
@@ -38,7 +38,7 @@ test("regenerateClassroomCode replaces the existing class code", () => {
   regenerateClassroomCode(store, classroom.id);
 
   assert.notEqual(classroom.code, previousCode);
-  assert.match(classroom.code, /^WAHL-[A-Z0-9]{6}$/);
+  assert.match(classroom.code, /^DOEB-[A-Z0-9]{6}$/);
 });
 
 test("student registration reuses same learner and stores progress in selected lesson", () => {
@@ -49,33 +49,33 @@ test("student registration reuses same learner and stores progress in selected l
     classCode: classroom.code,
     displayName: "Nora S.",
     mode: "open",
-    lessonId: "lesson-08-berlin-oder-bleiben"
+    lessonId: "lesson-09-der-fall-vor-gericht"
   });
 
   const second = createOrResumeStudent(store, {
     classCode: classroom.code,
     displayName: "Nora S.",
     mode: "seb",
-    lessonId: "lesson-10-fieber-und-rettung"
+    lessonId: "lesson-10-urteil-und-diskurs"
   });
 
   assert.equal(store.students.length, 1);
   assert.equal(first.student.id, second.student.id);
-  assert.equal(second.work.selectedLessonId, "lesson-10-fieber-und-rettung");
+  assert.equal(second.work.selectedLessonId, "lesson-10-urteil-und-diskurs");
 
   saveReaderProgress(store, first.student.id, {
     mode: "open",
-    lessonId: "lesson-10-fieber-und-rettung",
-    moduleId: "krise",
-    entryId: "krise-4",
-    theoryId: "wasser-motivik",
+    lessonId: "lesson-10-urteil-und-diskurs",
+    moduleId: "prozess",
+    entryId: "prozess-3",
+    theoryId: "schuld-zusammenhang",
     notes: {
-      "krise-4": {
-        observation: "Viktor erscheint im Traum als Seemann und in der Wirklichkeit als Pflegender.",
-        evidence: "Seemann, Wickel, neu bezogene Decke",
-        interpretation: "Die Passage macht Rettung nicht pathetisch, sondern praktisch und körperlich erfahrbar.",
-        theory: "Mit der Wasser-Motivik gelesen kippt das Meer hier von Bedrohung in eine vorsichtige Rettungsbewegung.",
-        revision: "Noch genauer auf Ida und den Vaterverlust beziehen."
+      "prozess-3": {
+        observation: "Die Passage verschiebt den Blick weg von einer nackten Täterfrage hin zu Zusammenhängen und Entstehungsbedingungen.",
+        evidence: "schuldig-unschuldig, Zusammenhänge, unvermeidlich",
+        interpretation: "Gerade dadurch wird der Prozessblock mehr als ein Urteilstext: Er reflektiert, wie der Fall überhaupt lesbar gemacht wird.",
+        theory: "Mit dem Dossier zu Schuld und Zusammenhang gelesen zeigt die Stelle, dass Döblin glatte Kausalität misstraut und die Schuldfrage bewusst verunsichert.",
+        revision: "Noch genauer an der Beschreibung des Apparats und der Geschworenen schärfen."
       }
     }
   });
@@ -85,5 +85,5 @@ test("student registration reuses same learner and stores progress in selected l
   const student = overviewClass.students.find((entry) => entry.displayName === "Nora S.");
 
   assert.equal(student.progress.completedEntries, 1);
-  assert.equal(student.progress.lessonProgress.some((lesson) => lesson.id === "lesson-10-fieber-und-rettung"), true);
+  assert.equal(student.progress.lessonProgress.some((lesson) => lesson.id === "lesson-10-urteil-und-diskurs"), true);
 });

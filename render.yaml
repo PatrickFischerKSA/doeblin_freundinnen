@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: wahl-22bahnen
+    name: doeblin-freundinnen
     runtime: node
     plan: free
     buildCommand: npm install

@@ -136,7 +136,7 @@ export function evaluateReaderSebFeedback({ lessonId, moduleId, entryId, theoryI
   const contextualFitScore = Math.min(1, (
     ratio(expectedHits, Math.max(expectedTerms.length, 1)) * 0.6 +
     (hasSignal(combined, tokenize(module.lens)) ? 0.2 : 0) +
-    (hasSignal(combined, ["tilda", "ida", "mutter", "viktor", "ivan", "wasser", "schwimmen", "fürsorge", "meer", "libelle", "berlin"]) ? 0.2 : 0)
+    (hasSignal(combined, ["elli", "link", "grete", "bende", "arsen", "brief", "briefe", "prozeß", "prozess", "gericht", "milieu", "symbiose"]) ? 0.2 : 0)
   ));
 
   const revisionScore = Math.min(1, (
@@ -190,14 +190,14 @@ export function evaluateReaderSebFeedback({ lessonId, moduleId, entryId, theoryI
     nextMoves.push("Nutze das Revisionsfeld für einen konkreten nächsten Schritt statt für eine allgemeine Notiz.");
   }
 
-  if (lesson.id === "lesson-10-fieber-und-rettung" && !hasSignal(combined, ["meer", "rettung", "vater", "seemann", "ida"])) {
-    cautions.push("Für die Fieberlektion fehlt noch ein deutliches Signal zu Meer, Verlassenwerden oder Viktors Rettungsfunktion.");
-    nextMoves.push("Verbinde die Passage ausdrücklich mit Meer, Vaterverlust, Ida oder Viktors Seemann-Motiv.");
+  if (lesson.id === "lesson-06-schwanken-und-entdeckung" && !hasSignal(combined, ["arsen", "briefe", "erlöst", "witwe", "methylalkohol", "polizei"])) {
+    cautions.push("Für diese Lektion fehlen noch klare Signale zu Arsen, Erlösungsrausch oder der öffentlichen Entdeckung des Falls.");
+    nextMoves.push("Nenne ausdrücklich Arsen, Briefe, Witwenphantasie, Methylalkohol oder den Umschlag zur Ermittlung.");
   }
 
-  if (lesson.id === "lesson-12-libellen-und-offenes-ende" && !hasSignal(combined, ["libelle", "schiff", "lotsen", "wiederkommen", "schwimmbad"])) {
-    cautions.push("Für die Schlusslektion fehlen noch klare Signale zum Libellenmotiv, zum Bild vom Schiff oder zur offenen Wiederkehr.");
-    nextMoves.push("Nenne ausdrücklich Libelle, Lotsenfunktion, Schiff, Wiederkommen oder den Rücksprung ins Schwimmbad.");
+  if (lesson.id === "lesson-12-fallpoetik-und-nachwort" && !hasSignal(combined, ["klein", "nebbe", "patriarchatskritik", "monokausal", "zusammenhang", "unsicher"])) {
+    cautions.push("Für die Schlusslektion fehlen noch klare Signale zu Fallpoetik, Realfallbezug oder Döblins Kritik an einfachen Erklärungen.");
+    nextMoves.push("Nenne ausdrücklich Klein/Nebbe, monokausale Lesart, Zusammenhang, Patriarchatskritik oder die schreckliche Unsicherheit der Schuldfrage.");
   }
 
   if (!strengths.length) {

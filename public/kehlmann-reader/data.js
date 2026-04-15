@@ -1,16 +1,6 @@
-const pdfPath = "/reader/assets/22-bahnen.pdf";
-const coverImg = "/reader/assets/22-bahnen-cover.jpg";
-const authorImg = "/reader/assets/caroline-wahl.jpg";
-const dropboxFolder =
-  "https://www.dropbox.com/scl/fo/gvyema66vegtqwou0wnwr/AO4zf617pYeKWWyP_9wDrOI?rlkey=27l9qxttc7iem2fhtdt15f5za&st=hrr3zlfo&dl=0";
-const youtubeOne = "https://www.youtube.com/watch?v=ETB4dW189qY";
-const youtubeTwo = "https://www.youtube.com/watch?v=bCFr14gaHNQ";
-const youtubeThree = "https://www.youtube.com/watch?v=9Qjvm6u4eb4";
-
-function youtubeEmbed(url) {
-  const id = new URL(url).searchParams.get("v");
-  return `https://www.youtube.com/embed/${id}`;
-}
+const pdfPath = "/reader/assets/doeblin-freundinnen.pdf";
+const coverImg = "/reader/assets/doeblin-freundinnen-cover.svg";
+const authorImg = "/reader/assets/alfred-doeblin-card.svg";
 
 const fillerWords = new Set([
   "der",
@@ -45,54 +35,49 @@ const fillerWords = new Set([
   "deinen",
   "passage",
   "szene",
-  "roman",
   "text",
   "stelle",
   "genau",
   "besonders",
   "mehr",
-  "bloße",
-  "blosse",
-  "bloß",
-  "bloss",
   "schon",
-  "früh",
-  "frueh",
-  "gerade"
+  "gerade",
+  "doch",
+  "noch"
 ]);
 
 const theoryProfiles = {
-  perspektive: {
-    label: "Perspektive",
-    aliases: ["perspektive", "ich-erzählung", "ich-erzaehlung", "blick", "sicht", "wahrnehmung", "nähe", "naehe", "distanz", "filter", "selbstschutz"]
+  "milieu-symbiose": {
+    label: "Milieu und Symbiose",
+    aliases: ["milieu", "symbiose", "straße", "strasse", "wohnung", "haus", "umgebung", "berlin", "friedrichsfelde"]
   },
-  "wasser-motivik": {
-    label: "Wasser-Motivik",
-    aliases: ["wasser", "schwimmen", "bahnen", "tauchen", "meer", "rettung", "becken", "ritual", "welle"]
+  "briefe-rausch": {
+    label: "Briefe und Rausch",
+    aliases: ["brief", "briefe", "selbstberauschung", "heimlichkeit", "komplott", "süße", "suesse", "schreibdrang", "fetisch"]
   },
-  familienrollen: {
-    label: "Familienrollen",
-    aliases: ["familie", "fürsorge", "fuersorge", "verantwortung", "mutter", "ida", "schwester", "parentifizierung", "versorgung"]
+  "koerper-gewalt": {
+    label: "Körper, Gewalt, Abscheu",
+    aliases: ["körper", "koerper", "ekel", "gewalt", "schlag", "schläge", "schlaege", "berührung", "beruehrung", "wut"]
   },
-  "sprache-koerper": {
-    label: "Sprache und Körper",
-    aliases: ["sprache", "liste", "lakonie", "körper", "koerper", "rhythmus", "geruch", "temperatur", "schmerz", "bewegung"]
+  "prozess-gutachten": {
+    label: "Prozess und Gutachten",
+    aliases: ["prozess", "gericht", "gutachten", "geschworene", "anklage", "zuschreibung", "psychiatrie", "urteil"]
   },
-  materialpool: {
-    label: "Materialvergleich",
-    aliases: ["material", "materialpool", "vergleich", "außenperspektive", "aussenperspektive", "impuls", "zusatzmaterial"]
+  forensik: {
+    label: "Forensik",
+    aliases: ["forensik", "arsen", "gift", "toxikologie", "obduktion", "chemiker", "haare", "methylalkohol", "spuren"]
   },
-  "inputvideo-1": {
-    label: "Videovergleich",
-    aliases: ["video", "außenlesart", "aussenlesart", "deutung", "vergleich", "schwerpunkt"]
+  rechtswissenschaft: {
+    label: "Rechtswissenschaft",
+    aliases: ["recht", "rechtswissenschaft", "mord", "beihilfe", "zurechnungsfähigkeit", "zurechnungsfaehigkeit", "anklage", "urteil", "strafrecht"]
   },
-  "inputvideo-2": {
-    label: "Videovergleich",
-    aliases: ["video", "symbolik", "deutung", "vergleich", "außenlesart", "aussenlesart"]
+  "geschichte-weimar": {
+    label: "Geschichte",
+    aliases: ["geschichte", "weimar", "weimarer republik", "medien", "geschlechterordnung", "sexualwissenschaft", "1923", "zeitung", "moderne"]
   },
-  "inputvideo-3": {
-    label: "Videovergleich",
-    aliases: ["video", "schluss", "ende", "deutung", "vergleich", "offenheit", "ambivalenz"]
+  "schuld-zusammenhang": {
+    label: "Schuld und Zusammenhang",
+    aliases: ["schuld", "zusammenhang", "kausalität", "kausalitaet", "romandichtung", "symbiose", "unsicher", "unvermeidlich"]
   }
 };
 
@@ -131,7 +116,7 @@ function capitalize(value = "") {
 function operatorProfile(prompt = "") {
   const text = normalizeText(prompt);
   if (/^(warum|wie|erkläre|erklaere|erläutere|erlaeutere)/.test(text)) {
-    return { label: "Erklären", sentenceCount: "3-4", action: "Erkläre die Beobachtung, sichere sie am Text und leite ihre Wirkung ab" };
+    return { label: "Erklären", sentenceCount: "3-4", action: "Erkläre die Beobachtung, sichere sie am Text und leite ihre Wirkung oder Funktion ab" };
   }
   if (/^(zeige|weise|ordne|vergleiche|verbinde)/.test(text)) {
     return { label: "Zeigen", sentenceCount: "3-4", action: "Zeige die Aussage an einem genauen Detail und führe sie zu einer Deutung weiter" };
@@ -207,7 +192,7 @@ function instructionForTask(prompt, { signalWords = [], relatedTheoryIds = [], k
   const opening = kind === "transfer"
     ? "Beziehe Passage und Deutungslinse ausdrücklich aufeinander."
     : kind === "resource"
-      ? "Nutze die Ressource nur als Vergleichsfolie und bleibe beim Romantext."
+      ? "Nutze die Ressource als Leselinse und bleibe eng am Romanausschnitt."
       : operator.action;
 
   return `Antworte in ${operator.sentenceCount} Sätzen. ${opening}. ${evidencePart} ${theoryPart}`;
@@ -265,701 +250,701 @@ export function buildTask(prompt, options = {}) {
 
 export const theoryResources = [
   {
-    id: "materialpool",
-    title: "Externer Materialpool zum Roman",
-    shortTitle: "Materialpool",
-    sourceTitle: "Dropbox-Ordner und verlinkte Zusatzinputs",
+    id: "milieu-symbiose",
+    title: "Dossier: Berliner Milieuzeichnung und Symbiose",
+    shortTitle: "Milieu",
+    sourceTitle: "Lokales Dossier zu Raum, Milieu und Döblins Fallblick",
     mediaType: "html",
-    openUrl: dropboxFolder,
-    embedUrl: "/reader/assets/materialpool-22-bahnen.html",
+    openUrl: "/reader/assets/doeblin-milieu-und-symbiose.html",
+    embedUrl: "/reader/assets/doeblin-milieu-und-symbiose.html",
     summary:
-      "Diese Linse bündelt die vom Auftrag ausgehenden Zusatzmaterialien. Sie ist keine Musterlösung, sondern eine Vergleichsfolie für eigene Deutungen, Schwerpunktsetzungen und Unterrichtsgespräche.",
-    keyIdeas: ["Vergleichshorizont", "Außenperspektive", "Romanzugang", "Unterrichtsimpuls", "Materialauswahl"],
+      "Döblin liest Menschen nie isoliert. Wohnungen, Straßen, Familienmilieus und Nachbarschaften wirken mit, wenn sich Beziehungen verformen und Entscheidungen verdichten.",
+    keyIdeas: ["Berlin", "Milieu", "Wohnung", "Straße", "Symbiose"],
     questions: [
-      "Welches der externen Materialien ergänzt deine aktuelle Passage am sinnvollsten, und warum gerade dieses?",
-      "An welcher Stelle bestätigt der Materialpool deine Lektüre, und an welcher widerspricht oder verschiebt er sie?",
-      "Wie kannst du ein externes Material nutzen, ohne bloß nachzuerzählen, was dort gesagt wird?"
+      "Welche Räume oder Milieus prägen deine Passage besonders stark mit?",
+      "Wo zeigt sich, dass Figuren hier nicht als isolierte Einzelwesen, sondern in Verstrickungen erscheinen?",
+      "Wie hilft das Milieu, eine Figur nicht psychologisch zu vereinfachen?"
     ],
     transferPrompts: [
-      "Vergleiche deine Passage mit einem Material aus dem Pool und halte genau fest, was sich an deiner Deutung dadurch schärft.",
-      "Erkläre, welche Perspektive von außen auf den Roman hier besonders hilfreich ist: Figurenblick, Motivik, Sprache oder Gesamtdeutung.",
-      "Prüfe, ob das externe Material eher eine Lücke füllt oder deine bisherige Sicht bewusst irritiert."
+      "Ordne deine Passage in Döblins Milieublick ein und benenne mindestens ein raumgebundenes Detail.",
+      "Zeige, wie Wohnung, Straße oder soziale Lage an der Szene mitarbeiten.",
+      "Prüfe, ob der Text die Figuren eher aus ihrem Inneren oder aus ihren Verflechtungen heraus verständlich macht."
     ],
     writingFrame:
-      "Als Vergleichsfolie hilft mir das externe Material, weil es meine Passage nicht ersetzt, sondern ..."
+      "Die Passage wirkt nicht nur über Figurenpsychologie, sondern auch darüber, dass Milieu und Umgebung ..."
   },
   {
-    id: "perspektive",
-    title: "Dossier: Ich-Erzählung, Wahrnehmung und Selbstschutz",
-    shortTitle: "Perspektive",
-    sourceTitle: "Lokales Dossier zur Erzählperspektive",
+    id: "briefe-rausch",
+    title: "Dossier: Briefe, Heimlichkeit und Selbstberauschung",
+    shortTitle: "Briefe",
+    sourceTitle: "Lokales Dossier zu Briefen und Beziehungsdynamik",
     mediaType: "html",
-    openUrl: "/reader/assets/erzaehlperspektive-22-bahnen.html",
-    embedUrl: "/reader/assets/erzaehlperspektive-22-bahnen.html",
+    openUrl: "/reader/assets/doeblin-briefe-und-selbstberauschung.html",
+    embedUrl: "/reader/assets/doeblin-briefe-und-selbstberauschung.html",
     summary:
-      "Das Dossier schärft, dass Tildas Ich-Erzählung nie neutral ist. Sie beobachtet präzise, lenkt aber zugleich weg, wenn Schmerz, Schuld oder Überforderung zu nah kommen.",
-    keyIdeas: ["Ich-Erzählung", "Fokalisierung", "Nähe", "Distanz", "Selbstschutz"],
+      "Die Briefe sind im Text nicht bloß Belege, sondern eine eigene Dynamik. Sie verstärken Liebe, Hass, Heimlichkeit und Komplott, bis Sprache selbst berauschend wird.",
+    keyIdeas: ["Briefe", "Heimlichkeit", "Komplott", "Rausch", "Schreibdrang"],
     questions: [
-      "Wo merkt man in deiner Passage besonders deutlich, dass wir nur Tildas Wahrnehmung erhalten?",
-      "Was blendet Tilda aus, verkürzt sie oder kontrolliert sie sprachlich besonders stark?",
-      "Wie verändert sich die Wirkung einer Szene dadurch, dass Tilda zugleich Beobachterin und Betroffene ist?"
+      "Welche Funktion haben die Briefe in deiner Passage genau: Nähe, Steigerung, Tarnung oder Selbstverführung?",
+      "Wie kippt Sprache im Briefwechsel von Trost in Komplott?",
+      "Warum sind die Briefe zugleich Beweismaterial und Motor der Handlung?"
     ],
     transferPrompts: [
-      "Zeige an einem Wort, Blick oder Wahrnehmungssprung, wie Tilda die Szene filtert.",
-      "Prüfe, ob Tilda in deiner Passage eher Nähe zulässt oder Distanz erzeugt.",
-      "Erkläre, wie die Perspektive das Verhältnis von Kontrolle und Verletzlichkeit formt."
+      "Zeige an einem Detail, wie Schreiben hier mehr tut als bloß Mitteilung.",
+      "Erkläre, wie die Briefe Selbstberauschung und Eskalation zugleich antreiben.",
+      "Prüfe, ob der Briefstil eher verklärt, anstachelt oder entlastet."
     ],
     writingFrame:
-      "Die Passage wirkt so, weil Tilda als Ich-Erzählerin ... wahrnimmt, aber ... zugleich zurückhält."
+      "Die Briefe sind hier wichtig, weil sie nicht nur etwas festhalten, sondern ..."
   },
   {
-    id: "wasser-motivik",
-    title: "Dossier: Wasser, Bahnen, Tauchen und Rettung",
-    shortTitle: "Wasser",
-    sourceTitle: "Lokales Dossier zur Motivik",
+    id: "koerper-gewalt",
+    title: "Dossier: Körper, Gewalt, Abscheu",
+    shortTitle: "Körper",
+    sourceTitle: "Lokales Dossier zu Gewalt- und Körperdarstellung",
     mediaType: "html",
-    openUrl: "/reader/assets/wasser-und-bahnen-22-bahnen.html",
-    embedUrl: "/reader/assets/wasser-und-bahnen-22-bahnen.html",
+    openUrl: "/reader/assets/doeblin-koerper-gewalt-und-ekel.html",
+    embedUrl: "/reader/assets/doeblin-koerper-gewalt-und-ekel.html",
     summary:
-      "Vom Freibad über den Regen bis zum Meer im Fiebertraum trägt Wasser den Roman. Es steht für Ordnung, Flucht, Kontrolle, Überforderung, Erinnerung und Rettung zugleich.",
-    keyIdeas: ["Schwimmen", "Zählen", "Tauchen", "Meer", "Rettung"],
+      "Der Text arbeitet auffallend stark mit Berührung, Abwehr, Ekel, Schlagen und körperlicher Nähe. Gerade dadurch werden Macht, Unterwerfung und seelische Zerrüttung sichtbar.",
+    keyIdeas: ["Ekel", "Berührung", "Schläge", "Unterwerfung", "Körperbild"],
     questions: [
-      "Welche Funktion hat Wasser in deiner Passage genau: Beruhigung, Bedrohung, Erinnerung oder Übergang?",
-      "Wie verbindet das Schwimmen Körperdisziplin mit emotionalem Überleben?",
-      "Wo kippt Wasser im Roman von einem kontrollierten Element in etwas Unberechenbares?"
+      "Wie wird körperliche Nähe in deiner Passage als Gewalt, Zumutung oder Machtfrage gestaltet?",
+      "Wo zeigt der Text Ekel oder Abwehr nicht nur psychologisch, sondern körperlich?",
+      "Welche Funktion hat der Körper im Verhältnis von Herrschaft und Ohnmacht?"
     ],
     transferPrompts: [
-      "Ordne deine Passage in die Wasser-Motivik des Romans ein und benenne eine klare Funktionsverschiebung.",
-      "Erkläre, wie aus den 22 Bahnen mehr wird als bloß eine Sportgewohnheit.",
-      "Zeige, ob Wasser hier eher Schutzraum, Prüfungsraum oder Beziehungsraum ist."
+      "Arbeite heraus, wie ein Körperdetail die gesamte Szene auflädt.",
+      "Zeige, ob die Passage eher mit Gewalt, Erstarrung oder Widerstand arbeitet.",
+      "Prüfe, wie aus Berührung hier Konflikt statt Nähe entsteht."
     ],
     writingFrame:
-      "Das Wasser-Motiv schärft die Passage, weil es hier nicht nur ... bedeutet, sondern zugleich ..."
+      "Der Körper ist in dieser Passage nicht nur Schauplatz, sondern Träger von ..."
   },
   {
-    id: "familienrollen",
-    title: "Dossier: Fürsorge, Parentifizierung und Schwesternschaft",
-    shortTitle: "Familie",
-    sourceTitle: "Lokales Dossier zu Rollen im Roman",
+    id: "prozess-gutachten",
+    title: "Dossier: Prozess, Gutachten, Öffentlichkeit",
+    shortTitle: "Prozess",
+    sourceTitle: "Lokales Dossier zu Gerichts- und Wissensdiskursen",
     mediaType: "html",
-    openUrl: "/reader/assets/fuersorge-und-familie-22-bahnen.html",
-    embedUrl: "/reader/assets/fuersorge-und-familie-22-bahnen.html",
+    openUrl: "/reader/assets/doeblin-prozess-und-gutachten.html",
+    embedUrl: "/reader/assets/doeblin-prozess-und-gutachten.html",
     summary:
-      "Das Dossier zeigt, wie sehr `22 Bahnen` von verschobenen Rollen lebt: Tilda wird zur Versorgerin, Ida ist zugleich Kind und Gegenkraft, die Mutter kippt zwischen Bedürftigkeit, Verletzung und Aggression.",
-    keyIdeas: ["Fürsorge", "Parentifizierung", "Ida", "Mutter", "Vaterleerstelle"],
+      "Im Prozess prallen Strafrecht, Zeitungslogik, psychiatrische Zuschreibung und moralische Empörung aufeinander. Döblin zeigt, wie viele konkurrierende Erklärungsmodelle den Fall besetzen.",
+    keyIdeas: ["Gericht", "Gutachten", "Anklage", "Zuschreibung", "Öffentlichkeit"],
     questions: [
-      "Welche Rolle übernimmt Tilda in deiner Passage, die eigentlich einer erwachsenen Bezugsperson zukommen müsste?",
-      "Wie wird Ida zugleich als schutzbedürftig und erstaunlich handlungsfähig gezeigt?",
-      "Woran erkennt man, dass die Familie nicht stabil ist, obwohl viele Routinen funktionieren?"
+      "Welche Stimme dominiert deine Passage: Gericht, Presse, Gutachten oder Erzählinstanz?",
+      "Wie produziert der Prozess Deutungen statt nur Fakten?",
+      "Wo zeigt sich, dass Wissen über den Fall immer schon interessengeleitet ist?"
     ],
     transferPrompts: [
-      "Arbeite die Rollenverschiebung in deiner Passage präzise heraus.",
-      "Zeige, ob Tildas Fürsorge eher schützt, überfordert oder beides zugleich.",
-      "Prüfe, wie der Roman Nähe nicht idyllisiert, sondern mit Verantwortung auflädt."
+      "Benenne das Deutungsmodell, das in deiner Passage am stärksten wirkt.",
+      "Zeige, wie die Passage zwischen Erklärung und Stigmatisierung schwankt.",
+      "Prüfe, ob das Gutachten den Fall erhellt oder neu verengt."
     ],
     writingFrame:
-      "Die Passage macht Familienrolle nicht als festen Platz sichtbar, sondern als ...",
+      "Die Passage macht deutlich, dass der Prozess nicht nur urteilt, sondern den Fall auch durch ... formt."
   },
   {
-    id: "sprache-koerper",
-    title: "Dossier: Lakonie, Listenstil und Körperwahrnehmung",
-    shortTitle: "Sprache",
-    sourceTitle: "Lokales Dossier zu Sprache und Stil",
+    id: "forensik",
+    title: "Dossier: Forensik, Arsen und toxikologische Spuren",
+    shortTitle: "Forensik",
+    sourceTitle: "Lokales Dossier zu Gift, Obduktion und Beweisführung",
     mediaType: "html",
-    openUrl: "/reader/assets/sprache-und-koerper-22-bahnen.html",
-    embedUrl: "/reader/assets/sprache-und-koerper-22-bahnen.html",
+    openUrl: "/reader/assets/doeblin-forensik-und-arsen.html",
+    embedUrl: "/reader/assets/doeblin-forensik-und-arsen.html",
     summary:
-      "Caroline Wahl verbindet knappe Sätze, Aufzählungen, trockenen Witz und extreme Körpernähe. Gerade dadurch werden Überforderung, Zärtlichkeit und Angst unmittelbar lesbar.",
-    keyIdeas: ["Aufzählung", "Lakonie", "Körper", "Rhythmus", "Ironie"],
+      "Die Erzählung lässt sich auch als forensischer Fall lesen: Giftbeschaffung, Symptome, Obduktion, chemische Analyse und Haarspuren machen sichtbar, wie naturwissenschaftliche Verfahren den Fall rekonstruieren.",
+    keyIdeas: ["Arsen", "Obduktion", "Symptome", "Chemiker", "Spuren"],
     questions: [
-      "Welche sprachliche Form prägt die Passage am stärksten: Liste, Lakonie, Bildlichkeit oder Dialogknappheit?",
-      "Wie arbeitet der Roman mit Geruch, Temperatur, Schmerz oder Bewegung?",
-      "Wo kippt ein trockener Ton in Verletzlichkeit oder umgekehrt?"
+      "Welche Symptome, Stoffe oder Beweisformen prägen deine Passage forensisch besonders stark?",
+      "Wie wird aus Verdacht in deiner Passage ein naturwissenschaftlich gestützter Befund?",
+      "Wo zeigt sich, dass forensisches Wissen den Fall klärt, aber nicht vollständig erklärt?"
     ],
     transferPrompts: [
-      "Benenne ein sprachliches Muster und erkläre seine Wirkung auf die Passage.",
-      "Zeige, wie Körperwahrnehmung die psychische Lage sichtbar macht.",
-      "Prüfe, ob der Witz entlastet, schützt oder den Schmerz gerade schärfer macht."
+      "Lies die Passage als forensische Rekonstruktion und benenne mindestens zwei konkrete Spuren.",
+      "Erkläre, wie Gift, Körperreaktion und Beweisführung in der Szene zusammenarbeiten.",
+      "Prüfe, was die naturwissenschaftliche Perspektive sichtbar macht und was sie offenlässt."
     ],
     writingFrame:
-      "Sprachlich trägt die Passage besonders, weil Wahl hier mit ... arbeitet und dadurch ..."
+      "Forensisch wird die Passage besonders lesbar, weil sie aus Symptomen, Stoffen und Spuren ..."
   },
   {
-    id: "inputvideo-1",
-    title: "YouTube-Impuls 1 aus dem Auftrag",
-    shortTitle: "Video 1",
-    sourceTitle: "Verlinkter YouTube-Input",
-    mediaType: "video",
-    openUrl: youtubeOne,
-    embedUrl: youtubeEmbed(youtubeOne),
+    id: "rechtswissenschaft",
+    title: "Dossier: Rechtswissenschaft, Strafrecht und Zurechnung",
+    shortTitle: "Recht",
+    sourceTitle: "Lokales Dossier zu Anklage, Beihilfe und Urteil",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-rechtswissenschaft-und-strafrecht.html",
+    embedUrl: "/reader/assets/doeblin-rechtswissenschaft-und-strafrecht.html",
     summary:
-      "Dieser vom Auftrag ausgehende Videoimpuls dient als Vergleichshorizont. Nutze ihn nicht als Lösung, sondern als Anlass, deine eigene Lektüre zu prüfen, zu schärfen oder bewusst abzugrenzen.",
-    keyIdeas: ["Vergleich", "Deutungsangebot", "Akzentsetzung", "Romanzugang"],
+      "Der Fall eignet sich für rechtswissenschaftliche Fragen: Was ist Mord, was Beihilfe, wie wird Zurechnungsfähigkeit verhandelt und wie verschränken sich Strafrecht, Gutachten und moralische Bewertung?",
+    keyIdeas: ["Mord", "Beihilfe", "Zurechnung", "Anklage", "Urteil"],
     questions: [
-      "Welchen Schwerpunkt setzt das Video, den du in deiner Passage ebenfalls oder gerade nicht siehst?",
-      "Welche Figur, welches Motiv oder welche Beziehung rückt durch den Videoimpuls stärker in den Vordergrund?",
-      "Wo solltest du der Videoaussage widersprechen, weil der Romantext differenzierter ist?"
+      "Welche juristische Kategorie oder Entscheidungslinie steht in deiner Passage im Vordergrund?",
+      "Wie verändert sich der Fall, wenn du ihn als strafrechtliches Problem statt nur als Beziehungsgeschichte liest?",
+      "Wo kollidieren in der Passage rechtliche, moralische und psychiatrische Deutungen?"
     ],
     transferPrompts: [
-      "Vergleiche deine Passage mit einer Deutungsbewegung aus dem Video.",
-      "Entscheide, ob der Videoimpuls den Roman eher vereinfacht oder sinnvoll zuspitzt.",
-      "Halte fest, was du aus dem Video übernehmen würdest und was nicht."
+      "Benenne die zentrale Rechtsfrage der Passage und sichere sie am Wortlaut.",
+      "Erkläre, wie Anklage, Beihilfe oder Zurechnung den Blick auf den Fall strukturieren.",
+      "Prüfe, ob die juristische Ordnung den Fall präzisiert oder erneut verengt."
     ],
     writingFrame:
-      "Der Videoimpuls ist für meine Passage hilfreich, weil er ... betont; zugleich bleibt wichtig, dass der Roman ..."
+      "Rechtswissenschaftlich ist die Passage wichtig, weil sie den Fall über ... neu ordnet."
   },
   {
-    id: "inputvideo-2",
-    title: "YouTube-Impuls 2 aus dem Auftrag",
-    shortTitle: "Video 2",
-    sourceTitle: "Verlinkter YouTube-Input",
-    mediaType: "video",
-    openUrl: youtubeTwo,
-    embedUrl: youtubeEmbed(youtubeTwo),
+    id: "geschichte-weimar",
+    title: "Dossier: Geschichte der Weimarer Republik und Medienprozess",
+    shortTitle: "Geschichte",
+    sourceTitle: "Lokales Dossier zu Weimar, Geschlechterordnung und Öffentlichkeit",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-geschichte-weimar-und-medien.html",
+    embedUrl: "/reader/assets/doeblin-geschichte-weimar-und-medien.html",
     summary:
-      "Auch dieser Videoimpuls wird hier als Kontrastfolie eingesetzt. Entscheidend ist, ob deine Textbeobachtung dem externen Zugriff standhält oder ihn korrigieren muss.",
-    keyIdeas: ["Kontrastfolie", "Textprüfung", "Figurenblick", "Akzentverschiebung"],
+      "Historisch zeigt der Text mehr als einen Einzelfall: Großstadtmoderne, Geschlechterordnung, Sexualwissenschaft, Sensationspresse und die Rechtskultur der Weimarer Republik prägen mit, wie der Mordfall lesbar wird.",
+    keyIdeas: ["Weimar", "Geschlechterordnung", "Presse", "Sexualwissenschaft", "Moderne"],
     questions: [
-      "Welche Lesart bietet das Video an, die du am Text überprüfen musst?",
-      "An welcher Stelle macht der Videozugriff den Roman pointierter als der Text selbst?",
-      "Wie kannst du aus dem Video eine Rückfrage an deine Passage formulieren?"
+      "Welche historischen Spannungen der Weimarer Republik werden in deiner Passage sichtbar?",
+      "Wie prägen Presse, Geschlechterbilder oder zeitgenössische Wissenschaft den Fall?",
+      "Wodurch wird aus dem Einzelfall zugleich ein historischer Text über die Moderne?"
     ],
     transferPrompts: [
-      "Vergleiche einen Schwerpunkt des Videos mit einem genauen Textsignal deiner Passage.",
-      "Erkläre, ob das Video eher Figurenpsychologie, Handlung oder Motivik in den Vordergrund rückt.",
-      "Prüfe, wo deine Passage widerständig gegen eine glatte Lesart bleibt."
+      "Lies die Passage ausdrücklich historisch und benenne ein Merkmal der Weimarer Gegenwart.",
+      "Erkläre, wie Geschlechterordnung, Sensationspresse oder Sexualdiskurs die Szene mitprägen.",
+      "Prüfe, was sich an deiner Deutung verändert, wenn du den Fall als historisches Dokument der Moderne liest."
     ],
     writingFrame:
-      "Im Vergleich mit dem Video wird deutlich, dass meine Passage nicht nur ..., sondern vor allem ..."
+      "Historisch gewinnt die Passage Schärfe, weil sie nicht nur einen Mordfall, sondern auch ..."
   },
   {
-    id: "inputvideo-3",
-    title: "YouTube-Impuls 3 aus dem Auftrag",
-    shortTitle: "Video 3",
-    sourceTitle: "Verlinkter YouTube-Input",
-    mediaType: "video",
-    openUrl: youtubeThree,
-    embedUrl: youtubeEmbed(youtubeThree),
+    id: "schuld-zusammenhang",
+    title: "Dossier: Schuld, Zusammenhang und Erkenntniskritik",
+    shortTitle: "Zusammenhang",
+    sourceTitle: "Lokales Dossier zum Epilog und zu Döblins Fallpoetik",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-schuld-und-zusammenhang.html",
+    embedUrl: "/reader/assets/doeblin-schuld-und-zusammenhang.html",
     summary:
-      "Der dritte Videoimpuls eignet sich besonders, um Schlussbewegungen, Gesamtwirkung und offene Zukunftsbilder gegen eine fremde Lektüre zu spiegeln.",
-    keyIdeas: ["Gesamtdeutung", "Schluss", "Offenheit", "Abgleich"],
+      "Am Ende verschiebt Döblin den Blick weg vom einfachen Schema schuld/unschuldig. Entscheidend werden Zusammenhänge, Verstrickungen, sprachliche Unschärfe und die Kritik an glatten Erklärungen.",
+    keyIdeas: ["Schuld", "Zusammenhang", "Unsicherheit", "Romandichtungen", "Fallpoetik"],
     questions: [
-      "Welche Gesamtaussage zum Roman scheint in diesem Video angelegt zu sein?",
-      "Passt diese Gesamtaussage wirklich zu deiner Passage oder bleibt sie zu eindeutig?",
-      "Wie verändert der Videoimpuls deinen Blick auf das Ende oder auf Viktors Rolle?"
+      "Wie unterläuft deine Passage einfache Schuldzuschreibungen?",
+      "Welche Rolle spielen sprachliche Unsicherheit und erklärungskritische Sätze?",
+      "Wie macht Döblin aus dem Kriminalfall eine Reflexion über Erkenntnis?"
     ],
     transferPrompts: [
-      "Vergleiche deine Passage mit der Gesamttendenz des Videos.",
-      "Prüfe, ob das Video dem offenen Ende des Romans gerecht wird.",
-      "Erkläre, welche Ambivalenz des Textes du gegen die Außenperspektive verteidigen würdest."
+      "Zeige, wie die Passage zwischen Fakt, Deutung und Unsicherheit pendelt.",
+      "Erkläre, warum Döblin glatte Kausalitäten misstraut.",
+      "Prüfe, wie der Text Zusammenhang wichtiger macht als eindeutige Verurteilung."
     ],
     writingFrame:
-      "Im Abgleich mit dem Video bleibt für mich entscheidend, dass der Roman am Schluss ..."
+      "Gerade diese Passage zeigt, dass Döblin nicht nur nach Täterschaft fragt, sondern nach ..."
   }
 ];
 
 export const readerModules = [
   {
-    id: "routine",
-    title: "Alltag, Disziplin und 22 Bahnen",
-    lens: "Routine, Kontrolle, Selbststeuerung",
+    id: "auftakt",
+    title: "Elli, Link und die frühe Ehefalle",
+    lens: "Rollenentwurf, Enttäuschung, Gewaltbeginn",
     briefing:
-      "Untersuche, wie Tilda ihren Alltag durchlisten, takten und zählen muss. Gerade diese Ordnung verrät früh, wie groß die innere Belastung bereits ist.",
+      "Lies den Beginn nicht als bloße Vorgeschichte. Schon hier legt der Text die asymmetrische Beziehung, die soziale Erwartung an Ehe und die spätere Gewaltspirale an.",
     task:
-      "Arbeite heraus, wie Einkauf, Studium, Schwimmen und Beobachtung bei Tilda nicht bloß Gewohnheiten, sondern Überlebensformen sind.",
-    relatedTheoryIds: ["perspektive", "wasser-motivik", "sprache-koerper"],
+      "Arbeite heraus, wie Döblin Ellis Leichtigkeit, Links Ernst und die frühe Enttäuschung in eine verhängnisvolle Dynamik bringt.",
+    relatedTheoryIds: ["milieu-symbiose", "koerper-gewalt", "schuld-zusammenhang"],
     entries: [
       {
-        id: "routine-1",
-        title: "Der Kassenauftakt als Selbststeuerung",
-        pageHint: "S. 8-9",
+        id: "auftakt-1",
+        title: "Elli zwischen Spiel, Charme und Anziehung",
+        pageHint: "PDF S. 3-4",
+        pageNumber: 3,
+        passageLabel: "Der Kanarienvogel und der ernste Werber",
+        context:
+          "Döblin zeichnet Elli zunächst als lebenslustig, verspielt und schwer festzulegen. Gerade dieser Einstieg macht verständlich, warum Links beharrlicher Ernst für sie zugleich attraktiv und bedrohlich wirkt.",
+        signalWords: ["Wuschelkopf", "Kanarienvogel", "ernst und beharrlich", "Familie gründen", "Munterkeit"],
+        prompts: [
+          "Wie charakterisiert Döblin Elli im Auftakt, ohne sie einfach zu verurteilen?",
+          "Warum wirkt Links Werben im Vergleich zu Ellis bisherigen Männererfahrungen so stark?",
+          "Welche Asymmetrie zwischen Spiel und Ernst entsteht schon in dieser frühen Passage?"
+        ],
+        writingFrame:
+          "Der Auftakt ist wichtig, weil Elli hier zugleich als ... und als ... lesbar wird.",
+        relatedTheoryIds: ["milieu-symbiose", "schuld-zusammenhang"]
+      },
+      {
+        id: "auftakt-2",
+        title: "Versorgung, Aufstieg, unterirdische Enttäuschung",
+        pageHint: "PDF S. 4-5",
+        pageNumber: 5,
+        passageLabel: "Vom Heiratsversprechen zur Ernüchterung",
+        context:
+          "Die Vorstellung von Versorgung, eigener Wirtschaft und sozialer Passung kippt früh in Enttäuschung. Döblin zeigt, wie Ellis Aufstiegshoffnung mit Scham und Verachtung verschränkt ist.",
+        signalWords: ["versorgen", "eigene Wirtschaft", "jämmerlich", "umspringen", "unterirdische Enttäuschung"],
+        prompts: [
+          "Wie arbeitet der Text mit der Idee sozialer Passung und Versorgung?",
+          "Warum wird Link für Elli vom `ernsten Mann` zur Enttäuschung?",
+          "Wodurch klingt die Passage schon nach einem künftigen Machtkampf?"
+        ],
+        writingFrame:
+          "Die frühe Enttäuschung ist zentral, weil sie Ehe hier nicht als Ziel, sondern als ... zeigt.",
+        relatedTheoryIds: ["milieu-symbiose", "schuld-zusammenhang"]
+      },
+      {
+        id: "auftakt-3",
+        title: "Eheliche Berührung, Ekel und starre Rollen",
+        pageHint: "PDF S. 6-7",
+        pageNumber: 6,
+        passageLabel: "Nähe als Zumutung",
+        context:
+          "Mit der Ehe wird körperliche Nähe nicht erfüllend, sondern bedrängend. Döblin beschreibt Ellas Abwehr und Links Kränkung auffallend körpernah und macht daraus eine Machtfrage.",
+        signalWords: ["behagte ihr nicht", "erduldete", "tot", "ich mag nicht", "Ekel"],
+        prompts: [
+          "Wie gestaltet Döblin die eheliche Nähe als Zwang statt als Intimität?",
+          "Welche Rolle spielt Ellis Ekel für die spätere Eskalation?",
+          "Wie zeigt die Passage, dass Körper und Macht hier eng zusammenhängen?"
+        ],
+        writingFrame:
+          "Die Passage macht sichtbar, dass körperliche Nähe hier sofort in ... kippt.",
+        relatedTheoryIds: ["koerper-gewalt", "schuld-zusammenhang"]
+      },
+      {
+        id: "auftakt-4",
+        title: "Wildheit, Bestrafung, gefährlicher Friede",
+        pageHint: "PDF S. 8-9",
         pageNumber: 8,
-        passageLabel: "Listen, Raten, Kontrolle",
+        passageLabel: "Ein Friede auf gefährlichem Weg",
         context:
-          "Der Roman beginnt mit Warenlisten, Preisraten und knapper Beobachtung. Schon im Auftakt zeigt sich, dass Tilda die Welt nur im Modus strenger Selbststeuerung bewältigt.",
-        signalWords: ["Hafermilch", "Levi's-Shirt", "30,72 Euro", "hochschauen", "Höhepunkt"],
+          "Als Link die Beziehung über Wildheit, Demütigung und Wut neu organisiert, verschiebt sich die Dynamik. Der Text zeigt eine Nähe, die aus Kampf und Unterwerfung hervorgeht.",
+        signalWords: ["wild", "bestrafen", "Wut", "unterwarf", "gefährlicher Weg"],
         prompts: [
-          "Welche Wirkung hat der Listenauftakt auf Tildas Figur?",
-          "Wie zeigt die Szene, dass Beobachtung für Tilda ein Kontrollinstrument ist?",
-          "Warum ist dieser Einstieg zugleich komisch und erschöpfend?"
+          "Wie verändert sich die Beziehung durch die neue Wildheit?",
+          "Warum nennt der Text diese Annäherung einen `gefährlichen Weg`?",
+          "Wodurch verbindet Döblin hier Gewalt, Begehren und Macht so eng?"
         ],
         writingFrame:
-          "Der Auftakt ist stark, weil er Tildas Alltag nicht erklärt, sondern sofort als ... erfahrbar macht.",
-        relatedTheoryIds: ["perspektive", "sprache-koerper"]
-      },
-      {
-        id: "routine-2",
-        title: "Zeitplan, Papierstau und aufgestaute Wut",
-        pageHint: "S. 10-11",
-        pageNumber: 10,
-        passageLabel: "Taktung statt Leichtigkeit",
-        context:
-          "Straßenbahn, Uni, Kopierer, Aufgaben: Der Roman verdichtet Tildas Tag über Abfolge und Takt. Der kleine Defekt des Kopierers zeigt, wie wenig Spielraum sie sich leisten kann.",
-        signalWords: ["strikter Zeitplan", "Papierstau", "Zerstörungswut", "Straßenbahn"],
-        prompts: [
-          "Wie macht der Text Zeitdruck sprachlich sichtbar?",
-          "Was verrät Tildas Reaktion auf den Kopierer über ihren Zustand?",
-          "Warum ist die scheinbar banale Alltagsszene für die Figurenzeichnung wichtig?"
-        ],
-        writingFrame:
-          "An der Kopierer-Szene wird sichtbar, dass Tildas Kontrolle nur funktioniert, solange ...",
-        relatedTheoryIds: ["sprache-koerper", "perspektive"]
-      },
-      {
-        id: "routine-3",
-        title: "Tauchen, zählen, sich bestrafen",
-        pageHint: "S. 12-15",
-        pageNumber: 14,
-        passageLabel: "22 Bahnen als Ritual",
-        context:
-          "Im Wasser wird Tildas Tag erstmals geordnet und körperlich übersetzt. Dass sie bei Unsicherheit fünf Bahnen zur Strafe anhängt, macht aus dem Schwimmen ein strenges Ritual.",
-        signalWords: ["Grund", "22 Bahnen", "20 oder 22", "Bestrafung", "zusätzliche Bahnen"],
-        prompts: [
-          "Welche Funktion hat das Schwimmen in dieser frühen Passage?",
-          "Wie verbindet der Text Körperdisziplin mit psychischer Anspannung?",
-          "Warum ist die Selbstbestrafung nach dem Zählfehler so aufschlussreich?"
-        ],
-        writingFrame:
-          "Das Schwimmen bedeutet hier mehr als Sport, weil es Tildas Bedürfnis nach ... sichtbar macht.",
-        relatedTheoryIds: ["wasser-motivik", "sprache-koerper"]
-      },
-      {
-        id: "routine-4",
-        title: "Ursula, Stille und der erste Blick auf Viktor",
-        pageHint: "S. 16-22",
-        pageNumber: 20,
-        passageLabel: "Beobachten statt sprechen",
-        context:
-          "Mit Ursula zeigt der Roman eine Form stiller Verlässlichkeit. Zugleich kippt die Beckenbeobachtung in Schock, als Viktor Tildas Erinnerung an Ivan aktiviert.",
-        signalWords: ["schweigen", "Ursula", "Blickkontakt", "Ivan", "großer Bruder"],
-        prompts: [
-          "Wie funktioniert die stille Beziehung zwischen Tilda und Ursula?",
-          "Wodurch kippt die Sommerleichtigkeit der Szene in Bedrohung oder Übelkeit?",
-          "Wie arbeitet der Text mit Blicken, Distanz und plötzlicher Erinnerung?"
-        ],
-        writingFrame:
-          "Die Passage kippt, weil aus einer Beobachtungsszene plötzlich ... wird.",
-        relatedTheoryIds: ["perspektive", "wasser-motivik"]
+          "Gerade der scheinbare Friede bleibt bedrohlich, weil er auf ... beruht.",
+        relatedTheoryIds: ["koerper-gewalt", "schuld-zusammenhang"]
       }
     ]
   },
   {
-    id: "familie",
-    title: "Zuhause, Fürsorge und kleine Gegenräume",
-    lens: "Parentifizierung, Zärtlichkeit, Überlebensalltag",
+    id: "freundinnen",
+    title: "Grete Bende, Briefe und Gegenwelt",
+    lens: "Heimlichkeit, Gegenbindung, Rachephantasie",
     briefing:
-      "Lies die Familienszenen nicht bloß als Hintergrund. Hier zeigt der Roman, dass Tilda längst Funktionen übernommen hat, die eigentlich Erwachsene tragen müssten.",
+      "Mit Grete Bende entsteht keine harmlose Freundschaft. Der Text zeigt, wie Trost, Begehren, Briefwechsel und Männerhass eine eigene Gegenwelt aufbauen.",
     task:
-      "Arbeite heraus, wie Wahl Fürsorge, Scham, Humor und Erschöpfung innerhalb derselben häuslichen Welt zusammenführt.",
-    relatedTheoryIds: ["familienrollen", "sprache-koerper", "perspektive"],
+      "Zeige, wie sich zwischen Elli und Grete eine Bindung formt, die zugleich Schutzraum, Rausch und Eskalationsmotor wird.",
+    relatedTheoryIds: ["briefe-rausch", "koerper-gewalt", "schuld-zusammenhang"],
     entries: [
       {
-        id: "familie-1",
-        title: "Die Wohnung als Krisenraum",
-        pageHint: "S. 23-28",
-        pageNumber: 26,
-        passageLabel: "Mama hat wieder gekocht",
+        id: "freundinnen-1",
+        title: "Briefe als Heimlichkeit und Komplott",
+        pageHint: "PDF S. 17-18",
+        pageNumber: 17,
+        passageLabel: "Schreiben, obwohl man sich täglich sieht",
         context:
-          "Das Heimkommen enthüllt sofort die instabile Familienlage. Die Küche, die beschlagenen Fenster und die schlafende Mutter machen die Wohnung zum Bild gelebter Verwahrlosung und Scham.",
-        signalWords: ["beschlagene Scheiben", "verbrannt", "Welcome", "dummes Huhn", "gekocht"],
+          "Dass die beiden Frauen sich trotz unmittelbarer Nähe Briefe schreiben, macht das Schreiben selbst bedeutsam. Es dient nicht bloß der Mitteilung, sondern steigert Verfolgung, Nähe und Komplott.",
+        signalWords: ["Briefschreiben", "Komplott gegen die Männer", "Selbstberauschung", "Heimlichkeit", "Süße"],
         prompts: [
-          "Wie zeichnet der Roman die Wohnung als Spiegel der familiären Lage?",
-          "Warum ist der Satz `Mama hat wieder gekocht` so vielsagend?",
-          "Wie mischt die Passage Ekel, Mitleid und Routine?"
+          "Warum beginnt zwischen den beiden Frauen gerade dann ein intensiver Briefwechsel?",
+          "Wie wird aus Hilfe und Trost schrittweise eine berauschende Heimlichkeit?",
+          "Welche neue Form von Nähe entsteht durch das Schreiben?"
         ],
         writingFrame:
-          "Die Wohnung wirkt nicht einfach chaotisch, sondern als Raum, in dem ... alltäglich geworden ist.",
-        relatedTheoryIds: ["familienrollen", "sprache-koerper"]
+          "Das Briefschreiben ist hier mehr als Kommunikation, weil es ... hervorbringt.",
+        relatedTheoryIds: ["briefe-rausch", "schuld-zusammenhang"]
       },
       {
-        id: "familie-2",
-        title: "Mirácoli, Lüge und Zärtlichkeit mit Ida",
-        pageHint: "S. 29-33",
-        pageNumber: 31,
-        passageLabel: "Versorgen, ohne viel zu reden",
+        id: "freundinnen-2",
+        title: "Trennung, Attest, Verfügung",
+        pageHint: "PDF S. 24-26",
+        pageNumber: 25,
+        passageLabel: "Befreiung über Rechtsschritte",
         context:
-          "Zwischen billigem Essen, Müdigkeit und kleinem Trost zeigt sich Tildas Bindung an Ida. Die Lüge `Mirácoli` schützt weniger vor der Wahrheit als vor zusätzlicher Härte.",
-        signalWords: ["Mirácoli", "Gut&Günstig", "Hab dich lieb", "Ich dich auch"],
+          "Elli sucht rechtliche Distanz von Link, doch der Text erzählt diese Schritte nie als einfache Lösung. Gerade zwischen Attest, Anwalt und Briefen wird sichtbar, wie sehr Befreiung und neue Abhängigkeit ineinandergreifen.",
+        signalWords: ["Attest", "einstweilige Verfügung", "Prozeßvorschuß", "festbleiben", "zusammenbleiben"],
         prompts: [
-          "Wie zeigt die Passage Fürsorge ohne große Sentimentalität?",
-          "Welche Funktion hat die kleine Lüge rund um das Essen?",
-          "Wodurch wird Ida als Gegenüber für Tilda so zentral?"
+          "Wie erscheint die juristische Trennung hier zugleich als Befreiung und neue Verstrickung?",
+          "Welche Rolle spielt Grete Bende in dieser Phase der Abkehr von Link?",
+          "Warum führt der rechtliche Weg im Text noch nicht in eine stabile Ordnung?"
         ],
         writingFrame:
-          "Die Szene trägt, weil Fürsorge hier nicht groß inszeniert, sondern ... wird.",
-        relatedTheoryIds: ["familienrollen", "perspektive"]
+          "Die Passage zeigt, dass formale Befreiung noch keine innere Entlastung ist, weil ...",
+        relatedTheoryIds: ["briefe-rausch", "schuld-zusammenhang"]
       },
       {
-        id: "familie-3",
-        title: "Sommernachtsbrise und Krieg da draußen",
-        pageHint: "S. 34-38",
-        pageNumber: 36,
-        passageLabel: "Ein eigener Atemraum",
+        id: "freundinnen-3",
+        title: "Liebe beweisen, Hass rechtfertigen",
+        pageHint: "PDF S. 33-35",
+        pageNumber: 33,
+        passageLabel: "Rache unter dem Namen Liebe",
         context:
-          "Auf der Matratze erlebt Tilda einen kurzen Gegenraum. Der Roman verbindet Wind, Geruch und Ruhe mit der Erkenntnis, dass sie tagsüber in einen Krieg zurückkehrt.",
-        signalWords: ["Sommernachtsbrise", "leicht", "Krieg da draußen", "für Ida"],
+          "Elli und Grete heizen ihre Gefühle wechselseitig an. Die Formeln vom Liebesbeweis verschleiern und legitimieren zugleich den wachsenden Vernichtungswunsch gegen Link.",
+        signalWords: ["Liebe beweisen", "Rache", "Trauerspiel", "Zone", "verboten"],
         prompts: [
-          "Wie wird aus der nächtlichen Ruhe mehr als bloße Erholung?",
-          "Was bedeutet die Kriegsmetapher im Zusammenhang mit Familie und Kleinstadt?",
-          "Wie arbeitet die Passage mit Atem, Körper und Naturwahrnehmung?"
+          "Wie verbindet der Text Liebesleidenschaft und Hasssteigerung?",
+          "Warum ist die Formel `ich will dir meine Liebe beweisen` so gefährlich?",
+          "Wie verschleiert die Freundinnenbeziehung hier bereits den Schritt zur Tat?"
         ],
         writingFrame:
-          "Die Passage zeigt Erleichterung, aber sie bleibt prekär, weil ...",
-        relatedTheoryIds: ["sprache-koerper", "familienrollen"]
+          "Die Liebesrhetorik wirkt hier nicht entlastend, sondern als ...",
+        relatedTheoryIds: ["briefe-rausch", "koerper-gewalt"]
       },
       {
-        id: "familie-4",
-        title: "Regenweg, Kleinstadt und Idas Auftreten",
-        pageHint: "S. 39-46",
-        pageNumber: 43,
-        passageLabel: "Zwischen Vorstadt und Schwimmbad",
+        id: "freundinnen-4",
+        title: "Vom Krankenbett zum Mordstern",
+        pageHint: "PDF S. 35-38",
+        pageNumber: 38,
+        passageLabel: "Faszination statt Klarheit",
         context:
-          "Der Roman führt die räumliche Enge der Kleinstadt gegen Idas überraschend farbige Selbstinszenierung. Gerade in Tildas Beobachtungen zeigt sich, wie sie Ida liest und schützt.",
-        signalWords: ["Felder", "Kleinstadt", "Snoopy-Rucksack", "Fashionista", "flüstert"],
+          "Der Wunsch, Link aufs Krankenbett zu bringen, schlägt in einen festen Mordentschluss um. Döblin zeigt diese Bewegung nicht als linearen Plan, sondern als Mischung aus Faszination, Schlafzustand und innerer Verfinsterung.",
+        signalWords: ["aufs Krankenbett", "Faszination", "Entrückung", "Stern", "Mord"],
         prompts: [
-          "Wie kontrastiert der Roman Stadt, Vorstadt und Kleinstadt?",
-          "Warum beobachtet Tilda Idas Kleidung und Auftreten so genau?",
-          "Wie entstehen in dieser Passage gleichzeitig Enge und Lebendigkeit?"
+          "Wie beschreibt der Text den Übergang vom Wunsch zur Tötungsphantasie?",
+          "Warum ist von Faszination und Entrückung die Rede und nicht nur von Planung?",
+          "Was verrät die Passage über Döblins Blick auf Entscheidung und Verantwortung?"
         ],
         writingFrame:
-          "Die Passage macht Kleinstadt nicht nur als Ort, sondern als ... erfahrbar.",
-        relatedTheoryIds: ["perspektive", "familienrollen"]
+          "Der Mordentschluss wirkt hier gerade deshalb so beklemmend, weil er aus ... entsteht.",
+        relatedTheoryIds: ["schuld-zusammenhang", "briefe-rausch"]
       }
     ]
   },
   {
-    id: "viktor",
-    title: "Viktor, Erinnerung und die Rückkehr der Vergangenheit",
-    lens: "Begehren, Trauma, Blickregie",
+    id: "giftmord",
+    title: "Arsen, Alltag und tödliche Routine",
+    lens: "Tatvollzug, Schwanken, Pflege und Vergiftung",
     briefing:
-      "Lies Viktors Auftauchen nicht als bloße Liebesgeschichte. Er zieht Ivan, Schuld, Erinnerung und Zukunft gleichzeitig in den Roman hinein.",
+      "Die Tat wird nicht als einmaliger Ausbruch erzählt, sondern als Serie von Dosen, Zweifeln, Briefen und häuslichen Handgriffen. Genau darin liegt ihre Kälte.",
     task:
-      "Zeige, wie Wahl Viktors Präsenz über Blicke, Körperwahrnehmung und nachträgliche Erinnerung auflädt.",
-    relatedTheoryIds: ["perspektive", "wasser-motivik", "familienrollen"],
+      "Arbeite heraus, wie Döblin den Giftmord zwischen Alltagsroutine, Rauschformeln und innerem Schwanken entfaltet.",
+    relatedTheoryIds: ["koerper-gewalt", "briefe-rausch", "schuld-zusammenhang"],
     entries: [
       {
-        id: "viktor-1",
-        title: "Der leere Regenbad-Moment",
-        pageHint: "S. 47-52",
-        pageNumber: 48,
-        passageLabel: "23 Bahnen und ein fremder Rhythmus",
+        id: "giftmord-1",
+        title: "Arsen kaufen, Quetschkartoffeln vergiften",
+        pageHint: "PDF S. 38-39",
+        pageNumber: 39,
+        passageLabel: "Der Entschluss bekommt Stoff",
         context:
-          "Im fast leeren Becken wird Viktors Schwimmen zu einem Gegenbild von Kontrolle, Eleganz und Irritation. Tilda kann sich seinem Rhythmus kaum entziehen.",
-        signalWords: ["fast leer", "23 Bahnen", "grinst", "22 Bahnen", "schneller als du"],
+          "Mit dem Gang zum Drogisten wird aus der dunklen Vorstellung eine materielle Tatspur. Der Text verbindet den Erwerb des Arsens mit banalen Küchendetails und steigert so den Schrecken.",
+        signalWords: ["Rattenkuchen", "Arsen", "Quetschkartoffeln", "erste Giftdose", "sicher der Mord"],
         prompts: [
-          "Wie verändert sich die Atmosphäre des Schwimmbads durch Viktors Auftreten?",
-          "Warum ist Tildas Beobachtung seines Schwimmstils so ausführlich?",
-          "Welche Rolle spielt Ida als kommentierende Gegenstimme in dieser Szene?"
+          "Wie macht der Text aus dem Giftkauf einen Wendepunkt?",
+          "Warum wirkt die Verbindung von Alltagsessen und Mordmittel so stark?",
+          "Wie zeigt die Passage, dass Elli den Entschluss zwar gefasst hat, aber seine Tragweite noch nicht wirklich überblickt?"
         ],
         writingFrame:
-          "Viktor erscheint hier weniger als Person mit Vorgeschichte, sondern zuerst als ...",
-        relatedTheoryIds: ["wasser-motivik", "perspektive"]
+          "Die Szene wirkt so hart, weil der Mord hier in die Form von ... eintritt.",
+        relatedTheoryIds: ["koerper-gewalt", "schuld-zusammenhang"]
       },
       {
-        id: "viktor-2",
-        title: "Der Name und die Legende Viktor",
-        pageHint: "S. 53-59",
+        id: "giftmord-2",
+        title: "Pflegen und zugleich vergiften",
+        pageHint: "PDF S. 40-41",
+        pageNumber: 41,
+        passageLabel: "Krankenmehl, Tropfen, kaltes Herz",
+        context:
+          "Die Vergiftung läuft parallel zu Pflegegesten. Gerade dieser doppelte Modus aus Fürsorge und Zynismus macht den Text so verstörend.",
+        signalWords: ["Krankenmehl", "Tropfen", "Herzklopfen", "Umschläge", "das Schwein"],
+        prompts: [
+          "Wie arbeitet die Passage mit dem Kontrast von Pflege und Tötung?",
+          "Welche Wirkung hat die zynische Wortwahl inmitten der Krankenversorgung?",
+          "Warum wird der Giftmord gerade durch seine Alltäglichkeit besonders unheimlich?"
+        ],
+        writingFrame:
+          "Die Passage ist so eindringlich, weil dieselbe Handlung hier zugleich ... und ... bedeutet.",
+        relatedTheoryIds: ["koerper-gewalt", "briefe-rausch"]
+      },
+      {
+        id: "giftmord-3",
+        title: "Schwanken, Klosett, neues Gift",
+        pageHint: "PDF S. 41-43",
+        pageNumber: 42,
+        passageLabel: "Zwischen Schuldpanik und Todeswunsch",
+        context:
+          "Elli schwankt, wirft Gift weg, fordert neues an und gerät zwischen Schuldgefühl, Hass und Zwang. Döblin zeigt hier besonders deutlich, wie wenig glatt der Weg zur Tat bleibt.",
+        signalWords: ["warf es in das Klosett", "verschaff mir bitte", "ich will ihn los sein", "hasse ihn", "Ärzte"],
+        prompts: [
+          "Wie zeigt die Passage, dass der Tatvollzug kein geradliniger Prozess ist?",
+          "Welche Rolle spielt Gretes Mitwirkung in diesem erneuten Anlauf?",
+          "Wie verschiebt sich hier das Verhältnis von Entschluss, Zwang und Angst?"
+        ],
+        writingFrame:
+          "Gerade das Schwanken macht die Passage aufschlussreich, weil es ... sichtbar macht.",
+        relatedTheoryIds: ["schuld-zusammenhang", "briefe-rausch"]
+      },
+      {
+        id: "giftmord-4",
+        title: "Erlösung, Witwenphantasie, Entdeckung",
+        pageHint: "PDF S. 44-47",
+        pageNumber: 47,
+        passageLabel: "Vom Jubel zur Beschlagnahmung",
+        context:
+          "Nach Links Tod kippt der Text kurz in Erlösungsrausch und Zukunftsphantasie, bevor Arsenbefund, Polizeiermittlung und Brief-Fund die Katastrophe umdrehen.",
+        signalWords: ["lustige Witwe", "erlöst", "Methylalkohol", "Arsen", "Briefe"],
+        prompts: [
+          "Wie wirkt der abrupte Tonwechsel zwischen Erleichterung und Entdeckung?",
+          "Warum ist die Formel von der `lustigen Witwe` für die Figurenzeichnung so wichtig?",
+          "Wie zeigt die Passage, dass private Heimlichkeit nun öffentliches Material wird?"
+        ],
+        writingFrame:
+          "Die Passage kippt radikal, weil aus privater Erlösung schlagartig ... wird.",
+        relatedTheoryIds: ["prozess-gutachten", "briefe-rausch"]
+      }
+    ]
+  },
+  {
+    id: "haft",
+    title: "Haft, Träume und innere Umstellung",
+    lens: "Traumarbeit, Schuldabwehr, Familienrückbindung",
+    briefing:
+      "In der Haft verlagert sich der Text von Handlung auf innere Nacharbeit. Träume, Rechtfertigungen und neue Familienimpulse verändern besonders Elli stark.",
+    task:
+      "Zeige, wie Döblin in der Haftpassage Schuld, Abwehr und innere Verschiebung nicht glättet, sondern widersprüchlich offenlegt.",
+    relatedTheoryIds: ["schuld-zusammenhang", "koerper-gewalt", "milieu-symbiose"],
+    entries: [
+      {
+        id: "haft-1",
+        title: "Löwen, Kinderbild, Gewalttraum",
+        pageHint: "PDF S. 49-50",
+        pageNumber: 49,
+        passageLabel: "Die Tat kehrt als Bildlogik zurück",
+        context:
+          "In den Haftträumen verarbeitet Elli den Mord nicht direkt, sondern in Bildern von Löwen, Kindern, Tischecken und Stürzen. Gerade diese Umcodierung ist aufschlussreich.",
+        signalWords: ["Löwen", "Blutlache", "kleines Mädel", "Tischecke", "tot umfiel"],
+        prompts: [
+          "Wie arbeiten die Träume mit Verschiebung und Bildlogik statt mit direktem Geständnis?",
+          "Welche Funktion haben Tier- und Kindbilder in den Träumen?",
+          "Wie versucht Elli, sich im Traum zugleich anzuklagen und zu rechtfertigen?"
+        ],
+        writingFrame:
+          "Die Träume sind wichtig, weil sie die Tat nicht wiederholen, sondern als ... umformen.",
+        relatedTheoryIds: ["schuld-zusammenhang", "koerper-gewalt"]
+      },
+      {
+        id: "haft-2",
+        title: "Muttchen, Zelle, Elterninstinkte",
+        pageHint: "PDF S. 53-54",
+        pageNumber: 53,
+        passageLabel: "Rückzug in die Familie",
+        context:
+          "Der Text liest die Haft als heftige Rückbewegung in Familiengefühle. Gerade im Ruf nach der Mutter und in der Traumwiederholung zeigt sich ein konflikthaftes neues Zentrum.",
+        signalWords: ["Muttchen", "Zelle", "Straftat", "Elterninstinkte", "Abgrund"],
+        prompts: [
+          "Wie beschreibt Döblin die Haft als Rückbindung an Familie und Kindheitsmuster?",
+          "Warum ist der Mutterruf für die Deutung von Elli so aufschlussreich?",
+          "Wodurch bleibt diese Rückbewegung zugleich heilsam und verstörend?"
+        ],
+        writingFrame:
+          "Die Haft verändert Elli, weil sie sie nicht nur bestraft, sondern in ... zurückzieht.",
+        relatedTheoryIds: ["milieu-symbiose", "schuld-zusammenhang"]
+      },
+      {
+        id: "haft-3",
+        title: "Leichte Psychose und neue Anbindung",
+        pageHint: "PDF S. 55-56",
         pageNumber: 56,
-        passageLabel: "Mythos und Projektion",
+        passageLabel: "Vertiefung statt bloßer Reue",
         context:
-          "Als Tilda sich an Viktors Namen erinnert, breitet der Roman eine Schullegende aus. Begehrlichkeit und Erzählung greifen ineinander, ohne dass Viktor dadurch einfacher würde.",
-        signalWords: ["Viktor", "Darknet", "hochbegabt", "sagenumwoben", "russischer Kampfschwimmer"],
+          "Döblin beschreibt an Elli keine simple Läuterung. Vielmehr gerät ihr Inneres in eine gefährdete, aber verändernde Vertiefung, während sich ihre Bindungen neu ordnen.",
+        signalWords: ["leichte Psychose", "vertieft", "Veränderung", "Anschluß an die Familie", "Schwierigkeiten"],
         prompts: [
-          "Wie wird Viktor über Erzählgerüchte aufgeladen?",
-          "Was verrät Tildas Erinnerung an Schule und Gerüchte über ihren Blick auf Viktor?",
-          "Warum ist die Figur gerade durch diese Legendenbildung nicht wirklich durchschaubar?"
+          "Warum ist von Vertiefung und Veränderung die Rede und nicht einfach von Reue?",
+          "Wie gestaltet der Text Ellis innere Umstellung als krisenhaften Prozess?",
+          "Welche Rolle spielt die Familie in dieser seelischen Verschiebung?"
         ],
         writingFrame:
-          "Der Roman macht aus Viktor bewusst keine einfache Liebesfigur, weil er ihn als ... einführt.",
-        relatedTheoryIds: ["perspektive", "sprache-koerper"]
+          "Die Passage macht deutlich, dass innere Veränderung hier als ... beschrieben wird.",
+        relatedTheoryIds: ["schuld-zusammenhang", "milieu-symbiose"]
       },
       {
-        id: "viktor-3",
-        title: "Ivan, Einladung und das Nicht-Einsteigen",
-        pageHint: "S. 60-68",
-        pageNumber: 64,
-        passageLabel: "Erinnerung als offener Schmerz",
+        id: "haft-4",
+        title: "Elli und Grete in der Haft gegeneinander gelesen",
+        pageHint: "PDF S. 56-57",
+        pageNumber: 57,
+        passageLabel: "Zwei verschiedene Seelenlagen",
         context:
-          "In der Rückblende auf Ivan verdichten sich Panik, Rettung, Nähe und Schuld. Besonders wichtig bleibt die verpasste Abfahrt: Tilda ist nicht eingestiegen, aber die Frage nach einer anderen Kette von Ereignissen bleibt offen.",
-        signalWords: ["Mein Herz", "Russland", "nicht eingestiegen", "Sorry", "ist schon okay"],
+          "Der Text kontrastiert Ellis komplizierte innere Nacharbeit mit Gretes stabilerer, an die Mutter gebundener Gefühlslage. So verhindert Döblin jede schlichte Gleichsetzung der beiden Täterinnen.",
+        signalWords: ["einfacher", "elastischer", "Mutter", "liebte sie", "ihr Kind"],
         prompts: [
-          "Wie inszeniert der Roman die Erinnerung an Ivan als körperlich überformten Schock?",
-          "Warum ist das Motiv des Nicht-Einsteigens für Tilda so belastet?",
-          "Wie entsteht hier Schuld, ohne dass der Text sie eindeutig verteilt?"
+          "Wie setzt Döblin Elli und Grete in der Haft bewusst voneinander ab?",
+          "Warum ist Gretes Bindung an die Mutter für diesen Kontrast so wichtig?",
+          "Wie verhindert die Passage eine einfache Täterinnen-Schablone?"
         ],
         writingFrame:
-          "Die Rückblende ist so stark, weil sie Erinnerung nicht ordnet, sondern als ... erfahrbar macht.",
-        relatedTheoryIds: ["perspektive", "sprache-koerper"]
+          "Der Vergleich ist wichtig, weil der Text die beiden Frauen gerade nicht als ... behandelt.",
+        relatedTheoryIds: ["milieu-symbiose", "schuld-zusammenhang"]
+      }
+    ]
+  },
+  {
+    id: "prozess",
+    title: "Gericht, Gutachten und öffentliche Deutung",
+    lens: "Fallkonstruktion, Zuschreibung, Urteilspolitik",
+    briefing:
+      "Vor Gericht wird der Mordfall in immer neue Sprach- und Wissensordnungen übersetzt. Gerade diese Konkurrenz von Erklärungen ist für den Text zentral.",
+    task:
+      "Arbeite heraus, wie Gerichtsrede, Gutachten und Presseberichte den Fall nicht nur darstellen, sondern aktiv konstruieren.",
+    relatedTheoryIds: ["prozess-gutachten", "briefe-rausch", "schuld-zusammenhang"],
+    entries: [
+      {
+        id: "prozess-1",
+        title: "Giftmischerinnen auf der Anklagebank",
+        pageHint: "PDF S. 57-58",
+        pageNumber: 57,
+        passageLabel: "Der Fall als Sensation",
+        context:
+          "Schon die Zeitungsüberschriften machen den Prozess zum Spektakel. Die Passage zeigt, wie Öffentlichkeit die Angeklagten typisiert und dramatisiert, noch bevor erklärt wird.",
+        signalWords: ["Giftmischerinnen aus Liebe", "Anklagebank", "Hauptverhandlung", "vorsätzlich", "mit Überlegung"],
+        prompts: [
+          "Wie macht die Passage aus dem Prozess ein öffentliches Schauspiel?",
+          "Welche Wirkung haben die Formeln und Anklagewörter auf die Wahrnehmung der Frauen?",
+          "Warum beginnt der Gerichtsblock mit Schlagzeilen und nicht mit einer nüchternen Rekonstruktion?"
+        ],
+        writingFrame:
+          "Die Passage zeigt Öffentlichkeit als Macht, weil sie den Fall sofort in ... übersetzt.",
+        relatedTheoryIds: ["prozess-gutachten", "schuld-zusammenhang"]
       },
       {
-        id: "viktor-4",
-        title: "Im Haus der Vergangenheit",
-        pageHint: "S. 69-76",
+        id: "prozess-2",
+        title: "600 Briefe und pathologischer Rausch",
+        pageHint: "PDF S. 61-63",
+        pageNumber: 61,
+        passageLabel: "Gutachten lesen Leidenschaft",
+        context:
+          "Die Briefe werden im Prozess zum Material psychiatrischer und moralischer Deutung. Gerade die Gutachterstimme macht sichtbar, wie schnell Beziehungsdynamik in pathologische Sprache überführt wird.",
+        signalWords: ["600 Briefe", "Rauschzustand", "pathologischer Natur", "kindliche Konstitution", "Fetisch"],
+        prompts: [
+          "Wie deutet das Gutachten die Briefe um?",
+          "Welche Rolle spielt die Sprache von Pathologie und Kindlichkeit in dieser Passage?",
+          "Wodurch zeigt der Text, dass Deutung hier nie neutral bleibt?"
+        ],
+        writingFrame:
+          "Das Gutachten ist hier nicht nur Beschreibung, sondern eine Form von ...",
+        relatedTheoryIds: ["prozess-gutachten", "briefe-rausch"]
+      },
+      {
+        id: "prozess-3",
+        title: "Jenseits von schuldig und unschuldig",
+        pageHint: "PDF S. 65-68",
+        pageNumber: 65,
+        passageLabel: "Zusammenhänge statt einfacher Schuld",
+        context:
+          "Die Geschworenen stehen vor einer Frage, die sich gerade nicht auf nackte Täterschaft reduzieren lässt. Döblin verschiebt den Fokus auf Entstehung, Zusammenhang und Unsicherheit.",
+        signalWords: ["schuldig-unschuldig", "Zusammenhänge", "unvermeidlich", "Apparat", "warteten"],
+        prompts: [
+          "Wie begründet der Text die Verschiebung von Schuld zur Frage des Zusammenhangs?",
+          "Warum ist diese Passage für Döblins Fallpoetik so zentral?",
+          "Welche Wirkung hat die Beschreibung der Geschworenen und des gesamten Apparats?"
+        ],
+        writingFrame:
+          "Die Passage ist zentral, weil sie den Fall nicht mehr als bloße Tat, sondern als ... liest.",
+        relatedTheoryIds: ["schuld-zusammenhang", "prozess-gutachten"]
+      },
+      {
+        id: "prozess-4",
+        title: "Mildes Urteil, Sexualdiskurs, Gegenpresse",
+        pageHint: "PDF S. 69-70",
+        pageNumber: 69,
+        passageLabel: "Öffentliche Nachkämpfe",
+        context:
+          "Auch nach dem Urteil ist der Fall nicht zu Ende. Presse und Sexualwissenschaft streiten weiter darum, welche Erklärung gelten soll und wie weit Milde oder Stigmatisierung reichen dürfen.",
+        signalWords: ["gefährliches Urteil", "sexuelle Verirrungen", "mildes Urteil", "zweite Ehe", "Gnadengesuch"],
+        prompts: [
+          "Wie setzt die Passage den Kampf um die Deutung des Falls nach dem Urteil fort?",
+          "Welche Rolle spielt die Rede von Sexualität und Abweichung in dieser öffentlichen Bewertung?",
+          "Warum ist die Nachgeschichte des Urteils für den Text ebenso wichtig wie die Tat selbst?"
+        ],
+        writingFrame:
+          "Der Fall bleibt öffentlich umkämpft, weil das Urteil sofort wieder in ... übersetzt wird.",
+        relatedTheoryIds: ["prozess-gutachten", "schuld-zusammenhang"]
+      }
+    ]
+  },
+  {
+    id: "poetik",
+    title: "Epilog, Symbiose und moderne Fallpoetik",
+    lens: "Erkenntniskritik, Symbiose, literarische Form",
+    briefing:
+      "Im Epilog und im Nachwort tritt besonders deutlich hervor, dass Döblin keinen glatten Kriminalfall erzählen will. Der Text reflektiert seine eigenen Grenzen und Möglichkeiten mit.",
+    task:
+      "Zeige, wie Döblin aus dem Giftmordfall eine Reflexion über Sprache, Zusammenhang und literarische Fallkonstruktion macht.",
+    relatedTheoryIds: ["schuld-zusammenhang", "milieu-symbiose", "prozess-gutachten"],
+    entries: [
+      {
+        id: "poetik-1",
+        title: "Fürchterlich unklare Worte",
+        pageHint: "PDF S. 72-73",
         pageNumber: 72,
-        passageLabel: "Gegenwart mit altem Echo",
+        passageLabel: "Misstrauen gegen glatte Begriffe",
         context:
-          "Dass Viktor im Haus lebt, vor dem sich Tilda vor Jahren von Ivan verabschiedet hat, verschränkt Gegenwart und Vergangenheit dauerhaft. Die Nähe zu Viktor ist dadurch nie unbelastet.",
-        signalWords: ["Haus", "vor fünf Jahren", "verabschiedet", "erzählen", "falsch"],
+          "Im Epilog attackiert Döblin die bequemen Sammelwörter für innere Vorgänge. Begriffe wie Liebe, Rache oder Neigung erscheinen als Vereinfachungen, die Erkenntnis eher blockieren als leisten.",
+        signalWords: ["fürchterlich unklare Worte", "Neigung", "Abneigung", "Romandichtungen", "Kausalitätsprinzip"],
         prompts: [
-          "Wie wird der Ort selbst zum Träger von Erinnerung?",
-          "Warum ist Tildas Schweigen gegenüber Viktor so bedeutsam?",
-          "Wie bindet die Passage neue Nähe an alte Schuld?"
+          "Warum misstraut Döblin Begriffen wie Liebe, Neigung oder Rache so stark?",
+          "Wie macht die Passage Erkenntniskritik zum Teil des Textes?",
+          "Welche Wirkung hat dieser Angriff auf glatte psychologische Erklärungsmuster?"
         ],
         writingFrame:
-          "Der Ort ist hier nicht bloß Kulisse, sondern speichert ...",
-        relatedTheoryIds: ["perspektive", "familienrollen"]
-      }
-    ]
-  },
-  {
-    id: "belastung",
-    title: "Überforderung, Konflikt und Wunsch nach Aufbruch",
-    lens: "Rollenlast, Körperstress, Emanzipation",
-    briefing:
-      "Verfolge, wie Tildas Belastung nicht aus einer einzigen Krise stammt. Studium, Arbeit, Sorge, Begehren und Zukunftsfragen überlagern sich permanent.",
-    task:
-      "Arbeite heraus, wie der Roman Überforderung über Körper, Dialog und Eskalation in Familiengesprächen sichtbar macht.",
-    relatedTheoryIds: ["sprache-koerper", "familienrollen", "perspektive"],
-    entries: [
-      {
-        id: "belastung-1",
-        title: "Panik auf der Party",
-        pageHint: "S. 77-85",
-        pageNumber: 80,
-        passageLabel: "Herz, Hitze, Kontrollverlust",
-        context:
-          "Die Party-Rückblende zerlegt Tildas Körperempfinden. Hitze, Beats, fluoreszierende Gesichter und Wasserbilder machen sichtbar, wie schnell Kontrolle in Panik kippt.",
-        signalWords: ["Mein Herz", "Kaulquappen", "zu heiß", "Wasseroberfläche", "Blitze"],
-        prompts: [
-          "Wie arbeitet die Passage mit Halluzination und Körperauflösung?",
-          "Warum sind Wasserbilder gerade im Panikmoment so präsent?",
-          "Welche Funktion hat die direkte Rede in der Darstellung des Kontrollverlusts?"
-        ],
-        writingFrame:
-          "Die Panik wird nicht erklärt, sondern über ... unmittelbar erfahrbar gemacht.",
-        relatedTheoryIds: ["sprache-koerper", "wasser-motivik"]
+          "Döblin kritisiert hier nicht nur Begriffe, sondern die ganze Gewohnheit, Fälle durch ... zu beruhigen.",
+        relatedTheoryIds: ["schuld-zusammenhang"]
       },
       {
-        id: "belastung-2",
-        title: "Leistungsdruck und Erwachsenenroutine",
-        pageHint: "S. 86-94",
-        pageNumber: 90,
-        passageLabel: "Alles läuft gleichzeitig",
+        id: "poetik-2",
+        title: "Straßen gehen, Wohnungen mitdenken",
+        pageHint: "PDF S. 73-74",
+        pageNumber: 73,
+        passageLabel: "Symbiose statt Einzelpsychologie",
         context:
-          "Zwischen Uni, Kasse, Schwimmbad und Haushalt wird deutlich, dass Tilda in mehreren Systemen gleichzeitig funktionieren muss. Der Roman zeigt diese Rollenlast ohne Pathos.",
-        signalWords: ["Masterkolloquium", "stehen müssen", "verschwende Zeit", "Hühnersuppe", "Hausaufgaben"],
+          "Döblin erklärt ausdrücklich, dass Menschen nur in Verbindung mit anderen Menschen, Häusern, Straßen und Milieus verständlich werden. Dieser Symbiose-Gedanke ist eine poetische und methodische Setzung.",
+        signalWords: ["Straßen zu gehen", "Symbiose", "Wohnungen", "Häusern", "Blatt oder Fingerglied"],
         prompts: [
-          "Wie macht der Roman Mehrfachbelastung über Alltagsdetails sichtbar?",
-          "Warum wirkt die Erzählung trotz der Schwere oft lakonisch statt klagend?",
-          "Wie verändert sich dein Blick auf Tilda, wenn du Studium und Sorgearbeit zusammendenkst?"
+          "Wie begründet der Text den Gedanken der Symbiose?",
+          "Warum lehnt Döblin eine isolierte Beschreibung einzelner Figuren ab?",
+          "Wie verändert diese Passage deinen Blick auf den ganzen Fall?"
         ],
         writingFrame:
-          "Die Passage zeigt Überforderung, weil Tilda hier zugleich ... und ... leisten muss.",
-        relatedTheoryIds: ["sprache-koerper", "familienrollen"]
+          "Der Symbiose-Gedanke ist zentral, weil er den Fall von der Einzelperson auf ... erweitert.",
+        relatedTheoryIds: ["milieu-symbiose", "schuld-zusammenhang"]
       },
       {
-        id: "belastung-3",
-        title: "Die Mutter in der depressiven Phase",
-        pageHint: "S. 95-103",
-        pageNumber: 98,
-        passageLabel: "Brot, Leere und Angst",
-        context:
-          "Die Tischszenen machen deutlich, dass die Mutter nicht nur trinkt, sondern in eine apathische Leere kippt. Tildas Angst gilt gerade der scheinbaren Ruhe.",
-        signalWords: ["resigniert", "leer", "Scheibe Brot", "alles gut", "Termine"],
-        prompts: [
-          "Wie zeigt der Roman Depression über kleine Routinen statt über große Erklärungen?",
-          "Warum ist die Mutter gerade in ihrer Apathie so bedrohlich?",
-          "Wie reagieren Ida und Tilda unterschiedlich auf diese Phase?"
-        ],
-        writingFrame:
-          "Die Passage wirkt beklemmend, weil die scheinbare Ruhe hier ... bedeutet.",
-        relatedTheoryIds: ["familienrollen", "sprache-koerper"]
-      },
-      {
-        id: "belastung-4",
-        title: "Berlin als Konfliktlinie",
-        pageHint: "S. 104-113",
+        id: "poetik-3",
+        title: "Der reale Fall Klein/Nebbe im Nachwort",
+        pageHint: "PDF S. 108-110",
         pageNumber: 108,
-        passageLabel: "Weggehen oder bleiben",
+        passageLabel: "Literarische Verarbeitung eines Rechtsfalls",
         context:
-          "Die Berlin-Frage legt den Rollenkonflikt offen: Tilda will Zukunft, kann Ida aber nicht allein lassen. Die Mutter reagiert mit Abwehr, Kränkung und Zynismus.",
-        signalWords: ["Berlin", "alt genug", "Wunschkonzert", "du hast sie nur bekommen", "abhauen"],
+          "Das Nachwort macht deutlich, dass Döblins Text auf dem historischen Fall Klein/Nebbe beruht und gerade deshalb zwischen Dokument, Literatur und Diskursgeschichte vermittelt.",
+        signalWords: ["Klein/Nebbe", "literarische Verarbeitung", "Prozess", "Zeitungsberichte", "Fallkonstruktion"],
         prompts: [
-          "Wie verdichtet das Gespräch Tildas Emanzipationsproblem?",
-          "Was zeigt die Passage über die Rolle der Mutter im Familiengefüge?",
-          "Warum ist Ida in diesem Konflikt zugleich Grund zum Bleiben und Motor für Veränderung?"
+          "Wie rahmt das Nachwort Döblins Text als literarische Bearbeitung eines realen Falls?",
+          "Welche Funktion hat dieses Wissen für die Lektüre des Haupttextes?",
+          "Warum ist der Fall weder bloß Dokument noch bloße Erfindung?"
         ],
         writingFrame:
-          "An der Berlin-Szene wird sichtbar, dass Zukunft für Tilda immer durch ... blockiert bleibt.",
-        relatedTheoryIds: ["familienrollen", "perspektive"]
-      }
-    ]
-  },
-  {
-    id: "krise",
-    title: "Überdosis, Fieber und Rettungsbilder",
-    lens: "Notfall, Traumlogik, Rettung",
-    briefing:
-      "Arbeite die Krisenpassagen nicht nur als Handlungshöhepunkt heraus. Sie bündeln die ganze Vorgeschichte aus Rollenverschiebung, Verlust und Wasser-Motivik in verdichteter Form.",
-    task:
-      "Zeige, wie sich in Überdosis, Fieber und Rettung psychische, familiäre und symbolische Ebenen überlagern.",
-    relatedTheoryIds: ["wasser-motivik", "familienrollen", "sprache-koerper"],
-    entries: [
-      {
-        id: "krise-1",
-        title: "Die entdeckte Überdosis",
-        pageHint: "S. 124-131",
-        pageNumber: 126,
-        passageLabel: "Stillstand und sofortiges Handeln",
-        context:
-          "Der Roman schaltet vom Pizzagluck in einen Schockmoment. Gegen die Starre setzt Tilda eine fast protokollarische Notfalllogik.",
-        signalWords: ["Wodkaflasche", "Xanax", "SORRY", "jetzt", "Atmung kontrollieren"],
-        prompts: [
-          "Wie organisiert der Roman den abrupten Umschlag von Alltag in Notfall?",
-          "Welche Wirkung hat die genaue Notfallprozedur auf die Szene?",
-          "Warum ist Ida in diesem Moment nicht bloß Nebenfigur?"
-        ],
-        writingFrame:
-          "Die Szene ist so eindringlich, weil Wahl Schock und Handlungszwang gleichzeitig zeigt: ...",
-        relatedTheoryIds: ["sprache-koerper", "familienrollen"]
+          "Das Nachwort schärft die Lektüre, weil es den Text als ... sichtbar macht.",
+        relatedTheoryIds: ["prozess-gutachten", "schuld-zusammenhang"]
       },
       {
-        id: "krise-2",
-        title: "Zwei Kinder, ein Rettungsprotokoll",
-        pageHint: "S. 132-137",
-        pageNumber: 134,
-        passageLabel: "Professionalisierte Fürsorge",
+        id: "poetik-4",
+        title: "Patriarchatskritik ohne Monokausalität",
+        pageHint: "PDF S. 121-123",
+        pageNumber: 122,
+        passageLabel: "Fallpoetik gegen einfache Antworten",
         context:
-          "Mit den `Jetzt:`-Schritten und Idas Notruf wird sichtbar, wie vorbereitet die Schwestern für einen Katastrophenfall längst sind. Genau darin liegt die Härte der Szene.",
-        signalWords: ["112", "stabile Seitenlage", "Ida Schmitt", "Betroffene", "Sirenen"],
+          "Das Nachwort betont, dass Döblin gesellschaftliche und patriarchale Machtverhältnisse sichtbar macht, zugleich aber jede monokausale Lesart zurückweist. Genau daraus gewinnt der Text seine Modernität.",
+        signalWords: ["Patriarchatskritik", "monokausale Lesart", "Wutsphäre", "verbotener Ort", "schrecklich unsicher"],
         prompts: [
-          "Was zeigt die protokollhafte Sprache über Tildas und Idas Lebenswirklichkeit?",
-          "Wie wird aus Fürsorge hier eine erschreckende Professionalität?",
-          "Warum ist der Märchenvergleich mit Schneewittchen zugleich entlastend und grausam?"
+          "Wie verbindet das Nachwort Gesellschaftskritik mit Warnungen vor einfachen Erklärungen?",
+          "Warum bleibt gerade die Offenheit der Zusammenhänge für Döblins Text so wichtig?",
+          "Wodurch wirkt die Erzählung moderner als ein bloßer Kriminalbericht?"
         ],
         writingFrame:
-          "Die Protokollsprache wirkt so stark, weil sie verrät, dass ... längst eingeübt ist.",
-        relatedTheoryIds: ["familienrollen", "sprache-koerper"]
-      },
-      {
-        id: "krise-3",
-        title: "Fiebertraum mit Vater und offenem Meer",
-        pageHint: "S. 138-151",
-        pageNumber: 146,
-        passageLabel: "Verlassenwerden als Wasserbild",
-        context:
-          "Im Fieber formt der Roman Kindheit, Vaterverlust und Lebensangst zu einem Meeresbild um. Tilda und Ida treiben allein, während der Vater wegfährt.",
-        signalWords: ["Pferd", "Papa", "offenes Meer", "wir schaffen alles", "Schiff am Horizont"],
-        prompts: [
-          "Wie verbindet der Fiebertraum Familiengeschichte und Bedrohungsbild?",
-          "Welche Funktion hat das Meer in dieser Passage?",
-          "Wie wird Idas Rettungsbedürftigkeit zum Zentrum von Tildas Traum?"
-        ],
-        writingFrame:
-          "Im Fieber wird das Verlassenwerden als ... inszeniert und dadurch besonders radikal.",
-        relatedTheoryIds: ["wasser-motivik", "familienrollen"]
-      },
-      {
-        id: "krise-4",
-        title: "Viktor als Seemann und Pflegender",
-        pageHint: "S. 152-164",
-        pageNumber: 158,
-        passageLabel: "Rettung wird konkret",
-        context:
-          "Viktor erscheint im Traum als Seemann und in der Realität als derjenige, der Tilda versorgt. Damit wird Rettung nicht kitschig, sondern körperlich und praktisch greifbar.",
-        signalWords: ["Seemann", "Wickel", "Tilda, ich bin da", "tapfer", "neu bezogene Decke"],
-        prompts: [
-          "Wie verschränkt der Roman Traum- und Wirklichkeitsebene in dieser Passage?",
-          "Warum ist Viktors Fürsorge gerade durch ihre Praktikabilität so bedeutsam?",
-          "Wie verändert sich Tildas Wahrnehmung von Viktor hier?"
-        ],
-        writingFrame:
-          "Viktor wird hier wichtig, weil Rettung bei ihm nicht behauptet, sondern ... wird.",
-        relatedTheoryIds: ["wasser-motivik", "perspektive"]
-      }
-    ]
-  },
-  {
-    id: "aufbruch",
-    title: "Nach der Krise: Entlastung, Liebe und offenes Ende",
-    lens: "Veränderung, Offenheit, neue Bewegung",
-    briefing:
-      "Lies die späten Passagen nicht als einfache Heilung. Der Roman zeigt Entlastung und Nähe, ohne die Instabilität der Lebenslage ganz aufzulösen.",
-    task:
-      "Arbeite heraus, wie `22 Bahnen` gegen Ende offen bleibt und gerade dadurch glaubwürdig wirkt.",
-    relatedTheoryIds: ["perspektive", "wasser-motivik", "familienrollen", "sprache-koerper"],
-    entries: [
-      {
-        id: "aufbruch-1",
-        title: "Krankenhaus, Verweigerung und Idas Rede",
-        pageHint: "S. 165-176",
-        pageNumber: 170,
-        passageLabel: "Hilfe annehmen oder ablehnen",
-        context:
-          "Im Krankenhaus prallen Wahrheit und Verdrängung frontal aufeinander. Ida übernimmt für einen Moment die klarste, erwachsenste Position im Raum.",
-        signalWords: ["Entgiftung", "Klinik", "wir schaffen es ohne dich und mit dir", "na, meine Mäuschen"],
-        prompts: [
-          "Wie zeigt die Passage, dass sich die Familienrollen weiter verschieben?",
-          "Warum ist Idas vorbereitete Ansprache so stark?",
-          "Wie reagiert die Mutter sprachlich auf Verantwortung und Wahrheit?"
-        ],
-        writingFrame:
-          "Die Szene ist zentral, weil sie Hilfe nicht als Geschenk, sondern als ... verhandelt.",
-        relatedTheoryIds: ["familienrollen", "sprache-koerper"]
-      },
-      {
-        id: "aufbruch-2",
-        title: "Wohnung regeneriert, Herbstluft, neues Gewicht",
-        pageHint: "S. 177-186",
-        pageNumber: 182,
-        passageLabel: "Erleichterung ohne Erlösung",
-        context:
-          "Nach dem Fieber und der Reinigung beschreibt Tilda ein neues Körpergefühl. Die Wohnung, der Herbst und Viktors Anwesenheit lassen etwas leichter werden, ohne die Lage zu verharmlosen.",
-        signalWords: ["regeneriert", "Altweibersommer", "Magie", "mehr Platz", "frische Bettwäsche"],
-        prompts: [
-          "Wie stellt der Roman Erleichterung körperlich und atmosphärisch dar?",
-          "Warum bleibt die Passage trotz des leichteren Tons vorsichtig?",
-          "Welche Rolle spielt der Herbst als Gegenbild zur vorherigen Hitze und Überforderung?"
-        ],
-        writingFrame:
-          "Die Passage zeigt Entlastung, aber keine einfache Lösung, weil ...",
-        relatedTheoryIds: ["sprache-koerper", "wasser-motivik"]
-      },
-      {
-        id: "aufbruch-3",
-        title: "Libellenwissen und neue Gefühle",
-        pageHint: "S. 187-198",
-        pageNumber: 192,
-        passageLabel: "Naturwissen als Liebessprache",
-        context:
-          "Das Libellenwissen wirkt zunächst schräg und komisch, wird dann aber zum Bild für Tildas eigene Veränderung. Die Passage verbindet Naturbeobachtung mit dem Zulassen von Nähe.",
-        signalWords: ["Libelle", "Jäger", "95%", "Opsine", "keine Angst"],
-        prompts: [
-          "Warum ist die Libellenpassage mehr als eine schrullige Wissensszene?",
-          "Wie wird das Naturwissen in Beziehungssprache übersetzt?",
-          "Worin liegt die Verbindung zwischen Libellen, Jagd, Bewegung und Tildas Gefühlen?"
-        ],
-        writingFrame:
-          "Die Libelle wird zum Leitbild, weil sie Tildas neue Bewegung zwischen ... und ... spiegelt.",
-        relatedTheoryIds: ["wasser-motivik", "sprache-koerper"]
-      },
-      {
-        id: "aufbruch-4",
-        title: "Das Bild, das Schiff und das offene Wiederkommen",
-        pageHint: "S. 199-208",
-        pageNumber: 204,
-        passageLabel: "Kein Schlussstrich",
-        context:
-          "Idas Bild vom Schiff und der Ritterin bringt das Ende symbolisch auf den Punkt: Hilfe, Lotsenrolle, Abschied und Wiederkehr bleiben offen. Dass der Roman mit `Schwimmbad?` schließt, bindet alles an die Bewegung zurück.",
-        signalWords: ["Schiff", "Lotsen", "Ich brauche Hilfe", "Bis bald", "Schwimmbad"],
-        prompts: [
-          "Wie bündelt Idas Bild die offenen Zukunftsfragen des Romans?",
-          "Warum ist Viktors Abschied kein klassischer Schluss?",
-          "Welche Wirkung hat es, dass der Roman in eine neue Schwimmbadbewegung zurückführt?"
-        ],
-        writingFrame:
-          "Das Ende überzeugt, weil es Offenheit nicht als Mangel, sondern als ... gestaltet.",
-        relatedTheoryIds: ["wasser-motivik", "perspektive", "familienrollen"]
+          "Gerade diese Offenheit ist produktiv, weil der Text Schuld und Macht nicht in ... auflöst.",
+        relatedTheoryIds: ["schuld-zusammenhang", "milieu-symbiose"]
       }
     ]
   }
@@ -967,374 +952,503 @@ export const readerModules = [
 
 export const lessonSets = [
   {
-    id: "lesson-01-alltag-und-kasse",
-    title: "Lektion 1 · Listen, Preise, Taktung",
+    id: "lesson-01-elli-und-link",
+    title: "Lektion 1 · Elli, Link und die frühe Schieflage",
     summary:
-      "Der Romanauftakt macht Tildas Alltag als kontrollierte Hochleistungsroutine sichtbar.",
+      "Der Auftakt legt Spiel, Ernst, Ehehoffnung und erste Asymmetrien schonungslos nebeneinander.",
     chapterMedia: [
       {
         src: coverImg,
-        alt: "Cover von 22 Bahnen",
-        title: "Auftakt zwischen Leichtigkeit und Druck",
+        alt: "Grafische Karte zu Döblins Giftmord-Erzählung",
+        title: "Ein Fall beginnt als Beziehungsform",
         caption:
-          "Das Cover passt hier als Startbild, weil der Roman früh zwischen sommerlicher Oberfläche und innerer Anspannung arbeitet.",
+          "Der Beginn wirkt leicht und sozial plausibel, trägt aber die spätere Verformung schon in sich.",
         focusPrompt:
-          "Wie viel Leichtigkeit trägt der Auftakt wirklich, und wo wird der Druck schon im ersten Kapitel spürbar?"
+          "Arbeite heraus, wie Döblin aus einer scheinbar passenden Verbindung früh eine schiefe Ordnung macht."
       }
     ],
-    entryIds: ["routine-1", "routine-2"],
-    moduleIds: ["routine"],
-    reviewFocus: "Achte auf Listenstil, Taktung, Kontrolle und erste Signale von Überforderung.",
+    entryIds: ["auftakt-1", "auftakt-2"],
+    moduleIds: ["auftakt"],
+    reviewFocus: "Achte auf Figurenanlage, soziale Erwartungen und die frühe Enttäuschungslogik.",
     sebPrompt:
-      "Analysiere den Auftakt des Romans. Zeige am Wortlaut, wie Tildas Selbststeuerung früh als notwendige Überlebensstrategie erscheint."
+      "Analysiere den Auftakt. Zeige, wie Döblin Elli und Link so einführt, dass Versorgungshoffnung und spätere Konfliktdynamik bereits ineinandergreifen."
   },
   {
-    id: "lesson-02-schwimmen-und-blicke",
-    title: "Lektion 2 · 22 Bahnen, Stille und Schock",
+    id: "lesson-02-ekel-und-gefahr",
+    title: "Lektion 2 · Ekel, Gewalt und gefährlicher Friede",
     summary:
-      "Das Schwimmbad wird als Ordnungsraum eingeführt und kippt dann in Erinnerung, Beobachtung und Irritation.",
+      "Die Ehe kippt in körperliche Abwehr, Demütigung und eine bedrohliche Form von Nähe.",
     chapterMedia: [
       {
-        src: coverImg,
-        alt: "Cover von 22 Bahnen",
-        title: "Das Wasser als Ordnungsraum",
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        title: "Nähe wird hier zum Konfliktfeld",
         caption:
-          "Schon in der Titelformel steckt das Versprechen von Ordnung. Die Passage zeigt, wie brüchig diese Ordnung zugleich bleibt.",
+          "Diese Lektion ist zentral, weil Döblin Körper und Macht nicht trennt.",
         focusPrompt:
-          "Arbeite heraus, wie die 22 Bahnen Halt geben und zugleich etwas Zwanghaftes haben."
+          "Wie macht der Text aus Berührung eine Szene von Zwang, Kränkung und gefährlicher Bindung?"
       }
     ],
-    entryIds: ["routine-3", "routine-4"],
-    moduleIds: ["routine"],
-    reviewFocus: "Arbeite am Wasser-Motiv, an Blickregie und am Umschlag von Ruhe in Erinnerungsschock.",
+    entryIds: ["auftakt-3", "auftakt-4"],
+    moduleIds: ["auftakt"],
+    reviewFocus: "Arbeite an Ekel, Körperdarstellung, Macht und Gewaltbeginn.",
     sebPrompt:
-      "Zeige, wie das Schwimmbad in den frühen Passagen zugleich Schutzraum, Beobachtungsraum und Auslöser der Vergangenheit wird.",
-    recommendedTheoryIds: ["wasser-motivik", "perspektive"],
+      "Zeige, wie Döblin körperliche Nähe in den frühen Ehepassagen als Zwangs- und Machtverhältnis gestaltet.",
+    recommendedTheoryIds: ["koerper-gewalt"],
     resourceAssignments: [
       {
-        resourceId: "wasser-motivik",
-        title: "Motivauftrag: Was leisten die 22 Bahnen?",
+        resourceId: "koerper-gewalt",
+        title: "Körperauftrag: Wie schreibt Döblin Gewalt in Berührung ein?",
         summary:
-          "Das Dossier hilft, Schwimmen, Zählen, Tauchen und spätere Meeresbilder als zusammenhängendes Motivfeld zu lesen.",
+          "Das Dossier hilft, Ekel, Körpernähe und Unterwerfung genauer zu fassen.",
         task:
-          "Nutze das Wasser-Dossier und zeige, wie die frühen Schwimmbadpassagen bereits die spätere Krisen- und Rettungsmotivik vorbereiten.",
+          "Nutze das Körper-Dossier und zeige an einer der beiden Passagen, wie Berührung, Abwehr und Macht sprachlich zusammenspielen.",
         questions: [
-          "Welche Funktion hat das Zählen der Bahnen genau?",
-          "Wo ist Wasser schon früh mehr als Entspannung?",
-          "Wie kündigt sich die spätere Ambivalenz des Wassers hier bereits an?"
+          "Welches Körperdetail trägt deine Deutung?",
+          "Wo kippt Nähe in Gewalt?",
+          "Wie macht die Wortwahl den Konflikt sichtbar?"
         ]
       }
     ]
   },
   {
-    id: "lesson-03-zuhause-und-ida",
-    title: "Lektion 3 · Zuhause, Scham und Fürsorge",
+    id: "lesson-03-briefe-und-gegenwelt",
+    title: "Lektion 3 · Grete Bende und die Brief-Gegenwelt",
     summary:
-      "Die Wohnung und das abendliche Essen zeigen, wie sehr Tilda längst Verantwortung übernommen hat.",
+      "Mit Grete entsteht eine Bindung, die Trost, Heimlichkeit und Eskalation zugleich produziert.",
     chapterMedia: [
       {
-        src: authorImg,
-        alt: "Autorinnenfoto Caroline Wahl",
-        title: "Nüchterne Nähe",
+        src: coverImg,
+        alt: "Grafische Karte zu Döblins Giftmord-Erzählung",
+        title: "Heimlichkeit schreibt mit",
         caption:
-          "Für diese Lektion ist die Autorinnenpräsenz hilfreich, weil der Roman Schwere sehr knapp, aber nie kalt erzählt.",
+          "Die Briefdynamik ist hier nicht Beiwerk, sondern eine eigene Handlungskraft.",
         focusPrompt:
-          "Woran merkt man in diesen Passagen, dass knappe Sprache gerade Nähe und nicht Distanz erzeugen kann?"
+          "Warum braucht diese Beziehung Schreiben, obwohl die beiden Frauen sich dauernd sehen?"
       }
     ],
-    entryIds: ["familie-1", "familie-2"],
-    moduleIds: ["familie"],
-    reviewFocus: "Achte auf Parentifizierung, Scham, Zärtlichkeit und die unspektakuläre Form von Fürsorge.",
+    entryIds: ["freundinnen-1", "freundinnen-2"],
+    moduleIds: ["freundinnen"],
+    reviewFocus: "Achte auf Briefe, Heimlichkeit, juristische Trennung und neue Abhängigkeiten.",
     sebPrompt:
-      "Arbeite heraus, wie die Familienszenen Verantwortung, Verwahrlosung und Schwesterntreue zusammenführen, ohne sentimental zu werden."
-  },
-  {
-    id: "lesson-04-krieg-da-draussen",
-    title: "Lektion 4 · Nacht, Kleinstadt und Gegenräume",
-    summary:
-      "Tilda sucht Atemräume, aber jeder Gegenraum bleibt durch Familie und Enge bedroht.",
-    chapterMedia: [
-      {
-        src: authorImg,
-        alt: "Autorinnenfoto Caroline Wahl",
-        title: "Beobachten als Schutz",
-        caption:
-          "Die Lektion eignet sich, um Tildas genaue Wahrnehmung als Form des Selbstschutzes zu lesen.",
-        focusPrompt:
-          "Wie macht der Roman Gegenräume erfahrbar, ohne die strukturelle Enge der Lebenslage auszublenden?"
-      }
-    ],
-    entryIds: ["familie-3", "familie-4"],
-    moduleIds: ["familie"],
-    reviewFocus: "Arbeite an Perspektive, Kriegsmetapher, Raumdarstellung und Idas Figur.",
-    sebPrompt:
-      "Untersuche, wie Wahl Nacht, Regen, Kleinstadt und Geschwisteralltag dazu nutzt, Tildas Lebenslage räumlich und körperlich lesbar zu machen.",
-    recommendedTheoryIds: ["perspektive", "familienrollen"],
+      "Untersuche, wie Döblin den Briefwechsel und die Trennungsschritte so erzählt, dass Trost, Komplott und neue Verstrickung gleichzeitig sichtbar werden.",
+    recommendedTheoryIds: ["briefe-rausch"],
     resourceAssignments: [
       {
-        resourceId: "perspektive",
-        title: "Perspektivauftrag: Wie filtert Tilda die Welt?",
+        resourceId: "briefe-rausch",
+        title: "Briefauftrag: Schreiben als Handlungsmacht lesen",
         summary:
-          "Das Dossier zeigt, wie Tildas Ich-Erzählung Nähe ermöglicht und zugleich Schutzmechanismen aktiviert.",
+          "Das Dossier fokussiert die Briefe als Motor von Nähe und Eskalation.",
         task:
-          "Nutze das Perspektiv-Dossier, um eine der beiden Passagen als gefilterte Wahrnehmung zu lesen. Zeige, was Tilda sehr genau sieht und was sie sprachlich eher wegdrückt.",
+          "Nutze das Brief-Dossier und arbeite heraus, wie Schreiben in einer der beiden Passagen mehr leistet als Information.",
         questions: [
-          "Wo ist Tilda besonders präzise?",
-          "Wo weicht sie aus oder verkürzt?",
-          "Wie prägt dieser Filter deine Deutung?"
+          "Welche Stimmung erzeugen die Briefe?",
+          "Wo wird aus Trost Komplott?",
+          "Wie verändert der Briefmodus die Beziehung?"
         ]
       }
     ]
   },
   {
-    id: "lesson-05-viktor-erscheint",
-    title: "Lektion 5 · Viktor im Wasser",
+    id: "lesson-04-liebe-und-rache",
+    title: "Lektion 4 · Liebe beweisen, Rache vorbereiten",
     summary:
-      "Viktors Auftauchen macht aus dem Schwimmbad einen Raum von Irritation, Anziehung und Vergleich.",
-    chapterMedia: [
-      {
-        src: coverImg,
-        alt: "Cover von 22 Bahnen",
-        title: "Bewegung und Gegenbewegung",
-        caption:
-          "Die Lektion zeigt, wie ein einziger anderer Körperrhythmus Tildas Innenwelt destabilisieren kann.",
-        focusPrompt:
-          "Welche Rolle spielt Viktors Bewegung für Tildas Wahrnehmung und Begehren?"
-      }
-    ],
-    entryIds: ["viktor-1", "viktor-2"],
-    moduleIds: ["viktor"],
-    reviewFocus: "Achte auf Blickregie, Projektionsflächen und die langsame Aufladung von Viktors Figur.",
-    sebPrompt:
-      "Zeige, wie der Roman Viktors Auftreten weniger über direkte Erklärung als über Beobachtung, Gerücht und Körperrhythmus gestaltet."
-  },
-  {
-    id: "lesson-06-vergangenheit-und-schuld",
-    title: "Lektion 6 · Ivan, Erinnerung und verschobene Nähe",
-    summary:
-      "Mit Ivan kehrt die Vergangenheit zurück und bindet jede neue Nähe an Schuld und Schweigen.",
+      "Die Freundinnenbeziehung verdichtet sich, bis Liebesbeweis und Vernichtungsfantasie kaum noch zu trennen sind.",
     chapterMedia: [
       {
         src: authorImg,
-        alt: "Autorinnenfoto Caroline Wahl",
-        title: "Erinnerung als offener Riss",
+        alt: "Typografische Karte zu Alfred Döblin",
+        title: "Entschluss ohne glatte Linie",
         caption:
-          "Die Lektion rückt ins Zentrum, dass die Liebesgeschichte nie unbelastet erzählt wird.",
+          "Die Passage ist gerade deshalb so stark, weil der Mordentschluss nicht als klare Kalkulation erscheint.",
         focusPrompt:
-          "Wie hält der Roman neue Nähe und alte Verletzung gleichzeitig offen?"
+          "Wie beschreibt Döblin den Übergang vom Hass zur Tatvorbereitung als Faszination statt als sauberen Plan?"
       }
     ],
-    entryIds: ["viktor-3", "viktor-4"],
-    moduleIds: ["viktor"],
-    reviewFocus: "Arbeite an Schuld, Erinnerung, Ortsbedeutung und Tildas Schweigen gegenüber Viktor.",
+    entryIds: ["freundinnen-3", "freundinnen-4"],
+    moduleIds: ["freundinnen"],
+    reviewFocus: "Arbeite an Liebesrhetorik, Rachephantasie, Faszination und Verantwortung.",
     sebPrompt:
-      "Analysiere, wie Ivan in den Roman hineinragt und warum Viktors Nähe deshalb immer auch eine Konfrontation mit der Vergangenheit bleibt.",
-    recommendedTheoryIds: ["familienrollen", "inputvideo-1"],
+      "Analysiere, wie die Formel vom Liebesbeweis in den Freundinnenpassagen den Weg zur Tat vorbereitet und zugleich verschleiert.",
+    recommendedTheoryIds: ["schuld-zusammenhang"],
     resourceAssignments: [
       {
-        resourceId: "inputvideo-1",
-        title: "Vergleichsauftrag: Externe Lesart gegen den Text prüfen",
+        resourceId: "schuld-zusammenhang",
+        title: "Zusammenhangsauftrag: Entschluss ohne Vereinfachung lesen",
         summary:
-          "Der erste Videoimpuls dient hier als Außenperspektive auf Figurendynamik und Romanzugang.",
+          "Das Dossier hilft, glatte Kausalmodelle zu vermeiden.",
         task:
-          "Vergleiche eine Deutung aus dem Video mit den Ivan-Viktor-Passagen. Arbeite heraus, was der Text komplexer macht als eine glatte Außenlesart.",
+          "Nutze das Dossier zu Schuld und Zusammenhang und zeige, warum der Text die Tatvorbereitung weder entschuldigt noch simpel psychologisiert.",
         questions: [
-          "Welchen Schwerpunkt setzt das Video?",
-          "Passt dieser Schwerpunkt zur Passage?",
-          "Wo würdest du aus Textgründen widersprechen?"
+          "Welche Kräfte greifen ineinander?",
+          "Wo bleibt die Passage bewusst unscharf?",
+          "Warum wäre eine einfache Tätererklärung hier zu kurz?"
         ]
       }
     ]
   },
   {
-    id: "lesson-07-koerper-unter-druck",
-    title: "Lektion 7 · Panik und Rollenlast",
+    id: "lesson-05-arsen-und-alltag",
+    title: "Lektion 5 · Arsen, Küche, erste Dosen",
     summary:
-      "Körperlicher Kontrollverlust und Alltagsüberforderung zeigen dieselbe Grundspannung in zwei verschiedenen Formen.",
+      "Mit dem Giftkauf wird die Tat konkret und zieht in den banalen Alltag ein.",
     chapterMedia: [
       {
         src: coverImg,
-        alt: "Cover von 22 Bahnen",
-        title: "Druck, bevor er explodiert",
+        alt: "Grafische Karte zu Döblins Giftmord-Erzählung",
+        title: "Das Verbrechen beginnt banal",
         caption:
-          "Die Lektion verbindet akute Panik mit dauerhafter Rollenbelastung.",
+          "Die Schärfe dieser Lektion liegt im Kontrast zwischen Küchenroutine und Tötungsabsicht.",
         focusPrompt:
-          "Zeige, wie der Roman denselben Druck einmal als Ausnahmezustand und einmal als Alltag organisiert."
+          "Wie macht Döblin gerade aus Alltagsdetails den Schrecken des Giftmords?"
       }
     ],
-    entryIds: ["belastung-1", "belastung-2"],
-    moduleIds: ["belastung"],
-    reviewFocus: "Achte auf Körperbilder, Hitze, Wasser, Lakonie und Mehrfachbelastung.",
+    entryIds: ["giftmord-1", "giftmord-2"],
+    moduleIds: ["giftmord"],
+    reviewFocus: "Achte auf Giftkauf, Pflegegesten, Zynismus und Alltagsroutine.",
     sebPrompt:
-      "Untersuche, wie Wahl Kontrollverlust und Dauerüberforderung sprachlich so gestaltet, dass beide als Varianten derselben Lebenslage erscheinen."
-  },
-  {
-    id: "lesson-08-berlin-oder-bleiben",
-    title: "Lektion 8 · Depression, Zukunft und Abwehr",
-    summary:
-      "Die Tischszenen und die Berlin-Debatte bündeln Tildas Wunsch nach Aufbruch mit ihrer Bindung an Ida.",
-    chapterMedia: [
-      {
-        src: authorImg,
-        alt: "Autorinnenfoto Caroline Wahl",
-        title: "Konflikt ohne melodramatische Kulisse",
-        caption:
-          "Die Härte dieser Lektion liegt gerade darin, dass alles in alltäglichen Gesten und Sätzen verhandelt wird.",
-        focusPrompt:
-          "Wie arbeitet der Roman mit scheinbar kleinen Sätzen, die enorme familiäre Folgen tragen?"
-      }
-    ],
-    entryIds: ["belastung-3", "belastung-4"],
-    moduleIds: ["belastung"],
-    reviewFocus: "Arbeite an depressiver Leere, Rollenverschiebung und Tildas blockierter Zukunft.",
-    sebPrompt:
-      "Zeige, wie die späten Familienszenen Depression, Schuldzuweisung und Tildas Emanzipationswunsch ineinander schieben.",
-    recommendedTheoryIds: ["familienrollen", "sprache-koerper"],
+      "Zeige, wie Döblin den Giftmord nicht als spektakulären Ausbruch, sondern als tödliche Alltagsroutine erzählt und forensisch lesbare Spuren vorbereitet.",
+    recommendedTheoryIds: ["forensik"],
     resourceAssignments: [
       {
-        resourceId: "sprache-koerper",
-        title: "Sprachauftrag: Wie schreibt Wahl Belastung?",
+        resourceId: "forensik",
+        title: "Forensikauftrag: Wie wird aus Gift ein Befund?",
         summary:
-          "Das Dossier fokussiert Lakonie, Körpernähe und die genaue Dosierung von Witz und Schmerz.",
+          "Das Dossier verschiebt den Blick auf Symptome, Giftstoff und Rekonstruktion des Tatablaufs.",
         task:
-          "Nutze das Sprach-Dossier, um zu zeigen, wie in einer der beiden Passagen gerade knappe, nüchterne Formulierungen die Belastung steigern.",
+          "Nutze das Forensik-Dossier und arbeite heraus, wie Döblin in einer der beiden Passagen den Giftmord über Stoffe, Körperreaktionen und Alltagsdetails materiell lesbar macht.",
         questions: [
-          "Welches sprachliche Muster fällt auf?",
-          "Wie verbindet der Roman Körper und Psyche?",
-          "Wodurch wirkt die Szene härter als eine pathetische Klage?"
+          "Welche Spur oder welches Symptom ist besonders wichtig?",
+          "Wie hängt der Stoff Arsen mit dem Küchenalltag zusammen?",
+          "Was zeigt die forensische Linse, was eine rein psychologische Deutung übersehen würde?"
         ]
       }
     ]
   },
   {
-    id: "lesson-09-notfall",
-    title: "Lektion 9 · Überdosis und Notfallwissen",
+    id: "lesson-06-schwanken-und-entdeckung",
+    title: "Lektion 6 · Schwanken, Erlösung, Entdeckung",
     summary:
-      "Die Mutterkrise macht sichtbar, wie vorbereitet die beiden Schwestern auf den Ausnahmefall längst sind.",
-    chapterMedia: [
-      {
-        src: coverImg,
-        alt: "Cover von 22 Bahnen",
-        title: "Stillstand im Wohnzimmer",
-        caption:
-          "Die Lektion lebt vom Bruch: Aus Pizza und Kälte wird sofort medizinischer Ernst.",
-        focusPrompt:
-          "Wie organisiert der Roman diesen Bruch, ohne an Genauigkeit zu verlieren?"
-      }
-    ],
-    entryIds: ["krise-1", "krise-2"],
-    moduleIds: ["krise"],
-    reviewFocus: "Achte auf Protokollsprache, Kindheit im Notfall und die Härte routinierter Fürsorge.",
-    sebPrompt:
-      "Analysiere die Überdosis-Szenen. Zeige, wie Wahl Schock über präzise Abläufe, Rollenwissen und Geschwisterkoordination schreibt."
-  },
-  {
-    id: "lesson-10-fieber-und-rettung",
-    title: "Lektion 10 · Fieber, Meer und Seemann",
-    summary:
-      "Im Fieber bündeln sich Vaterverlust, Wasserangst und Rettungssehnsucht, bis Viktor diese Bilder real unterläuft.",
+      "Die Tat bleibt innerlich instabil, bis Todesfall und Ermittlungen den privaten Raum sprengen.",
     chapterMedia: [
       {
         src: authorImg,
-        alt: "Autorinnenfoto Caroline Wahl",
-        title: "Traum und Wirklichkeit verschränken sich",
+        alt: "Typografische Karte zu Alfred Döblin",
+        title: "Privates kippt ins Öffentliche",
         caption:
-          "Die Lektion zeigt, wie stark der Roman symbolisch werden kann, ohne seine Körpernähe zu verlieren.",
+          "Diese Lektion zeigt, wie Rausch, Erleichterung und Beweismaterial ineinanderstürzen.",
         focusPrompt:
-          "Welche Bilder aus dem Fiebertraum kehren in der realen Pflege durch Viktor verändert wieder?"
+          "Warum wirkt der Umschlag von Erlösungsgefühl zu öffentlicher Ermittlung so radikal?"
       }
     ],
-    entryIds: ["krise-3", "krise-4"],
-    moduleIds: ["krise"],
-    reviewFocus: "Arbeite am Meer-Motiv, an Vaterverlust und an Viktors Rettungsfunktion.",
+    entryIds: ["giftmord-3", "giftmord-4"],
+    moduleIds: ["giftmord"],
+    reviewFocus: "Arbeite an Schwanken, Briefdynamik, Witwenphantasie und Ermittlungsbeginn.",
     sebPrompt:
-      "Untersuche, wie Fiebertraum und reale Fürsorge ineinandergreifen und warum Wasser- und Rettungsbilder hier den inneren Roman-Kern freilegen.",
-    recommendedTheoryIds: ["wasser-motivik", "inputvideo-2"],
+      "Untersuche, wie Döblin aus innerem Schwanken, Todesfall und Brief-Fund einen Umschlag vom privaten Rausch zur öffentlichen Katastrophe formt.",
+    recommendedTheoryIds: ["briefe-rausch", "prozess-gutachten", "forensik"],
     resourceAssignments: [
       {
-        resourceId: "inputvideo-2",
-        title: "Vergleichsauftrag: Gesamtdeutung gegen Traumlogik prüfen",
+        resourceId: "forensik",
+        title: "Forensikauftrag: Vom Symptom zur Spur",
         summary:
-          "Der zweite Videoimpuls dient als Außenblick auf Symbolik und Figurenbeziehungen.",
+          "Das Dossier hilft, den Übergang von körperlichem Zustand zu beweisbarer Tatspur präzise zu lesen.",
         task:
-          "Vergleiche die Fieber- und Rettungspassagen mit einer Deutungsbewegung aus dem Video. Prüfe, ob der Text komplexer oder offener bleibt als die Außenlesart.",
+          "Nutze das Forensik-Dossier und zeige, wie die Passage Erleichterung, Todesursache, Arsenbefund und Ermittlungsbeginn miteinander verknüpft.",
         questions: [
-          "Welche Lesart legt das Video nahe?",
-          "Stützt der Text diese Lesart wirklich?",
-          "Wo bleibt der Roman widerständig?"
-        ]
-      }
-    ]
-  },
-  {
-    id: "lesson-11-nach-der-krise",
-    title: "Lektion 11 · Hilfe, Herbst und Entlastung",
-    summary:
-      "Ida gewinnt Handlungsmacht, die Mutter verweigert Hilfe, und Tilda erlebt dennoch erstmals echte Entlastung.",
-    chapterMedia: [
-      {
-        src: coverImg,
-        alt: "Cover von 22 Bahnen",
-        title: "Leichter, aber nicht erledigt",
-        caption:
-          "Die Lektion markiert keinen Happy End-Punkt, sondern eine glaubwürdige Verschiebung von Gewicht.",
-        focusPrompt:
-          "Woran merkt man, dass etwas leichter wird, ohne dass die Probleme damit verschwinden?"
-      }
-    ],
-    entryIds: ["aufbruch-1", "aufbruch-2"],
-    moduleIds: ["aufbruch"],
-    reviewFocus: "Achte auf Hilfeverweigerung, Idas neue Stimme, Atmosphäre und vorsichtige Entlastung.",
-    sebPrompt:
-      "Zeige, wie der Roman nach der Krise zwischen realistischer Härte und neuer Leichtigkeit balanciert, ohne seine Ambivalenzen zu verlieren."
-  },
-  {
-    id: "lesson-12-libellen-und-offenes-ende",
-    title: "Lektion 12 · Libellen, Schiff und Wiederkommen",
-    summary:
-      "Das Ende bindet neue Gefühle, offene Zukunft und das Bewegungsmotiv der 22 Bahnen zusammen.",
-    chapterMedia: [
-      {
-        src: authorImg,
-        alt: "Autorinnenfoto Caroline Wahl",
-        title: "Offenheit als Schlussform",
-        caption:
-          "Die letzte Lektion zeigt, dass `22 Bahnen` seinen Schluss bewusst offen und beweglich hält.",
-        focusPrompt:
-          "Warum passt Offenheit besser zu diesem Roman als ein sauber verriegelter Abschluss?"
-      }
-    ],
-    entryIds: ["aufbruch-3", "aufbruch-4"],
-    moduleIds: ["aufbruch"],
-    reviewFocus: "Arbeite an Libellenmotiv, Symbolik des Schiffs und der offenen Schlussbewegung.",
-    sebPrompt:
-      "Analysiere, wie das Ende von `22 Bahnen` Naturwissen, Liebe, Lotsenbild und erneute Schwimmbewegung zu einer offenen, aber tragfähigen Schlussform verbindet.",
-    recommendedTheoryIds: ["wasser-motivik", "inputvideo-3", "materialpool"],
-    resourceAssignments: [
-      {
-        resourceId: "inputvideo-3",
-        title: "Vergleichsauftrag: Schlussdeutung spiegeln",
-        summary:
-          "Der dritte Videoimpuls eignet sich, um das offene Ende gegen eine fremde Gesamtdeutung zu prüfen.",
-        task:
-          "Nutze das Video, um deine Lesart des Schlusses zu schärfen. Halte fest, ob die Außenperspektive dem Romanende gerecht wird oder es zu eindeutig festlegt.",
-        questions: [
-          "Welche Schlussdeutung bietet das Video an?",
-          "Bleibt der Roman im Text offener als das Video?",
-          "Was würdest du am Ende ausdrücklich ambivalent lassen?"
+          "Welche forensische Erkenntnis kippt die Situation?",
+          "Wie verändert der Arsenbefund die Deutung des Todes?",
+          "Was bleibt trotz naturwissenschaftlicher Klärung offen?"
         ]
       },
       {
-        resourceId: "materialpool",
-        title: "Abschlussauftrag: Externe Inputs bündeln",
+        resourceId: "prozess-gutachten",
+        title: "Prozessauftrag: Wie wird aus Heimlichkeit ein Fall?",
         summary:
-          "Zum Schluss sollen die verlinkten Zusatzmaterialien nicht nebeneinander stehen bleiben, sondern bewusst gegen den Roman gelesen werden.",
+          "Das Dossier schärft den Übergang vom privaten Geschehen zum öffentlichen Verfahren.",
         task:
-          "Wähle aus dem Materialpool ein Zusatzmedium und vergleiche es mit dem Ende des Romans. Zeige, wie deine eigene Lektüre dadurch klarer, nuancierter oder auch widerständiger wird.",
+          "Nutze das Prozess-Dossier und arbeite heraus, wie Beweise, Deutungen und Öffentlichkeit in der zweiten Passage vorbereitet werden.",
         questions: [
-          "Welches Zusatzmaterial passt am besten zum Ende?",
-          "Welche Deutung bestätigt sich?",
-          "Welche Ambivalenz des Romans verteidigst du gegen zu glatte Außenlesarten?"
+          "Welches Detail macht den Fall öffentlich?",
+          "Wie verändert sich dadurch die Perspektive?",
+          "Welche neue Sprache tritt an die Stelle der Heimlichkeit?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-07-hafttraeume",
+    title: "Lektion 7 · Haftträume und Schuldabwehr",
+    summary:
+      "In der Haft kehrt die Tat als Bildlogik wieder und zerlegt einfache Schuldformeln.",
+    chapterMedia: [
+      {
+        src: coverImg,
+        alt: "Grafische Karte zu Döblins Giftmord-Erzählung",
+        title: "Die Tat arbeitet im Traum weiter",
+        caption:
+          "Die Traumprotokolle sind keine Nebensache, sondern Schlüssel zur inneren Nacharbeit.",
+        focusPrompt:
+          "Wie verwandeln die Träume Mord, Schuld und Gewalt in verschobene Bilder?"
+      }
+    ],
+    entryIds: ["haft-1", "haft-2"],
+    moduleIds: ["haft"],
+    reviewFocus: "Achte auf Traumlogik, Mutterbezug, Rechtfertigung und Schuldabwehr.",
+    sebPrompt:
+      "Analysiere die Haftträume. Zeige, wie Döblin die Tat in Bildverschiebungen, Familienimpulsen und inneren Abwehrbewegungen nacharbeiten lässt.",
+    recommendedTheoryIds: ["schuld-zusammenhang"],
+    resourceAssignments: [
+      {
+        resourceId: "schuld-zusammenhang",
+        title: "Traumauftrag: Zusammenhang statt Geständnis",
+        summary:
+          "Das Dossier hilft, die Träume nicht bloß symbolisch, sondern funktional zu lesen.",
+        task:
+          "Nutze das Dossier zu Schuld und Zusammenhang und erkläre, wie die Träume zugleich anklagen, rechtfertigen und verschieben.",
+        questions: [
+          "Welches Bild steht im Zentrum?",
+          "Was wird darin verschoben?",
+          "Wie verändert das die Frage nach Schuld?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-08-innere-umstellung",
+    title: "Lektion 8 · Familie, Vertiefung, zwei Täterinnen",
+    summary:
+      "Die Haft verändert Elli und Grete auf unterschiedliche Weise und verhindert einfache Gleichsetzungen.",
+    chapterMedia: [
+      {
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        title: "Keine Schablone für beide",
+        caption:
+          "Die Differenz zwischen Elli und Grete wird hier zum entscheidenden Deutungsgewinn.",
+        focusPrompt:
+          "Wie arbeitet der Text in der Haft bewusst mit Unterschieden statt mit einer gemeinsamen Täterinnenfigur?"
+      }
+    ],
+    entryIds: ["haft-3", "haft-4"],
+    moduleIds: ["haft"],
+    reviewFocus: "Arbeite an Vertiefung, Familienrückbindung und am Kontrast zwischen Elli und Grete.",
+    sebPrompt:
+      "Zeige, wie Döblin in den Haftpassagen die beiden Frauen seelisch unterschiedlich modelliert und dadurch jede einfache Typisierung unterläuft."
+  },
+  {
+    id: "lesson-09-der-fall-vor-gericht",
+    title: "Lektion 9 · Der Fall vor Gericht",
+    summary:
+      "Anklage, Öffentlichkeit und Gutachten übersetzen das Geschehen in konkurrierende Wissensformen.",
+    chapterMedia: [
+      {
+        src: coverImg,
+        alt: "Grafische Karte zu Döblins Giftmord-Erzählung",
+        title: "Gericht produziert Lesarten",
+        caption:
+          "Diese Lektion rückt ins Zentrum, dass der Prozess den Fall nicht nur verhandelt, sondern formatiert.",
+        focusPrompt:
+          "Welche Deutungslogiken dominieren den Fall, sobald er vor Gericht und in der Presse erscheint?"
+      }
+    ],
+    entryIds: ["prozess-1", "prozess-2"],
+    moduleIds: ["prozess"],
+    reviewFocus: "Achte auf Anklagesprache, Sensationslogik, Gutachten und Briefdeutung.",
+    sebPrompt:
+      "Untersuche, wie Döblin Gerichtsrede, Presse und Gutachten so montiert, dass der Fall als Kampf konkurrierender Deutungen erscheint.",
+    recommendedTheoryIds: ["prozess-gutachten", "rechtswissenschaft"],
+    resourceAssignments: [
+      {
+        resourceId: "prozess-gutachten",
+        title: "Gerichtsauftrag: Wer erklärt hier eigentlich was?",
+        summary:
+          "Das Dossier fokussiert die konkurrierenden Stimmen im Prozessblock.",
+        task:
+          "Nutze das Prozess-Dossier und arbeite heraus, welche Instanz in einer der beiden Passagen die stärkste Deutungshoheit beansprucht.",
+        questions: [
+          "Welche Stimme spricht am lautesten?",
+          "Wie legitimiert sie sich?",
+          "Was bleibt dabei unsicher oder ausgeblendet?"
+        ]
+      },
+      {
+        resourceId: "rechtswissenschaft",
+        title: "Rechtsauftrag: Welche Rechtsfrage steht auf dem Spiel?",
+        summary:
+          "Das Dossier fokussiert Mord, Beihilfe, Zurechnung und die juristische Struktur des Falls.",
+        task:
+          "Nutze das Rechts-Dossier und arbeite heraus, welche juristische Problemstellung die Prozesspassagen besonders stark ordnet.",
+        questions: [
+          "Geht es vor allem um Mord, Beihilfe oder Zurechnung?",
+          "Wie wird Verantwortung juristisch verteilt?",
+          "Wo kollidiert die Straflogik mit anderen Deutungen des Falls?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-10-urteil-und-diskurs",
+    title: "Lektion 10 · Urteil, Öffentlichkeit, Sexualdiskurs",
+    summary:
+      "Der Text verschiebt den Blick von nackter Tat auf Zusammenhänge, während die Öffentlichkeit nach einfachen Zuschreibungen verlangt.",
+    chapterMedia: [
+      {
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        title: "Schuldig oder schon zu schlicht?",
+        caption:
+          "Die Schärfe dieser Lektion liegt in der Spannung zwischen Zusammenhangsdenken und Stigmatisierung.",
+        focusPrompt:
+          "Warum reicht das Schema `schuldig oder unschuldig` für Döblins Fall gerade nicht aus?"
+      }
+    ],
+    entryIds: ["prozess-3", "prozess-4"],
+    moduleIds: ["prozess"],
+    reviewFocus: "Arbeite an Zusammenhangsdenken, öffentlicher Moral, Sexualdiskurs und Urteilskritik.",
+    sebPrompt:
+      "Analysiere, wie Döblin im Prozess- und Nachurteilsblock einfache moralische Zuschreibungen unterläuft und stattdessen auf unsichere Zusammenhänge, Rechtsfragen und historische Diskurse verweist.",
+    recommendedTheoryIds: ["rechtswissenschaft", "geschichte-weimar", "schuld-zusammenhang"],
+    resourceAssignments: [
+      {
+        resourceId: "rechtswissenschaft",
+        title: "Rechtsauftrag: Was leistet das Urteil juristisch, was nicht?",
+        summary:
+          "Das Dossier schärft, wie stark der Fall über strafrechtliche Kategorien lesbar gemacht wird.",
+        task:
+          "Nutze das Rechts-Dossier und prüfe, ob Urteil und Gutachten den Fall juristisch ordnen oder zugleich neue Blindstellen erzeugen.",
+        questions: [
+          "Welche juristische Kategorie dominiert?",
+          "Was wird dadurch geklärt?",
+          "Welche soziale oder moralische Komplexität geht dabei verloren?"
+        ]
+      },
+      {
+        resourceId: "geschichte-weimar",
+        title: "Geschichtsauftrag: Wie spricht hier die Weimarer Öffentlichkeit?",
+        summary:
+          "Das Dossier öffnet den Blick auf Sensationspresse, Geschlechterbilder und Sexualdiskurse der 1920er Jahre.",
+        task:
+          "Nutze das Geschichts-Dossier und arbeite heraus, wie Presse, Sexualdiskurs und Weimarer Öffentlichkeit die Urteilspassage historisch rahmen.",
+        questions: [
+          "Welches historische Deutungsmuster tritt hervor?",
+          "Wie wirken Geschlechter- und Moralvorstellungen mit?",
+          "Was macht die Passage dadurch zum Text der Weimarer Moderne?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-11-epilog-und-symbiose",
+    title: "Lektion 11 · Epilog, Begriffsverdacht, Symbiose",
+    summary:
+      "Im Epilog greift Döblin bequeme Begriffe an und entwirft stattdessen einen Blick auf Verstrickung und Milieu.",
+    chapterMedia: [
+      {
+        src: coverImg,
+        alt: "Grafische Karte zu Döblins Giftmord-Erzählung",
+        title: "Der Fall wird zur Poetologie",
+        caption:
+          "Hier zeigt sich am deutlichsten, dass der Text mehr will als Täterpsychologie.",
+        focusPrompt:
+          "Wie wird aus dem Kriminalfall im Epilog eine Reflexion über Sprache und Zusammenhang?"
+      }
+    ],
+    entryIds: ["poetik-1", "poetik-2"],
+    moduleIds: ["poetik"],
+    reviewFocus: "Achte auf Erkenntniskritik, Symbiose, Milieu und Misstrauen gegen glatte Wörter.",
+    sebPrompt:
+      "Zeige, wie Döblin im Epilog bequeme Begriffe und einfache Kausalmodelle angreift und den Fall stattdessen über Symbiose und Zusammenhang neu liest.",
+    recommendedTheoryIds: ["milieu-symbiose", "schuld-zusammenhang"],
+    resourceAssignments: [
+      {
+        resourceId: "milieu-symbiose",
+        title: "Milieuauftrag: Warum reichen Einzelporträts nicht aus?",
+        summary:
+          "Das Dossier hilft, Döblins Symbiose-Gedanken für den ganzen Text fruchtbar zu machen.",
+        task:
+          "Nutze das Milieu-Dossier und arbeite heraus, wie der Epilog Figuren, Räume und Beziehungen bewusst zusammendenkt.",
+        questions: [
+          "Welche Räume oder Umgebungen klingen mit?",
+          "Wie begründet Döblin Symbiose?",
+          "Was verändert das an deiner Lesart?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-12-fallpoetik-und-nachwort",
+    title: "Lektion 12 · Fallpoetik, Nachwort, moderne Lektüre",
+    summary:
+      "Das Nachwort macht sichtbar, wie stark Döblin zwischen Dokument, Diskurs und Literatur vermittelt.",
+    chapterMedia: [
+      {
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        title: "Kein bloßer Kriminalbericht",
+        caption:
+          "Die letzte Lektion bündelt Realfall, Fallpoetik und moderne Offenheit des Textes.",
+        focusPrompt:
+          "Warum bleibt Döblins Text gerade dadurch modern, dass er keine monokausale Lösung liefert?"
+      }
+    ],
+    entryIds: ["poetik-3", "poetik-4"],
+    moduleIds: ["poetik"],
+    reviewFocus: "Arbeite an Realfallbezug, Fallkonstruktion, Patriarchatskritik und offener Erkenntnisform.",
+    sebPrompt:
+      "Analysiere, wie Nachwort und Fallpoetik den Text zugleich historisch verankern und gegen einfache Erklärungen offenhalten.",
+    recommendedTheoryIds: ["prozess-gutachten", "rechtswissenschaft", "geschichte-weimar", "forensik", "schuld-zusammenhang", "milieu-symbiose"],
+    resourceAssignments: [
+      {
+        resourceId: "geschichte-weimar",
+        title: "Geschichtsauftrag: Warum ist der Fall auch ein Text über die Weimarer Republik?",
+        summary:
+          "Das Dossier bündelt Großstadtmoderne, Geschlechterordnung, Presse und Wissenschaftsgeschichte als historischen Horizont.",
+        task:
+          "Nutze das Geschichts-Dossier und zeige, wie Nachwort und Fallpoetik den Text in die Weimarer Moderne einbetten.",
+        questions: [
+          "Welcher historische Kontext ist hier zentral?",
+          "Wie wirken Presse, Sexualwissenschaft oder Geschlechterordnung mit?",
+          "Warum ist die historische Linse für die Gesamtsicht unverzichtbar?"
+        ]
+      },
+      {
+        resourceId: "rechtswissenschaft",
+        title: "Rechtsauftrag: Wie weit trägt die juristische Deutung des Falls?",
+        summary:
+          "Das Dossier erlaubt einen abschließenden Abgleich von literarischer und juristischer Falllogik.",
+        task:
+          "Nutze das Rechts-Dossier und prüfe, was eine juristische Lesart des Falls erfasst und was erst die literarische Form sichtbar macht.",
+        questions: [
+          "Welche juristische Ordnung bleibt tragfähig?",
+          "Wo reicht Strafrecht allein nicht mehr aus?",
+          "Wie reagiert Döblins Form auf diese Grenze?"
+        ]
+      },
+      {
+        resourceId: "forensik",
+        title: "Forensikauftrag: Was klären Spuren, was klären sie nicht?",
+        summary:
+          "Das Dossier hilft, naturwissenschaftliche Beweisführung und literarische Offenheit gegeneinander zu halten.",
+        task:
+          "Nutze das Forensik-Dossier und halte fest, welche Teile des Falls naturwissenschaftlich rekonstruierbar sind und wo Döblins Text trotzdem offen bleibt.",
+        questions: [
+          "Welche Spuren sind eindeutig?",
+          "Welche Deutungsfragen bleiben trotz Obduktion und Analyse offen?",
+          "Wie ergänzt die literarische Form die forensische Rekonstruktion?"
+        ]
+      },
+      {
+        resourceId: "schuld-zusammenhang",
+        title: "Abschlussauftrag: Den Fall ohne Vereinfachung lesen",
+        summary:
+          "Zum Schluss sollen Tat, Milieu, Gewalt, Prozess und Nachwort in einer reflektierten Deutung zusammengeführt werden.",
+        task:
+          "Nutze das Dossier zu Schuld und Zusammenhang, um deine Gesamtsicht auf den Text zu schärfen. Zeige, welche Erklärung tragfähig ist und wo der Text bewusst widerständig bleibt.",
+        questions: [
+          "Welche Erklärung überzeugt dich am ehesten?",
+          "Wo bleibt der Text absichtlich unsicher?",
+          "Welche Vereinfachung würdest du nach dieser Lektüre ausdrücklich zurückweisen?"
         ]
       }
     ]
@@ -1415,14 +1529,14 @@ decorateReaderModules();
 decorateLessonSets();
 
 export const starterPrompt = {
-  title: "Arbeitsauftrag",
+  title: "Autonomer Lernparcours",
   items: [
-    "Arbeite den Roman entlang von zwölf eng geführten Lektionen im eingebetteten PDF durch und notiere Beobachtungen immer passagennah.",
-    "Sichere zuerst ein Textsignal: Wortlaut, Bild, Blick, Liste, Dialogzeile, Körperreaktion oder Motivbewegung.",
-    "Nutze pro Passage mindestens eine Linse: Perspektive, Wasser-Motivik, Familienrollen, Sprache/Körper oder die externen Vergleichsmaterialien.",
-    "Verwende die drei YouTube-Impulse und den Dropbox-Materialpool nicht als Musterlösung, sondern als Vergleichsfolie für deine eigene Deutung.",
-    "Halte im Revisionsfeld fest, was du nach erneuter Lektüre, nach Feedback oder nach einem Materialvergleich noch präzisieren würdest.",
-    "Achte besonders auf Tilda, Ida, Mutter, Viktor, Ivan, die 22 Bahnen, Wasserbilder, Fürsorge und offene Zukunftsbewegungen."
+    "Arbeite die Einheit selbstgesteuert entlang von zwölf eng geführten Lektionen im eingebetteten PDF durch und sichere jede Beobachtung passagennah.",
+    "Beginne immer mit einem Textsignal: Wortlaut, Bild, Raumdetail, Briefformel, Körperreaktion, juristische Formel, Gutachterbegriff oder forensische Spur.",
+    "Nutze pro Passage mindestens eine literarische und wenn möglich eine interdisziplinäre Linse: Forensik, Rechtswissenschaft, Geschichte der Weimarer Republik, Milieu/Symbiose, Briefe/Rausch oder Schuld/Zusammenhang.",
+    "Arbeite vergleichend: Was klären Literatur, Forensik, Strafrecht und Geschichtswissenschaft jeweils gut, und wo bleiben ihre Erklärungen unvollständig?",
+    "Halte im Revisionsfeld fest, was du nach neuer Lektüre, nach Feedback oder nach einem Dossiervergleich noch präzisieren würdest.",
+    "Behalte besonders Elli Link, Karl Link, Grete Bende, die Mutterfiguren, Briefe, Arsen, Gewalt, Prozesssprache, Weimarer Öffentlichkeit, historische Zuschreibungen und den Epilog im Blick."
   ]
 };
 

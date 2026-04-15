@@ -29,7 +29,7 @@ export function buildParcoursMarkdown({
   lessons
 }) {
   const lines = [
-    "# 22 Bahnen - Parcoursdokumentation",
+    "# Die beiden Freundinnen und ihr Giftmord - Parcoursdokumentation",
     "",
     `Modus: ${modeLabel}`,
     `Klasse: ${classroomName || "-"}`,

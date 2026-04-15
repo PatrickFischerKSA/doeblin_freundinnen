@@ -1,26 +1,24 @@
-# wahl_22bahnen
+# doeblin_freundinnen
 
-Digitale Unterrichtseinheit zu Caroline Wahls *22 Bahnen*.
+Digitale, autonome Unterrichtseinheit zu Alfred Döblins *Die beiden Freundinnen und ihr Giftmord*.
 
 Die App bietet:
 
-- eingebettetes PDF des Romans
+- eingebettetes PDF der Erzählung
 - Registrierung über Klassen-Code und Namen
 - offenen Reader und SEB-Version
 - Lehrer*innen-Dashboard mit Fortschrittsübersicht
 - Peer Review
 - sofortiges Arbeitsfeedback und SEB-Fachfeedback
-- zwölf eng geführte Lektionen mit vielen differenzierten Lektürefragen
-- zusätzliche Theorie-Dossiers zu Perspektive, Wasser-Motivik, Familienrollen und Sprache
-- Einbindung der vom Auftrag genannten YouTube- und Dropbox-Materialien
+- zwölf eng geführte Lektionen mit passagennahen Aufgaben
+- zusätzliche Dossiers zu Milieu, Briefdynamik, Körper/Gewalt, Prozess und Zusammenhang
+- explizite interdisziplinäre Linsen zu Forensik, Rechtswissenschaft und Geschichte
 
 ## Render
 
-Das Repo ist für Render als Node Web Service vorbereitet.
+In [render.yaml](/Users/patrickfischer/Documents/New%20project/doeblin_freundinnen/render.yaml) ist bereits hinterlegt:
 
-In [render.yaml](/Users/patrickfischer/Documents/New%20project/wahl_22bahnen/render.yaml) ist bereits hinterlegt:
-
-- Service-Name `wahl-22bahnen`
+- Service-Name `doeblin-freundinnen`
 - `npm install` als Build Command
 - `npm start` als Start Command
 - `HOST=0.0.0.0`
@@ -31,18 +29,11 @@ Für Render solltest du diese Variablen setzen:
 - `TEACHER_DASHBOARD_PASSWORD`
 - optional `SEB_CONFIG_KEY_HASH`
 
-Wichtig:
-
-- Wenn dein bestehender Render-Service im Dashboard noch `yarn install` verwendet, stelle ihn manuell auf `npm install` um.
-- Die App speichert Lernstände dateibasiert in `data/kehlmann-reader-store.json`.
-- Auf Render-Free ist dieses Dateisystem nicht dauerhaft persistent.
-- Das Tool lässt sich also veröffentlichen und benutzen, aber Kursdaten können bei Redeploys oder Neustarts verloren gehen.
-- Für dauerhaftes Live-Tracking brauchst du später entweder ein Render Persistent Disk Setup auf einem passenden Plan oder ein externes Storage.
+Die App speichert Lernstände dateibasiert in `data/kehlmann-reader-store.json`.
 
 ## Start
 
 ```bash
-npm install
 npm test
 npm start
 ```
@@ -58,7 +49,7 @@ Danach läuft die App standardmäßig unter [http://127.0.0.1:3017](http://127.0
 
 Standardwerte lokal:
 
-- Unterrichtspasswort: `22bahnen`
-- Lehrer*innen-Passwort: `caroline_wahl`
+- Unterrichtspasswort: `giftmord`
+- Lehrer*innen-Passwort: `doeblin_berlin`
 
 Beide Werte können über Umgebungsvariablen überschrieben werden.

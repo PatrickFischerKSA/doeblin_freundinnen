@@ -40,7 +40,7 @@ const defaultPeerReviewCriteria = [
 const lessonCatalog = () => getLessonSetsWithCounts();
 const defaultLessonIds = () => lessonCatalog().map((lesson) => lesson.id);
 const defaultActiveLessonId = () => defaultLessonIds()[0];
-const defaultPeerReviewLessonId = () => lessonCatalog().find((lesson) => lesson.id === "lesson-08-berlin-oder-bleiben")?.id || defaultLessonIds()[0];
+const defaultPeerReviewLessonId = () => lessonCatalog().find((lesson) => lesson.id === "lesson-09-der-fall-vor-gericht")?.id || defaultLessonIds()[0];
 
 let inMemoryReaderStore = null;
 
@@ -65,8 +65,8 @@ function makeId(prefix) {
 function defaultClassroom(timestamp) {
   return {
     id: "reader-class-9a",
-    name: "22 Bahnen 10A",
-    code: "WAHL-10A",
+    name: "Döblin 10A",
+    code: "DOEB-10A",
     lessonIds: defaultLessonIds(),
     activeSebLessonId: defaultActiveLessonId(),
     allowOpen: true,
@@ -176,7 +176,7 @@ export function getStudentWork(store, studentId) {
 
 function randomCode() {
   const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  return `WAHL-${Array.from({ length: 6 }, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join("")}`;
+  return `DOEB-${Array.from({ length: 6 }, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join("")}`;
 }
 
 function createWork(studentId, classroom) {
