@@ -1808,13 +1808,13 @@ function render() {
           <h1>Autonome Lernlandschaft für einen interdisziplinären Falltext</h1>
           <p>
             ${mode === "seb"
-              ? "Diese SEB-Fassung führt dich durch zwölf selbstständig bearbeitbare Lektionen mit eingebettetem PDF, sofortigem Arbeitsfeedback und interdisziplinären Dossiers zu Forensik, Chemie/Toxikologie, Rechtswissenschaft, Geschichte, Milieu, Briefdynamik und Zusammenhang."
-              : "Die Einheit ist als autonomer Lernparcours gebaut. Links steuerst du Lektionen und Linsen, in der Mitte arbeitest du direkt im PDF, rechts verbindest du Textbeobachtung, forensisch-chemische Dossiers, Überarbeitung und Peer Review."}
+              ? "Diese SEB-Fassung führt dich durch siebzehn selbstständig bearbeitbare Lektionen mit eingebettetem PDF, sofortigem Arbeitsfeedback, Nachwort-Modulen und einer abschließenden Gerichtsprozesssimulation."
+              : "Die Einheit ist als autonomer Lernparcours gebaut. Links steuerst du Lektionen und Linsen, in der Mitte arbeitest du direkt im PDF, rechts verbindest du Textbeobachtung, Nachwort-Materialien, interdisziplinäre Dossiers, Überarbeitung und Peer Review."}
           </p>
         </div>
         <div class="hero-actions">
           <span class="status-badge">${escapeHtml(modeLabel)}</span>
-          <span class="status-badge">12 Lektionen</span>
+          <span class="status-badge">${lessonSets.length} Lektionen</span>
           <span class="status-badge">${escapeHtml(lesson.reviewFocus)}</span>
           ${mode === "open" ? '<a class="button secondary" href="/auth/logout">Abmelden</a>' : ""}
         </div>

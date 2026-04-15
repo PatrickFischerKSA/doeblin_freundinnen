@@ -440,7 +440,8 @@ function renderLandingPage() {
             Autonome Lernlandschaft mit integriertem PDF, Registrierung, offenen und
             SEB-geschützten Zugängen, Lehrer*innen-Dashboard, Klassen-Codes, Peer Review und
             differenziertem Fachfeedback. Die Einheit verbindet Literatur bewusst mit
-            Forensik, Chemie/Toxikologie, Rechtswissenschaft und Geschichte.
+            Forensik, Chemie/Toxikologie, Rechtswissenschaft und Geschichte und erweitert das
+            Nachwort um eigene Materialmodule sowie eine Gerichtsprozesssimulation.
           </p>
           <div class="row">
             <a class="button" href="/open">Offene Version</a>

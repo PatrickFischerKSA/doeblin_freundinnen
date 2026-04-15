@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gerichtsprozesssimulation zu Doeblin</title>
+    <style>
+      body { margin: 0; font-family: "Avenir Next", "Segoe UI", sans-serif; background: #ecefea; color: #223129; }
+      main { max-width: 1040px; margin: 0 auto; padding: 28px 22px 44px; }
+      h1, h2, h3 { font-family: "Iowan Old Style", "Palatino Linotype", serif; }
+      p, li { line-height: 1.7; }
+      .card { background: #ffffff; border: 1px solid #d1d9d0; border-radius: 18px; padding: 18px; margin-top: 16px; }
+      .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+      .toolbar button { border: 1px solid #b8c4b7; border-radius: 999px; padding: 10px 14px; background: #f0f5ef; color: #223129; cursor: pointer; font: inherit; }
+      .toolbar button.active { background: #314335; color: #f7f8f5; border-color: #314335; }
+      .role-card { display: none; margin-top: 16px; }
+      .role-card.active { display: block; }
+      .packet-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+      .packet { background: #f7faf6; border: 1px solid #d7dfd5; border-radius: 14px; padding: 14px; }
+      ol, ul { margin: 0; padding-left: 18px; }
+      strong { color: #314335; }
+      .step { border-left: 5px solid #b45c39; padding-left: 14px; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Interaktive Gerichtsprozesssimulation</h1>
+      <p>Diese Simulation fuehrt die integralen Materialien des Werks zusammen: Realfall, Briefe, Gutachten, forensische Befunde, Pressephasen, Schaubilder und Epilog. Waehle eine Rolle und arbeite von dort aus durch Eroeffnung, Kreuzverhoer und Urteil.</p>
+
+      <section class="card">
+        <h2>So laeuft die Simulation</h2>
+        <div class="step"><strong>1. Rolle waehlen:</strong> Oeffne ein Rollenpaket und notiere deine Grundthese.</div>
+        <div class="step"><strong>2. Materialien sichern:</strong> Waehle drei Beweis- oder Deutungsstuecke, die deine Rolle traegt.</div>
+        <div class="step"><strong>3. Gegenseite angreifen:</strong> Erschuettere ein gegnerisches Gutachten, Pressebild oder Rechtsargument.</div>
+        <div class="step"><strong>4. Urteil formulieren:</strong> Entscheide dich fuer Urteil und Minderheitsvotum und formuliere anschliessend eine Pressenotiz.</div>
+      </section>
+
+      <section class="card">
+        <h2>Rolle waehlen</h2>
+        <div class="toolbar" role="tablist" aria-label="Rollenpakete">
+          <button class="active" data-role-target="rolle-staatsanwaltschaft">Staatsanwaltschaft</button>
+          <button data-role-target="rolle-verteidigung-elli">Verteidigung Elli</button>
+          <button data-role-target="rolle-verteidigung-grete">Verteidigung Grete</button>
+          <button data-role-target="rolle-gutachten">Sachverstaendige</button>
+          <button data-role-target="rolle-geschworene">Geschworene und Presse</button>
+        </div>
+
+        <article class="role-card active" id="rolle-staatsanwaltschaft">
+          <h3>Rollenpaket: Staatsanwaltschaft</h3>
+          <div class="packet-grid">
+            <section class="packet">
+              <strong>Hauptthese</strong>
+              <p>Die Tat ist geplant, materiell vorbereitet und durch mehrere Briefe sowie den Arsenweg abgesichert.</p>
+            </section>
+            <section class="packet">
+              <strong>Starke Materialien</strong>
+              <ul>
+                <li>Arsenbeschaffung und Verabreichung im Alltag</li>
+                <li>forensischer Befund nach Obduktion</li>
+                <li>Briefstellen ueber Freiheit und Komplott</li>
+              </ul>
+            </section>
+            <section class="packet">
+              <strong>Verwundbarkeit</strong>
+              <p>Du musst erklaeren, warum psychischer Druck und Gewalt trotzdem nicht zu einer Entlastung fuehren sollen.</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="role-card" id="rolle-verteidigung-elli">
+          <h3>Rollenpaket: Verteidigung Elli</h3>
+          <div class="packet-grid">
+            <section class="packet">
+              <strong>Hauptthese</strong>
+              <p>Der Fall ist ohne eheliche Gewalt, Druck des Vaters und seelische Ueberforderung nicht verstehbar; reine Mordlogik greift zu kurz.</p>
+            </section>
+            <section class="packet">
+              <strong>Starke Materialien</strong>
+              <ul>
+                <li>Berichte ueber Misshandlungen und sexuelle Zumutungen</li>
+                <li>Schriftprobe Elli: verschlossen, innerlich labil</li>
+                <li>epilogische Kritik an einfachen Schuldbegriffen</li>
+              </ul>
+            </section>
+            <section class="packet">
+              <strong>Verwundbarkeit</strong>
+              <p>Du musst erklaeren, wie konkrete Giftakte trotzdem mit einer verminderten Eindeutigkeit vereinbar bleiben.</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="role-card" id="rolle-verteidigung-grete">
+          <h3>Rollenpaket: Verteidigung Grete</h3>
+          <div class="packet-grid">
+            <section class="packet">
+              <strong>Hauptthese</strong>
+              <p>Grete ist Teil der Dynamik, aber nicht identisch mit der unmittelbaren Taeterrolle; ihre Briefe und ihre Pose werden im Prozess ueberscharf gedeutet.</p>
+            </section>
+            <section class="packet">
+              <strong>Starke Materialien</strong>
+              <ul>
+                <li>Handschriftprobe Grete: expressionistisch, aber schwach und dekorativ</li>
+                <li>unterschiedliche Entwicklung von Elli und Grete in der Haft</li>
+                <li>unklare Rolle der Briefe zwischen Trost, Rausch und Anstachelung</li>
+              </ul>
+            </section>
+            <section class="packet">
+              <strong>Verwundbarkeit</strong>
+              <p>Du musst den Vorwurf der Beihilfe gegen die suggestive Kraft des Briefwechsels absichern.</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="role-card" id="rolle-gutachten">
+          <h3>Rollenpaket: Sachverstaendige</h3>
+          <div class="packet-grid">
+            <section class="packet">
+              <strong>Hauptthese</strong>
+              <p>Der Fall zerfaellt in konkurrierende Fachsprachen: forensischer Nachweis, psychiatrische Diagnose, sexualwissenschaftliche Typisierung.</p>
+            </section>
+            <section class="packet">
+              <strong>Starke Materialien</strong>
+              <ul>
+                <li>forensische Kette von Arsen, Symptomen und Obduktion</li>
+                <li>Gutachten von Hirschfeld, Juliusburger und Leppmann</li>
+                <li>Nachwort zur `weiblichen` Art zu toeten</li>
+              </ul>
+            </section>
+            <section class="packet">
+              <strong>Verwundbarkeit</strong>
+              <p>Du musst offenlegen, dass Fachsprache nicht neutral ist und selbst historische Normen mittransportiert.</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="role-card" id="rolle-geschworene">
+          <h3>Rollenpaket: Geschworene und Presse</h3>
+          <div class="packet-grid">
+            <section class="packet">
+              <strong>Hauptthese</strong>
+              <p>Entscheiden heisst hier, mit widerspruechlichen Materialien zu leben. Ein Urteil muss begruendet werden, obwohl das Textgewebe keine letzte Sicherheit erlaubt.</p>
+            </section>
+            <section class="packet">
+              <strong>Starke Materialien</strong>
+              <ul>
+                <li>Epilog: `schuldig/unschuldig` reicht nicht</li>
+                <li>Schaubilder und Zonen statt linearer Schuldkette</li>
+                <li>Pressephasen als Warnung vor vorschneller Eindeutigkeit</li>
+              </ul>
+            </section>
+            <section class="packet">
+              <strong>Verwundbarkeit</strong>
+              <p>Du musst zwischen juristischer Entscheidung und medialer Vereinfachung sauber unterscheiden.</p>
+            </section>
+          </div>
+        </article>
+      </section>
+
+      <section class="card">
+        <h2>Zugespielte Materialien</h2>
+        <div class="packet-grid">
+          <section class="packet">
+            <strong>Material A: Arsen und Obduktion</strong>
+            <p>Nutze Giftkauf, Koerperreaktion, Obduktion und Nachweis, um Materialitaet und Beweisfuehrung zu sichern oder zu relativieren.</p>
+          </section>
+          <section class="packet">
+            <strong>Material B: Briefe und Freiheitsformeln</strong>
+            <p>Nutze Briefstellen zu Freiheit, Hass, Komplott und Rausch, um Motiv, Mitwirkung oder Ueberformung zu diskutieren.</p>
+          </section>
+          <section class="packet">
+            <strong>Material C: Gutachtenkonflikt</strong>
+            <p>Vergleiche voll zurechnungsfaehig, pseudohomosexuell, infantil, abnorm und eingeschraenkt zurechnungsfaehig.</p>
+          </section>
+          <section class="packet">
+            <strong>Material D: Handschrift und Schaubild</strong>
+            <p>Pruefe, ob diese Materialien Figuren stabilisieren oder gerade neue Unsicherheit in den Fall bringen.</p>
+          </section>
+          <section class="packet">
+            <strong>Material E: Pressephasen</strong>
+            <p>Zeige, wie dieselben Angeklagten nacheinander als sadistisch, bemitleidenswert und entmenscht erscheinen.</p>
+          </section>
+          <section class="packet">
+            <strong>Material F: Epilog</strong>
+            <p>Nutze Doeblins Skepsis gegen glatte Begriffe, wenn deine Rolle einfache Erklaerungen angreifen will.</p>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script>
+      const buttons = Array.from(document.querySelectorAll("[data-role-target]"));
+      const cards = Array.from(document.querySelectorAll(".role-card"));
+
+      for (const button of buttons) {
+        button.addEventListener("click", () => {
+          const target = button.getAttribute("data-role-target");
+          for (const other of buttons) other.classList.toggle("active", other === button);
+          for (const card of cards) card.classList.toggle("active", card.id === target);
+        });
+      }
+    </script>
+  </body>
+</html>

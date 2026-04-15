@@ -79,6 +79,26 @@ const theoryProfiles = {
     label: "Geschichte",
     aliases: ["geschichte", "weimar", "weimarer republik", "medien", "geschlechterordnung", "sexualwissenschaft", "1923", "zeitung", "moderne"]
   },
+  "graphologie-handschrift": {
+    label: "Handschrift und Graphologie",
+    aliases: ["handschrift", "graphologie", "schriftprobe", "schriftgutachten", "schriftlage", "linien", "klages", "rand", "schriftbild"]
+  },
+  seelenkarte: {
+    label: "Schaubild und Seelenveränderung",
+    aliases: ["seelenveränderung", "seelenveraenderung", "schaubild", "diagramm", "phase", "wutsphäre", "wutsphaere", "seelenzone", "seelengebiet"]
+  },
+  fallarchiv: {
+    label: "Fallarchiv und Medienfall",
+    aliases: ["klein/nebbe", "klein", "nebbe", "anklageschrift", "pressemappe", "sensationsprozess", "landgericht", "600 briefe", "21 zeugen"]
+  },
+  "pitaval-textmontage": {
+    label: "Pitaval und Textmontage",
+    aliases: ["pitaval", "aussenseiter", "tatsachenphantasie", "textgewebe", "montage", "neusachlich", "fakt", "fiktion", "fallgeschichte"]
+  },
+  prozesssimulation: {
+    label: "Gerichtsprozesssimulation",
+    aliases: ["plädoyer", "plaedoyer", "staatsanwaltschaft", "verteidigung", "geschworene", "rolle", "vernehmung", "urteil", "minderheitsvotum"]
+  },
   "schuld-zusammenhang": {
     label: "Schuld und Zusammenhang",
     aliases: ["schuld", "zusammenhang", "kausalität", "kausalitaet", "romandichtung", "symbiose", "unsicher", "unvermeidlich"]
@@ -497,6 +517,126 @@ export const theoryResources = [
     ],
     writingFrame:
       "Gerade diese Passage zeigt, dass Döblin nicht nur nach Täterschaft fragt, sondern nach ..."
+  },
+  {
+    id: "graphologie-handschrift",
+    title: "Dossier: Handschrift, Graphologie und Deutungsgrenzen",
+    shortTitle: "Handschrift",
+    sourceTitle: "Lokales Dossier zu Schriftproben, Charakterlese und Diagnosekritik",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-handschrift-und-graphologie.html",
+    embedUrl: "/reader/assets/doeblin-handschrift-und-graphologie.html",
+    summary:
+      "Die beiden Handschriftproben sind integraler Bestandteil des Textganzen. Sie zeigen, wie Charakter, Geschlecht und Devianz im Medium einer scheinbar objektiven Schriftdeutung verhandelt werden.",
+    keyIdeas: ["Handschrift", "Graphologie", "Klages", "Charakterbild", "Deutungsgrenze"],
+    questions: [
+      "Welche Charakterbilder werden Elli und Grete über ihre Schrift zugeschrieben?",
+      "Wie arbeitet die Graphologie mit scheinbar objektiven Zeichen und verdeckten Normen?",
+      "Wo erweitert die Schriftdeutung den Text, und wo verengt sie ihn?"
+    ],
+    transferPrompts: [
+      "Lies eine Schriftprobe als Diagnoseinstrument und benenne mindestens zwei zentrale Zuschreibungen.",
+      "Erkläre, wie die Handschriften zwischen Wissenschaftsanspruch und literarischer Form stehen.",
+      "Prüfe, ob die Graphologie hier eher Erkenntnisgewinn oder Zeitdiagnose liefert."
+    ],
+    writingFrame:
+      "Die Handschriftprobe wirkt hier nicht als Zusatz, sondern als Medium, das den Fall über ... lesbar macht."
+  },
+  {
+    id: "seelenkarte",
+    title: "Dossier: Schaubild, Seelenzonen und räumliche Darstellung",
+    shortTitle: "Schaubild",
+    sourceTitle: "Lokales Dossier zu Diagramm, Phasenmodell und psychischer Topografie",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-seelenveraenderung-und-diagramm.html",
+    embedUrl: "/reader/assets/doeblin-seelenveraenderung-und-diagramm.html",
+    summary:
+      "Die räumliche Darstellung der Seelenveränderung übersetzt den Fall in Phasen, Zonen und Verschiebungen. Gerade dadurch unterläuft sie lineare Kausalität und eröffnet eine diagrammatische Lesart.",
+    keyIdeas: ["Schaubild", "Phase", "Seelenzone", "Wutsphäre", "Topografie"],
+    questions: [
+      "Wie verändert das Schaubild deinen Blick auf Zeit, Ursache und Entwicklung des Falls?",
+      "Welche Zonen, Phasen oder Übergänge sind besonders aufschlussreich?",
+      "Warum ist das Diagramm keine Illustration, sondern eine eigene Lesart des Falls?"
+    ],
+    transferPrompts: [
+      "Beschreibe eine Phase des Diagramms und erkläre, was daran psychisch oder erzähltechnisch sichtbar wird.",
+      "Zeige, wie das Schaubild lineare Erzählung in eine räumliche Ordnung übersetzt.",
+      "Prüfe, was die diagrammatische Form sichtbar macht, was Prosa allein schwerer leisten kann."
+    ],
+    writingFrame:
+      "Das Schaubild ist wichtig, weil es den Fall nicht linear erzählt, sondern als ..."
+  },
+  {
+    id: "fallarchiv",
+    title: "Dossier: Fallarchiv Klein/Nebbe, Presse und Prozessmaterial",
+    shortTitle: "Fallarchiv",
+    sourceTitle: "Lokales Dossier zum Realfall, zu Pressemappen und Beweismaterial",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-fallarchiv-und-medienprozess.html",
+    embedUrl: "/reader/assets/doeblin-fallarchiv-und-medienprozess.html",
+    summary:
+      "Das Nachwort erschließt den historischen Fall Klein/Nebbe als Archiv aus Anklage, Presse, Briefen, Gutachten und fehlenden Akten. Diese Materialschicht ist für Döblins Text konstitutiv.",
+    keyIdeas: ["Klein/Nebbe", "Presse", "Anklageschrift", "600 Briefe", "Sensationsprozess"],
+    questions: [
+      "Welche historischen Fakten des Falls werden im Nachwort besonders deutlich herausgestellt?",
+      "Wie verändern Pressephasen und Prozessmaterial die Lesart des Giftmords?",
+      "Welche Rolle spielt es, dass wichtige Akten fehlen und nur indirekt rekonstruierbar sind?"
+    ],
+    transferPrompts: [
+      "Arbeite heraus, wie das Fallarchiv zwischen Dokumentation und Deutung vermittelt.",
+      "Erkläre, wie aus Prozessmaterial ein medialer Sensationsfall wird.",
+      "Prüfe, was der Realfall klärt und was erst Döblins Bearbeitung sichtbar macht."
+    ],
+    writingFrame:
+      "Das Fallarchiv ist für die Lektüre unverzichtbar, weil es den Roman auf ein Materialfeld aus ... zurückbindet."
+  },
+  {
+    id: "pitaval-textmontage",
+    title: "Dossier: Aussenseiter der Gesellschaft, Pitaval und Textmontage",
+    shortTitle: "Textmontage",
+    sourceTitle: "Lokales Dossier zu Reihe, Kriminalfallpoetik und Tatsachenphantasie",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-pitaval-und-textmontage.html",
+    embedUrl: "/reader/assets/doeblin-pitaval-und-textmontage.html",
+    summary:
+      "Das Nachwort zeigt Döblins Text als Montage aus Fallgeschichte, Epilog, Handschriftproben und Schaubildern. In der Tradition des Pitaval wird aus Recht, Reportage und Literatur ein Textgewebe.",
+    keyIdeas: ["Pitaval", "Aussenseiter", "Tatsachenphantasie", "Montage", "Textgewebe"],
+    questions: [
+      "Wie ordnet das Nachwort Döblins Text in die Reihe `Aussenseiter der Gesellschaft` ein?",
+      "Was bedeutet `Tatsachenphantasie` für die Verbindung von Fakt und Fiktion?",
+      "Warum ist die Montageform für Döblins Fallpoetik zentral?"
+    ],
+    transferPrompts: [
+      "Erkläre, wie Döblin Rechtstext, Reportage, Gutachten und Erzählung miteinander montiert.",
+      "Zeige, warum der Fall als Textgewebe und nicht als monolithischer Bericht erscheint.",
+      "Prüfe, wie sehr gerade die Montage den Text modern und widerständig macht."
+    ],
+    writingFrame:
+      "Die Montageform ist entscheidend, weil der Fall bei Döblin aus mehreren ..."
+  },
+  {
+    id: "prozesssimulation",
+    title: "Simulation: Berliner Schwurgericht 1923",
+    shortTitle: "Simulation",
+    sourceTitle: "Lokales Planspiel mit Rollen, Aktenstücken und Beweiswegen",
+    mediaType: "html",
+    openUrl: "/reader/assets/doeblin-gerichtsprozesssimulation.html",
+    embedUrl: "/reader/assets/doeblin-gerichtsprozesssimulation.html",
+    summary:
+      "Das Planspiel bündelt die integralen Materialien des Textes zu einer Gerichtsprozesssimulation. Rollen, Aktenstücke, Gutachten, Briefe und Pressebilder müssen gegeneinander gelesen werden.",
+    keyIdeas: ["Rolle", "Plädoyer", "Vernehmung", "Beweisstück", "Urteil"],
+    questions: [
+      "Welche Rolle übernimmst du, und welche Hauptthese vertrittst du im Prozess?",
+      "Welche drei Materialien stützen deine Argumentation am stärksten?",
+      "Welches Urteil erscheint tragfähig, wenn juristische, forensische, psychiatrische und literarische Lesarten kollidieren?"
+    ],
+    transferPrompts: [
+      "Formuliere ein Eröffnungsplädoyer aus der Perspektive deiner Rolle.",
+      "Befrage ein gegnerisches Gutachten oder Beweisstück und arbeite seine Schwäche heraus.",
+      "Entwirf Urteil und Minderheitsvotum und benenne, welche Materialien jeweils den Ausschlag geben."
+    ],
+    writingFrame:
+      "In meiner Rolle wirkt das stärkste Material deshalb überzeugend, weil es ..."
   }
 ];
 
@@ -1004,6 +1144,228 @@ export const readerModules = [
         relatedTheoryIds: ["schuld-zusammenhang", "milieu-symbiose"]
       }
     ]
+  },
+  {
+    id: "nachwort-materialien",
+    title: "Handschriften, Schaubilder und materialisierte Falllektüre",
+    lens: "Paratext, Diagnose, Diagramm, Medienwechsel",
+    briefing:
+      "Die Materialien nach dem Epilog gehören zum Werk. Handschriftproben, graphologische Gutachten und die räumliche Darstellung der Seelenveränderung öffnen zusätzliche, teilweise konkurrierende Lesarten des Falls.",
+    task:
+      "Zeige, wie Döblins Materialien nach dem Epilog den Fall nicht nur ergänzen, sondern als Schriftbild, Diagnose und Diagramm neu organisieren.",
+    relatedTheoryIds: ["graphologie-handschrift", "seelenkarte", "schuld-zusammenhang"],
+    entries: [
+      {
+        id: "material-1",
+        title: "Ellis Handschrift als Charakterbild",
+        pageHint: "PDF S. 75-76",
+        pageNumber: 75,
+        passageLabel: "Nüchtern, verschlossen, entflammbar?",
+        context:
+          "Die Schriftprobe zu Elli beschreibt sie als kleinbürgerlich, nüchtern und verschlossen, zugleich aber als innerlich labil und entflammbar. So entsteht ein scheinbar objektives Charakterbild, das literarisch mitarbeitet.",
+        signalWords: ["nüchtern", "kleinbürgerlicher Mensch", "verschlossenes Wesen", "innere Kühle", "Entflammbarkeit"],
+        prompts: [
+          "Wie konstruiert die Graphologie aus Ellis Schrift ein Charakterbild?",
+          "Welche Normen und Wertungen stecken in Begriffen wie `nüchtern`, `verschlossen` oder `kleinbürgerlich`?",
+          "Warum ist diese Schriftprobe für die Gesamtsicht auf Elli mehr als nur biografisches Beiwerk?"
+        ],
+        writingFrame:
+          "Die Schriftprobe lenkt den Blick auf Elli, indem sie aus Formmerkmalen eine Deutung von ... ableitet.",
+        relatedTheoryIds: ["graphologie-handschrift", "schuld-zusammenhang"]
+      },
+      {
+        id: "material-2",
+        title: "Margaretes Handschrift und die Pose der Stärke",
+        pageHint: "PDF S. 76-77",
+        pageNumber: 76,
+        passageLabel: "Groß, exaltiert, überkompensiert",
+        context:
+          "Margaretes Handschrift wird als leidenschaftlich, selbstbewusst und theatral gelesen, zugleich aber als schwach und dekorativ entlarvt. Die Probe arbeitet mit derselben Mischung aus Diagnose und Dramatisierung wie die von Elli.",
+        signalWords: ["enorm unterschieden", "leidenschaftliches Wesen", "starkes Selbstgefühl", "Überkompensation", "gesellig und schwach"],
+        prompts: [
+          "Wie liest die Schriftprobe Margarete zwischen Selbstinszenierung und Schwäche?",
+          "Wodurch kontrastieren die beiden Handschriftgutachten Elli und Grete?",
+          "Wo zeigt sich, dass die Graphologie hier Figuren ordnet, aber zugleich stereotypisiert?"
+        ],
+        writingFrame:
+          "Margaretes Schrift wird so beschrieben, dass aus sichtbaren Zügen eine Erzählung von ... entsteht.",
+        relatedTheoryIds: ["graphologie-handschrift", "briefe-rausch"]
+      },
+      {
+        id: "material-3",
+        title: "Siebzehn Phasen Seelenveränderung",
+        pageHint: "PDF S. 77-79",
+        pageNumber: 77,
+        passageLabel: "Diagramm statt linearer Erklärung",
+        context:
+          "Die räumliche Darstellung der Seelenveränderung zerlegt den Fall in siebzehn Phasen. Damit verschiebt sich die Wahrnehmung weg von einer geraden Kausalkette hin zu Feldern, Übergängen und Spannungszonen.",
+        signalWords: ["17 Phasen", "Seelenveränderung", "räumliche Darstellung", "Phase", "Zusammenhang"],
+        prompts: [
+          "Warum übersetzt Döblin den Fall am Ende in ein Phasen- und Zonendiagramm?",
+          "Wie verändert die räumliche Darstellung dein Verständnis von Entwicklung und Ursache?",
+          "Wodurch wird das Schaubild zu einer eigenen Form des Erzählens?"
+        ],
+        writingFrame:
+          "Das Diagramm wirkt wie eine zweite Erzählung, weil es den Fall als ... anordnet.",
+        relatedTheoryIds: ["seelenkarte", "schuld-zusammenhang"]
+      },
+      {
+        id: "material-4",
+        title: "Seelenzonen, Wutsphäre, unterirdische Enttäuschung",
+        pageHint: "PDF S. 79-81",
+        pageNumber: 79,
+        passageLabel: "Psychische Topografie statt Monokausalität",
+        context:
+          "Räumliche Metaphern wie `Wutsphäre`, `Seelenzone` oder `unterirdische Enttäuschung` verbinden Nachwort und Schaubilder. Der Fall erscheint dadurch als psychische Topografie statt als simple Tatabfolge.",
+        signalWords: ["Wutsphäre", "Seelenzone", "Seelengebiet", "unterirdische Enttäuschung", "verbotener Ort"],
+        prompts: [
+          "Welche Wirkung haben diese räumlichen Metaphern auf die Deutung des Falls?",
+          "Wie arbeiten Schaubild und Nachwort zusammen gegen eine monokausale Erklärung?",
+          "Warum ist die Sprache der Zonen und Sphären gerade für Döblins Fallpoetik so produktiv?"
+        ],
+        writingFrame:
+          "Die räumlichen Begriffe sind wichtig, weil sie psychische Dynamik als ... lesbar machen.",
+        relatedTheoryIds: ["seelenkarte", "schuld-zusammenhang", "milieu-symbiose"]
+      }
+    ]
+  },
+  {
+    id: "nachwort-diskurse",
+    title: "Fallarchiv, Medienprozess und Tatsachenphantasie",
+    lens: "Realfall, Diskursgeschichte, Montage, Prozessspiel",
+    briefing:
+      "Das Nachwort erschließt den Text als komplexes Archiv. Realfall, Zeitungsberichte, Gutachten, Serienkontext und Poetik greifen ineinander und machen deutlich, dass diese Materialien integraler Bestandteil des Werkes sind.",
+    task:
+      "Arbeite heraus, wie das Nachwort den Roman als Materialmontage aus Fallarchiv, Medienprozess und Tatsachenphantasie lesbar macht und wie daraus am Ende eine Prozesssimulation erwächst.",
+    relatedTheoryIds: ["fallarchiv", "pitaval-textmontage", "prozesssimulation", "prozess-gutachten"],
+    entries: [
+      {
+        id: "material-5",
+        title: "Der Fall Klein/Nebbe als historisches Archiv",
+        pageHint: "PDF S. 108-113",
+        pageNumber: 108,
+        passageLabel: "Realfall, 600 Briefe, 21 Zeugen",
+        context:
+          "Das Nachwort rekonstruiert den Fall Klein/Nebbe über Arsen, Obduktion, 600 Briefe, Zeugen und Presseberichte. Es zeigt, wie stark Döblins Text auf einem realen Materialfundus aufruht.",
+        signalWords: ["Landgericht III", "600 Briefe", "21 Zeugen", "Anklageschrift", "Sensationsprozess"],
+        prompts: [
+          "Wie rekonstruiert das Nachwort den historischen Fall Klein/Nebbe?",
+          "Warum sind Zahlen wie `600 Briefe` oder `21 Zeugen` mehr als bloße Fakten?",
+          "Was verändert sich, wenn du den Roman zugleich als Archivfall liest?"
+        ],
+        writingFrame:
+          "Der Realfall prägt die Erzählung, weil er ein Materialfeld aus ... bereitstellt.",
+        relatedTheoryIds: ["fallarchiv", "forensik", "rechtswissenschaft"]
+      },
+      {
+        id: "material-6",
+        title: "Medienprozess und die `weibliche` Art zu töten",
+        pageHint: "PDF S. 113-117",
+        pageNumber: 113,
+        passageLabel: "Pressephasen und Täterinnenbild",
+        context:
+          "Presse und Gutachten produzieren aus den Angeklagten nacheinander sadistische Täterinnen, bemitleidenswerte Opfer und schließlich `entmenschte Frauen`. So wird der Fall als Medienereignis mit wechselnden Deutungsphasen lesbar.",
+        signalWords: ["weibliche Art zu töten", "entmenschte Frauen", "Pseudohomosexualität", "Zurechnungsfähigkeit", "Pressemappen"],
+        prompts: [
+          "Wie verändern Presse und Psychiatrie das Bild der Angeklagten im Verlauf des Falls?",
+          "Welche Rolle spielt die Rede von Geschlecht, Sexualität und Abnormität?",
+          "Warum ist der Medienprozess für die Lektüre des Romans ebenso wichtig wie der Mord selbst?"
+        ],
+        writingFrame:
+          "Der Medienprozess verschiebt den Fall, weil er aus denselben Materialien immer neue ... erzeugt.",
+        relatedTheoryIds: ["fallarchiv", "geschichte-weimar", "rechtswissenschaft"]
+      },
+      {
+        id: "material-7",
+        title: "Aussenseiter der Gesellschaft und Pitaval-Tradition",
+        pageHint: "PDF S. 117-119",
+        pageNumber: 117,
+        passageLabel: "Reihe, Fallwissen, Neusachlichkeit",
+        context:
+          "Das Nachwort stellt Döblins Text in die Reihe `Aussenseiter der Gesellschaft` und in die Tradition des Pitaval. So erscheint der Roman als wissensgesättigter Kriminalfall zwischen Recht, Reportage und Literatur.",
+        signalWords: ["Aussenseiter der Gesellschaft", "Pitaval", "Causes célèbres", "neusachlich", "Verbrechen der Gegenwart"],
+        prompts: [
+          "Wie ordnet das Nachwort Döblins Text in die Pitaval- und Reihenlogik ein?",
+          "Was bedeutet diese Einordnung für Genre, Ton und Erwartung an den Fall?",
+          "Warum wirkt der Text gerade als neusachliche Kriminalliteratur so modern?"
+        ],
+        writingFrame:
+          "Die Reihen- und Pitaval-Einordnung ist entscheidend, weil sie den Roman als ... rahmt.",
+        relatedTheoryIds: ["pitaval-textmontage", "prozess-gutachten", "geschichte-weimar"]
+      },
+      {
+        id: "material-8",
+        title: "Tatsachenphantasie und Textgewebe",
+        pageHint: "PDF S. 119-123",
+        pageNumber: 119,
+        passageLabel: "Montage statt monolithischem Bericht",
+        context:
+          "Das Nachwort beschreibt die Erstausgabe als Komposition aus Fallgeschichte, Epilog, Handschriften und Schaubildern. Damit wird die Erzählung zum Textgewebe, das Fakt und Fiktion nicht trennt, sondern produktiv montiert.",
+        signalWords: ["Tatsachenphantasie", "Textgewebe", "Montage", "Fallgeschichte", "mehrwertiger Konflikt"],
+        prompts: [
+          "Wie erklärt das Nachwort Döblins Montage von Rechtstext, Reportage, Gutachten und Erzählung?",
+          "Warum ist `Tatsachenphantasie` ein passender Begriff für diesen Text?",
+          "Wodurch unterläuft das Textgewebe einfache hermeneutische Erwartungen?"
+        ],
+        writingFrame:
+          "Das Textgewebe ist produktiv, weil es den Fall aus mehreren ... zusammensetzt.",
+        relatedTheoryIds: ["pitaval-textmontage", "schuld-zusammenhang", "prozess-gutachten"]
+      },
+      {
+        id: "simulation-1",
+        title: "Gerichtsprozesssimulation I: Rolle wählen, Akte lesen, Eröffnung sprechen",
+        pageHint: "Materialpaket Prozesssimulation",
+        pageNumber: 120,
+        passageLabel: "Erstes Plädoyer im Schwurgericht",
+        context:
+          "Die Prozesssimulation bündelt Realfall, Briefe, Gutachten, Schaubilder und Epilog. Lernende übernehmen Rollen und müssen entscheiden, welche Materialien in ihrem Eröffnungsplädoyer tragfähig sind.",
+        signalWords: ["Rolle", "Eröffnungsplädoyer", "Beweisstück", "Anklage", "Verteidigung"],
+        prompts: [
+          "Welche Rolle übernimmst du und mit welcher Hauptthese eröffnest du den Prozess?",
+          "Welche zwei bis drei Materialien willst du in deinem Eröffnungsplädoyer zuerst stark machen?",
+          "Wie formulierst du deine Ausgangsdeutung so, dass sie juristisch und textnah zugleich bleibt?"
+        ],
+        writingFrame:
+          "In meiner Rolle beginne ich den Prozess mit der These, dass das wichtigste Material ... ist.",
+        relatedTheoryIds: ["prozesssimulation", "fallarchiv", "rechtswissenschaft"]
+      },
+      {
+        id: "simulation-2",
+        title: "Gerichtsprozesssimulation II: Gutachtenkonflikt und Kreuzverhör",
+        pageHint: "Materialpaket Prozesssimulation",
+        pageNumber: 121,
+        passageLabel: "Beweise angreifen, Stimmen gegeneinander lesen",
+        context:
+          "Im Zentrum der zweiten Phase steht der Konflikt zwischen forensischer Rekonstruktion, psychiatrischer Diagnostik und literarischer Komplexität. Rollen müssen nun gezielt gegnerische Materialien angreifen.",
+        signalWords: ["Kreuzverhör", "Gutachten", "forensisch", "Zurechnung", "Briefe"],
+        prompts: [
+          "Welches gegnerische Gutachten oder Beweisstück willst du im Kreuzverhör erschüttern?",
+          "Wie nutzt du Briefe, forensische Spuren oder den Epilog gegen eine zu glatte Gegenthese?",
+          "Wo zeigt sich im Streit der Materialien die größte Unsicherheit des Falls?"
+        ],
+        writingFrame:
+          "Im Kreuzverhör greife ich vor allem ... an, weil dieses Material die Schwäche zeigt, dass ...",
+        relatedTheoryIds: ["prozesssimulation", "forensik", "prozess-gutachten", "schuld-zusammenhang"]
+      },
+      {
+        id: "simulation-3",
+        title: "Gerichtsprozesssimulation III: Urteil, Minderheitsvotum, Pressenotiz",
+        pageHint: "Materialpaket Prozesssimulation",
+        pageNumber: 122,
+        passageLabel: "Entscheiden unter unsicheren Bedingungen",
+        context:
+          "Am Ende der Simulation müssen Geschworene, Presse und Fachstimmen mit derselben unsicheren Materiallage umgehen. Gerade dadurch wird sichtbar, wie sehr Urteil und Deutung auseinanderlaufen können.",
+        signalWords: ["Urteil", "Minderheitsvotum", "Pressenotiz", "Geschworene", "Zusammenhang"],
+        prompts: [
+          "Welches Urteil erscheint dir nach der Materialprüfung am tragfähigsten?",
+          "Wie sähe ein begründetes Minderheitsvotum aus?",
+          "Welche Pressenotiz würdest du nach dem Urteil formulieren, und welche Verzerrung droht dabei sofort wieder?"
+        ],
+        writingFrame:
+          "Mein Urteil bleibt bewusst begrenzt, weil die Materialien zwar ... zeigen, aber ... offenlassen.",
+        relatedTheoryIds: ["prozesssimulation", "fallarchiv", "pitaval-textmontage", "schuld-zusammenhang"]
+      }
+    ]
   }
 ];
 
@@ -1470,7 +1832,7 @@ export const lessonSets = [
         alt: "Typografische Karte zu Alfred Döblin",
         title: "Kein bloßer Kriminalbericht",
         caption:
-          "Die letzte Lektion bündelt Realfall, Fallpoetik und moderne Offenheit des Textes.",
+          "Diese Lektion bündelt Realfall, Fallpoetik und moderne Offenheit des Textes.",
         focusPrompt:
           "Warum bleibt Döblins Text gerade dadurch modern, dass er keine monokausale Lösung liefert?"
       }
@@ -1545,6 +1907,235 @@ export const lessonSets = [
           "Welche Erklärung überzeugt dich am ehesten?",
           "Wo bleibt der Text absichtlich unsicher?",
           "Welche Vereinfachung würdest du nach dieser Lektüre ausdrücklich zurückweisen?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-13-handschrift-und-graphologie",
+    title: "Lektion 13 · Handschrift, Graphologie, Deutungsgrenzen",
+    summary:
+      "Die Schriftproben zeigen, wie der Fall auch über graphologische Zuschreibungen und implizite Normen gelesen wird.",
+    chapterMedia: [
+      {
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        title: "Schrift wird zur Diagnose",
+        caption:
+          "Die Handschriften sind keine Beilage, sondern ein eigenes Deutungsmedium des Werks.",
+        focusPrompt:
+          "Wie verwandeln die Handschriftproben Formmerkmale in Charakterurteile und Fallwissen?"
+      }
+    ],
+    entryIds: ["material-1", "material-2"],
+    moduleIds: ["nachwort-materialien"],
+    reviewFocus: "Achte auf Graphologie, Charakterzuschreibung, Normsprache und Diagnosekritik.",
+    sebPrompt:
+      "Analysiere die beiden Handschriftproben. Zeige, wie sie scheinbar objektive Charakterdiagnosen erzeugen und dadurch den Fall zugleich schärfen und normativ verengen.",
+    recommendedTheoryIds: ["graphologie-handschrift", "schuld-zusammenhang"],
+    resourceAssignments: [
+      {
+        resourceId: "graphologie-handschrift",
+        title: "Handschriftauftrag: Wie liest die Graphologie Figuren?",
+        summary:
+          "Das Dossier ordnet die Schriftproben als wissenschaftsnahe, aber wertende Fallmaterialien ein.",
+        task:
+          "Nutze das Handschrift-Dossier und arbeite heraus, wie die beiden Schriftproben Eigenschaften, Gefährlichkeit und Normabweichung aus grafischen Merkmalen ableiten.",
+        questions: [
+          "Welche Zuschreibung ist besonders auffällig?",
+          "Welche sprachliche Wertung steckt darin?",
+          "Wo hilft die Probe der Deutung, wo verführt sie zur Schablone?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-14-schaubilder-und-seelenzonen",
+    title: "Lektion 14 · Schaubilder, Seelenzonen, 17 Phasen",
+    summary:
+      "Die räumliche Darstellung der Seelenveränderung macht den Fall als Diagramm, Zone und Entwicklungsfeld lesbar.",
+    chapterMedia: [
+      {
+        src: coverImg,
+        alt: "Grafische Karte zu Döblins Giftmord-Erzählung",
+        title: "Der Fall wird zur Karte",
+        caption:
+          "Hier kippt der Text endgültig in ein diagrammatisches Denken von Phasen, Feldern und Übergängen.",
+        focusPrompt:
+          "Was leistet das Schaubild, was eine lineare Nacherzählung des Falls nicht leisten kann?"
+      }
+    ],
+    entryIds: ["material-3", "material-4"],
+    moduleIds: ["nachwort-materialien"],
+    reviewFocus: "Arbeite an Diagrammform, Phasenlogik, räumlichen Metaphern und Antikausalität.",
+    sebPrompt:
+      "Zeige, wie Schaubild und räumliche Metaphern den Fall in Phasen, Zonen und Zusammenhänge übersetzen und dadurch lineare Kausalität unterlaufen.",
+    recommendedTheoryIds: ["seelenkarte", "schuld-zusammenhang", "milieu-symbiose"],
+    resourceAssignments: [
+      {
+        resourceId: "seelenkarte",
+        title: "Schaubildauftrag: Wie liest man psychische Topografien?",
+        summary:
+          "Das Dossier führt in Zonen, Phasen und die Logik räumlicher Darstellung ein.",
+        task:
+          "Nutze das Schaubild-Dossier und erkläre, wie die räumliche Darstellung des Falls Zeit, Motivation und psychische Entwicklung anders ordnet als der erzählende Haupttext.",
+        questions: [
+          "Welche Phase oder Zone ist besonders markant?",
+          "Was zeigt das Diagramm deutlicher als die Prosa?",
+          "Wie arbeitet es gegen eine einfache Ursache-Wirkung-Kette?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-15-fallarchiv-und-medienprozess",
+    title: "Lektion 15 · Fallarchiv Klein/Nebbe und Medienprozess",
+    summary:
+      "Das Nachwort öffnet den historischen Realfall und zeigt, wie Presse, Prozess und Gutachten das Geschehen formatieren.",
+    chapterMedia: [
+      {
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        title: "Aus Akten wird ein Sensationsfall",
+        caption:
+          "Die Prozessmaterialien bilden eine zweite Bühne des Romans und prägen seine Lesbarkeit massiv.",
+        focusPrompt:
+          "Wie wird aus dem Realfall durch Akten, Briefe und Presse ein öffentlicher Medienprozess?"
+      }
+    ],
+    entryIds: ["material-5", "material-6"],
+    moduleIds: ["nachwort-diskurse"],
+    reviewFocus: "Achte auf Realfall, Pressemappen, Geschlechterdiskurs, Zurechnung und Medienphasen.",
+    sebPrompt:
+      "Analysiere, wie das Nachwort den Fall Klein/Nebbe als Archiv von Briefen, Anklage, Gutachten und Presseberichten rekonstruiert und warum gerade der Medienprozess die Wahrnehmung der Täterinnen formt.",
+    recommendedTheoryIds: ["fallarchiv", "geschichte-weimar", "rechtswissenschaft", "prozess-gutachten"],
+    resourceAssignments: [
+      {
+        resourceId: "fallarchiv",
+        title: "Archivauftrag: Welche Materialien tragen den Fall?",
+        summary:
+          "Das Dossier bündelt Realfall, Anklage, Briefe, Zeugenzahl und fehlende Akten als Materialbasis.",
+        task:
+          "Nutze das Fallarchiv-Dossier und arbeite heraus, welche Dokumente, Zahlen und Materialreste die Rekonstruktion des Falls ermöglichen und wie sie zugleich Deutungen steuern.",
+        questions: [
+          "Welches Material wirkt am belastbarsten?",
+          "Was fehlt im Archiv?",
+          "Wie verändert diese Materiallage deine Sicht auf den Roman?"
+        ]
+      },
+      {
+        resourceId: "geschichte-weimar",
+        title: "Geschichtsauftrag: Wie arbeitet die Weimarer Presse am Fall mit?",
+        summary:
+          "Das Dossier hilft, Medienphasen und Täterinnenbilder historisch einzuordnen.",
+        task:
+          "Nutze das Geschichts-Dossier und erkläre, wie Presse, Geschlechterordnung und Sexualdiskurs den Fall Klein/Nebbe in der Weimarer Republik verformen.",
+        questions: [
+          "Welche Deutungsphase ist besonders prägend?",
+          "Wie spricht die Presse über Geschlecht und Abnormität?",
+          "Was bedeutet das für Döblins literarische Gegenbewegung?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-16-textmontage-und-tatsachenphantasie",
+    title: "Lektion 16 · Aussenseiter, Pitaval, Tatsachenphantasie",
+    summary:
+      "Jetzt wird sichtbar, wie Döblin den Fall als Montage aus Recht, Reportage, Poetik und Literatur baut.",
+    chapterMedia: [
+      {
+        src: coverImg,
+        alt: "Grafische Karte zu Döblins Giftmord-Erzählung",
+        title: "Der Roman als Textgewebe",
+        caption:
+          "Die Nachwortpassagen machen die Gesamtform des Werks und seine Materialmontage erstmals ganz greifbar.",
+        focusPrompt:
+          "Warum ist `Tatsachenphantasie` ein treffender Begriff für Döblins Fallkomposition?"
+      }
+    ],
+    entryIds: ["material-7", "material-8"],
+    moduleIds: ["nachwort-diskurse"],
+    reviewFocus: "Arbeite an Reihenkontext, Pitaval-Tradition, Montage und poetologischer Selbstreflexion.",
+    sebPrompt:
+      "Zeige, wie das Nachwort Döblins Text in die Tradition des Pitaval stellt und warum die Montage aus Fallgeschichte, Epilog, Handschriften und Schaubildern als `Tatsachenphantasie` lesbar wird.",
+    recommendedTheoryIds: ["pitaval-textmontage", "prozess-gutachten", "schuld-zusammenhang"],
+    resourceAssignments: [
+      {
+        resourceId: "pitaval-textmontage",
+        title: "Montageauftrag: Wie wird aus Material Literatur?",
+        summary:
+          "Das Dossier fokussiert die Serie `Aussenseiter der Gesellschaft` und Döblins Arbeit am Textgewebe.",
+        task:
+          "Nutze das Montage-Dossier und arbeite heraus, wie Döblin Fakt, Fiktion, Rechtstext und Reportage zu einer neuartigen Kriminalform verschränkt.",
+        questions: [
+          "Was bedeutet die Pitaval-Linie für den Text?",
+          "Welche Elemente montiert Döblin sichtbar zusammen?",
+          "Wie hilft `Tatsachenphantasie`, diese Form zu verstehen?"
+        ]
+      }
+    ]
+  },
+  {
+    id: "lesson-17-gerichtsprozesssimulation",
+    title: "Lektion 17 · Interaktive Gerichtsprozesssimulation",
+    summary:
+      "Zum Abschluss werden Nachwort, Schaubilder, Gutachten, Briefe und Prozesssprache in einer eigenen Schwurgerichts-Simulation gegeneinandergelesen.",
+    chapterMedia: [
+      {
+        src: authorImg,
+        alt: "Typografische Karte zu Alfred Döblin",
+        title: "Jetzt musst du urteilen",
+        caption:
+          "Diese Abschlusslektion zwingt dazu, Material, Stimme, Rolle und Unsicherheit praktisch auszutarieren.",
+        focusPrompt:
+          "Welches Urteil bleibt tragfähig, wenn dieselben Materialien je nach Rolle eine andere Bedeutung bekommen?"
+      }
+    ],
+    entryIds: ["simulation-1", "simulation-2", "simulation-3"],
+    moduleIds: ["nachwort-diskurse"],
+    reviewFocus: "Achte auf Rollenlogik, Materialgebrauch, Beweisstärke, Gutachtenkonflikt und Urteilssprache.",
+    sebPrompt:
+      "Führe die Gerichtsprozesssimulation durch. Entwickle aus deiner Rolle ein Eröffnungsplädoyer, erschüttere ein gegnerisches Material im Kreuzverhör und begründe am Ende Urteil und Minderheitsvotum.",
+    recommendedTheoryIds: ["prozesssimulation", "fallarchiv", "rechtswissenschaft", "forensik", "prozess-gutachten", "schuld-zusammenhang"],
+    resourceAssignments: [
+      {
+        resourceId: "prozesssimulation",
+        title: "Simulationsauftrag: Rolle übernehmen und Verfahren führen",
+        summary:
+          "Das Planspiel bündelt Rollenpakete, zugespielte Materialien und Verfahrensphasen für ein eigenes Schwurgericht.",
+        task:
+          "Nutze die Prozesssimulation, wähle eine Rolle, sichere dein Eröffnungsplädoyer an mindestens drei Materialien und führe daraus ein begründetes Urteil oder Minderheitsvotum her.",
+        questions: [
+          "Welche Rolle spielst du?",
+          "Welche Materialien nutzt du zuerst und warum?",
+          "Wie begründest du dein Urteil unter unsicheren Bedingungen?"
+        ]
+      },
+      {
+        resourceId: "fallarchiv",
+        title: "Aktenauftrag: Welches Beweisstück ist wirklich belastbar?",
+        summary:
+          "Das Dossier hilft, zwischen spektakulärem und belastbarem Material zu unterscheiden.",
+        task:
+          "Nutze das Fallarchiv-Dossier in der Simulation und prüfe, welches Beweisstück juristisch, historisch und literarisch am stärksten trägt.",
+        questions: [
+          "Ist es Brief, Gutachten, Obduktion, Presse oder Schaubild?",
+          "Welche Gegeneinwände drohen sofort?",
+          "Wie würdest du dein Material im Prozess gegen Kritik absichern?"
+        ]
+      },
+      {
+        resourceId: "rechtswissenschaft",
+        title: "Urteilsauftrag: Welche Rechtsfigur bleibt haltbar?",
+        summary:
+          "Das Dossier zwingt dazu, Rollenrede und Urteilssprache sauber von bloßer Moral zu unterscheiden.",
+        task:
+          "Nutze das Rechts-Dossier und entscheide in der Simulation, welche juristische Kategorie du für am tragfähigsten hältst und wo sie an ihre Grenzen stößt.",
+        questions: [
+          "Welche Rechtsfigur wählst du?",
+          "Welche Rolle spielen Zurechnung und mildernde Umstände?",
+          "Wo beginnt die literarische und historische Restunsicherheit jenseits des Urteils?"
         ]
       }
     ]
@@ -1627,7 +2218,7 @@ decorateLessonSets();
 export const starterPrompt = {
   title: "Autonomer Lernparcours",
   items: [
-    "Arbeite die Einheit selbstgesteuert entlang von zwölf eng geführten Lektionen im eingebetteten PDF durch und sichere jede Beobachtung passagennah.",
+    "Arbeite die Einheit selbstgesteuert entlang von siebzehn eng geführten Lektionen im eingebetteten PDF und in den Nachwort-Materialien durch und sichere jede Beobachtung passagennah.",
     "Beginne immer mit einem Textsignal: Wortlaut, Bild, Raumdetail, Briefformel, Körperreaktion, juristische Formel, Gutachterbegriff, chemischer Stoffhinweis oder forensische Spur.",
     "Nutze pro Passage mindestens eine literarische und wenn möglich eine interdisziplinäre Linse: Forensik, Chemie/Toxikologie, Rechtswissenschaft, Geschichte der Weimarer Republik, Milieu/Symbiose, Briefe/Rausch oder Schuld/Zusammenhang.",
     "Arbeite vergleichend: Was klären Literatur, Forensik, Chemie, Strafrecht und Geschichtswissenschaft jeweils gut, und wo bleiben ihre Erklärungen unvollständig?",

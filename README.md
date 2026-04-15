@@ -10,9 +10,11 @@ Die App bietet:
 - Lehrer*innen-Dashboard mit Fortschrittsübersicht
 - Peer Review
 - sofortiges Arbeitsfeedback und SEB-Fachfeedback
-- zwölf eng geführte Lektionen mit passagennahen Aufgaben
+- siebzehn eng geführte Lektionen mit passagennahen Aufgaben
 - zusätzliche Dossiers zu Milieu, Briefdynamik, Körper/Gewalt, Prozess und Zusammenhang
 - explizite interdisziplinäre Linsen zu Forensik, Chemie/Toxikologie, Rechtswissenschaft und Geschichte
+- vertiefende Nachwort-Module zu Handschrift, Graphologie, Schaubild, Fallarchiv und Textmontage
+- abschließende interaktive Gerichtsprozesssimulation mit Rollen und zugespielten Materialien
 
 ## Render
 
