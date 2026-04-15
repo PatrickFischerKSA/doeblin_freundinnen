@@ -35,6 +35,20 @@ body {
   overflow: hidden;
   z-index: 0;
   pointer-events: none;
+  background:
+    radial-gradient(circle at top left, rgba(125, 74, 58, 0.15), transparent 24%),
+    radial-gradient(circle at top right, rgba(58, 46, 40, 0.08), transparent 32%),
+    linear-gradient(180deg, rgba(244, 240, 230, 0.96) 0%, rgba(236, 228, 210, 0.95) 100%);
+}
+
+.site-background::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0, transparent 6%, rgba(71, 54, 47, 0.05) 6.2%, transparent 6.5%, transparent 100%),
+    linear-gradient(180deg, transparent 0, transparent 74%, rgba(122, 87, 72, 0.05) 74.2%, transparent 74.5%, transparent 100%);
+  opacity: 0.9;
 }
 
 .site-background::after {
@@ -42,19 +56,8 @@ body {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at top left, rgba(180, 92, 57, 0.16), transparent 28%),
-    radial-gradient(circle at top right, rgba(49, 67, 53, 0.14), transparent 32%),
-    rgba(244, 240, 230, 0.34);
-}
-
-.site-background video {
-  position: absolute;
-  inset: -4%;
-  width: 108%;
-  height: 108%;
-  object-fit: cover;
-  filter: blur(10px) saturate(1.05) brightness(0.72);
-  transform: scale(1.03);
+    radial-gradient(circle at 18% 18%, rgba(180, 92, 57, 0.1), transparent 0 16%),
+    radial-gradient(circle at 84% 14%, rgba(49, 67, 53, 0.06), transparent 0 18%);
 }
 
 button,

@@ -26,7 +26,6 @@ const CLASS_COOKIE = "kehlmann_reader_class";
 const TEACHER_COOKIE = "kehlmann_teacher_access";
 const SEB_CONFIG_KEY_HASH = process.env.SEB_CONFIG_KEY_HASH || process.env.KEHLMANN_SEB_CONFIG_KEY_HASH || "";
 const READER_PDF_SOURCE = "/reader/assets/doeblin-freundinnen.pdf";
-const BACKGROUND_VIDEO_SOURCE = "/reader/assets/22-bahnen-background.mp4";
 
 function teacherRuntimeConfig() {
   return {
@@ -74,24 +73,27 @@ function renderShellPage({ title, body, bodyClass = "" }) {
             overflow: hidden;
             z-index: 0;
             pointer-events: none;
+            background:
+              radial-gradient(circle at top left, rgba(125, 74, 58, 0.15), transparent 26%),
+              radial-gradient(circle at top right, rgba(61, 48, 43, 0.08), transparent 32%),
+              linear-gradient(180deg, rgba(244, 240, 230, 0.96) 0%, rgba(236, 230, 215, 0.94) 100%);
+          }
+          .site-background::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+              linear-gradient(90deg, transparent 0, transparent 7%, rgba(71, 54, 47, 0.06) 7.2%, transparent 7.5%, transparent 100%),
+              linear-gradient(180deg, transparent 0, transparent 72%, rgba(122, 87, 72, 0.05) 72.2%, transparent 72.5%, transparent 100%);
+            opacity: 0.8;
           }
           .site-background::after {
             content: "";
             position: absolute;
             inset: 0;
             background:
-              radial-gradient(circle at top left, rgba(180, 92, 57, 0.16), transparent 30%),
-              radial-gradient(circle at top right, rgba(49, 67, 53, 0.16), transparent 36%),
-              rgba(244, 240, 230, 0.36);
-          }
-          .site-background video {
-            position: absolute;
-            inset: -4%;
-            width: 108%;
-            height: 108%;
-            object-fit: cover;
-            filter: blur(10px) saturate(1.05) brightness(0.72);
-            transform: scale(1.03);
+              radial-gradient(circle at 18% 18%, rgba(180, 92, 57, 0.12), transparent 0 18%),
+              radial-gradient(circle at 82% 14%, rgba(49, 67, 53, 0.08), transparent 0 20%);
           }
           .page {
             max-width: 1120px;
@@ -295,11 +297,7 @@ function renderShellPage({ title, body, bodyClass = "" }) {
         </style>
       </head>
       <body class="${bodyClass}">
-        <div class="site-background" aria-hidden="true">
-          <video autoplay muted loop playsinline preload="auto">
-            <source src="${BACKGROUND_VIDEO_SOURCE}" type="video/mp4">
-          </video>
-        </div>
+        <div class="site-background" aria-hidden="true"></div>
         ${body}
       </body>
     </html>
@@ -731,11 +729,7 @@ function renderTeacherPage() {
         <link rel="stylesheet" href="/kehlmann-teacher/styles.css">
       </head>
       <body>
-        <div class="site-background" aria-hidden="true">
-          <video autoplay muted loop playsinline preload="auto">
-            <source src="${BACKGROUND_VIDEO_SOURCE}" type="video/mp4">
-          </video>
-        </div>
+        <div class="site-background" aria-hidden="true"></div>
         <script>
           window.KEHLMANN_TEACHER_CONFIG = ${JSON.stringify(config)};
         </script>
@@ -757,11 +751,7 @@ function renderReaderPage(mode, lessonId) {
         <link rel="stylesheet" href="/reader/styles.css">
       </head>
       <body>
-        <div class="site-background" aria-hidden="true">
-          <video autoplay muted loop playsinline preload="auto">
-            <source src="${BACKGROUND_VIDEO_SOURCE}" type="video/mp4">
-          </video>
-        </div>
+        <div class="site-background" aria-hidden="true"></div>
         <script>
           window.KEHLMANN_READER_MODE = "${mode}";
           window.KEHLMANN_READER_MODE_LABEL = "${modeLabel}";
