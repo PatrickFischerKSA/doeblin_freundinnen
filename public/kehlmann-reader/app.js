@@ -483,7 +483,7 @@ async function requestSebFeedback({ showLoading = false, force = false } = {}) {
   const requestId = ++sebFeedbackRequestId;
   state.sebFeedbackStatus = showLoading || !state.sebFeedback ? "loading" : "refreshing";
   state.sebFeedbackError = "";
-  if (showLoading) {
+  if (showLoading && !updateSebFeedbackPanelLive()) {
     render();
   }
 
@@ -497,7 +497,9 @@ async function requestSebFeedback({ showLoading = false, force = false } = {}) {
     state.sebFeedbackKey = feedbackKey;
     state.sebFeedbackStatus = "ready";
     state.sebFeedbackError = "";
-    render();
+    if (!updateSebFeedbackPanelLive()) {
+      render();
+    }
   } catch (error) {
     if (requestId !== sebFeedbackRequestId) {
       return;
@@ -505,14 +507,18 @@ async function requestSebFeedback({ showLoading = false, force = false } = {}) {
 
     state.sebFeedbackStatus = "error";
     state.sebFeedbackError = error.message;
-    render();
+    if (!updateSebFeedbackPanelLive()) {
+      render();
+    }
   }
 }
 
 async function saveProgress() {
   clearTimeout(saveTimer);
   state.saveStatus = "saving";
-  render();
+  if (!updateTopStatusLive()) {
+    render();
+  }
 
   try {
     const response = await fetch("/reader-api/progress", {
@@ -538,7 +544,13 @@ async function saveProgress() {
     const payload = await response.json();
     applyBootstrap(payload);
     state.saveStatus = "saved";
-    render();
+    const updatedLive =
+      updateTopStatusLive()
+      && updateProgressBoxLive()
+      && updateParcoursExportPanelLive();
+    if (!updatedLive) {
+      render();
+    }
     if (mode === "seb") {
       requestSebFeedback();
     }
@@ -1796,6 +1808,32 @@ function renderProgressBox() {
   `;
 }
 
+function replaceSlot(selector, markup) {
+  const slot = document.querySelector(selector);
+  if (!slot) {
+    return false;
+  }
+
+  slot.innerHTML = markup;
+  return true;
+}
+
+function updateTopStatusLive() {
+  return replaceSlot("[data-top-status-slot]", renderTopStatus());
+}
+
+function updateProgressBoxLive() {
+  return replaceSlot("[data-progress-slot]", renderProgressBox());
+}
+
+function updateParcoursExportPanelLive() {
+  return replaceSlot("[data-export-slot]", renderParcoursExportPanel());
+}
+
+function updateSebFeedbackPanelLive() {
+  return replaceSlot("[data-seb-feedback-slot]", renderSebFeedbackPanel());
+}
+
 function renderParcoursExportPanel() {
   const complete = isParcoursComplete();
   const answered = state.progress?.completedEntries || 0;
@@ -1854,7 +1892,7 @@ function render() {
         </div>
       </section>
 
-      ${renderTopStatus()}
+      <div data-top-status-slot>${renderTopStatus()}</div>
 
       ${state.error ? `<section class="panel"><p>${escapeHtml(state.error)}</p></section>` : ""}
 
@@ -1880,7 +1918,7 @@ function render() {
             </div>
           </section>
 
-          ${renderProgressBox()}
+          <div data-progress-slot>${renderProgressBox()}</div>
           <div class="module-list">${renderSidebar()}</div>
 
           <div class="sidebar-task">
@@ -1930,9 +1968,9 @@ function render() {
           ${renderTheoryPanel(module, entry)}
           ${renderResourceAssignmentsPanel()}
           ${renderNotebook(entry)}
-          ${renderSebFeedbackPanel()}
+          <div data-seb-feedback-slot>${renderSebFeedbackPanel()}</div>
           ${renderPeerReviewPanel()}
-          ${renderParcoursExportPanel()}
+          <div data-export-slot>${renderParcoursExportPanel()}</div>
         </section>
       </section>
     </main>
